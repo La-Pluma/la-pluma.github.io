@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>LaPluma</title>
+  
+  
+  <link href="http://la-pluma.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://la-pluma.github.io/"/>
+  <updated>2024-09-08T13:33:23.346Z</updated>
+  <id>http://la-pluma.github.io/</id>
+  
+  <author>
+    <name>LaPluma</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>千里之行，始于足下</title>
+    <link href="http://la-pluma.github.io/2024/09/08/hello-world/"/>
+    <id>http://la-pluma.github.io/2024/09/08/hello-world/</id>
+    <published>2024-09-08T12:56:57.000Z</published>
+    <updated>2024-09-08T13:33:23.346Z</updated>
+    
+    <content type="html"><![CDATA[<p>A journey of a thousand miles begins with a single step.<span id="more"></span></p><!-- ![](picture.png) --><img src="/2024/09/08/hello-world/picture.png" class="" title="picture">]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;A journey of a thousand miles begins with a single step.</summary>
+    
+    
+    
+    <category term="杂项" scheme="http://la-pluma.github.io/categories/%E6%9D%82%E9%A1%B9/"/>
+    
+    
+    <category term="杂项" scheme="http://la-pluma.github.io/tags/%E6%9D%82%E9%A1%B9/"/>
+    
+  </entry>
+  
+</feed>
