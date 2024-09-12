@@ -1,3 +1,4 @@
+http://la-pluma.github.io/404.html
 http://la-pluma.github.io/2024/09/08/hello-world/
 http://la-pluma.github.io/categories/index.html
 http://la-pluma.github.io/about/index.html
