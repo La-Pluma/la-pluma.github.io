@@ -79,7 +79,7 @@ NexT.boot.refresh = function() {
    * Register JS handlers by condition option.
    * Need to add config option in Front-End at 'layout/_partials/head.swig' file.
    */
-  CONFIG.fancybox && NexT.utils.wrapImageWithFancyBox();
+  CONFIG.fancybox.enable && NexT.utils.wrapImageWithFancyBox();
   CONFIG.mediumzoom && window.mediumZoom('.post-body :not(a) > img, .post-body > img');
   CONFIG.lazyload && window.lozad('.post-body img').observe();
   CONFIG.pangu && window.pangu.spacingPage();

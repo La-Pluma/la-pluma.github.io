@@ -3,9 +3,9 @@
   <entry>
     <title>千里之行，始于足下</title>
     <url>/2024/09/08/hello-world/</url>
-    <content><![CDATA[<p>A journey of a thousand miles begins with a single step.
-<span id="more"></span></p>
-<!-- ![](picture.png) -->
+    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
+step.</strong></p>
+<span id="more"></span>
 <img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
 ]]></content>
       <categories>

@@ -1,1 +1,11 @@
 This is a test file.
+
+<!--
+
+{% asset_img "picture.png" "picture" %} 
+
+![picture](picture.png)
+
+![picture](/images/hello-world/picture.png)
+
+-->

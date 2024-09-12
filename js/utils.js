@@ -26,7 +26,9 @@ NexT.utils = {
 
       var imageTitle = $image.attr('title') || $image.attr('alt');
       if (imageTitle) {
-        $imageWrapLink.append(`<p class="image-caption">${imageTitle}</p>`);
+        if (CONFIG.fancybox.caption) {
+          $imageWrapLink.append(`<p class="image-caption">${imageTitle}</p>`);
+        }
         // Make sure img title tag will show correctly in fancybox
         $imageWrapLink.attr('title', imageTitle).attr('data-caption', imageTitle);
       }
