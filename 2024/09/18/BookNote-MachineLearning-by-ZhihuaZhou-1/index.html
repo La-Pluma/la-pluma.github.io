@@ -22,22 +22,21 @@
     var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="A journey of a thousand miles begins with a single step.">
+  <meta name="description" content="机器学习所研究的主要内容, 是关于在计算机上从数据中产生&quot;模型&quot;(model)的算法, 即&quot;学习算法&quot;(learning algorithm).">
 <meta property="og:type" content="article">
-<meta property="og:title" content="千里之行，始于足下">
-<meta property="og:url" content="http://la-pluma.github.io/2024/09/08/hello-world/index.html">
+<meta property="og:title" content="读书笔记-机器学习 Part.1">
+<meta property="og:url" content="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/index.html">
 <meta property="og:site_name" content="LaPluma">
-<meta property="og:description" content="A journey of a thousand miles begins with a single step.">
+<meta property="og:description" content="机器学习所研究的主要内容, 是关于在计算机上从数据中产生&quot;模型&quot;(model)的算法, 即&quot;学习算法&quot;(learning algorithm).">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://la-pluma.github.io/2024/09/08/hello-world/picture.png">
-<meta property="article:published_time" content="2024-09-08T12:56:57.000Z">
-<meta property="article:modified_time" content="2024-09-12T15:49:07.668Z">
+<meta property="article:published_time" content="2024-09-18T15:04:27.000Z">
+<meta property="article:modified_time" content="2024-09-21T12:28:42.304Z">
 <meta property="article:author" content="LaPluma">
-<meta property="article:tag" content="杂项">
+<meta property="article:tag" content="读书笔记">
+<meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://la-pluma.github.io/2024/09/08/hello-world/picture.png">
 
-<link rel="canonical" href="http://la-pluma.github.io/2024/09/08/hello-world/">
+<link rel="canonical" href="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/">
 
 
 <script id="page-configurations">
@@ -50,7 +49,7 @@
   };
 </script>
 
-  <title>千里之行，始于足下 | LaPluma</title>
+  <title>读书笔记-机器学习 Part.1 | LaPluma</title><meta name="robots" content="noindex">
   
 
 
@@ -199,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/2024/09/08/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
@@ -212,7 +211,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          千里之行，始于足下
+          读书笔记-机器学习 Part.1
         </h1>
 
         <div class="post-meta">
@@ -222,14 +221,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2024-09-08 20:56:57" itemprop="dateCreated datePublished" datetime="2024-09-08T20:56:57+08:00">2024-09-08</time>
+              <time title="创建时间：2024-09-18 23:04:27" itemprop="dateCreated datePublished" datetime="2024-09-18T23:04:27+08:00">2024-09-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-09-12 23:49:07" itemprop="dateModified" datetime="2024-09-12T23:49:07+08:00">2024-09-12</time>
+                <time title="修改时间：2024-09-21 20:28:42" itemprop="dateModified" datetime="2024-09-21T20:28:42+08:00">2024-09-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +236,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">杂项</span></a>
+                  <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a>
                 </span>
             </span>
 
@@ -254,7 +253,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>13</span>
+              <span>359</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -273,11 +272,55 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>A journey of a thousand miles begins with a single
-step.</strong></p>
+        <p><strong>机器学习所研究的主要内容,
+是关于在计算机上从数据中产生"模型"(model)的算法, 即"学习算法"(learning
+algorithm).</strong></p>
 <span id="more"></span>
-<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
-
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#书籍基本信息">书籍基本信息</a></li>
+<li><a href="#chapter-0-主要符号表">Chapter 0: 主要符号表</a></li>
+<li><a href="#chapter-1-绪论">Chapter 1: 绪论</a></li>
+</ul>
+<hr />
+<h2 id="书籍基本信息">书籍基本信息</h2>
+<h2 id="chapter-0-主要符号表">Chapter 0: 主要符号表</h2>
+<p><span class="math display">\[\begin{aligned}
+&amp;\mathit{x}&amp; &amp;标量\\
+&amp;\boldsymbol{x}&amp; &amp;向量 \\
+&amp;\mathrm{x}&amp; &amp;变量集 \\
+&amp;\mathbf{A}&amp; &amp;矩阵 \\
+&amp;\mathbf{I}&amp; &amp;单位阵 \\
+&amp;\mathcal{X}&amp; &amp;样本空间或状态空间\\
+&amp;\mathcal{D}&amp; &amp;概率分布\\
+&amp;\mathit{D}&amp; &amp;数据样本(数据集)\\
+&amp;\mathcal{H}&amp; &amp;假设空间\\
+&amp;\mathit{H}&amp; &amp;假设集\\
+&amp;\mathfrak{L}&amp; &amp;学习算法\\
+&amp;\left ( \cdot ,\cdot ,\cdot  \right )&amp; &amp;行向量\\
+&amp;\left ( \cdot ;\cdot ;\cdot \right )&amp; &amp;列向量\\
+&amp;\left ( \cdot  \right )^{T}&amp; &amp;向量或矩阵转置\\
+&amp;\left \{  \cdot \cdot \cdot \right \}&amp; &amp;集合\\
+&amp;\left | \left \{ \cdot \cdot \cdot \right \} \right |&amp;
+&amp;集合中元素个数\\
+&amp;\left \| \cdot  \right \|_{p}&amp; &amp;L_p范数, p缺省时为L_2范数\\
+&amp;\mathit{P}\left ( \cdot  \right ),\mathit{P}\left ( \cdot
+|\cdot  \right )&amp; &amp;概率质量函数,条件概率质量函数\\
+&amp;\mathit{p}\left ( \cdot  \right ),\mathit{p}\left ( \cdot  | \cdot
+\right )&amp; &amp;概率密度函数, 条件概率密度函数\\
+&amp;\mathbb{E}_{\cdot \sim \mathcal{D}}\left [ f\! \left ( \cdot \right
+) \right ]&amp; &amp;函数 f\! \left ( \cdot \right ) 对 \cdot 在分布
+\mathcal{D} 下的数学期望:意义明确是将省略 \mathcal{D} 和(或)\cdot \\
+&amp;sup\left ( \cdot \right )&amp; &amp;上确界\\
+&amp;\mathbb{I}\! \left ( \cdot  \right )&amp; &amp;指示函数，在
+\cdot  为真和假分别取值为1 , 0 \\
+&amp;sign\left ( \cdot  \right )&amp; &amp;符号函数，在 \cdot &lt; 0, =
+0 , &gt;  0 时分别取值为 -1,0,1
+\end{aligned}\]</span></p>
+<h2 id="chapter-1-绪论">Chapter 1: 绪论</h2>
+<!-- flag of hidden posts -->
     </div>
 
     
@@ -286,20 +329,14 @@ step.</strong></p>
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag"># 杂项</a>
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag"># 读书笔记</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
           </div>
 
         
 
 
         
-    <div class="post-nav">
-      <div class="post-nav-item"></div>
-      <div class="post-nav-item">
-    <a href="/2024/09/21/LeetCode-P4/" rel="next" title="LeetCode个人题解[C++] P4 寻找两个正序数组的中位数">
-      LeetCode个人题解[C++] P4 寻找两个正序数组的中位数 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
       </footer>
     
   </article>
@@ -358,6 +395,7 @@ step.</strong></p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%A6%E7%B1%8D%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">书籍基本信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-0-%E4%B8%BB%E8%A6%81%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">Chapter 0: 主要符号表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-1-%E7%BB%AA%E8%AE%BA"><span class="nav-number">3.</span> <span class="nav-text">Chapter 1: 绪论</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -677,7 +715,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'la-pluma.github.io',
       owner       : 'La-Pluma',
       admin       : ['La-Pluma'],
-      id          : '28cd7a246aadc2e0a995a9565cee159e',
+      id          : 'f1249a35a2e45ca6f1d22306564cdde2',
         language: 'zh-CN',
       distractionFreeMode: true
     });
