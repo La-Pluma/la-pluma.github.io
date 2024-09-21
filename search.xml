@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>千里之行，始于足下</title>
-    <url>/2024/09/08/hello-world/</url>
-    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
-step.</strong></p>
-<span id="more"></span>
-<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
-]]></content>
-      <categories>
-        <category>杂项</category>
-      </categories>
-      <tags>
-        <tag>杂项</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
     <url>/2024/09/21/LeetCode-P4/</url>
     <content><![CDATA[<p><strong>题目链接:</strong> <a
@@ -47,12 +32,14 @@ class="math inline">\(k = 4, k/2 = 2\)</span>,
 个不可能是中位数的元素, 接着我们令<span class="math inline">\(k = k -
 k/2\)</span>, 将被排除的数去掉, 重新进行上述过程.</p>
 <img src="/2024/09/21/LeetCode-P4/p2.png" class="" title="p2">
-<p>选取两个数组的前1位(为什么第二个数组不是选择2, 5, 7?
-因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
-而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉).比较2
-和 4, 可以排除掉2. 此时过程进行到了边界处, 接下来<span
-class="math inline">\(k = 1\)</span>无法继续了.
+<p>选取两个数组的前1位.比较2 和 4, 可以排除掉2. 此时过程进行到了边界处,
+接下来<span class="math inline">\(k = 1\)</span>无法继续了.
 而此时剩下的4和5正是我们需要的中位数.</p>
+<blockquote>
+<p><strong>Tips:</strong> 为什么第二个数组不是选择2, 5, 7?</p>
+<p>因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
+而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉</p>
+</blockquote>
 <p>k为奇数时情况稍有不同, 但大多是一些细节问题, 笔者在此不再赘述.
 推荐读者自己构建一个例子去推算上面的过程, 相信不难理解其中要义.</p>
 <p>每次排除<span class="math inline">\(k/2\)</span>, 而 <span
@@ -72,9 +59,10 @@ href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xi
 </blockquote>
 <p>更详细的数学证明, 思路和代码请阅读原文,
 笔者在此只给出自己对其的理解.</p>
-<p>本质来说, 两种方法殊途同归, 但分割的方法较为巧妙一些, 中位数,
+<p>本质来说, 两种方法殊途同归, 但分割的方法较为巧妙一些. 中位数,
 或者说k阶数, 就是将数组分为两个部分, 其一是比k阶数小的部分,
-其二是比k阶数大的部分. 对于有序的一个数组, 其性质本身就已经满足,
+其二是比k阶数大的部分.</p>
+<p>对于有序的一个数组, 其性质本身就已经满足,
 我们不妨将两部分简称为左半部分(小)和右半部分(大). 对于两个有序数组,
 情况是一样的, 如果存在一种划分, 满足左边最大MaxLeft小于右边最小MinRight,
 我们则认为这是关于k阶数的一种有效划分.</p>
@@ -93,6 +81,21 @@ href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xi
       <tags>
         <tag>LeetCode</tag>
         <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>千里之行，始于足下</title>
+    <url>/2024/09/08/hello-world/</url>
+    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
+step.</strong></p>
+<span id="more"></span>
+<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>杂项</tag>
       </tags>
   </entry>
 </search>
