@@ -35,7 +35,7 @@ class="math inline">\(k/2\)</span>部分出来, 比较<span
 class="math inline">\(nums1[k/2]\)</span>和<span
 class="math inline">\(nums2[k/2]\)</span>, 则可以直接排除<span
 class="math inline">\(k/2\)</span>个数. 我们以下图例子来解释.</p>
-
+<img src="/2024/09/21/LeetCode-P4/p1.png" class="" title="p1">
 <p><span class="math inline">\(m = n = 4\)</span>, 我们有 <span
 class="math inline">\(k = 4, k/2 = 2\)</span>,
 于是我们取两个数组的前两位, 比较3和5, 不难看出, 1和3不可能是中位数.
@@ -46,7 +46,7 @@ class="math inline">\(k = 4, k/2 = 2\)</span>,
 我们可以排掉 <span class="math inline">\(k/2\)</span>
 个不可能是中位数的元素, 接着我们令<span class="math inline">\(k = k -
 k/2\)</span>, 将被排除的数去掉, 重新进行上述过程.</p>
-
+<img src="/2024/09/21/LeetCode-P4/p2.png" class="" title="p2">
 <p>选取两个数组的前1位(为什么第二个数组不是选择2, 5, 7?
 因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
 而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉).比较2
