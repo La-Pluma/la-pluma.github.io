@@ -210,18 +210,15 @@ Identically Distributed, <em>i.d.d</em>)</strong>.</p>
 <li><p><strong>版本空间(Version Space):</strong>
 存在一个与训练集一致的"假设集合", 称为版本空间, 例如:</p></li>
 </ul>
-<p><img src="BookNote-MachineLearning-by-ZhihuaZhou-1\table1-1.png"
-alt="table1-1" /></p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/table1-1.png" class="" title="table1-1">
 <p>其假设空间为</p>
-<p><img src="BookNote-MachineLearning-by-ZhihuaZhou-1\pic1-1.png"
-alt="pic1-1" /></p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-1.png" class="" title="pic1-1">
 <p>其版本空间为</p>
-<p><img src="BookNote-MachineLearning-by-ZhihuaZhou-1\pic1-2.png"
-alt="pic1-2" /></p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-2.png" class="" title="pic1-2">
 <blockquote>
 <p><strong>Tips:</strong> 在该数据集中, 好瓜具有的共同特征是蜷缩和浊响.
 因此色泽标识为通配符 <span class="math inline">\(*\)</span>, 同时,
-第一行的两种假设同样是与训练集一致的.</p>
+第一行的两种假设同样是与训练集一致的(可以匹配好瓜).</p>
 </blockquote>
 <h3 id="归纳偏好">1.4 归纳偏好</h3>
 <ul>
@@ -242,6 +239,94 @@ Razor)</strong>原则(<strong>若有多个假设与观察一致,
 </blockquote></li>
 </ul>
 <p>接下来我们来比较不同归纳偏好的优劣</p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-3.png" class="" title="pic1-3">
+<p>从直观上看我们一般会认为, 拟合出平滑的曲线A要优于曲线B, 但很遗憾,
+当面临一些极端数据时, 曲线B可能会优于曲线A, 情形如下图所示.</p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-4.png" class="" title="pic1-4">
+<p>接下来我们用数学语言尝试量化模型的优劣.</p>
+<p>假设样本空间 <span class="math inline">\(\mathcal{X}\)</span>
+和假设空间 <span class="math inline">\(\mathcal{H}\)</span> 都是离散的,
+令 <span class="math inline">\(P(h|X, \mathfrak{L})\)</span>
+代表学习算法 <span class="math inline">\(\mathfrak{L}_a\)</span>
+基于训练数据 <span class="math inline">\(X\)</span> 产生假设 <span
+class="math inline">\(h\)</span> 的概率, 令 <span
+class="math inline">\(f\)</span> 为目标函数.则 <span
+class="math inline">\(\mathfrak{L}_a\)</span>
+在训练集外的所有样本上的误差为</p>
+<p><span class="math display">\[\begin{equation} \label{eq1.1}
+E_{ote}(\mathfrak{L}_a|X, f) = \sum_h \sum_{x \in \mathcal{X} -X} P(x)
+\mathbb{I}(h(x) \neq f(x)) P(h|X, \mathfrak{L}_a)
+\tag{1.1}
+\end{equation}\]</span></p>
+<blockquote>
+<p><strong>Tips:</strong>
+以下是笔者个人对该公式的理解,可能存在疏漏或错误.</p>
+<p>首先看乘起来的的三个式子, <span
+class="math inline">\(\mathbb{I}\)</span> 为指示函数, 代表的含义是假设
+<span class="math inline">\(h\)</span> 与目标函数 <span
+class="math inline">\(f\)</span> 没有误差时取0, 存在误差时取1. 若取1,
+则两个概率乘积表示在给定的<span class="math inline">\(x\)</span>和<span
+class="math inline">\(h\)</span>下, 存在误差的概率.</p>
+<p>接下来的两个求和就不难理解了, 分别是对<span
+class="math inline">\(x\)</span>的所有取值求和以及对<span
+class="math inline">\(h\)</span>的所有取值求和, 权重为特定<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(h\)</span>的概率.</p>
+</blockquote>
+<p>为简化问题, 考虑二分类, 真实目标函数<span
+class="math inline">\(f\)</span>可以是任何函数<span
+class="math inline">\(\mathcal{X} \rightarrow \{0,1\}\)</span>,
+函数空间<span class="math inline">\(\{0,1\}^{|\mathcal{X}|}\)</span>.
+对所有可能的<span
+class="math inline">\(f\)</span>按均匀分布对误差求和,有</p>
+<p><span class="math display">\[
+\begin{align} \nonumber
+\sum_f E_{ote}(\mathfrak{L}_a|x, f) &amp;= \sum_f \sum_h \sum_{x \in
+\mathcal{X} -X} P(x) \mathbb{I}(h(x) \neq f(x)) P(h|X, \mathfrak{L}_a)\\
+\nonumber
+&amp;= \sum_{x \in \mathcal{X} -X} P(x) \sum_h P(h|X, \mathfrak{L}_a)
+\sum_f \mathbb{I}(h(x) \neq f(x))\\ \nonumber
+^*&amp;=  \sum_{x \in \mathcal{X} -X} P(x) \sum_h P(h|X, \mathfrak{L}_a)
+\frac{1}{2}2^{|\mathcal{X}|}\\ \nonumber
+&amp;= \frac{1}{2}2^{|\mathcal{X}|} \sum_{x \in \mathcal{X} -X} P(x)
+\cdot 1 \tag{1.2}
+\end{align}
+\]</span></p>
+<blockquote>
+<p><strong>Tips:</strong> 标识<span
+class="math inline">\(*\)</span>的一步因为若<span
+class="math inline">\(f\)</span>均匀分布, 则有一半的<span
+class="math inline">\(f\)</span>对<span
+class="math inline">\(x\)</span>的预测与<span
+class="math inline">\(h(x)\)</span>不一致.</p>
+</blockquote>
+<p>式(1.2)指出, 误差与学习算法<span
+class="math inline">\(\mathfrak{L}\)</span>无关! 对于任意学习算法<span
+class="math inline">\(\mathfrak{L}_a\)</span>和<span
+class="math inline">\(mathfrak{L}_b\)</span>,有</p>
+<p><span class="math display">\[\begin{equation}
+\sum_f E_{ote}(\mathfrak{L}_a|X, f) = \sum_f E_{ote}(\mathfrak{L}_b|X,
+f) \tag{1.3}
+\end{equation}\]</span></p>
+<p>这简直糟糕透了, 似乎所有的学习算法期望性能居然都相同.
+这就是<strong>没有免费午餐定理(No Free Lunch Theorem, NFL)</strong>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 原书的证明是多重假设下的简化论述,
+对严格数学证明感兴趣的读者可以自行查阅相关资料.</p>
+</blockquote>
+<p>但是, NFL定理有一个重要前提, 它假定了所有问题出现的机会相等,
+所有问题同等重要(例如上述证明中假设了<span
+class="math inline">\(f\)</span>均匀分布).
+但我们并不要求模型对所有情况都能给出一个好的解决方案,
+往往我们希望模型对特定问题表现是好的.</p>
+<blockquote>
+<p><strong>Tips:</strong> 原书中举了一个简单的例子,
+骑自行车从南京鼓楼到南京新街口显然是好方案(距离约两站地铁),
+但骑自行车从南京鼓楼到北京新街口, 显然不是好的方案,但我们不care.</p>
+</blockquote>
+<p>简单来说,
+NFL定理指出了<strong>没有一种机器学习算法是适用于所有情况的</strong>,
+只有针对具体问题, 才能谈论模型的优劣.</p>
 ]]></content>
       <categories>
         <category>读书笔记</category>
