@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/hikari_tairitsu/512x512.png">
+  <meta name="google-site-verification" content="t21aSpg50tWVwctahE4QnLP2-fo79rclxw9e2TGaamw">
+  <meta name="baidu-site-verification" content="to baidu automatically which is very helpful for SEO.">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="机器学习所研究的主要内容, 是关于在计算机上从数据中产生&quot;模型&quot;(model)的算法, 即&quot;学习算法&quot;(learning algorithm).">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读书笔记-机器学习 Ch0-Ch1">
+<meta property="og:url" content="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/index.html">
+<meta property="og:site_name" content="LaPluma">
+<meta property="og:description" content="机器学习所研究的主要内容, 是关于在计算机上从数据中产生&quot;模型&quot;(model)的算法, 即&quot;学习算法&quot;(learning algorithm).">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/table1-1.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-1.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-2.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-3.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-4.png">
+<meta property="article:published_time" content="2024-09-18T15:04:27.000Z">
+<meta property="article:modified_time" content="2024-09-24T11:34:07.166Z">
+<meta property="article:author" content="LaPluma">
+<meta property="article:tag" content="读书笔记">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/table1-1.png">
+
+<link rel="canonical" href="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>读书笔记-机器学习 Ch0-Ch1 | LaPluma</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="LaPluma" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999;width:36px;height:36px}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">LaPluma</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep it simple and stupid.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/La-Pluma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
+      <meta itemprop="name" content="LaPluma">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LaPluma">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          读书笔记-机器学习 Ch0-Ch1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-09-18 23:04:27" itemprop="dateCreated datePublished" datetime="2024-09-18T23:04:27+08:00">2024-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-09-24 19:34:07" itemprop="dateModified" datetime="2024-09-24T19:34:07+08:00">2024-09-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>机器学习所研究的主要内容,
+是关于在计算机上从数据中产生"模型"(model)的算法, 即"学习算法"(learning
+algorithm).</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#书籍基本信息">书籍基本信息</a></li>
+<li><a href="#chapter-0-主要符号表">Chapter 0: 主要符号表</a></li>
+<li><a href="#chapter-1-绪论">Chapter 1: 绪论</a>
+<ul>
+<li><a href="#11-基本术语">1.1 基本术语</a></li>
+<li><a href="#13-假设空间">1.3 假设空间</a></li>
+<li><a href="#14-归纳偏好">1.4 归纳偏好</a></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="书籍基本信息">书籍基本信息</h2>
+<p>《机器学习》周志华 2016.</p>
+<p>大名鼎鼎的西瓜书, 笔者在此略去介绍.</p>
+<h2 id="chapter-0-主要符号表">Chapter 0: 主要符号表</h2>
+<p><span class="math display">\[\begin{aligned}
+&amp;\mathit{x}&amp; &amp;标量\\
+&amp;\boldsymbol{x}&amp; &amp;向量 \\
+&amp;\mathrm{x}&amp; &amp;变量集 \\
+&amp;\mathbf{A}&amp; &amp;矩阵 \\
+&amp;\mathbf{I}&amp; &amp;单位阵 \\
+&amp;\mathcal{X}&amp; &amp;样本空间或状态空间\\
+&amp;\mathcal{D}&amp; &amp;概率分布\\
+&amp;\mathit{D}&amp; &amp;数据样本(数据集)\\
+&amp;\mathcal{H}&amp; &amp;假设空间\\
+&amp;\mathit{H}&amp; &amp;假设集\\
+&amp;\mathfrak{L}&amp; &amp;学习算法\\
+&amp;\left ( \cdot ,\cdot ,\cdot  \right )&amp; &amp;行向量\\
+&amp;\left ( \cdot ;\cdot ;\cdot \right )&amp; &amp;列向量\\
+&amp;\left ( \cdot  \right )^{T}&amp; &amp;向量或矩阵转置\\
+&amp;\left \{  \cdot \cdot \cdot \right \}&amp; &amp;集合\\
+&amp;\left | \left \{ \cdot \cdot \cdot \right \} \right |&amp;
+&amp;集合中元素个数\\
+&amp;\left \| \cdot  \right \|_{p}&amp; &amp;L_p范数, p缺省时为L_2范数\\
+&amp;\mathit{P}\left ( \cdot  \right ),\mathit{P}\left ( \cdot
+|\cdot  \right )&amp; &amp;概率质量函数,条件概率质量函数\\
+&amp;\mathit{p}\left ( \cdot  \right ),\mathit{p}\left ( \cdot  | \cdot
+\right )&amp; &amp;概率密度函数, 条件概率密度函数\\
+&amp;\mathbb{E}_{\cdot \sim \mathcal{D}}\left [ f\! \left ( \cdot \right
+) \right ]&amp; &amp;函数 f\! \left ( \cdot \right ) 对 \cdot 在分布
+\mathcal{D} 下的数学期望:意义明确是将省略 \mathcal{D} 和(或)\cdot \\
+&amp;sup\left ( \cdot \right )&amp; &amp;上确界\\
+&amp;\mathbb{I}\! \left ( \cdot  \right )&amp; &amp;指示函数，在
+\cdot  为真和假分别取值为1 , 0 \\
+&amp;sign\left ( \cdot  \right )&amp; &amp;符号函数，在 \cdot &lt; 0, =
+0 , &gt;  0 时分别取值为 -1,0,1
+\end{aligned}\]</span></p>
+<h2 id="chapter-1-绪论">Chapter 1: 绪论</h2>
+<h3 id="基本术语">1.1 基本术语</h3>
+<blockquote>
+<p>假定我们收集了一批关于西瓜的数据, 例如(色泽 = 浅白; 根蒂 = 蜷缩; 敲声
+= 浊响), (色泽 = 乌黑; 根蒂 = 稍蜷; 敲声 = 沉闷), (色泽 = 浅白; 根蒂 =
+硬挺; 敲声 = 清脆), ......, 每对括号内是一条记录,
+下文关于术语的表述会基于上述假定进行解释.</p>
+</blockquote>
+<ul>
+<li><p><strong>数据集/样本(Data Set):</strong>
+这组记录的集合称为一个数据集.</p>
+<blockquote>
+<p><strong>Tips:</strong> 数据集亦称样本,
+因为数据集可看作对样本空间的一个采样.</p>
+<p><strong>Addtional:</strong> "样本"的具体指代示例还是数据集,
+要看具体的上下文.</p>
+</blockquote></li>
+<li><p><strong>示例(Instance)/样本(Sample):</strong>
+每条记录称为示例/样本, 是关于一个事件或对象的描述(以上例,
+该对象为西瓜).</p></li>
+<li><p><strong>属性(Attribute)/特征(Feature):</strong> "色泽", "根蒂",
+"敲声"称为属性.</p></li>
+<li><p><strong>属性值(Attribute Value):</strong>
+属性的取值称为属性值(以上例, "青绿"和"乌黑"是色泽的属性值).</p></li>
+<li><p><strong>属性空间(Attribute Space)/样本空间(Sample
+Space)/输入空间:</strong> 属性张成的空间.</p>
+<blockquote>
+<p><strong>Tips:</strong> 此处涉及的是线性代数知识,
+即将样本(Instance)依据属性转化为向量, 其中色泽, 根蒂和敲声为坐标轴,
+张成了一个用于描述西瓜特征的三维空间,
+该空间每个点即是线性代数意义上的一个向量, 也就是<strong>特征向量(Feature
+Vector)</strong>. 我们可以认为,
+示例(Instance)的另一种等价表述是特征向量.</p>
+</blockquote></li>
+<li><p><strong>数据集的表示:</strong> 令 <span
+class="math inline">\(\mathit{D} = \{x_1, x_2, ..., x_m\}\)</span>
+表示包含<span class="math inline">\(m\)</span>个示例的数据集, 每个示例由
+<span class="math inline">\(d\)</span> 个属性描述, 则每个示例(Instance)
+<span class="math inline">\(x_i= (x_{i1}; x_{i2}; ...; x_{id})\)</span>
+是 <span class="math inline">\(d\)</span> 维样本空间 <span
+class="math inline">\(\mathcal{X}\)</span> 中的一个向量, <span
+class="math inline">\(x_i \in \mathcal{X}\)</span>. <span
+class="math inline">\(d\)</span> 称为样本 <span
+class="math inline">\(x_i\)</span>
+的<strong>维数(Dimensionality)</strong>.</p></li>
+<li><p><strong>学习(Learning)/训练(Training):</strong>
+从数据中学得模型的过程称为学习/训练,
+该过程通过执行某个学习算法完成.</p></li>
+<li><p><strong>训练数据(Training Data):</strong>
+训练过程中所使用的数据.</p></li>
+<li><p><strong>训练样本(Training Sample)/训练示例(Training
+Instance):</strong> 训练数据中的每个样本/示例.</p></li>
+<li><p><strong>训练集(Training Set):</strong>
+训练样本组成的集合称为训练集.</p>
+<blockquote>
+<p><strong>Tips:</strong> 训练集相当于训练数据的子集,
+训练数据除去<strong>训练集</strong>外还存在<strong>验证集</strong>.(参考自:<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/115344944"><strong>知乎|训练集(training
+dataset), 测试集(test dataset)与验证集(validation
+dataset)</strong></a>)</p>
+</blockquote></li>
+<li><p><strong>假设(Hypothesis)&amp;真相/真实(Ground-Truth):</strong>
+学得模型对应了关于数据的某种潜在规律,
+因此亦称假设.这种潜在规律称为"真相"/"真实".
+学习的过程就是为了找出或逼近真相.</p>
+<blockquote>
+<p><strong>Tips:</strong> <a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ground_truth"><strong>WIKIPEDIA|Ground-Truth</strong></a>又将其表述为<strong>基准真相</strong>.</p>
+<p>"Ground truth is information that is known to be real or true,
+provided by direct observation and measurement (i.e. empirical evidence)
+as opposed to information provided by inference."</p>
+</blockquote></li>
+</ul>
+<p><strong>Tips:</strong>
+本书有时又将<strong>模型</strong>称为<strong>学习器(Learner)</strong>,
+模型可看作是学习算法在给定数据和参数空间上的实例化.</p>
+<ul>
+<li><p><strong>标记(Label):</strong> 关于示例(Instance)结果的信息,
+称为标记(如"好瓜"). 一般的, 用 <span class="math inline">\((x_i,
+y_i)\)</span> 表示第 <span class="math inline">\(i\)</span> 个样例, 其中
+<span class="math inline">\(y_i \in \mathcal{Y}\)</span> 是示例 <span
+class="math inline">\(x_i\)</span> 的标记, <span
+class="math inline">\(\mathcal{Y}\)</span> 是所有标记的集合,
+又称<strong>标记空间(Label Space)/输出空间</strong>.</p></li>
+<li><p><strong>分类(Classification):</strong>
+若<strong>预测(Prediction)</strong>的是离散值(如"好瓜", "坏瓜"),
+则称此类学习任务是分类.</p></li>
+<li><p><strong>回归(Regression):</strong> 若预测的是连续值(如成熟度0.95,
+0.7), 则称此类学习任务是回归.</p></li>
+<li><p><strong>二分类(Binary Classification):</strong>
+只涉及两个类别的分类任务, 通常称其中一类为<strong>正类(Positive
+Class)</strong>, 另一类为<strong>反类(Negative Class)</strong>.</p></li>
+<li><p><strong>多分类(Multi-class Classification):</strong> 与之相对的,
+涉及多种类别的分类任务称为多分类任务.</p></li>
+<li><p><strong>预测任务:</strong> 预测任务希望通过对训练集<span
+class="math inline">\(\{(x_1, y_1), (x_2, y_2), ..., (x_m,
+y_m)\}\)</span> 进行学习, 建立一个从输入空间 <span
+class="math inline">\(\mathcal{X}\)</span> 到输出空间 <span
+class="math inline">\(\mathcal{Y}\)</span> 的映射 <span
+class="math inline">\(f : \mathcal{X} \rightarrow \mathcal{Y}\)</span>.
+对二分类, 通常取 <span class="math inline">\(\mathcal{Y} = \{-1,
+1\}\)</span> 或 <span class="math inline">\(\{0, 1\}\)</span>;
+对于多分类, <span class="math inline">\(|\mathcal{Y}| &gt; 2\)</span>;
+对于回归, <span class="math inline">\(\mathcal{Y} =
+\mathbb{R}\)</span>.</p></li>
+<li><p><strong>测试(Testing):</strong>
+使用学习得到的模型进行预测的过程称为测试,
+预测的样本称为<strong>测试样本(Testing Sample)/测试示例(Testing
+Instance)</strong>.</p></li>
+<li><p><strong>聚类(Clustering):</strong> 将训练集中的样本分为若干组,
+每组称为一个<strong>簇(Cluster)</strong>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 形成的簇可能对应一些潜在的概念划分(如本地瓜,
+外地瓜), 但这样的概念我们事先不知道,
+否则通过标记(Label)就可以形成簇划分.</p>
+</blockquote></li>
+<li><p><strong>监督学习(Supervised Learning)/有导师学习:</strong>
+训练数据拥有标记信息, 分类和回归为代表.</p></li>
+<li><p><strong>无监督学习(Unsupervised Learning)/无导师学习</strong>
+训练数据无标记信息, 聚类为代表.</p></li>
+</ul>
+<blockquote>
+<p><strong>Tips:</strong> 此处仅作最基本的概念了解,
+关于上述两概念的具体释义留及之后的学习.</p>
+</blockquote>
+<ul>
+<li><p><strong>泛化(Generalization):</strong>
+学得模型适用于新样本的能力,称为泛化能力.</p>
+<blockquote>
+<p><strong>Tips1:</strong> 样本空间通常很大, 训练过程无法涵盖所有的示例,
+我们希望模型可以对新样本有较好的目标表现, 这就是泛化的意义.</p>
+<p><strong>Tips2:</strong> 泛化的数学支撑:</p>
+<p>关于这种泛化,
+我们通常假设样本空间中的所有样本都服从一个未知的<strong>分布(Distribution)</strong>
+<span class="math inline">\(\mathcal{D}\)</span>,
+获取的样本是从该分布上采样获得的, 满足<strong>独立同分布(Independent and
+Identically Distributed, <em>i.d.d</em>)</strong>.</p>
+<p>关于机器学习中为什么使用i.d.d, 可以从<a
+target="_blank" rel="noopener" href="https://www.zhihu.com/question/41222495"><strong>知乎|为什么机器学习中,
+要假设我们的数据是独立同分布的?</strong></a>获取相关信息.</p>
+</blockquote></li>
+</ul>
+<h3 id="假设空间">1.3 假设空间</h3>
+<p><strong>归纳(Induction)</strong>与<strong>演绎(Deduction)</strong>是科学推理的两大基本手段.</p>
+<blockquote>
+<p>前者是从特殊到一般的<strong>泛化(Generalization)</strong>过程;
+后者是从一般到特殊的<strong>特化(Specialization)</strong>过程.</p>
+</blockquote>
+<ul>
+<li><p><strong>归纳学习(Inductive Learning):</strong>
+广义的归纳学习大体相当于从样例中学习,
+狭义的归纳学习要求从学习过程中习得<strong>概念(concept)</strong>,
+亦称<strong>概念学习/概念形成</strong>.</p></li>
+<li><p><strong>版本空间(Version Space):</strong>
+存在一个与训练集一致的"假设集合", 称为版本空间, 例如:</p></li>
+</ul>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/table1-1.png" class="" title="table1-1">
+<p>其假设空间为</p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-1.png" class="" title="pic1-1">
+<p>其版本空间为</p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-2.png" class="" title="pic1-2">
+<blockquote>
+<p><strong>Tips:</strong> 在该数据集中, 好瓜具有的共同特征是蜷缩和浊响.
+因此色泽标识为通配符 <span class="math inline">\(*\)</span>, 同时,
+第一行的两种假设同样是与训练集一致的(可以匹配好瓜).</p>
+</blockquote>
+<h3 id="归纳偏好">1.4 归纳偏好</h3>
+<ul>
+<li><p><strong>归纳偏好(Inductive bias):</strong>
+算法在学习过程中对某种类型假设的偏好称为归纳偏好.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+<strong>任何</strong>一个有效的机器学习算法必有其归纳偏好,
+否则它无法产生确定的学习结果.</p>
+<p>以图1-2的版本空间为例, 对新瓜(色泽=青绿;根蒂=蜷缩;敲声=沉闷),
+若模型告诉我们这种瓜时好时坏则没有意义,
+模型必须对给定的样本给予确定的结果.</p>
+<p><strong>Additional:</strong>
+归纳偏好可看作学习算法自身在一个可能很庞大的假设空间中对假设进行选择的启发式或"价值观".
+常遵循<strong>奥卡姆剃刀(Occam's
+Razor)</strong>原则(<strong>若有多个假设与观察一致,
+则选简单的那个</strong>).</p>
+</blockquote></li>
+</ul>
+<p>接下来我们来比较不同归纳偏好的优劣</p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-3.png" class="" title="pic1-3">
+<p>从直观上看我们一般会认为, 拟合出平滑的曲线A要优于曲线B, 但很遗憾,
+当面临一些极端数据时, 曲线B可能会优于曲线A, 情形如下图所示.</p>
+<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-4.png" class="" title="pic1-4">
+<p>接下来我们用数学语言尝试量化模型的优劣.</p>
+<p>假设样本空间 <span class="math inline">\(\mathcal{X}\)</span>
+和假设空间 <span class="math inline">\(\mathcal{H}\)</span> 都是离散的,
+令 <span class="math inline">\(P(h|X, \mathfrak{L})\)</span>
+代表学习算法 <span class="math inline">\(\mathfrak{L}_a\)</span>
+基于训练数据 <span class="math inline">\(X\)</span> 产生假设 <span
+class="math inline">\(h\)</span> 的概率, 令 <span
+class="math inline">\(f\)</span> 为目标函数.则 <span
+class="math inline">\(\mathfrak{L}_a\)</span>
+在训练集外的所有样本上的误差为</p>
+<p><span class="math display">\[\begin{equation} \label{eq1.1}
+E_{ote}(\mathfrak{L}_a|X, f) = \sum_h \sum_{x \in \mathcal{X} -X} P(x)
+\mathbb{I}(h(x) \neq f(x)) P(h|X, \mathfrak{L}_a)
+\tag{1.1}
+\end{equation}\]</span></p>
+<blockquote>
+<p><strong>Tips:</strong>
+以下是笔者个人对该公式的理解,可能存在疏漏或错误.</p>
+<p>首先看乘起来的的三个式子, <span
+class="math inline">\(\mathbb{I}\)</span> 为指示函数, 代表的含义是假设
+<span class="math inline">\(h\)</span> 与目标函数 <span
+class="math inline">\(f\)</span> 没有误差时取0, 存在误差时取1. 若取1,
+则两个概率乘积表示在给定的<span class="math inline">\(x\)</span>和<span
+class="math inline">\(h\)</span>下, 存在误差的概率.</p>
+<p>接下来的两个求和就不难理解了, 分别是对<span
+class="math inline">\(x\)</span>的所有取值求和以及对<span
+class="math inline">\(h\)</span>的所有取值求和, 权重为特定<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(h\)</span>的概率.</p>
+</blockquote>
+<p>为简化问题, 考虑二分类, 真实目标函数<span
+class="math inline">\(f\)</span>可以是任何函数<span
+class="math inline">\(\mathcal{X} \rightarrow \{0,1\}\)</span>,
+函数空间<span class="math inline">\(\{0,1\}^{|\mathcal{X}|}\)</span>.
+对所有可能的<span
+class="math inline">\(f\)</span>按均匀分布对误差求和,有</p>
+<p><span class="math display">\[
+\begin{align} \nonumber
+\sum_f E_{ote}(\mathfrak{L}_a|x, f) &amp;= \sum_f \sum_h \sum_{x \in
+\mathcal{X} -X} P(x) \mathbb{I}(h(x) \neq f(x)) P(h|X, \mathfrak{L}_a)\\
+\nonumber
+&amp;= \sum_{x \in \mathcal{X} -X} P(x) \sum_h P(h|X, \mathfrak{L}_a)
+\sum_f \mathbb{I}(h(x) \neq f(x))\\ \nonumber
+^*&amp;=  \sum_{x \in \mathcal{X} -X} P(x) \sum_h P(h|X, \mathfrak{L}_a)
+\frac{1}{2}2^{|\mathcal{X}|}\\ \nonumber
+&amp;= \frac{1}{2}2^{|\mathcal{X}|} \sum_{x \in \mathcal{X} -X} P(x)
+\cdot 1 \tag{1.2}
+\end{align}
+\]</span></p>
+<blockquote>
+<p><strong>Tips:</strong> 标识<span
+class="math inline">\(*\)</span>的一步因为若<span
+class="math inline">\(f\)</span>均匀分布, 则有一半的<span
+class="math inline">\(f\)</span>对<span
+class="math inline">\(x\)</span>的预测与<span
+class="math inline">\(h(x)\)</span>不一致.</p>
+</blockquote>
+<p>式(1.2)指出, 误差与学习算法<span
+class="math inline">\(\mathfrak{L}\)</span>无关! 对于任意学习算法<span
+class="math inline">\(\mathfrak{L}_a\)</span>和<span
+class="math inline">\(mathfrak{L}_b\)</span>,有</p>
+<p><span class="math display">\[\begin{equation}
+\sum_f E_{ote}(\mathfrak{L}_a|X, f) = \sum_f E_{ote}(\mathfrak{L}_b|X,
+f) \tag{1.3}
+\end{equation}\]</span></p>
+<p>这简直糟糕透了, 似乎所有的学习算法期望性能居然都相同.
+这就是<strong>没有免费午餐定理(No Free Lunch Theorem, NFL)</strong>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 原书的证明是多重假设下的简化论述,
+对严格数学证明感兴趣的读者可以自行查阅相关资料.</p>
+</blockquote>
+<p>但是, NFL定理有一个重要前提, 它假定了所有问题出现的机会相等,
+所有问题同等重要(例如上述证明中假设了<span
+class="math inline">\(f\)</span>均匀分布).
+但我们并不要求模型对所有情况都能给出一个好的解决方案,
+往往我们希望模型对特定问题表现是好的.</p>
+<blockquote>
+<p><strong>Tips:</strong> 原书中举了一个简单的例子,
+骑自行车从南京鼓楼到南京新街口显然是好方案(距离约两站地铁),
+但骑自行车从南京鼓楼到北京新街口, 显然不是好的方案,但我们不care.</p>
+</blockquote>
+<p>简单来说,
+NFL定理指出了<strong>没有一种机器学习算法是适用于所有情况的</strong>,
+只有针对具体问题, 才能谈论模型的优劣.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag"># 读书笔记</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/10/BookNote-DesignPatterns-by-JieCheng-1/" rel="prev" title="读书笔记-大话设计模式 Ch0">
+      <i class="fa fa-chevron-left"></i> 读书笔记-大话设计模式 Ch0
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/21/LeetCode-P4/" rel="next" title="LeetCode个人题解[C++] P4 寻找两个正序数组的中位数">
+      LeetCode个人题解[C++] P4 寻找两个正序数组的中位数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%A6%E7%B1%8D%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">书籍基本信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-0-%E4%B8%BB%E8%A6%81%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">Chapter 0: 主要符号表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-1-%E7%BB%AA%E8%AE%BA"><span class="nav-number">3.</span> <span class="nav-text">Chapter 1: 绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%AD"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 基本术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%87%E8%AE%BE%E7%A9%BA%E9%97%B4"><span class="nav-number">3.2.</span> <span class="nav-text">1.3 假设空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E7%BA%B3%E5%81%8F%E5%A5%BD"><span class="nav-number">3.3.</span> <span class="nav-text">1.4 归纳偏好</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LaPluma"
+      src="/images/hikari_tairitsu/avatar.jpg">
+  <p class="site-author-name" itemprop="name">LaPluma</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/La-Pluma" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;La-Pluma" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:baixingluo0114@gmail.com" title="E-Mail → mailto:baixingluo0114@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  <span class="author" itemprop="copyrightHolder">LaPluma</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">8k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">29 分钟</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!--
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: inline;">
+    <!--<span class="post-meta-item">-->
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '24px',
+  right: 'unset',
+  left: '24px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#444',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'Ov23liouFxqnH4lyyruL',
+      clientSecret: '63c3d5092e75ac897fea78ade59a03c33b607595',
+      repo        : 'la-pluma.github.io',
+      owner       : 'La-Pluma',
+      admin       : ['La-Pluma'],
+      id          : 'f1249a35a2e45ca6f1d22306564cdde2',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
