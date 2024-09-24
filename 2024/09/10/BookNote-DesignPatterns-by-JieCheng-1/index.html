@@ -24,13 +24,13 @@
 
   <meta name="description" content="精彩的代码是如何想出来的, 要比看到精彩的代码更加令人期待.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="读书笔记-大话设计模式 Part.1">
+<meta property="og:title" content="读书笔记-大话设计模式 Ch0">
 <meta property="og:url" content="http://la-pluma.github.io/2024/09/10/BookNote-DesignPatterns-by-JieCheng-1/index.html">
 <meta property="og:site_name" content="LaPluma">
 <meta property="og:description" content="精彩的代码是如何想出来的, 要比看到精彩的代码更加令人期待.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-10T11:45:47.000Z">
-<meta property="article:modified_time" content="2024-09-21T12:28:38.285Z">
+<meta property="article:modified_time" content="2024-09-24T15:06:15.318Z">
 <meta property="article:author" content="LaPluma">
 <meta property="article:tag" content="读书笔记">
 <meta property="article:tag" content="设计模式">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>读书笔记-大话设计模式 Part.1 | LaPluma</title><meta name="robots" content="noindex">
+  <title>读书笔记-大话设计模式 Ch0 | LaPluma</title>
   
 
 
@@ -211,7 +211,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          读书笔记-大话设计模式 Part.1
+          读书笔记-大话设计模式 Ch0
         </h1>
 
         <div class="post-meta">
@@ -228,7 +228,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-09-21 20:28:38" itemprop="dateModified" datetime="2024-09-21T20:28:38+08:00">2024-09-21</time>
+                <time title="修改时间：2024-09-24 23:06:15" itemprop="dateModified" datetime="2024-09-24T23:06:15+08:00">2024-09-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,14 +253,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.8k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>13 分钟</span>
             </span>
 
         </div>
@@ -469,7 +469,73 @@ Interface</a>将接口表述为:</p>
 <p><strong>书写规范:</strong> 接口的命名需要在前面加一个大写"I".</p>
 </blockquote></li>
 </ul>
-<!-- flag of hidden posts -->
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 笔者在此化简了书目中提供的例子, 能理解即可.</span></span><br><span class="line"><span class="comment">// 叮当猫继承自上文出现的Cat类, 内部需要实现变东西的接口</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">IChange</span> &#123;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">ChangeThing</span>(<span class="params"><span class="built_in">string</span> thing</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">MachineCat</span> : <span class="title">Cat</span>, <span class="title">IChange</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MachineCat</span>() : <span class="title">base</span>()</span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MachineCat</span>() : <span class="title">base</span>(<span class="params">name</span>)</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">ChangeThing</span>(<span class="params"><span class="built_in">string</span> thing</span>)</span>&#123; <span class="comment">//实现接口, 不需要使用override修饰</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">base</span>.Shout() + <span class="string">&quot;我有万能口袋, 可以变出: &quot;</span> + thing;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Additional:</strong> 笔者在此补充一点C#的语法特性,
+接口也可以继承接口, 假设IB继承IA, 在IB中不需要声明IA中的声明,
+但实现IB的类需要实现IA和IB中的所有声明.</p>
+<p><strong>Compare: Class v.s. Interface</strong></p>
+<ul>
+<li><strong>语法上:</strong> 抽象类可以给出一些成员的实现,
+接口不能包含成员的实现, 抽象类的抽象成员可被子类部分实现,
+但接口的成员需要类全部实现, 一个类只能继承<strong>一个</strong>抽象类,
+但可以实现<strong>多个</strong>接口.</li>
+<li><strong>含义上:</strong> 类是对象的抽象, 抽象类是对类的抽象,
+接口是对<strong>行为</strong>的抽象.</li>
+<li><strong>使用上:</strong> 如果行为跨越不同类的对象, 可使用接口;
+对于一些相似的类对象, 用继承抽象类. 需要注意的是,
+实现接口和继承抽象类并不冲突.</li>
+<li><strong>设计角度上:</strong> 抽象类是从子类中发现了公共的东西,
+泛化出父类, 然后子类继承父类, 而接口根本不知道子类的存在,
+方法如何实现不明确, 预先定义.</li>
+</ul>
+</blockquote>
+<ul>
+<li><p><strong>泛型(Generic):</strong> 泛型是具有占位符(类型参数)的类,
+结构, 接口和方法, 这些占位符是类, 结构,
+接口和方法所储存域或使用的一个或多个类型的占位符.
+泛型集合类可以将类型参数用作它所存储的对象的类型的占位符:
+类型参数作为其字段的类型和其方法的参数类型出现.</p>
+<blockquote>
+<p><strong>Additional:</strong> 通常情况下, 都建议使用泛型集合,
+因为这样可以获得类型安全的直接优点而不需要从基集合类型派生并实现类型特定成员.
+此外, 如果集合元素为值类型,
+泛型集合类型的性能通常优于对应的非泛型集合类型,
+因为使用泛型时不必对元素进行装箱.</p>
+<p><strong>Tips:</strong> <a
+target="_blank" rel="noopener" href="https://www.runoob.com/csharp/csharp-generic.html">菜鸟教程|C#
+Generic</a>将泛型表述为:</p>
+<p>泛型(Generic)允许您延迟编写类或方法中的编程元素的数据类型的规范,
+直到实际在程序中使用它的时候. 换句话说,
+泛型允许您编写一个可以与任何数据类型一起工作的类或方法.</p>
+<p>泛型的定义较为晦涩, 建议结合代码理解.
+笔者在此强烈建议阅读更多的资料来学习泛型.</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections.Generic; <span class="comment">//增加泛型集合命名空间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Forml</span> : <span class="title">Form</span>&#123;</span><br><span class="line">    IList&lt;Animal&gt; arrayAnimal; <span class="comment">// 声明泛型集合变量, 表示只接受Animal类型</span></span><br><span class="line">    <span class="comment">//List&lt;Animal&gt; arrayAnimal; 两种写法是等价的</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Event</span>()</span>&#123;</span><br><span class="line">        arrayAnimal = <span class="keyword">new</span> List&lt;Animal&gt;();</span><br><span class="line"></span><br><span class="line">        arrayAnimal.Add(<span class="keyword">new</span> Cat());</span><br><span class="line">        arrayAnimal.Add(<span class="keyword">new</span> Dog());</span><br><span class="line">        arrayAnimal.Add(<span class="number">123</span>); <span class="comment">// Error! Invalid Type </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>委托:</strong> 委托是对函数的封装,
+可以当作给方法的特征指定一个名称.
+委托对象用关键字<strong>delegate</strong>声明.</p></li>
+<li><p><strong>事件:</strong> 事件时委托的一种特殊形式,
+当发生有意义的事情时, 事件对象处理通知过程.
+事件对象用关键字<strong>event</strong>声明.</p></li>
+</ul>
+<blockquote>
+<p><strong>Additional:</strong> 委托是一种引用方法的类型,
+一旦为委托分配了方法, 委托将与该方法具有完全相同的行为.
+事件则是在发生其他类或对象关注的事情时, 类或对象可通过事件通知它们.</p>
+</blockquote>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//情境: 猫Tom叫的时候两只老鼠Jerry和Jack要跑.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">CatShoutEventHandler</span>()</span>; <span class="comment">// 声明委托</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> CatShoutEventHandler CatShout; <span class="comment">//声明事件</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Shout</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;喵, 我是&#123;0&#125;.&quot;</span>, name);</span><br><span class="line">        <span class="keyword">if</span> (CatShout != <span class="literal">null</span>)&#123; <span class="comment">// 如果声明了事件CatShout</span></span><br><span class="line">            CatShout();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mouse</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mouse</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;老猫来了, &#123;0&#125;快跑&quot;</span>, name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span>&#123;</span><br><span class="line">    Cat cat = <span class="keyword">new</span> Cat(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">    Mouse mouse1 = <span class="keyword">new</span> Mouse(<span class="string">&quot;Jerry&quot;</span>);</span><br><span class="line">    Mouse mouse2 = <span class="keyword">new</span> Mouse(<span class="string">&quot;Jack&quot;</span>);</span><br><span class="line"></span><br><span class="line">    cat.CatShout += <span class="keyword">new</span> Cat.CatShoutEventHandler(mouse1.Run);</span><br><span class="line">    cat.CatShout += <span class="keyword">new</span> Cat.CatShoutEventHandler(mouse2.Run); </span><br><span class="line">    <span class="comment">// &quot;+=&quot; 表示 &quot;add_CatShout&quot; 的意思; 与之相反 &quot;-=&quot; 表示 &quot;remove_CatShout()&quot;</span></span><br><span class="line"></span><br><span class="line">    cat.Shout();</span><br><span class="line">    Console.Read();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">喵, 我是Tom.</span><br><span class="line">老猫来了, Jerry快跑!</span><br><span class="line">老猫来了, Jack快跑!</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>EventArgs:</strong> EventArgs是包含事件数据的类的基类.</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CatShoutEventArgs</span> : <span class="title">EventArgs</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name&#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;<span class="keyword">return</span> name; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;name = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">CatShoutEventHandler</span>(<span class="params"><span class="built_in">object</span> sender, CatShoutEventArgs args</span>)</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> CatShoutEventHandler CatShout;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Shout</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;喵, 我是&#123;0&#125;.&quot;</span>, name);</span><br><span class="line">        <span class="keyword">if</span>(CatShout != <span class="literal">null</span>)&#123;</span><br><span class="line">            CatShoutEventArgs e = <span class="keyword">new</span> CatShoutEventArgs();</span><br><span class="line">            e.Name = <span class="keyword">this</span>.name;</span><br><span class="line">            CatShout(<span class="keyword">this</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mouse</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mouse</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>(<span class="params"><span class="built_in">object</span> sender, CatShoutEventArgs args</span>)</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;老猫&#123;0&#125;来了, &#123;1&#125;快跑!&quot;</span>, args.Name, name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Main执行结果:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">喵, 我是Tom.</span><br><span class="line">老猫Tom来了, Jerry快跑!</span><br><span class="line">老猫Tom来了, Jack快跑!</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -486,6 +552,16 @@ Interface</a>将接口表述为:</p>
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/08/hello-world/" rel="prev" title="千里之行，始于足下">
+      <i class="fa fa-chevron-left"></i> 千里之行，始于足下
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/" rel="next" title="读书笔记-机器学习 Ch0-Ch1">
+      读书笔记-机器学习 Ch0-Ch1 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -561,7 +637,7 @@ Interface</a>将接口表述为:</p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -574,7 +650,7 @@ Interface</a>将接口表述为:</p>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -621,13 +697,13 @@ Interface</a>将接口表述为:</p>
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">10k</span>
+    <span title="站点总字数">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">18 分钟</span>
+    <span title="站点阅读时长">29 分钟</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>

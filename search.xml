@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>读书笔记-机器学习 Part.1 Ch0-Ch1</title>
+    <title>读书笔记-机器学习 Ch0-Ch1</title>
     <url>/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/</url>
     <content><![CDATA[<p><strong>机器学习所研究的主要内容,
 是关于在计算机上从数据中产生"模型"(model)的算法, 即"学习算法"(learning
@@ -194,6 +194,9 @@ Instance)</strong>.</p></li>
 <span class="math inline">\(\mathcal{D}\)</span>,
 获取的样本是从该分布上采样获得的, 满足<strong>独立同分布(Independent and
 Identically Distributed, <em>i.d.d</em>)</strong>.</p>
+<p>关于机器学习中为什么使用i.d.d, 可以从<a
+href="https://www.zhihu.com/question/41222495"><strong>知乎|为什么机器学习中,
+要假设我们的数据是独立同分布的?</strong></a>获取相关信息.</p>
 </blockquote></li>
 </ul>
 <h3 id="假设空间">1.3 假设空间</h3>
@@ -337,21 +340,6 @@ NFL定理指出了<strong>没有一种机器学习算法是适用于所有情况
       </tags>
   </entry>
   <entry>
-    <title>千里之行，始于足下</title>
-    <url>/2024/09/08/hello-world/</url>
-    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
-step.</strong></p>
-<span id="more"></span>
-<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
-]]></content>
-      <categories>
-        <category>杂项</category>
-      </categories>
-      <tags>
-        <tag>杂项</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
     <url>/2024/09/21/LeetCode-P4/</url>
     <content><![CDATA[<p><strong>题目链接:</strong> <a
@@ -432,6 +420,296 @@ href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xi
       <tags>
         <tag>LeetCode</tag>
         <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>读书笔记-大话设计模式 Ch0</title>
+    <url>/2024/09/10/BookNote-DesignPatterns-by-JieCheng-1/</url>
+    <content><![CDATA[<p><strong>精彩的代码是如何想出来的,
+要比看到精彩的代码更加令人期待.</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#书籍基本信息">书籍基本信息</a></li>
+<li><a href="#chapter-0-preview-面向对象基础">Chapter 0: Preview
+面向对象基础</a></li>
+</ul>
+<hr />
+<h2 id="书籍基本信息">书籍基本信息</h2>
+<p>《大话设计模式》程杰 2007.</p>
+<p>本文<strong><em>不提供</em></strong>书籍的电子版文件,
+请有需要的读者移步至<strong>Z-library</strong>或其他渠道获得.</p>
+<p>本书以情景对话形式, 辅以故事或例子介绍设计模式, 以C#语言书写代码,
+适合有面向过程编程基础但面向对象编程能力弱的初学者.</p>
+<h2 id="chapter-0-preview-面向对象基础">Chapter 0: Preview
+面向对象基础</h2>
+<blockquote>
+<p>附录A 培训实习生——面向对象基础</p>
+<p><strong>Tips:</strong> 本部分不设计具体的语法细节, 特性和原理,
+仅作示例, 如有需去可移步至专业书籍文献寻求细节, 如<a
+href="https://learn.microsoft.com/en-us/dotnet/csharp/"><strong>微软官方</strong></a>或书籍<a
+href="https://book.douban.com/subject/34894447/"><strong>C#图解教程</strong></a>.</p>
+</blockquote>
+<ul>
+<li><p><strong>对象(Object):</strong> 对象是一个自包含的实体,
+用一组可识别的特性和行为来标识.</p>
+<blockquote>
+<p><strong>Tips:</strong> 定义比较拗口, 通俗来说, 对象是对事物的抽象,
+一切事物都可以称为对象.</p>
+</blockquote></li>
+<li><p><strong>面向对象编程(Object-Oriented Programming):</strong>
+面向对象的编程.</p>
+<blockquote>
+<p><strong>Tips:</strong> 简称OOP, 区别于面向过程编程,
+面向过程需要分析得出步骤, 按序实现程序功能. OOP首先对事物抽象为"对象",
+用对象的属性和行为解决问题.</p>
+</blockquote></li>
+<li><p><strong>类(Class):</strong>
+具有相同属性和功能对象的抽象集合.</p></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">shout</span>()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;mew&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>实例(Instance) &amp; 实例化:</strong> 实例是真实的对象,
+new得到实例的过程称为实例化.</p>
+<blockquote>
+<p><strong>Tips:</strong> 类就像是工厂的蓝图, 实例就是生产出来的产品,
+一个类只有实例化后才可以调用(可能不严谨, 存疑), 和蓝图与产品一样,
+一个类可以实例化出多个不同的实例(<strong>学生类</strong>可以实例化为<strong>学生李华</strong>,
+<strong>学生张三</strong>等).</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Cat cat = <span class="keyword">new</span> Cat();</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>修饰符:</strong></p>
+<ul>
+<li><p><strong>public:</strong> 修饰的类成员允许被任何类访问</p></li>
+<li><p><strong>protected:</strong>
+修饰的类成员仅允许该类和其子类访问</p></li>
+<li><p><strong>private:</strong> 修饰的类成员仅允许该类访问</p>
+<blockquote>
+<p><strong>Tips:</strong> 程序设计是一门权衡和妥协的艺术,
+对OOP为何如此设计的读者可自行查阅OOP发展的历史.</p>
+</blockquote></li>
+</ul></li>
+<li><p><strong>属性:</strong> 属性是一个方法或一对方法,
+在调用它的代码看来, 它是一个字段,
+即属性适合于以字段的方法使用方法调用的场合.</p></li>
+<li><p><strong>字段:</strong> 储存类设计所需的数据,
+形式上是与类相关的变量.</p></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Example</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> num; <span class="comment">//声明一个私有内部字段, 修饰符private</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Num &#123; <span class="comment">//Num公有外部属性, 修饰符public</span></span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="comment">//外部读取方法</span></span><br><span class="line">            <span class="keyword">return</span> Num;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; <span class="comment">//外部修改方法, 删去此方法时表示Num是只读的.</span></span><br><span class="line">            Num = <span class="keyword">value</span>; <span class="comment">// set含有隐式参数, 由关键字value表示, 用于赋值</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong> 属性和字段的描述比较抽象,
+推荐直接结合代码理解. 笔者认为是一种语法糖上的tricky,
+在其他语言OOP也有相似的写法. 这种写法的好处是隔离内部与外部,
+仅允许类提供的公共方法访问类内成员变量.</p>
+</blockquote>
+<ul>
+<li><p><strong>构造方法/构造函数:</strong> 对类进行初始化的方法.
+与类同名, 无返回值, 不需要void, 在new中调用.</p>
+<blockquote>
+<p><strong>Tips:</strong> 以上语法细节适用于C#, 非C#可能会有差别,
+类中不显示写明构造函数时由编译器默认构造(更多语法细节和原理请移步至讨论C#的相关文献).</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123; <span class="comment">//这是构造函数</span></span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>重载(overload):</strong>
+提供了创建多个同名方法(Function)的功能, 重载方法的参数类型不同.
+重载可以在不改变原方法基础上添加新功能.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+这里<strong>参数类型的不同</strong>指的是参数个数不同或参数类型的不同(详见代码示例)</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Example</span>&#123;</span><br><span class="line">    <span class="comment">//不仅构造函数, 普通函数也可以重载</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>()</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">int</span> arg_1</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">float</span> arg_1</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">int</span> arg_1, <span class="built_in">float</span> arg_2</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">float</span> arg_1, <span class="built_in">int</span> arg_2</span>)</span>&#123;&#125;;<span class="comment">//类型顺序不同也会被认为是重载</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>封装:</strong> 每个对象包含该对象操作所需的所有信息,
+不必依赖其他对象来完成自己的操作, 该特性称为封装.</p>
+<blockquote>
+<p><strong>Addtional:</strong> 良好的封装可以减少耦合,
+类内部实现可以自由修改, 具有清晰的对外接口</p>
+</blockquote></li>
+<li><p><strong>继承:</strong>
+对象的继承代表了一种"<strong>is-a</strong>"关系, 若描述为"B是A",
+则认为B可以继承A. 又可以理解为B是A的一种特殊化, B拥有A的特性之外,
+还拥有自己独特的特性. 即继承代表了一种包含关系, A包含B.</p>
+<blockquote>
+<strong>Addtional:</strong>
+<ul>
+<li>继承的双方称为<strong>子类/派生类&amp;父类/基类</strong>.</li>
+<li>子类继承父类的成员有方法, 域, 属性, 事件, 索引指示器</li>
+<li>构造方法<strong>无法</strong>继承, 只能调用,
+可以使用<strong>base</strong>关键字(C#语法特性)</li>
+</ul>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Animal</span> &#123; <span class="comment">//父类</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="built_in">string</span> name = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span>()</span> &#123; <span class="comment">//构造函数</span></span><br><span class="line">        <span class="keyword">this</span>.name = <span class="string">&quot;unamed&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span>(<span class="params"><span class="built_in">string</span> name</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> <span class="built_in">int</span> shoutNum = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> ShoutNum &#123; <span class="comment">//属性</span></span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> shoutNum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            shoutNum = <span class="keyword">value</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> : <span class="title">Animal</span> &#123; <span class="comment">//继承父类Animal的子类Cat</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>() : <span class="title">base</span>()</span> &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>) : <span class="title">base</span>(<span class="params">name</span>)</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">string</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; shoutNum; i++)&#123;</span><br><span class="line">            result += <span class="string">&quot;mew &quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> : <span class="title">Animal</span> &#123; <span class="comment">//继承父类Animal的子类Dog</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span>() : <span class="title">base</span>()</span> &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span>(<span class="params"><span class="built_in">string</span> name</span>) : <span class="title">base</span>(<span class="params">name</span>)</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">string</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; shoutNum; i++)&#123;</span><br><span class="line">            result += <span class="string">&quot;woof &quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong>
+继承的<strong>优点</strong>是使子类公共部分放在了父类, 代码得到了共享,
+减少了代码重复, 修改和扩展都变得相对容易.
+但<strong>缺点</strong>也是显而易见的, 继承会破坏封装,
+父类实现的细节暴露给子类, 父类和子类间是强耦合的.</p>
+</blockquote>
+<ul>
+<li><p><strong>多态:</strong> 多态表示不同的对象可以执行相同的动作,
+但通过自己的代码执行.</p>
+<blockquote>
+<strong>Additional:</strong>
+<ul>
+<li>子类以父类身份出现</li>
+<li>子类工作时以自己的方式实现</li>
+<li>子类以父类身份出现时, 无法使用子类特有的属性和方法</li>
+</ul>
+<p><strong>Tips:</strong> 在父类中, 该动作需要声明为虚拟的,
+用关键字<strong>virtual</strong>标识.</p>
+</blockquote></li>
+<li><p><strong>重写/覆写(override):</strong>
+子类使用关键字<strong>override</strong>将父类实现替换为自己的实现.</p></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//声明为虚方法</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> : <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//覆写</span></span><br><span class="line">        ....... <span class="comment">//略, 代码见上文</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> : <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//覆写</span></span><br><span class="line">        ....... <span class="comment">//略, 代码见上文</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*-----------------------------------------------------*/</span></span><br><span class="line"><span class="comment">/*执行环境*/</span></span><br><span class="line"></span><br><span class="line">arrayAnimal = <span class="keyword">new</span> Animal[<span class="number">5</span>];</span><br><span class="line">arrayAnimal[<span class="number">0</span>] = <span class="keyword">new</span> Cat();</span><br><span class="line">arrayAnimal[<span class="number">1</span>] = <span class="keyword">new</span> Dog();</span><br><span class="line"><span class="keyword">foreach</span>(Animal item <span class="keyword">in</span> arrayAnimal)&#123;</span><br><span class="line">    MessageBox.Show(item.Shout()); <span class="comment">//Cat为&quot;mew&quot;, Dog为&quot;woof&quot;.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips1:</strong> C#的多态性分为静态多态性和动态多态性.
+静态多态性即为前文提到的overload重载, 在编译时确定;
+动态多态性为override覆写, 在运行时确定,
+通过抽象类(见下文)和虚方法实现.</p>
+<p><strong>Tips2:</strong> 笔者在翻阅相关资料时,
+在C++语言中发现了更为复杂的机制, overwrite重写和override覆写存在区别,
+详见<a
+href="https://www.cnblogs.com/kuliuheng/p/4107012.html"><strong>博客园|C++中的Overload、Override和Overwrite</strong></a></p>
+<p><strong>Addtional:</strong> 原书对上述实现Animal Shout的代码进行重构,
+具体方法为将Shout()声明为父类公共方法(去掉virtual),
+声明新的虚方法getSound(), 在Shout()中调用, 在子类中覆写(override),
+从而避免了代码重复, 此处笔者不再浪费篇幅详细赘述.</p>
+</blockquote>
+<ul>
+<li><p><strong>抽象类&amp;抽象方法:</strong>
+C#允许将类和方法用关键字<strong>abstract</strong>声明, 即抽象类,
+抽象方法.</p>
+<blockquote>
+<strong>Addtional:</strong>
+<ul>
+<li>抽象类不能被实例化</li>
+<li>抽象方法必须被子类覆写(override)</li>
+<li>含有抽象方法的类必须声明为抽象类, 不论是否具有一般方法</li>
+<li>使用时考虑让抽象类拥有尽可能多的共同代码, 拥有尽可能少的数据</li>
+</ul>
+<p><strong>Tips:</strong> 抽象类通常代表一种抽象概念,
+提供了一个继承的出发点, 当设计一个新的抽象类时, 一定是用来继承的.
+因此在继承结构中, 叶节点应当是具体类, 非叶节点应当是抽象类.</p>
+</blockquote></li>
+<li><p><strong>接口(Interface):</strong>
+接口是把隐式公共方法和属性组合起来, 以封装特定功能的一个集合.
+类实现了接口就可以支持接口所指定的所有属性和成员.
+接口不允许提供任何成员的执行方法(因此接口不能实例化, 没有构造方法,
+字段和修饰符, 不能声明静态或虚拟等).</p>
+<blockquote>
+<strong>Addtionnal:</strong>
+<ul>
+<li>实现接口的类必须实现接口中所有方法和属性.</li>
+<li>一个类可以支持多个接口, 不同类也可以支持相同接口.</li>
+</ul>
+<p><strong>Tips:</strong> <a
+href="https://www.runoob.com/csharp/csharp-interface.html">菜鸟教程|C#
+Interface</a>将接口表述为:</p>
+<p>接口定义了所有类继承接口时应遵循的语法合同.
+接口定义了语法合同"是什么"部分, 派生类定义了语法合同"怎么做"部分.
+接口定义了属性, 方法和事件, 这些都是接口的成员. 接口只包含了成员的声明.
+成员的定义是派生类的责任. 接口提供了派生类应遵循的标准结构.</p>
+<p><strong>书写规范:</strong> 接口的命名需要在前面加一个大写"I".</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 笔者在此化简了书目中提供的例子, 能理解即可.</span></span><br><span class="line"><span class="comment">// 叮当猫继承自上文出现的Cat类, 内部需要实现变东西的接口</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">IChange</span> &#123;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">ChangeThing</span>(<span class="params"><span class="built_in">string</span> thing</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">MachineCat</span> : <span class="title">Cat</span>, <span class="title">IChange</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MachineCat</span>() : <span class="title">base</span>()</span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MachineCat</span>() : <span class="title">base</span>(<span class="params">name</span>)</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">ChangeThing</span>(<span class="params"><span class="built_in">string</span> thing</span>)</span>&#123; <span class="comment">//实现接口, 不需要使用override修饰</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">base</span>.Shout() + <span class="string">&quot;我有万能口袋, 可以变出: &quot;</span> + thing;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Additional:</strong> 笔者在此补充一点C#的语法特性,
+接口也可以继承接口, 假设IB继承IA, 在IB中不需要声明IA中的声明,
+但实现IB的类需要实现IA和IB中的所有声明.</p>
+<p><strong>Compare: Class v.s. Interface</strong></p>
+<ul>
+<li><strong>语法上:</strong> 抽象类可以给出一些成员的实现,
+接口不能包含成员的实现, 抽象类的抽象成员可被子类部分实现,
+但接口的成员需要类全部实现, 一个类只能继承<strong>一个</strong>抽象类,
+但可以实现<strong>多个</strong>接口.</li>
+<li><strong>含义上:</strong> 类是对象的抽象, 抽象类是对类的抽象,
+接口是对<strong>行为</strong>的抽象.</li>
+<li><strong>使用上:</strong> 如果行为跨越不同类的对象, 可使用接口;
+对于一些相似的类对象, 用继承抽象类. 需要注意的是,
+实现接口和继承抽象类并不冲突.</li>
+<li><strong>设计角度上:</strong> 抽象类是从子类中发现了公共的东西,
+泛化出父类, 然后子类继承父类, 而接口根本不知道子类的存在,
+方法如何实现不明确, 预先定义.</li>
+</ul>
+</blockquote>
+<ul>
+<li><p><strong>泛型(Generic):</strong> 泛型是具有占位符(类型参数)的类,
+结构, 接口和方法, 这些占位符是类, 结构,
+接口和方法所储存域或使用的一个或多个类型的占位符.
+泛型集合类可以将类型参数用作它所存储的对象的类型的占位符:
+类型参数作为其字段的类型和其方法的参数类型出现.</p>
+<blockquote>
+<p><strong>Additional:</strong> 通常情况下, 都建议使用泛型集合,
+因为这样可以获得类型安全的直接优点而不需要从基集合类型派生并实现类型特定成员.
+此外, 如果集合元素为值类型,
+泛型集合类型的性能通常优于对应的非泛型集合类型,
+因为使用泛型时不必对元素进行装箱.</p>
+<p><strong>Tips:</strong> <a
+href="https://www.runoob.com/csharp/csharp-generic.html">菜鸟教程|C#
+Generic</a>将泛型表述为:</p>
+<p>泛型(Generic)允许您延迟编写类或方法中的编程元素的数据类型的规范,
+直到实际在程序中使用它的时候. 换句话说,
+泛型允许您编写一个可以与任何数据类型一起工作的类或方法.</p>
+<p>泛型的定义较为晦涩, 建议结合代码理解.
+笔者在此强烈建议阅读更多的资料来学习泛型.</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections.Generic; <span class="comment">//增加泛型集合命名空间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Forml</span> : <span class="title">Form</span>&#123;</span><br><span class="line">    IList&lt;Animal&gt; arrayAnimal; <span class="comment">// 声明泛型集合变量, 表示只接受Animal类型</span></span><br><span class="line">    <span class="comment">//List&lt;Animal&gt; arrayAnimal; 两种写法是等价的</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Event</span>()</span>&#123;</span><br><span class="line">        arrayAnimal = <span class="keyword">new</span> List&lt;Animal&gt;();</span><br><span class="line"></span><br><span class="line">        arrayAnimal.Add(<span class="keyword">new</span> Cat());</span><br><span class="line">        arrayAnimal.Add(<span class="keyword">new</span> Dog());</span><br><span class="line">        arrayAnimal.Add(<span class="number">123</span>); <span class="comment">// Error! Invalid Type </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>委托:</strong> 委托是对函数的封装,
+可以当作给方法的特征指定一个名称.
+委托对象用关键字<strong>delegate</strong>声明.</p></li>
+<li><p><strong>事件:</strong> 事件时委托的一种特殊形式,
+当发生有意义的事情时, 事件对象处理通知过程.
+事件对象用关键字<strong>event</strong>声明.</p></li>
+</ul>
+<blockquote>
+<p><strong>Additional:</strong> 委托是一种引用方法的类型,
+一旦为委托分配了方法, 委托将与该方法具有完全相同的行为.
+事件则是在发生其他类或对象关注的事情时, 类或对象可通过事件通知它们.</p>
+</blockquote>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//情境: 猫Tom叫的时候两只老鼠Jerry和Jack要跑.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">CatShoutEventHandler</span>()</span>; <span class="comment">// 声明委托</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> CatShoutEventHandler CatShout; <span class="comment">//声明事件</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Shout</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;喵, 我是&#123;0&#125;.&quot;</span>, name);</span><br><span class="line">        <span class="keyword">if</span> (CatShout != <span class="literal">null</span>)&#123; <span class="comment">// 如果声明了事件CatShout</span></span><br><span class="line">            CatShout();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mouse</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mouse</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;老猫来了, &#123;0&#125;快跑&quot;</span>, name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span>&#123;</span><br><span class="line">    Cat cat = <span class="keyword">new</span> Cat(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">    Mouse mouse1 = <span class="keyword">new</span> Mouse(<span class="string">&quot;Jerry&quot;</span>);</span><br><span class="line">    Mouse mouse2 = <span class="keyword">new</span> Mouse(<span class="string">&quot;Jack&quot;</span>);</span><br><span class="line"></span><br><span class="line">    cat.CatShout += <span class="keyword">new</span> Cat.CatShoutEventHandler(mouse1.Run);</span><br><span class="line">    cat.CatShout += <span class="keyword">new</span> Cat.CatShoutEventHandler(mouse2.Run); </span><br><span class="line">    <span class="comment">// &quot;+=&quot; 表示 &quot;add_CatShout&quot; 的意思; 与之相反 &quot;-=&quot; 表示 &quot;remove_CatShout()&quot;</span></span><br><span class="line"></span><br><span class="line">    cat.Shout();</span><br><span class="line">    Console.Read();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">喵, 我是Tom.</span><br><span class="line">老猫来了, Jerry快跑!</span><br><span class="line">老猫来了, Jack快跑!</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>EventArgs:</strong> EventArgs是包含事件数据的类的基类.</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CatShoutEventArgs</span> : <span class="title">EventArgs</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name&#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;<span class="keyword">return</span> name; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;name = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">CatShoutEventHandler</span>(<span class="params"><span class="built_in">object</span> sender, CatShoutEventArgs args</span>)</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> CatShoutEventHandler CatShout;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Shout</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;喵, 我是&#123;0&#125;.&quot;</span>, name);</span><br><span class="line">        <span class="keyword">if</span>(CatShout != <span class="literal">null</span>)&#123;</span><br><span class="line">            CatShoutEventArgs e = <span class="keyword">new</span> CatShoutEventArgs();</span><br><span class="line">            e.Name = <span class="keyword">this</span>.name;</span><br><span class="line">            CatShout(<span class="keyword">this</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mouse</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mouse</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>(<span class="params"><span class="built_in">object</span> sender, CatShoutEventArgs args</span>)</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;老猫&#123;0&#125;来了, &#123;1&#125;快跑!&quot;</span>, args.Name, name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Main执行结果:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">喵, 我是Tom.</span><br><span class="line">老猫Tom来了, Jerry快跑!</span><br><span class="line">老猫Tom来了, Jack快跑!</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>读书笔记</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>千里之行，始于足下</title>
+    <url>/2024/09/08/hello-world/</url>
+    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
+step.</strong></p>
+<span id="more"></span>
+<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>杂项</tag>
       </tags>
   </entry>
 </search>
