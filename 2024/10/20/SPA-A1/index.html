@@ -27,12 +27,16 @@
 <meta property="og:url" content="http://la-pluma.github.io/2024/10/20/SPA-A1/index.html">
 <meta property="og:site_name" content="LaPluma">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/20/SPA-A1/pic1.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/20/SPA-A1/pic2.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/20/SPA-A1/pic3.png">
 <meta property="article:published_time" content="2024-10-19T16:04:07.000Z">
 <meta property="article:modified_time" content="2024-10-19T18:40:26.591Z">
 <meta property="article:author" content="LaPluma">
 <meta property="article:tag" content="NJU">
 <meta property="article:tag" content="静态分析">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/2024/10/20/SPA-A1/pic1.png">
 
 <link rel="canonical" href="http://la-pluma.github.io/2024/10/20/SPA-A1/">
 
@@ -296,14 +300,14 @@ target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/pa1.html"><str
 <p>具体来说, 实现Your
 Task中涉及的三份文件中的6个<code>TODO API</code>.</p>
 <p>涉及的主要算法如下图所示:</p>
-
+<img src="/2024/10/20/SPA-A1/pic1.png" class="" title="pic1">
 <p>作为第一个实验, 总体难度不高, 关键在于熟悉Tai-e框架,
 还望读者耐心阅读框架代码. 不妨善用Github
 Copilot或者ChatGPT帮助理解框架代码.</p>
 <h2 id="livevariableanalysis">LiveVariableAnalysis</h2>
 <p>活跃变量分析算法中需要用到的具体方法, 实验指南中已有较为详细的说明,
 笔者在此不再赘述.</p>
-
+<img src="/2024/10/20/SPA-A1/pic2.png" class="" title="pic2">
 <p>关于实现该部分所需的<code>API</code>,
 请阅读<code>Class SetFact</code>源码.</p>
 <p>笔者在此补充一些本实验所需java语法性质或语法糖.</p>
@@ -322,7 +326,7 @@ instanceof Operator]</strong></a>.</p>
 <p>使用示例:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(def <span class="keyword">instanceof</span> Var)</span><br></pre></td></tr></table></figure>
 <p>需要注意的是, 如指南所示</p>
-
+<img src="/2024/10/20/SPA-A1/pic3.png" class="" title="pic3">
 <p><code>Exp</code>下的<code>LValue</code>
 <code>RValue</code>包括多种类型,
 我们只需要关注<code>Var</code>类型的使用.</p>
@@ -545,13 +549,13 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">24k</span>
+    <span title="站点总字数">14k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:29</span>
+    <span title="站点阅读时长">52 分钟</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>

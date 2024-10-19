@@ -1084,7 +1084,7 @@ class="math inline">\(|\epsilon - \hat{\epsilon}|\)</span> 增大时 <span
 class="math inline">\(P(\hat{\epsilon};\epsilon)\)</span> 减小.</p>
 <p>若取 <span class="math inline">\(m=10, \epsilon = 0.3\)</span>,
 示意图如2.6所示.</p>
-
+<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-6.png" class="" title="pic2-6">
 <blockquote>
 <p><strong>Tips:</strong>
 <del>死去的《概率论与数理统计》突然复活起来攻击我</del>, 推荐复习笔记<a
@@ -1249,21 +1249,6 @@ href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xi
       </tags>
   </entry>
   <entry>
-    <title>千里之行，始于足下</title>
-    <url>/2024/09/08/hello-world/</url>
-    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
-step.</strong></p>
-<span id="more"></span>
-<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
-]]></content>
-      <categories>
-        <category>杂项</category>
-      </categories>
-      <tags>
-        <tag>杂项</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>NJU静态分析|A1-Live Variable Analysis</title>
     <url>/2024/10/20/SPA-A1/</url>
     <content><![CDATA[<hr />
@@ -1298,14 +1283,14 @@ href="https://tai-e.pascal-lab.net/pa1.html"><strong>实验指南</strong></a>�
 <p>具体来说, 实现Your
 Task中涉及的三份文件中的6个<code>TODO API</code>.</p>
 <p>涉及的主要算法如下图所示:</p>
-
+<img src="/2024/10/20/SPA-A1/pic1.png" class="" title="pic1">
 <p>作为第一个实验, 总体难度不高, 关键在于熟悉Tai-e框架,
 还望读者耐心阅读框架代码. 不妨善用Github
 Copilot或者ChatGPT帮助理解框架代码.</p>
 <h2 id="livevariableanalysis">LiveVariableAnalysis</h2>
 <p>活跃变量分析算法中需要用到的具体方法, 实验指南中已有较为详细的说明,
 笔者在此不再赘述.</p>
-
+<img src="/2024/10/20/SPA-A1/pic2.png" class="" title="pic2">
 <p>关于实现该部分所需的<code>API</code>,
 请阅读<code>Class SetFact</code>源码.</p>
 <p>笔者在此补充一些本实验所需java语法性质或语法糖.</p>
@@ -1324,7 +1309,7 @@ instanceof Operator]</strong></a>.</p>
 <p>使用示例:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(def <span class="keyword">instanceof</span> Var)</span><br></pre></td></tr></table></figure>
 <p>需要注意的是, 如指南所示</p>
-
+<img src="/2024/10/20/SPA-A1/pic3.png" class="" title="pic3">
 <p><code>Exp</code>下的<code>LValue</code>
 <code>RValue</code>包括多种类型,
 我们只需要关注<code>Var</code>类型的使用.</p>
@@ -1395,6 +1380,21 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
       <tags>
         <tag>NJU</tag>
         <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>千里之行，始于足下</title>
+    <url>/2024/09/08/hello-world/</url>
+    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
+step.</strong></p>
+<span id="more"></span>
+<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>杂项</tag>
       </tags>
   </entry>
 </search>
