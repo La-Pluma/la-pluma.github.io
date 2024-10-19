@@ -22,15 +22,19 @@
     var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="LaPluma">
-<meta property="og:url" content="http://la-pluma.github.io/categories/%E6%9D%82%E9%A1%B9/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="NJU静态分析|A1-Live Variable Analysis">
+<meta property="og:url" content="http://la-pluma.github.io/2024/10/20/SPA-A1/index.html">
 <meta property="og:site_name" content="LaPluma">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-19T16:04:07.000Z">
+<meta property="article:modified_time" content="2024-10-19T18:40:26.591Z">
 <meta property="article:author" content="LaPluma">
+<meta property="article:tag" content="NJU">
+<meta property="article:tag" content="静态分析">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://la-pluma.github.io/categories/%E6%9D%82%E9%A1%B9/">
+<link rel="canonical" href="http://la-pluma.github.io/2024/10/20/SPA-A1/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: 杂项 | LaPluma</title>
+  <title>NJU静态分析|A1-Live Variable Analysis | LaPluma</title>
   
 
 
@@ -185,57 +189,239 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">杂项
-          <small>分类</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/2024/10/20/SPA-A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
+      <meta itemprop="name" content="LaPluma">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LaPluma">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NJU静态分析|A1-Live Variable Analysis
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-10-20 00:04:07 / 修改时间：02:40:26" itemprop="dateCreated datePublished" datetime="2024-10-20T00:04:07+08:00">2024-10-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NJU%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">NJU静态分析实验记录</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+        <hr />
+<span id="more"></span>
+<h2 id="实验信息">实验信息</h2>
+<p>NJU软件分析, 实际上是静态分析(Static Program Analysis),
+是由李樾和谭添老师开设的面向本科生和研究生的一门课程,
+因为是本研共修选修课, 因此本课程内容较为基础,
+比较适合对静态分析感兴趣的初学者快速入门. 课程网站<a
+target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/lectures.html"><strong>[Static
+Program Analysis]</strong></a>, 配套课程<a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1b7411K7P4"><strong>[Bilibili|南京大学《软件分析》]</strong></a>.</p>
+<p>本课程实验(Assignments)基于Tai-e教学版框架,
+框架代码的获取和实验环境配置见课程网站, 笔者在约一年前曾自学过本课程,
+现今跟随2024Fall课程进度再次学习,
+由于上次学习中受到了多位前辈留下的实验记录帮助,
+遂于此记录笔者对各个实验的理解和记录. 限于笔者个人能力水平,
+恐难完整覆盖实验中的所有要点, 记录内容仅供参考, 如能帮助到您,
+乃笔者荣幸.</p>
+<p>鉴于 <strong>学术诚信(Academic Integrity)</strong> 要求, 笔者暂且
+<strong><em>不</em></strong> 公开源代码.</p>
+<h2 id="食用指南">食用指南</h2>
+<p>本试验记录 <strong><em>不会</em></strong>
+从零开始讨论完成实验的知识点, 框架理解和注意事项.
+食用前请确保观看并理解了课程的P1-4内容, 尤其是对活跃变量分析(Live
+Variable Analysis)的算法和原理的基本掌握; 完整阅读过<a
+target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/pa1.html"><strong>实验指南</strong></a>和框架代码后,
+再来参考本实验记录, 效果最佳.</p>
+<h2 id="任务目标">任务目标</h2>
+<p>基于已有框架为java实现一个<strong>活跃变量分析</strong>,
+使用<strong>迭代求解器(Iterative Solver)</strong>.</p>
+<p>具体来说, 实现Your
+Task中涉及的三份文件中的6个<code>TODO API</code>.</p>
+<p>涉及的主要算法如下图所示:</p>
+
+<p>作为第一个实验, 总体难度不高, 关键在于熟悉Tai-e框架,
+还望读者耐心阅读框架代码. 不妨善用Github
+Copilot或者ChatGPT帮助理解框架代码.</p>
+<h2 id="livevariableanalysis">LiveVariableAnalysis</h2>
+<p>活跃变量分析算法中需要用到的具体方法, 实验指南中已有较为详细的说明,
+笔者在此不再赘述.</p>
+
+<p>关于实现该部分所需的<code>API</code>,
+请阅读<code>Class SetFact</code>源码.</p>
+<p>笔者在此补充一些本实验所需java语法性质或语法糖.</p>
+<h3 id="class-optional">Class Optional</h3>
+<p>Java 8引入的性质, 详细信息可查询文档或教程, 笔者在此给出其一<a
+target="_blank" rel="noopener" href="https://www.runoob.com/java/java8-optional-class.html"><strong>[菜鸟教程|Java
+Optional]</strong></a>.</p>
+<p>与之类似的还有<code>java.util.List</code>,
+学习java语法来获得<code>Optional</code>和<code>List</code>中的内容.</p>
+<p>使用示例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> stmt.getDef().orElse(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="instanceof操作符">instanceof操作符</h3>
+<p>java中用于判断类型的操作符, 详细信息可参考<a
+target="_blank" rel="noopener" href="https://www.baeldung.com/java-instanceof"><strong>[Baeldung|Java
+instanceof Operator]</strong></a>.</p>
+<p>使用示例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(def <span class="keyword">instanceof</span> Var)</span><br></pre></td></tr></table></figure>
+<p>需要注意的是, 如指南所示</p>
+
+<p><code>Exp</code>下的<code>LValue</code>
+<code>RValue</code>包括多种类型,
+我们只需要关注<code>Var</code>类型的使用.</p>
+<blockquote>
+<p><strong>Tips:</strong> 为什么不需要考虑别的类型?</p>
+<p><code>LValue</code>只需要关注<code>Var</code>, 这是手册告诉我们的.
+<code>RValue</code>尽管有多种类型,
+但可以通过<code>getUses()</code>方法将Exp中涉及的变量等信息全部获取,
+此时右式是<code>UnaryExp</code>or<code>BinaryExp</code>对我们来说都不重要了,
+只需要将<code>getUses()</code>中的<code>Var</code>筛选出来处理即可.</p>
+</blockquote>
+<blockquote>
+<p><strong>Additional:</strong> <code>getUses()</code>究竟返回什么?</p>
+<p>笔者在此引用<a
+target="_blank" rel="noopener" href="https://github.com/RicoloveFeng">RicoloveFeng</a>在<a
+target="_blank" rel="noopener" href="https://github.com/RicoloveFeng/SPA-Freestyle-Guidance">SPA-Freestyle-Guidance</a>中的解释</p>
+<p>你可能想知道 <code>getUses()</code> 除了 <code>x = y</code>
+这条语句之外还返回些什么东西.我们举点例子吧:</p>
+<ul>
+<li><p><code>x = y op z</code>: <code>[y, z, y op z]</code></p></li>
+<li><p><code>x = m(n)</code>:
+<code>[mClass, n, invokevirtual mClass.m(n)]</code></p></li>
+</ul>
+</blockquote>
+<h3 id="java引用机制">java引用机制</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">transferNode</span><span class="params">(Stmt stmt, SetFact&lt;Var&gt; in, SetFact&lt;Var&gt; out)</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">//in = out.copy();</span></span><br><span class="line">        in.set(out);</span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尽管两行代码"看起来"是一致的,
+但注释掉的代码只会改变形参<code>in</code>的取值,
+不会改变实际的<code>Fact in</code>. 详细原理可以参考<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/453857961"><strong>[知乎|java引用详解]</strong></a>.</p>
+<h2 id="solver-iterativesolver">Solver &amp; IterativeSolver</h2>
+<p>本部分对应具体的算法流程.</p>
+<p>实际上指南写的已足够详细,
+包括如何从<code>cfg</code>中获取信息的方法和两处<code>TODO</code>对应的具体部分,
+使得即便对框架不甚理解, 仍然能完成该部分.</p>
+<p>唯一需要阅读代码知道的是可以通过<code>analysis.xx</code>的方式调用我们在上一节中实现的<code>API</code>.</p>
+<p><code>Solver</code>的<code>Init</code>需要注意的是由于我们<code>analysis.meetInto()</code>与算法中不完全相同,
+在初始化阶段我们同样要对<code>out Fact</code>进行赋空初始化.</p>
+<p><code>IterativeSovlver</code>部分是算法的循环部分,
+由于我们的分析器<code>BB</code>是<code>stmt</code>,
+因此不需要考虑Block内部的执行顺序,
+直接使用<code>analysis.transferNode</code>即可.</p>
+<p>另外, 上课时遍历迭代顺序取的是较优结果, 我们不需要过多考虑性能问题,
+因此以任意节点顺序迭代仍然可以得到结果, 这大大降低了代码实现的复杂性,
+只需要使用简单的<code>for(Node node : cfg)</code>即可.</p>
+<p>笔者同样补充一些可能对本实验理解有帮助的细节部分.</p>
+<h3 id="dataflowresult">DataflowResult</h3>
+<p>其本质是两个<code>Nodes</code>对应的<code>inFacts</code>
+<code>outFacts</code>的集合, 通过给定的API获取和设置其中的值,
+其中<code>inFacts</code>和<code>outFacts</code>不过是<code>set</code>的封装,
+在抽象层面上意义和课程中的那个代表变量的二进制串相同.</p>
+<h3
+id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
+中的 <code>Node</code>具体指什么?</h3>
+<p>在本次实验中, <code>Node node</code>指的是<code>stmt</code>,
+从指南中可以推测出这点. 通过阅读源代码, 也可以得知</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LiveVariableAnalysis</span> <span class="keyword">extends</span></span><br><span class="line">        <span class="title class_">AbstractDataflowAnalysis</span>&lt;Stmt, SetFact&lt;Var&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>所以我们可以直接使用以下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Node node : cfg)&#123;</span><br><span class="line">    ...</span><br><span class="line">    analysis.transferNode(node, in, out);</span><br><span class="line">    ...</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<p>总的来说这次实验的难点在于框架代码的理解,
+笔者在记录中提及了部分关键定义和代码理解, 只要耐心阅读框架代码,
+相信一定会AC.</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-09-08T20:56:57+08:00"
-              content="2024-09-08">
-          09-08
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NJU/" rel="tag"># NJU</a>
+              <a href="/tags/%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" rel="tag"># 静态分析</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/09/08/hello-world/" itemprop="url">
-            <span itemprop="name">千里之行，始于足下</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/" rel="prev" title="读书笔记-机器学习 Ch2">
+      <i class="fa fa-chevron-left"></i> 读书笔记-机器学习 Ch2
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -282,6 +468,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">实验信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">2.</span> <span class="nav-text">食用指南</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E7%9B%AE%E6%A0%87"><span class="nav-number">3.</span> <span class="nav-text">任务目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#livevariableanalysis"><span class="nav-number">4.</span> <span class="nav-text">LiveVariableAnalysis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#class-optional"><span class="nav-number">4.1.</span> <span class="nav-text">Class Optional</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#instanceof%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">4.2.</span> <span class="nav-text">instanceof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E5%BC%95%E7%94%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">4.3.</span> <span class="nav-text">java引用机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solver-iterativesolver"><span class="nav-number">5.</span> <span class="nav-text">Solver &amp; IterativeSolver</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dataflowresult"><span class="nav-number">5.1.</span> <span class="nav-text">DataflowResult</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cfgnode-cfg-%E4%B8%AD%E7%9A%84-node%E5%85%B7%E4%BD%93%E6%8C%87%E4%BB%80%E4%B9%88"><span class="nav-number">5.2.</span> <span class="nav-text">CFG&lt;Node&gt; cfg
+中的 Node具体指什么?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -590,6 +778,25 @@ window.darkmode = darkmode;
 darkmode.showWidget();
 </script>
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'Ov23liouFxqnH4lyyruL',
+      clientSecret: '63c3d5092e75ac897fea78ade59a03c33b607595',
+      repo        : 'la-pluma.github.io',
+      owner       : 'La-Pluma',
+      admin       : ['La-Pluma'],
+      id          : '72ba755c6f4e5fb38c63c0ccdcddc2f0',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
     </div>
 </body>
