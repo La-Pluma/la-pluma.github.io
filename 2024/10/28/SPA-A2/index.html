@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/hikari_tairitsu/512x512.png">
+  <meta name="google-site-verification" content="t21aSpg50tWVwctahE4QnLP2-fo79rclxw9e2TGaamw">
+  <meta name="baidu-site-verification" content="to baidu automatically which is very helpful for SEO.">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="NJU Static Program Analysis | Assignment-2 Constant Propagation &amp; WorlistSolver">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJU静态分析|A2-Constant Propagation">
+<meta property="og:url" content="http://la-pluma.github.io/2024/10/28/SPA-A2/index.html">
+<meta property="og:site_name" content="LaPluma">
+<meta property="og:description" content="NJU Static Program Analysis | Assignment-2 Constant Propagation &amp; WorlistSolver">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/28/SPA-A2/pic1.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/28/SPA-A2/pic2.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/28/SPA-A2/pic3.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/28/SPA-A2/pic4.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/28/SPA-A2/pic5.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/28/SPA-A2/pic6.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/10/28/SPA-A2/pic7.png">
+<meta property="article:published_time" content="2024-10-28T12:59:35.000Z">
+<meta property="article:modified_time" content="2024-10-28T16:44:03.975Z">
+<meta property="article:author" content="LaPluma">
+<meta property="article:tag" content="NJU">
+<meta property="article:tag" content="静态分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/2024/10/28/SPA-A2/pic1.png">
+
+<link rel="canonical" href="http://la-pluma.github.io/2024/10/28/SPA-A2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>NJU静态分析|A2-Constant Propagation | LaPluma</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="LaPluma" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999;width:36px;height:36px}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">LaPluma</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep it simple and stupid.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/La-Pluma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/2024/10/28/SPA-A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
+      <meta itemprop="name" content="LaPluma">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LaPluma">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NJU静态分析|A2-Constant Propagation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-10-28 20:59:35" itemprop="dateCreated datePublished" datetime="2024-10-28T20:59:35+08:00">2024-10-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-29 00:44:03" itemprop="dateModified" datetime="2024-10-29T00:44:03+08:00">2024-10-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NJU%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">NJU静态分析实验记录</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>NJU Static Program Analysis | Assignment-2 Constant Propagation &amp;
+WorlistSolver</p>
+<span id="more"></span>
+<h2 id="实验信息与食用指南">实验信息与食用指南</h2>
+<p>请翻阅<a
+href="https://la-pluma.github.io/2024/10/20/SPA-A1/#more"><strong>[NJU静态分析|A1-Live
+Variable Analysis]</strong></a>.</p>
+<p>在此进行一点补充, 笔者的这份实验记录更像是Free
+Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
+在理解了<strong>理论知识</strong>, <strong>实验指南</strong> 和
+<strong>框架代码</strong> 后再参考本记录, 与A1相同, 本记录
+<strong><em>不提供</em></strong> 源代码(<del>或者说暂时没有</del>).</p>
+<p><del>如果您对本实验记录中的内容感到困惑,
+可能是因为笔者能力不足或您未能理解实验指南和框架代码,
+同时本试验记录难以涵盖所有的坑, 还望海涵.</del></p>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
+<p>大致的框架代码如下:</p>
+<img src="/2024/10/28/SPA-A2/pic1.png" class="" title="pic1">
+<p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
+<h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
+<p><del>我知道你们有些人肯定是不看框架代码的,
+除非不得不用或者报错的时候.</del></p>
+<h3 id="ir-irbuilder">IR &amp; IRBuilder</h3>
+<p>Tai-e框架中的<code>IR</code>与课上教授的IR稍有不同, 以A2
+test中的<strong>Assign.java</strong>为例,</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*   From A2 test/Assign.java   */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Assign</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>, y;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        x = <span class="number">3</span>;</span><br><span class="line">        x = <span class="number">4</span>;</span><br><span class="line">        y = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过tai-e框架的分析后会得到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
+target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
+<img src="/2024/10/28/SPA-A2/pic2.png" class="" title="pic2">
+<p><del>IR我懒得贴了</del></p>
+<p><code>IR</code>的基本单元是<strong>method</strong>
+(请意识到java是oop语言),
+<code>IRBuilder</code>提供了分析单个方法的API<code>buildIR(JMethod method)</code>和分析整个<code>class hierarchy</code>(不明白,
+等到A4就明白了, 笑)中的所有方法的API<code>buildAll()</code></p>
+<p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
+我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
+可能会有所出入, 但大致如此).</p>
+<img src="/2024/10/28/SPA-A2/pic3.png" class="" title="pic3">
+<blockquote>
+<p><strong>Tips:</strong>
+严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
+见A1试验记录说明), 只存储<code>Stmt</code>的关联信息,
+但为了方便图示遂如此展示. 至于为何左值和右值都是<code>Exp</code>,
+请翻阅A1官方实验指南中对<code>Exp</code>的图示表示部分.</p>
+</blockquote>
+<h3 id="definitionstmt">DefinitionStmt</h3>
+<p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
+但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
+为什么不用呢?</p>
+<img src="/2024/10/28/SPA-A2/pic4.png" class="" title="pic4.png">
+<p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
+<code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
+extends <code>Exp</code>),
+而不需要像<code>Stmt</code>中的<code>getDef()</code> &amp;
+<code>getUses()</code>
+做较为繁琐的判断和筛选(如果对<code>getUses()</code>感到困惑,
+也还请翻阅A1实验记录, 里面有解释和参考来源).</p>
+<p>需要注意的是,
+<code>getLValue()</code>可能会返回<code>null</code>.</p>
+<h2 id="constantpropagation">ConstantPropagation</h2>
+<p>与活跃变量分析类似, 我们需要完成5个API的功能.</p>
+<h3 id="newboundaryfact-newinitialfact">newBoundaryFact() &amp;
+newInitialFact()</h3>
+<p>需要注意的是, 本次存储分析结果的数据结构是<code>CPFact</code>,
+与A1相同, 在完成本次实验代码之前需要了解相关API的用法.</p>
+<p>既然是<strong>Must Analysis</strong>, 我们需要将初值赋为空,
+但需要注意的是, 我们的<strong>Analysis</strong>仅分析语句,
+在进入第一条语句之前, 是否有什么东西需要初始化?</p>
+<p>这个问题就对应了指南中为什么<code>BoundaryInit</code> 要通过
+<code>getIR().getParas()</code>获取参数并赋值<code>NAC</code>的提示.</p>
+<p>在对<code>IR</code>的解释中我们提到过,
+<code>IR</code>的基本分析单元是<strong>method</strong>, 即函数,
+函数就可能有传入的参数, 这些参数易见<strong>不是Constant</strong>,
+因此要赋值为<code>NAC</code></p>
+<blockquote>
+<p><strong>Tips:</strong> 如果是Constant干嘛还要传参, 即便真的这么做了,
+我们的分析也可以满足<strong>safe-approximation</strong>.</p>
+</blockquote>
+<p>这部分是在方法体(函数语句)执行前就完成的初始化,
+因此我们需要赋值给<code>Entry</code>的<code>outFact</code>.</p>
+<h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
+<p><code>meetValue()</code>的完成没有任何难点,
+只需要照抄ppt中的规则即可.</p>
+<img src="/2024/10/28/SPA-A2/pic5.png" class="" title="pic5">
+<p>同样的,
+完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
+<p>关于<code>meetInto()</code>,
+如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
+就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
+<img src="/2024/10/28/SPA-A2/pic6.png" class="" title="pic6">
+<h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
+<p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
+test的时候, 大概率寄在这里.</p>
+<p>笔者建议在<code>transferNode()</code>中处理<code>Stmt</code>的左值def部分,
+在<code>evaluate()</code>中处理右值exp部分. 这是比较符合功能分离的写法,
+当然, 也可以选择在
+<code>transferNode()</code>中处理<code>Var</code>和<code>IntLiteral</code>,
+<code>evaluate()</code>只负责处理<code>BinaryExp</code>的计算值.
+笔者在此按第一种写法进行说明.</p>
+<h4 id="transfernode">transferNode()</h4>
+<p>这个函数中你需要依次做(次流程可能存在可以优化的部分,
+不必完全照做):</p>
+<ul>
+<li><p>保存<code>outFact</code>原值,
+将<code>inFact</code>赋值给<code>outFact</code>.</p></li>
+<li><p>判断<code>Node</code>(<code>Stmt</code>)是否为<code>DefinitionStmt</code></p></li>
+<li><p>判断是否拥有<strong>合法</strong>左值,
+包括<code>def</code>的类型<code>Var</code>和<code>Var</code>中的<code>ValueType</code>是否为<code>Int</code>,
+如果不是, 本次实验中可以认为是<code>nop</code>空操作.
+不需要为这个<code>Stmt</code>做任何分析, 直接将<code>inFact</code>
+copy给 <code>outFact</code>即可.</p>
+<blockquote>
+<p><strong>Tips:</strong> IDEA教给我一个很有意思的语法糖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> DefinitionStmt def_stmt)&#123;</span><br><span class="line">    <span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> def_stmt.getLValue();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个用法可以避开繁琐的类型转化, 在判断类型时便做了类型转化.</p>
+</blockquote></li>
+<li><p>计算<code>Stmt</code>的右值(通过<code>evaluate()</code>获得),
+并更新<code>outFact</code>中的相应<code>Var def</code>(笔者在此并未使用<code>update</code>方法的返回值,
+或许可从此处入手优化效率, 但笔者不能保证其正确性)</p></li>
+<li><p>比较<code>outFact</code>是否更新返回布尔值.</p></li>
+</ul>
+<h4 id="evaluate">evaluate()</h4>
+<p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中二元表达式计算规则见ppt所示,</p>
+<img src="/2024/10/28/SPA-A2/pic7.png" class="" title="pic7">
+<p>笔者在此给出一些细节和边界条件,
+也可以通过阅读上述代码框架获得细节提示:</p>
+<ul>
+<li><p><code>exp</code>中的操作数可能不是<code>IntType</code>,
+所以你需要做一个<code>canHoldInt()</code>判断,
+非法<code>exp</code>为了安全性应赋值为<code>NAC</code></p></li>
+<li><p>实验指南中提到, 对于<code>/</code>和<code>%</code>的除零错误,
+应当给出<code>Undef</code>,
+<strong>即使</strong>被除数是<code>NAC</code>.</p></li>
+</ul>
+<h2 id="sovler-worklistsolver">Sovler &amp; WorkListSolver</h2>
+<h3 id="sovler-init">Sovler Init</h3>
+<p>照着算法流程前三行写便是,
+但这里要提到框架代码的"<strong>robustness</strong>".</p>
+<p>尽管从分析流程上来看, 我们不应该分析<code>Node Entry</code>,
+但是框架代码允许我们这样做.
+这时框架代码会认为<code>Node Entry</code>是一条<code>nop Stmt</code>,
+不会做constant update,
+因此只要在<code>Init</code>部分对<code>Entry</code>的<code>inFact</code>和<code>outFact</code>都赋上初值,
+就不需要在worklist中考虑<code>Entry</code>的处理了.</p>
+<h3 id="worklistsolver-dosolveforward">WorkListSolver
+doSolveForward</h3>
+<p><strong>worklist</strong>是一种非常简单的算法,
+笔者在此不对算法实现过多赘述.
+注意在实现worklist的时候可以使用java自带的容器<code>Queue</code> &amp;
+<code>ArrayList</code>.</p>
+<p>关于<strong>worklist</strong>的初始化问题,
+需要注意的是应当为其加入所有的<code>Node</code>,
+如果只加入<code>Entry</code>的后继, 会产生问题, 笔者在此给出一个例子.
+(感谢课程群中<a
+target="_blank" rel="noopener" href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和另一位不知道github链接的大佬构造的反例)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] nop;     &#123;&#125;</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在这个例子中,
+<code>Entry outFact</code>初始化为<code>&#123;&#125;</code>(没有参数),
+然而<code>Stmt0</code> 的 <code>outFact</code>
+同样初始化为<code>&#123;&#125;</code>,
+如果只添加<code>Entry</code>的后继<code>&#123;Stmt0&#125;</code>,
+会导致worklist在分析完<code>Stmt0</code>后错误终止.</p>
+<h2 id="总结">总结</h2>
+<p>本次实验应该是所有Assignment中代码量最多的一次, 细节也是让人头皮发麻,
+还望能静下心来看代码和debug, 祝早日AC!</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NJU/" rel="tag"># NJU</a>
+              <a href="/tags/%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" rel="tag"># 静态分析</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/10/20/SPA-A1/" rel="prev" title="NJU静态分析|A1-Live Variable Analysis">
+      <i class="fa fa-chevron-left"></i> NJU静态分析|A1-Live Variable Analysis
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%BF%A1%E6%81%AF%E4%B8%8E%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">实验信息与食用指南</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">2.</span> <span class="nav-text">实验目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E9%87%8D%E8%A6%81%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%B8%A6%E8%AF%BB"><span class="nav-number">3.</span> <span class="nav-text">部分重要框架代码带读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ir-irbuilder"><span class="nav-number">3.1.</span> <span class="nav-text">IR &amp; IRBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#definitionstmt"><span class="nav-number">3.2.</span> <span class="nav-text">DefinitionStmt</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#constantpropagation"><span class="nav-number">4.</span> <span class="nav-text">ConstantPropagation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#newboundaryfact-newinitialfact"><span class="nav-number">4.1.</span> <span class="nav-text">newBoundaryFact() &amp;
+newInitialFact()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#meetvalue-meetinto"><span class="nav-number">4.2.</span> <span class="nav-text">meetValue() &amp; meetInto()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transfernode-evaluate"><span class="nav-number">4.3.</span> <span class="nav-text">transferNode() &amp; evaluate()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transfernode"><span class="nav-number">4.3.1.</span> <span class="nav-text">transferNode()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#evaluate"><span class="nav-number">4.3.2.</span> <span class="nav-text">evaluate()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sovler-worklistsolver"><span class="nav-number">5.</span> <span class="nav-text">Sovler &amp; WorkListSolver</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sovler-init"><span class="nav-number">5.1.</span> <span class="nav-text">Sovler Init</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#worklistsolver-dosolveforward"><span class="nav-number">5.2.</span> <span class="nav-text">WorkListSolver
+doSolveForward</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LaPluma"
+      src="/images/hikari_tairitsu/avatar.jpg">
+  <p class="site-author-name" itemprop="name">LaPluma</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/La-Pluma" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;La-Pluma" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:baixingluo0114@gmail.com" title="E-Mail → mailto:baixingluo0114@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  <span class="author" itemprop="copyrightHolder">LaPluma</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">39k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:10</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!--
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: inline;">
+    <!--<span class="post-meta-item">-->
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '24px',
+  right: 'unset',
+  left: '24px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#444',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'Ov23liouFxqnH4lyyruL',
+      clientSecret: '63c3d5092e75ac897fea78ade59a03c33b607595',
+      repo        : 'la-pluma.github.io',
+      owner       : 'La-Pluma',
+      admin       : ['La-Pluma'],
+      id          : 'd49b3bf3ec532b81af0ccdfaaad8be1f',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
