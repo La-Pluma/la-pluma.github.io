@@ -1,5 +1,5 @@
-http://la-pluma.github.io/2024/10/28/SPA-A2/
 http://la-pluma.github.io/2024/10/20/SPA-A1/
+http://la-pluma.github.io/2024/10/28/SPA-A2/
 http://la-pluma.github.io/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/
 http://la-pluma.github.io/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/
 http://la-pluma.github.io/2024/09/10/BookNote-DesignPatterns-by-JieCheng-1/
