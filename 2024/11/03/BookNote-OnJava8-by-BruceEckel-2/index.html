@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/hikari_tairitsu/512x512.png">
+  <meta name="google-site-verification" content="t21aSpg50tWVwctahE4QnLP2-fo79rclxw9e2TGaamw">
+  <meta name="baidu-site-verification" content="to baidu automatically which is very helpful for SEO.">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Java语言假设程序员只进行面向对象编程, 因此Java中(几乎)万物皆对象.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读书笔记-On Java8 Ch3-Ch">
+<meta property="og:url" content="http://la-pluma.github.io/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/index.html">
+<meta property="og:site_name" content="LaPluma">
+<meta property="og:description" content="Java语言假设程序员只进行面向对象编程, 因此Java中(几乎)万物皆对象.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-03T11:29:38.000Z">
+<meta property="article:modified_time" content="2024-11-07T09:40:31.632Z">
+<meta property="article:author" content="LaPluma">
+<meta property="article:tag" content="读书笔记">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://la-pluma.github.io/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>读书笔记-On Java8 Ch3-Ch | LaPluma</title><meta name="robots" content="noindex">
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="LaPluma" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999;width:36px;height:36px}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">LaPluma</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep it simple and stupid.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/La-Pluma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
+      <meta itemprop="name" content="LaPluma">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LaPluma">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          读书笔记-On Java8 Ch3-Ch
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-11-03 19:29:38" itemprop="dateCreated datePublished" datetime="2024-11-03T19:29:38+08:00">2024-11-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-11-07 17:40:31" itemprop="dateModified" datetime="2024-11-07T17:40:31+08:00">2024-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-OnJava8/" itemprop="url" rel="index"><span itemprop="name">读书笔记-OnJava8</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Java语言假设程序员只进行面向对象编程,
+因此Java中(几乎)万物皆对象.</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#chapter3-万物皆对象">Chapter3 万物皆对象</a>
+<ul>
+<li><a href="#对象操纵">对象操纵</a></li>
+<li><a href="#对象创建">对象创建</a>
+<ul>
+<li><a href="#数据存储">数据存储</a></li>
+<li><a href="#基本类型存储">基本类型存储</a></li>
+<li><a href="#高精度数值">高精度数值</a></li>
+<li><a href="#数组存储">数组存储</a></li>
+</ul></li>
+<li><a href="#代码注释">代码注释</a></li>
+<li><a href="#对象清理">对象清理</a>
+<ul>
+<li><a href="#作用域">作用域</a></li>
+<li><a href="#对象作用域">对象作用域</a></li>
+</ul></li>
+<li><a href="#类的创建">类的创建</a>
+<ul>
+<li><a href="#类型">类型</a></li>
+<li><a href="#字段field">字段(Field)</a></li>
+<li><a href="#基本类型默认值">基本类型默认值</a></li>
+<li><a href="#方法使用">方法使用</a></li>
+<li><a href="#返回类型">返回类型</a></li>
+<li><a href="#参数列表">参数列表</a></li>
+</ul></li>
+<li><a href="#程序编写">程序编写</a>
+<ul>
+<li><a href="#命名可见性">命名可见性</a></li>
+<li><a href="#import">import</a></li>
+<li><a href="#static">static</a></li>
+</ul></li>
+<li><a href="#编码风格">编码风格</a></li>
+</ul></li>
+<li><a href="#chapter4-运算符">Chapter4 运算符</a>
+<ul>
+<li><a href="#beginning">Beginning</a></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="chapter3-万物皆对象">Chapter3 万物皆对象</h2>
+<blockquote>
+<p><strong>如果我们说另一种不同的语言, 我们会发觉一个不同的世界! ——
+Ludwig Wittgenstein(1889-1951)</strong></p>
+</blockquote>
+<h3 id="对象操纵">对象操纵</h3>
+<p>所有的编程语言都会操纵内存中的元素.</p>
+<blockquote>
+<ul>
+<li>C/C++中对象的操纵是通过指针来完成的.</li>
+<li>Java利用万物皆对象的思想和单一一致的语法方式来简化问题,
+采用<strong>引用(Reference)</strong> 操纵对象.</li>
+</ul>
+</blockquote>
+<h3 id="对象创建">对象创建</h3>
+<p>Java中使用<strong>引用</strong>关联<strong>对象</strong>.</p>
+<p>通常使用关键字<code>new</code>创建对象实例.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="数据存储">数据存储</h4>
+<ul>
+<li><strong>寄存器(Registers)</strong>: 最快的存储器, 位于CPU内部.
+但数量有限,
+且Java无法直接控制(C/C++允许开发者像编译器建议寄存器的分配).</li>
+<li><strong>栈内存(Stack)</strong>: 位于<strong>随机访问存储器(Random
+Access Memory, RAM)</strong> 中, CPU可通过栈指针直接访问.
+栈指针下移分配内存, 上移释放内存. 但栈上的数据要求提前知晓对象生存周期,
+因此栈内存上只存放部分Java数据, 对象本身存储在堆内存.</li>
+<li><strong>堆内存(Heap)</strong>: RAM区域的一种通用内存池,
+存放着所有的Java对象. 相较于栈区, 堆区的使用更灵活,
+但代价是分配和清理对象会比栈区更耗时.</li>
+<li><strong>常量存储(COnstant Storage)</strong>: 通常直接放在代码中,
+可考虑置于<strong>只读存储器(Read Only Memory, ROM)</strong>.</li>
+<li><strong>非RAM存储(Non-RAM Storage)</strong>: 数据存在于程序之外,
+包括<strong>序列化对象</strong>和<strong>持久化对象</strong>.</li>
+</ul>
+<h4 id="基本类型存储">基本类型存储</h4>
+<p>Java中使用和C/C++一样策略的基本类型数据, 存放在栈中,
+其内存占用大小固定.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">基本类型</th>
+<th style="text-align: center;">大小</th>
+<th style="text-align: center;">最小值</th>
+<th style="text-align: center;">最大值</th>
+<th style="text-align: center;">包装类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">Boolean</td>
+</tr>
+<tr>
+<td style="text-align: center;">char</td>
+<td style="text-align: center;">16bits</td>
+<td style="text-align: center;"><span class="math inline">\(Unicode\
+0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(Unicode\
+2^{16}-1\)</span></td>
+<td style="text-align: center;">Character</td>
+</tr>
+<tr>
+<td style="text-align: center;">byte</td>
+<td style="text-align: center;">8bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(-128\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(+127\)</span></td>
+<td style="text-align: center;">Byte</td>
+</tr>
+<tr>
+<td style="text-align: center;">short</td>
+<td style="text-align: center;">16bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(-2^{15}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(+2^{15}-1\)</span></td>
+<td style="text-align: center;">Short</td>
+</tr>
+<tr>
+<td style="text-align: center;">int</td>
+<td style="text-align: center;">32bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(-2^{31}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(+2^{31}-1\)</span></td>
+<td style="text-align: center;">Integer</td>
+</tr>
+<tr>
+<td style="text-align: center;">long</td>
+<td style="text-align: center;">64bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(-2^{63}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(+2^{63}-1\)</span></td>
+<td style="text-align: center;">Long</td>
+</tr>
+<tr>
+<td style="text-align: center;">float</td>
+<td style="text-align: center;">32bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(IEEE754\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(IEEE754\)</span></td>
+<td style="text-align: center;">Float</td>
+</tr>
+<tr>
+<td style="text-align: center;">double</td>
+<td style="text-align: center;">64bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(IEEE754\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(IEEE754\)</span></td>
+<td style="text-align: center;">Double</td>
+</tr>
+<tr>
+<td style="text-align: center;">void</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">Void</td>
+</tr>
+</tbody>
+</table>
+<p>在堆区表示基本类型数据, 需要使用包装类:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> <span class="string">&#x27;x&#x27;</span>;</span><br><span class="line"><span class="type">Charactor</span> <span class="variable">ch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Charactor</span>(c);</span><br><span class="line"><span class="type">Charactor</span> <span class="variable">ch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Charactor</span>(<span class="string">&#x27;x&#x27;</span>);</span><br><span class="line"><span class="comment">//自动装箱</span></span><br><span class="line"><span class="type">Charactor</span> <span class="variable">ch</span> <span class="operator">=</span> <span class="string">&#x27;x&#x27;</span>;</span><br><span class="line"><span class="comment">//自动开箱</span></span><br><span class="line"><span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> ch;</span><br></pre></td></tr></table></figure>
+<h4 id="高精度数值">高精度数值</h4>
+<p><code>BigInteger</code> &amp; <code>BigDecimal</code></p>
+<h4 id="数组存储">数组存储</h4>
+<p>Java设计主要目标之一是安全性, 尽管牺牲了部分效率, 但换来了安全性.</p>
+<h3 id="代码注释">代码注释</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 跨行注释</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//单行注释</span></span><br></pre></td></tr></table></figure>
+<h3 id="对象清理">对象清理</h3>
+<h4 id="作用域">作用域</h4>
+<p>C/C++和Java中的作用域由<code>&#123;&#125;</code>决定.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">42</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">q</span> <span class="operator">=</span> <span class="number">114514</span>;</span><br><span class="line">        <span class="comment">//x &amp; q可用</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//仅x可用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是, 以下操作在Java中非法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">42</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        x = <span class="number">114514</span>; <span class="comment">//Illegal</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong> 尽管作者在书中如此说明,
+但在新版的Java中(笔者使用为JDK17), 该操作是允许的,
+仅仅是IDE给出一个提示.</p>
+</blockquote>
+<h4 id="对象作用域">对象作用域</h4>
+<p>Java中的对象与基本类型具有不同的生命周期.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;a string&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 作用域终点</span></span><br><span class="line"><span class="comment">// x生命周期结束</span></span><br><span class="line"><span class="comment">// s生命周期独立作用域</span></span><br></pre></td></tr></table></figure>
+<p>Java的内存回收不同于C++, 采用的是垃圾收集器机制,
+通过不可达的判断回收对象. 可以有效避免<strong>内存泄漏</strong>问题.</p>
+<h3 id="类的创建">类的创建</h3>
+<h4 id="类型">类型</h4>
+<p>Java中使用<code>class</code>关键字描述新对象.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Example</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">Example</span> <span class="variable">example</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Example</span>();</span><br></pre></td></tr></table></figure>
+<h4 id="字段field">字段(Field)</h4>
+<p>字段可以是基本类型或引用类型.</p>
+<p>与C++中对应则是<strong>成员变量</strong>.</p>
+<h4 id="基本类型默认值">基本类型默认值</h4>
+<p>默认值仅在Java初始化类时使用.</p>
+<ul>
+<li><p>基本类型会被赋值为<code>0</code>(<code>boolean</code>为<code>false</code>).</p></li>
+<li><p>但局部变量不会被赋默认值, 如果不显式指定初始化,
+编译器会报错.</p></li>
+</ul>
+<h4 id="方法使用">方法使用</h4>
+<p>对应C++中的成员函数.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">return</span> type] [method name](<span class="comment">/*args list*/</span>)&#123;</span><br><span class="line">    <span class="comment">//method body</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="返回类型">返回类型</h4>
+<ul>
+<li><strong>方法签名(Signature of the Method)</strong> 是方法的唯一标识,
+包括方法名和参数列表.
+(<strong>返回类型不是方法签名的一部分</strong>)</li>
+</ul>
+<h4 id="参数列表">参数列表</h4>
+<p>Java中参数也是通过对象的形式传递, 也就是说,
+传递的是对象引用(不包括基本类型).</p>
+<h3 id="程序编写">程序编写</h3>
+<h4 id="命名可见性">命名可见性</h4>
+<ul>
+<li><p>C++通过<strong>命名空间(namespace)</strong>
+解决命名冲突.</p></li>
+<li><p>Java为一个类库生成一个明确的名称来解决冲突.
+使用反向URL关联命名空间和文件路径会导致源代码管理出现混乱,
+比如说空目录问题(用于表示反向URL).</p></li>
+</ul>
+<h4 id="import">import</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br></pre></td></tr></table></figure>
+<h4 id="static">static</h4>
+<p>在类中的使用与C++基本一致.</p>
+<ul>
+<li>有时Java使用<strong>类数据(class data)</strong>
+和<strong>类方法(class method)</strong> 来表示静态成员.</li>
+</ul>
+<h3 id="编码风格">编码风格</h3>
+<p><strong>Java编程语言编码规范(Code Conventions for the Java
+Programming Language).</strong> 采用驼峰命名法. 其中类首字母大写,
+字段和方法首字母小写. 对于常量, 可采用全大写 + 下划线的命名方式.</p>
+<h2 id="chapter4-运算符">Chapter4 运算符</h2>
+<blockquote>
+<p><strong>运算符操纵数据.</strong></p>
+</blockquote>
+<h3 id="beginning">Beginning</h3>
+<!-- flag of hidden posts -->
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag"># 读书笔记</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter3-%E4%B8%87%E7%89%A9%E7%9A%86%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">Chapter3 万物皆对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E6%93%8D%E7%BA%B5"><span class="nav-number">1.1.</span> <span class="nav-text">对象操纵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA"><span class="nav-number">1.2.</span> <span class="nav-text">对象创建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">数据存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%AD%98%E5%82%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">基本类型存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AB%98%E7%B2%BE%E5%BA%A6%E6%95%B0%E5%80%BC"><span class="nav-number">1.2.3.</span> <span class="nav-text">高精度数值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%AD%98%E5%82%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text">数组存储</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A"><span class="nav-number">1.3.</span> <span class="nav-text">代码注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E6%B8%85%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">对象清理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">1.4.1.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">1.4.2.</span> <span class="nav-text">对象作用域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.5.</span> <span class="nav-text">类的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5field"><span class="nav-number">1.5.2.</span> <span class="nav-text">字段(Field)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="nav-number">1.5.3.</span> <span class="nav-text">基本类型默认值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BD%BF%E7%94%A8"><span class="nav-number">1.5.4.</span> <span class="nav-text">方法使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.5.5.</span> <span class="nav-text">返回类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8"><span class="nav-number">1.5.6.</span> <span class="nav-text">参数列表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E7%BC%96%E5%86%99"><span class="nav-number">1.6.</span> <span class="nav-text">程序编写</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="nav-number">1.6.1.</span> <span class="nav-text">命名可见性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#import"><span class="nav-number">1.6.2.</span> <span class="nav-text">import</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#static"><span class="nav-number">1.6.3.</span> <span class="nav-text">static</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="nav-number">1.7.</span> <span class="nav-text">编码风格</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter4-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">Chapter4 运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#beginning"><span class="nav-number">2.1.</span> <span class="nav-text">Beginning</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LaPluma"
+      src="/images/hikari_tairitsu/avatar.jpg">
+  <p class="site-author-name" itemprop="name">LaPluma</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/La-Pluma" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;La-Pluma" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:baixingluo0114@gmail.com" title="E-Mail → mailto:baixingluo0114@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  <span class="author" itemprop="copyrightHolder">LaPluma</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">23k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:24</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!--
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: inline;">
+    <!--<span class="post-meta-item">-->
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '24px',
+  right: 'unset',
+  left: '24px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#444',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'Ov23liouFxqnH4lyyruL',
+      clientSecret: '63c3d5092e75ac897fea78ade59a03c33b607595',
+      repo        : 'la-pluma.github.io',
+      owner       : 'La-Pluma',
+      admin       : ['La-Pluma'],
+      id          : '0bafbfd0d1bb085f20b40015f6c01d7c',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
