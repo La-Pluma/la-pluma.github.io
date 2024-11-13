@@ -1560,6 +1560,421 @@ Type Mechanism)</strong>.</p>
       </tags>
   </entry>
   <entry>
+    <title>读书笔记-On Java8 Ch3-Ch5</title>
+    <url>/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/</url>
+    <content><![CDATA[<p><strong>Java语言假设程序员只进行面向对象编程,
+因此Java中(几乎)万物皆对象.</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#chapter3-万物皆对象">Chapter3 万物皆对象</a>
+<ul>
+<li><a href="#对象操纵">对象操纵</a></li>
+<li><a href="#对象创建">对象创建</a>
+<ul>
+<li><a href="#数据存储">数据存储</a></li>
+<li><a href="#基本类型存储">基本类型存储</a></li>
+<li><a href="#高精度数值">高精度数值</a></li>
+<li><a href="#数组存储">数组存储</a></li>
+</ul></li>
+<li><a href="#代码注释">代码注释</a></li>
+<li><a href="#对象清理">对象清理</a>
+<ul>
+<li><a href="#作用域">作用域</a></li>
+<li><a href="#对象作用域">对象作用域</a></li>
+</ul></li>
+<li><a href="#类的创建">类的创建</a>
+<ul>
+<li><a href="#类型">类型</a></li>
+<li><a href="#字段field">字段(Field)</a></li>
+<li><a href="#基本类型默认值">基本类型默认值</a></li>
+<li><a href="#方法使用">方法使用</a></li>
+<li><a href="#返回类型">返回类型</a></li>
+<li><a href="#参数列表">参数列表</a></li>
+</ul></li>
+<li><a href="#程序编写">程序编写</a>
+<ul>
+<li><a href="#命名可见性">命名可见性</a></li>
+<li><a href="#import">import</a></li>
+<li><a href="#static">static</a></li>
+</ul></li>
+<li><a href="#编码风格">编码风格</a></li>
+</ul></li>
+<li><a href="#chapter4-运算符">Chapter4 运算符</a>
+<ul>
+<li><a href="#beginning">Beginning</a></li>
+<li><a href="#优先级关联性">优先级&amp;关联性</a></li>
+<li><a href="#赋值">赋值</a></li>
+<li><a href="#算术运算符">算术运算符</a></li>
+<li><a href="#自增自减">自增&amp;自减</a></li>
+<li><a href="#关系运算符">关系运算符</a></li>
+<li><a href="#逻辑运算符">逻辑运算符</a>
+<ul>
+<li><a href="#短路">短路</a></li>
+</ul></li>
+<li><a href="#字面值常量literal">字面值常量(Literal)</a></li>
+<li><a href="#位运算符">位运算符</a></li>
+<li><a href="#三目运算符">三目运算符</a></li>
+</ul></li>
+<li><a href="#chapter5-控制流">Chapter5 控制流</a>
+<ul>
+<li><a href="#if-else">if-else</a></li>
+<li><a href="#for-while-do-while">for while do-while</a></li>
+<li><a href="#return">return</a></li>
+<li><a href="#breakcontinue">break&amp;continue</a>
+<ul>
+<li><a href="#标签">标签</a></li>
+</ul></li>
+<li><a href="#switch">switch</a></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="chapter3-万物皆对象">Chapter3 万物皆对象</h2>
+<blockquote>
+<p><strong>如果我们说另一种不同的语言, 我们会发觉一个不同的世界! ——
+Ludwig Wittgenstein(1889-1951)</strong></p>
+</blockquote>
+<h3 id="对象操纵">对象操纵</h3>
+<p>所有的编程语言都会操纵内存中的元素.</p>
+<blockquote>
+<ul>
+<li>C/C++中对象的操纵是通过指针来完成的.</li>
+<li>Java利用万物皆对象的思想和单一一致的语法方式来简化问题,
+采用<strong>引用(Reference)</strong> 操纵对象.</li>
+</ul>
+</blockquote>
+<h3 id="对象创建">对象创建</h3>
+<p>Java中使用<strong>引用</strong>关联<strong>对象</strong>.</p>
+<p>通常使用关键字<code>new</code>创建对象实例.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="数据存储">数据存储</h4>
+<ul>
+<li><strong>寄存器(Registers)</strong>: 最快的存储器, 位于CPU内部.
+但数量有限,
+且Java无法直接控制(C/C++允许开发者像编译器建议寄存器的分配).</li>
+<li><strong>栈内存(Stack)</strong>: 位于<strong>随机访问存储器(Random
+Access Memory, RAM)</strong> 中, CPU可通过栈指针直接访问.
+栈指针下移分配内存, 上移释放内存. 但栈上的数据要求提前知晓对象生存周期,
+因此栈内存上只存放部分Java数据, 对象本身存储在堆内存.</li>
+<li><strong>堆内存(Heap)</strong>: RAM区域的一种通用内存池,
+存放着所有的Java对象. 相较于栈区, 堆区的使用更灵活,
+但代价是分配和清理对象会比栈区更耗时.</li>
+<li><strong>常量存储(COnstant Storage)</strong>: 通常直接放在代码中,
+可考虑置于<strong>只读存储器(Read Only Memory, ROM)</strong>.</li>
+<li><strong>非RAM存储(Non-RAM Storage)</strong>: 数据存在于程序之外,
+包括<strong>序列化对象</strong>和<strong>持久化对象</strong>.</li>
+</ul>
+<h4 id="基本类型存储">基本类型存储</h4>
+<p>Java中使用和C/C++一样策略的基本类型数据, 存放在栈中,
+其内存占用大小固定.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">基本类型</th>
+<th style="text-align: center;">大小</th>
+<th style="text-align: center;">最小值</th>
+<th style="text-align: center;">最大值</th>
+<th style="text-align: center;">包装类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">Boolean</td>
+</tr>
+<tr>
+<td style="text-align: center;">char</td>
+<td style="text-align: center;">16bits</td>
+<td style="text-align: center;"><span class="math inline">\(Unicode\
+0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(Unicode\
+2^{16}-1\)</span></td>
+<td style="text-align: center;">Character</td>
+</tr>
+<tr>
+<td style="text-align: center;">byte</td>
+<td style="text-align: center;">8bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(-128\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(+127\)</span></td>
+<td style="text-align: center;">Byte</td>
+</tr>
+<tr>
+<td style="text-align: center;">short</td>
+<td style="text-align: center;">16bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(-2^{15}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(+2^{15}-1\)</span></td>
+<td style="text-align: center;">Short</td>
+</tr>
+<tr>
+<td style="text-align: center;">int</td>
+<td style="text-align: center;">32bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(-2^{31}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(+2^{31}-1\)</span></td>
+<td style="text-align: center;">Integer</td>
+</tr>
+<tr>
+<td style="text-align: center;">long</td>
+<td style="text-align: center;">64bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(-2^{63}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(+2^{63}-1\)</span></td>
+<td style="text-align: center;">Long</td>
+</tr>
+<tr>
+<td style="text-align: center;">float</td>
+<td style="text-align: center;">32bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(IEEE754\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(IEEE754\)</span></td>
+<td style="text-align: center;">Float</td>
+</tr>
+<tr>
+<td style="text-align: center;">double</td>
+<td style="text-align: center;">64bits</td>
+<td style="text-align: center;"><span
+class="math inline">\(IEEE754\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(IEEE754\)</span></td>
+<td style="text-align: center;">Double</td>
+</tr>
+<tr>
+<td style="text-align: center;">void</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">Void</td>
+</tr>
+</tbody>
+</table>
+<p>在堆区表示基本类型数据, 需要使用包装类:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> <span class="string">&#x27;x&#x27;</span>;</span><br><span class="line"><span class="type">Charactor</span> <span class="variable">ch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Charactor</span>(c);</span><br><span class="line"><span class="type">Charactor</span> <span class="variable">ch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Charactor</span>(<span class="string">&#x27;x&#x27;</span>);</span><br><span class="line"><span class="comment">//自动装箱</span></span><br><span class="line"><span class="type">Charactor</span> <span class="variable">ch</span> <span class="operator">=</span> <span class="string">&#x27;x&#x27;</span>;</span><br><span class="line"><span class="comment">//自动开箱</span></span><br><span class="line"><span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> ch;</span><br></pre></td></tr></table></figure>
+<h4 id="高精度数值">高精度数值</h4>
+<p><code>BigInteger</code> &amp; <code>BigDecimal</code></p>
+<h4 id="数组存储">数组存储</h4>
+<p>Java设计主要目标之一是安全性, 尽管牺牲了部分效率, 但换来了安全性.</p>
+<h3 id="代码注释">代码注释</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 跨行注释</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//单行注释</span></span><br></pre></td></tr></table></figure>
+<h3 id="对象清理">对象清理</h3>
+<h4 id="作用域">作用域</h4>
+<p>C/C++和Java中的作用域由<code>&#123;&#125;</code>决定.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">42</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">q</span> <span class="operator">=</span> <span class="number">114514</span>;</span><br><span class="line">        <span class="comment">//x &amp; q可用</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//仅x可用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是, 以下操作在Java中非法:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">42</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        x = <span class="number">114514</span>; <span class="comment">//Illegal</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong> 尽管作者在书中如此说明,
+但在新版的Java中(笔者使用为JDK17), 该操作是允许的,
+仅仅是IDE给出一个提示.</p>
+</blockquote>
+<h4 id="对象作用域">对象作用域</h4>
+<p>Java中的对象与基本类型具有不同的生命周期.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;a string&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 作用域终点</span></span><br><span class="line"><span class="comment">// x生命周期结束</span></span><br><span class="line"><span class="comment">// s生命周期独立作用域</span></span><br></pre></td></tr></table></figure>
+<p>Java的内存回收不同于C++, 采用的是垃圾收集器机制,
+通过不可达的判断回收对象. 可以有效避免<strong>内存泄漏</strong>问题.</p>
+<h3 id="类的创建">类的创建</h3>
+<h4 id="类型">类型</h4>
+<p>Java中使用<code>class</code>关键字描述新对象.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Example</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">Example</span> <span class="variable">example</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Example</span>();</span><br></pre></td></tr></table></figure>
+<h4 id="字段field">字段(Field)</h4>
+<p>字段可以是基本类型或引用类型.</p>
+<p>与C++中对应则是<strong>成员变量</strong>.</p>
+<h4 id="基本类型默认值">基本类型默认值</h4>
+<p>默认值仅在Java初始化类时使用.</p>
+<ul>
+<li><p>基本类型会被赋值为<code>0</code>(<code>boolean</code>为<code>false</code>).</p></li>
+<li><p>但局部变量不会被赋默认值, 如果不显式指定初始化,
+编译器会报错.</p></li>
+</ul>
+<h4 id="方法使用">方法使用</h4>
+<p>对应C++中的成员函数.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">[<span class="keyword">return</span> type] [method name](<span class="comment">/*args list*/</span>)&#123;</span><br><span class="line">    <span class="comment">//method body</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="返回类型">返回类型</h4>
+<ul>
+<li><strong>方法签名(Signature of the Method)</strong> 是方法的唯一标识,
+包括方法名和参数列表.
+(<strong>返回类型不是方法签名的一部分</strong>)</li>
+</ul>
+<h4 id="参数列表">参数列表</h4>
+<p>Java中参数也是通过对象的形式传递, 也就是说,
+传递的是对象引用(不包括基本类型).</p>
+<h3 id="程序编写">程序编写</h3>
+<h4 id="命名可见性">命名可见性</h4>
+<ul>
+<li><p>C++通过<strong>命名空间(namespace)</strong>
+解决命名冲突.</p></li>
+<li><p>Java为一个类库生成一个明确的名称来解决冲突.
+使用反向URL关联命名空间和文件路径会导致源代码管理出现混乱,
+比如说空目录问题(用于表示反向URL).</p></li>
+</ul>
+<h4 id="import">import</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br></pre></td></tr></table></figure>
+<h4 id="static">static</h4>
+<p>在类中的使用与C++基本一致.</p>
+<ul>
+<li>有时Java使用<strong>类数据(class data)</strong>
+和<strong>类方法(class method)</strong> 来表示静态成员.</li>
+</ul>
+<h3 id="编码风格">编码风格</h3>
+<p><strong>Java编程语言编码规范(Code Conventions for the Java
+Programming Language).</strong> 采用驼峰命名法. 其中类首字母大写,
+字段和方法首字母小写. 对于常量, 可采用全大写 + 下划线的命名方式.</p>
+<h2 id="chapter4-运算符">Chapter4 运算符</h2>
+<blockquote>
+<p><strong>运算符操纵数据.</strong></p>
+</blockquote>
+<h3 id="beginning">Beginning</h3>
+<ul>
+<li><p>运算符接受一个或多个参数并生成新值.</p></li>
+<li><p><strong>副作用(Side Effect):</strong>
+运算符可改变运算对象的值.</p></li>
+</ul>
+<h3 id="优先级关联性">优先级&amp;关联性</h3>
+<img src="/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/pic2-1.png" class="" title="pic2-1">
+<blockquote>
+<p><strong>Tips:</strong> 节选自<a
+href="https://www.runoob.com/java/java-operators.html"><strong>[菜鸟教程|Java运算符]</strong></a></p>
+</blockquote>
+<h3 id="赋值">赋值</h3>
+<ul>
+<li><p><code>=</code>表示, 将右边的值赋给左边的变量.</p></li>
+<li><p>基本类型的赋值是<strong>值传递</strong>.</p></li>
+<li><p>对象的赋值是<strong>引用传递</strong>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 实际上引用传递也是值传递,
+只是这里传递的是<strong>内存地址</strong>.</p>
+</blockquote></li>
+</ul>
+<blockquote>
+<p><strong>Additional:</strong> <a
+href="https://www.zhihu.com/question/31203609?sort=created"><strong>[知乎|Java
+到底是值传递还是引用传递？]</strong></a></p>
+</blockquote>
+<h3 id="算术运算符">算术运算符</h3>
+<ul>
+<li><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>,
+<code>%</code></li>
+</ul>
+<h3 id="自增自减">自增&amp;自减</h3>
+<ul>
+<li><code>++</code>, <code>--</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">a = <span class="number">1</span>;</span><br><span class="line">b == a++; <span class="comment">//先传值后自增, b = 1</span></span><br><span class="line">c == ++a; <span class="comment">//先自增后传值, c = 3</span></span><br></pre></td></tr></table></figure>
+<h3 id="关系运算符">关系运算符</h3>
+<ul>
+<li><p><code>&gt;</code>, <code>&lt;</code>, <code>==</code>,
+<code>&gt;=</code>, <code>&lt;=</code>, <code>!=</code></p></li>
+<li><p>接受两个操作数,
+返回一个<code>boolean</code>值表示操作数之间的关系.</p></li>
+</ul>
+<p>尽管<code>==</code>和<code>!=</code>可以比较对象,
+但更推荐的方法是使用<code>equals()</code>, 需要注意的是,
+自定义类型使用<code>equals()</code>需要手动<strong>覆写(Override)</strong>.</p>
+<h3 id="逻辑运算符">逻辑运算符</h3>
+<ul>
+<li><p><code>&amp;&amp;</code>, <code>||</code>, <code>!</code></p></li>
+<li><p>根据参数逻辑关系生成布尔值<code>true</code>,
+<code>false</code>.</p></li>
+</ul>
+<h4 id="短路">短路</h4>
+<p>当逻辑运算符运算结果确定时,
+便会发生<strong>短路(short-circuiting)</strong>.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ShortCircuit</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    test() &amp;&amp; test() &amp;&amp; test()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码执行结果只会得到一条<code>test</code>而非三条,
+<code>&amp;&amp;</code>在运算时发生了短路.</p>
+<h3 id="字面值常量literal">字面值常量(Literal)</h3>
+<p>可以指定字面值来确定常量的类型.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">i1</span> <span class="operator">=</span> <span class="number">0x2f</span>; <span class="comment">//16进制</span></span><br><span class="line"><span class="type">int</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">0177</span>; <span class="comment">//8进制</span></span><br><span class="line"><span class="type">long</span> <span class="variable">n1</span> <span class="operator">=</span> <span class="number">200L</span>; <span class="comment">//long型</span></span><br><span class="line"><span class="type">float</span> <span class="variable">f1</span> <span class="operator">=</span> <span class="number">1f</span>; <span class="comment">//float</span></span><br><span class="line"><span class="type">double</span> <span class="variable">d1</span> <span class="operator">=</span> <span class="number">1d</span>; <span class="comment">//double</span></span><br><span class="line"><span class="type">byte</span> <span class="variable">b</span> <span class="operator">=</span> (<span class="type">byte</span>)<span class="number">0b00110101</span>; <span class="comment">//2进制</span></span><br></pre></td></tr></table></figure>
+<h3 id="位运算符">位运算符</h3>
+<ul>
+<li><code>&amp;</code>, <code>|</code>, <code>~</code>(取反),
+<code>^</code>(异或),<code>&lt;&lt;</code>, <code>&gt;&gt;</code>,
+<code>&gt;&gt;&gt;</code>(按位右移补零)</li>
+</ul>
+<h3 id="三目运算符">三目运算符</h3>
+<ul>
+<li><code>?:</code> -&gt;
+<code>variable x = (expression) ? value if true : value if false</code></li>
+</ul>
+<h2 id="chapter5-控制流">Chapter5 控制流</h2>
+<blockquote>
+<p><strong>程序必须在执行过程中控制它的世界并作出选择. 在Java中,
+程序员需要执行控制语句来做出选择.</strong></p>
+</blockquote>
+<p>Java支持的关键字包括<code>if-else</code>, <code>while</code>,
+<code>do-while</code>, <code>for</code>, <code>return</code>,
+<code>break</code>, <code>switch</code>.</p>
+<p>需要注意的是,
+所有条件语句的Expression应当是<code>boolean</code>类型.</p>
+<h3 id="if-else">if-else</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//允许省略else</span></span><br><span class="line"><span class="keyword">if</span>(Boolean-Expression)&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//最常见的形式</span></span><br><span class="line"><span class="keyword">if</span>(Boolean-Expression)&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//允许嵌套</span></span><br><span class="line"><span class="keyword">if</span>(Boolean-Expression)&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(Boolean-Expression)&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="for-while-do-while">for while do-while</h3>
+<ul>
+<li>循环语句又称迭代语句.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//while</span></span><br><span class="line"><span class="keyword">while</span>(Boolean-Expression)&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//do-while</span></span><br><span class="line"><span class="comment">//do-while中do的内容无论while判断是否成立都会被至少执行一次.</span></span><br><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;<span class="keyword">while</span>(Boolean-Expression)</span><br><span class="line"><span class="comment">//for</span></span><br><span class="line"><span class="keyword">for</span>(Initialization; Boolean-Expression; step)&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//for允许逗号操作符, 使用示例如下</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++, j += i)&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//for-in/for-each</span></span><br><span class="line"><span class="keyword">for</span>(Type x: Contianer)&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i : range(<span class="number">10</span>))&#123;</span><br><span class="line">  statement</span><br><span class="line">&#125;</span><br><span class="line">Container.forEach(</span><br><span class="line">(Var1, Var2, ...) -&gt; &#123;statement&#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="return">return</h3>
+<ul>
+<li>退出当前方法, 返回方法返回值.</li>
+</ul>
+<h3 id="breakcontinue">break&amp;continue</h3>
+<ul>
+<li><p><code>break</code>与<code>continue</code>均用在循环体中.</p></li>
+<li><p><code>break</code>表示跳出当前循环;
+<code>continue</code>表示停止本次循环, 进行下一次循环.</p></li>
+</ul>
+<h4 id="标签">标签</h4>
+<ul>
+<li>源于<code>goto</code>机制, 在Java中,
+允许为循环体定义<strong>label</strong>,
+并允许<code>break</code>和<code>continue</code>使用<strong>label</strong>.</li>
+</ul>
+<p>具体规则如下:</p>
+<ul>
+<li><p><code>continue</code>会回退到最内层循环开头, 并继续执行.</p></li>
+<li><p><code>continue label</code>会到达标签位置,
+并重新进入紧接着那个标签后的循环.</p></li>
+<li><p><code>break</code>会中断当前循环, 并移离当前标签末尾.</p></li>
+<li><p><code>break label</code>会中断当前循环,
+并移离由那个标签指示的循环末尾.</p></li>
+</ul>
+<p>我们来看两个例子:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        outerLoop:</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">            innerLoop:</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; <span class="number">3</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i == <span class="number">1</span> &amp;&amp; j == <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span> outerLoop; <span class="comment">// 跳出外部循环</span></span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">&quot;i: &quot;</span> + i + <span class="string">&quot;, j: &quot;</span> + j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果为:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">i: 0, j: 0</span><br><span class="line">i: 0, j: 1</span><br><span class="line">i: 0, j: 2</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        outerLoop:</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">            innerLoop:</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; <span class="number">3</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i == <span class="number">1</span> &amp;&amp; j == <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="keyword">continue</span> outerLoop; <span class="comment">// 跳过外部循环的当前迭代</span></span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">&quot;i: &quot;</span> + i + <span class="string">&quot;, j: &quot;</span> + j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果为:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">i: 0, j: 0</span><br><span class="line">i: 0, j: 1</span><br><span class="line">i: 0, j: 2</span><br><span class="line">i: 1, j: 0</span><br><span class="line">i: 2, j: 0</span><br><span class="line">i: 2, j: 1</span><br><span class="line">i: 2, j: 2</span><br></pre></td></tr></table></figure>
+<h3 id="switch">switch</h3>
+<p>其基本格式如下:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span>(integral-selector OR string-selector)&#123;</span><br><span class="line">  <span class="keyword">case</span> int1/string1: statement; <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> int2/string2: statement; <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> int3/string3: statement; <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>: statement;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>switch</code>体中, <code>default</code>可以省略.
+如果缺少<code>break</code>, <code>switch</code>将会发生穿透.
+示例如下:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">switch</span>(x)&#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;case 1&quot;</span>).</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;case 2&quot;</span>).</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;case 3&quot;</span>).</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;case 4&quot;</span>).</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;default&quot;</span>).</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其结果如下:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">case 2</span><br><span class="line">case 3</span><br><span class="line">case 4</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>读书笔记-OnJava8</category>
+      </categories>
+      <tags>
+        <tag>读书笔记</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
     <url>/2024/09/21/LeetCode-P4/</url>
     <content><![CDATA[<p><strong>题目链接:</strong> <a
