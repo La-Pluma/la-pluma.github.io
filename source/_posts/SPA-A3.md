@@ -13,6 +13,8 @@ categories:
 
 <!--more-->
 
+2024.11.7已更新
+
 ## 实验信息&食用指南
 
 见本博客A1 & A2
@@ -75,6 +77,16 @@ while(BFSlist is not empty){
     }
 }
 ```
+
+---
+
+***更新:***
+
+> **Compare:** `ir.getStmts()` & `cfg.getNodes()`
+>
+> 笔者一开始未意识到这个问题, **IR** 中是不包含`Entry`和`Exit`的. 换句话说, `Entry`和`Exit`是由**CFG** 生成的. 因此, 在初始化时, 需要使用`ir.getStmts()`而不是`cfg.getNodes()`, 否则在面对**Infinity Loop** 时, `Exit`节点会错误的被当作`Dead Code`.
+
+---
 
 ## CFG生成细节
 

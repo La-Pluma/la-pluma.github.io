@@ -22,25 +22,23 @@
     var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="NJU Static Program Analysis | Assignment-1 Live Variable Analysis &amp; IterativeSolver.">
+  <meta name="description" content="NJU Static Program Analysis | Assignment-4 Class Hierarchy Analysis &amp; Interprocedural Constant Propagation.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NJU静态分析|A1-Live Variable Analysis">
-<meta property="og:url" content="http://la-pluma.github.io/2024/10/20/SPA-A1/index.html">
+<meta property="og:title" content="NJU静态分析|A4-CHA &amp; Inter Constant Propagation">
+<meta property="og:url" content="http://la-pluma.github.io/2024/11/18/SPA-A4/index.html">
 <meta property="og:site_name" content="LaPluma">
-<meta property="og:description" content="NJU Static Program Analysis | Assignment-1 Live Variable Analysis &amp; IterativeSolver.">
+<meta property="og:description" content="NJU Static Program Analysis | Assignment-4 Class Hierarchy Analysis &amp; Interprocedural Constant Propagation.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://la-pluma.github.io/2024/10/20/SPA-A1/pic1.png">
-<meta property="og:image" content="http://la-pluma.github.io/2024/10/20/SPA-A1/pic2.png">
-<meta property="og:image" content="http://la-pluma.github.io/2024/10/20/SPA-A1/pic3.png">
-<meta property="article:published_time" content="2024-10-19T16:04:07.000Z">
-<meta property="article:modified_time" content="2024-10-28T16:59:48.587Z">
+<meta property="og:image" content="http://la-pluma.github.io/2024/11/18/SPA-A4/pic4-1.png">
+<meta property="article:published_time" content="2024-11-18T08:10:38.000Z">
+<meta property="article:modified_time" content="2024-11-18T12:00:06.297Z">
 <meta property="article:author" content="LaPluma">
 <meta property="article:tag" content="NJU">
 <meta property="article:tag" content="静态分析">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://la-pluma.github.io/2024/10/20/SPA-A1/pic1.png">
+<meta name="twitter:image" content="http://la-pluma.github.io/2024/11/18/SPA-A4/pic4-1.png">
 
-<link rel="canonical" href="http://la-pluma.github.io/2024/10/20/SPA-A1/">
+<link rel="canonical" href="http://la-pluma.github.io/2024/11/18/SPA-A4/">
 
 
 <script id="page-configurations">
@@ -53,7 +51,7 @@
   };
 </script>
 
-  <title>NJU静态分析|A1-Live Variable Analysis | LaPluma</title>
+  <title>NJU静态分析|A4-CHA & Inter Constant Propagation | LaPluma</title>
   
 
 
@@ -202,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/2024/10/20/SPA-A1/">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/2024/11/18/SPA-A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
@@ -215,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          NJU静态分析|A1-Live Variable Analysis
+          NJU静态分析|A4-CHA & Inter Constant Propagation
         </h1>
 
         <div class="post-meta">
@@ -224,16 +222,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2024-10-20 00:04:07" itemprop="dateCreated datePublished" datetime="2024-10-20T00:04:07+08:00">2024-10-20</time>
+              <time title="创建时间：2024-11-18 16:10:38 / 修改时间：20:00:06" itemprop="dateCreated datePublished" datetime="2024-11-18T16:10:38+08:00">2024-11-18</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-10-29 00:59:48" itemprop="dateModified" datetime="2024-10-29T00:59:48+08:00">2024-10-29</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -257,14 +249,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -276,129 +268,199 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>NJU Static Program Analysis | Assignment-1 Live Variable
-Analysis &amp; IterativeSolver.</strong></p>
+        <p><strong>NJU Static Program Analysis | Assignment-4 Class Hierarchy
+Analysis &amp; Interprocedural Constant Propagation.</strong></p>
 <span id="more"></span>
-<h2 id="实验信息">实验信息</h2>
-<p>NJU软件分析, 实际上是静态分析(Static Program Analysis),
-是由李樾和谭添老师开设的面向本科生和研究生的一门课程,
-因为是本研共修选修课, 因此本课程内容较为基础,
-比较适合对静态分析感兴趣的初学者快速入门. 课程网站<a
-target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/lectures.html"><strong>[Static
-Program Analysis]</strong></a>, 配套课程<a
-target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1b7411K7P4"><strong>[Bilibili|南京大学《软件分析》]</strong></a>.</p>
-<p>本课程实验(Assignments)基于Tai-e教学版框架,
-框架代码的获取和实验环境配置见课程网站, 笔者在约一年前曾自学过本课程,
-现今跟随2024Fall课程进度再次学习,
-由于上次学习中受到了多位前辈留下的实验记录帮助,
-遂于此记录笔者对各个实验的理解和记录. 限于笔者个人能力水平,
-恐难完整覆盖实验中的所有要点, 记录内容仅供参考, 如能帮助到您,
-乃笔者荣幸.</p>
-<p>鉴于 <strong>学术诚信(Academic Integrity)</strong> 要求, 笔者暂且
-<strong><em>不</em></strong> 公开源代码.</p>
-<h2 id="食用指南">食用指南</h2>
-<p>本试验记录 <strong><em>不会</em></strong>
-从零开始讨论完成实验的知识点, 框架理解和注意事项.
-食用前请确保观看并理解了课程的P1-4内容, 尤其是对活跃变量分析(Live
-Variable Analysis)的算法和原理的基本掌握; 完整阅读过<a
-target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/pa1.html"><strong>实验指南</strong></a>和框架代码后,
-再来参考本实验记录, 效果最佳.</p>
-<h2 id="任务目标">任务目标</h2>
-<p>基于已有框架为java实现一个<strong>活跃变量分析</strong>,
-使用<strong>迭代求解器(Iterative Solver)</strong>.</p>
-<p>具体来说, 实现Your
-Task中涉及的三份文件中的6个<code>TODO API</code>.</p>
-<p>涉及的主要算法如下图所示:</p>
-<img src="/2024/10/20/SPA-A1/pic1.png" class="" title="pic1">
-<p>作为第一个实验, 总体难度不高, 关键在于熟悉Tai-e框架,
-还望读者耐心阅读框架代码. 不妨善用Github
-Copilot或者ChatGPT帮助理解框架代码.</p>
-<h2 id="livevariableanalysis">LiveVariableAnalysis</h2>
-<p>活跃变量分析算法中需要用到的具体方法, 实验指南中已有较为详细的说明,
-笔者在此不再赘述.</p>
-<img src="/2024/10/20/SPA-A1/pic2.png" class="" title="pic2">
-<p>关于实现该部分所需的<code>API</code>,
-请阅读<code>Class SetFact</code>源码.</p>
-<p>笔者在此补充一些本实验所需java语法性质或语法糖.</p>
-<h3 id="class-optional">Class Optional</h3>
-<p>Java 8引入的性质, 详细信息可查询文档或教程, 笔者在此给出其一<a
-target="_blank" rel="noopener" href="https://www.runoob.com/java/java8-optional-class.html"><strong>[菜鸟教程|Java
-Optional]</strong></a>.</p>
-<p>与之类似的还有<code>java.util.List</code>,
-学习java语法来获得<code>Optional</code>和<code>List</code>中的内容.</p>
-<p>使用示例:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> stmt.getDef().orElse(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="instanceof操作符">instanceof操作符</h3>
-<p>java中用于判断类型的操作符, 详细信息可参考<a
-target="_blank" rel="noopener" href="https://www.baeldung.com/java-instanceof"><strong>[Baeldung|Java
-instanceof Operator]</strong></a>.</p>
-<p>使用示例:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(def <span class="keyword">instanceof</span> Var)</span><br></pre></td></tr></table></figure>
-<p>需要注意的是, 如指南所示</p>
-<img src="/2024/10/20/SPA-A1/pic3.png" class="" title="pic3">
-<p><code>Exp</code>下的<code>LValue</code>
-<code>RValue</code>包括多种类型,
-我们只需要关注<code>Var</code>类型的使用.</p>
+<h2 id="实验信息食用指南">实验信息&amp;食用指南</h2>
+<p>见本博客A1-A3.</p>
 <blockquote>
-<p><strong>Tips:</strong> 为什么不需要考虑别的类型?</p>
-<p><code>LValue</code>只需要关注<code>Var</code>, 这是手册告诉我们的.
-<code>RValue</code>尽管有多种类型,
-但可以通过<code>getUses()</code>方法将Exp中涉及的变量等信息全部获取,
-此时右式是<code>UnaryExp</code>or<code>BinaryExp</code>对我们来说都不重要了,
-只需要将<code>getUses()</code>中的<code>Var</code>筛选出来处理即可.</p>
+<p><strong>手册的手册不能替代手册, 看不懂的话请回去看手册. ——</strong>
+<a
+target="_blank" rel="noopener" href="https://github.com/RicoloveFeng"><strong>RicoloveFeng|SPA-Freestyle-Guidance</strong></a></p>
 </blockquote>
-<blockquote>
-<p><strong>Additional:</strong> <code>getUses()</code>究竟返回什么?</p>
-<p>笔者在此引用<a
-target="_blank" rel="noopener" href="https://github.com/RicoloveFeng">RicoloveFeng</a>在<a
-target="_blank" rel="noopener" href="https://github.com/RicoloveFeng/SPA-Freestyle-Guidance">SPA-Freestyle-Guidance</a>中的解释</p>
-<p>你可能想知道 <code>getUses()</code> 除了 <code>x = y</code>
-这条语句之外还返回些什么东西.我们举点例子吧:</p>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>Tai-e</strong> 框架实现 <strong>CHA</strong> &amp;
+<strong>Inter Constprop</strong>.</p>
+<p><del>真的还有必要在记录里补充这个吗</del></p>
+<h2 id="实验简析">实验简析</h2>
+<p>其实没什么好说的, 课程 &amp; ppt &amp; 指南已经讲的比较明确了,
+笔者在此补充一些手册写的不明确或是略去的部分.</p>
+<p><strong>不过本次实验涉及不少新东西,
+烦请耐心阅读相关代码API.</strong></p>
+<h2 id="preparation">Preparation</h2>
+<p>从Assignment2中将<code>ConstPropogation.java</code>
+copy到本次实验目录对应位置.</p>
+<p><strong>需要注意的是,
+A2中不完全正确的实现可能会影响本次实验的本地测试.</strong></p>
+<h2 id="chabuilder">CHABuilder</h2>
+<p>这部分tt老师贴心的在ppt中给好了算法框架,
+对应本次的框架代码复刻即可.</p>
+<p>需要注意的是, 只有在完成了该部分后,
+<strong>Tai-e</strong>框架才能正确构建<code>ICFG</code>,
+否则使用<code>Assignment</code>分析的结果只会为空.</p>
+<p>推荐完成顺序 <code>dispatch</code> -&gt; <code>resolve</code> -&gt;
+<code>buildCallGraph</code></p>
+<h3 id="dispatch">dispatch()</h3>
+<p>可以选择递归或者循环完成该部分.</p>
 <ul>
-<li><p><code>x = y op z</code>: <code>[y, z, y op z]</code></p></li>
-<li><p><code>x = m(n)</code>:
-<code>[mClass, n, invokevirtual mClass.m(n)]</code></p></li>
+<li><p><code>dispatch()</code>可能会失败, 此时可以返回<code>null</code>,
+但要确保<code>resolve()</code>中可以正确处理这一情况.</p>
+<blockquote>
+<p><strong>Additional:</strong> 为什么可能会失败?</p>
+<p><code>resolve()</code>中,
+假设我们要处理一个<code>Interface</code>或者<code>Abstract</code>类型声明的类方法,
+首先我们需要<code>dispatch</code>这个声明类本身,
+易见此时应当得到<code>null</code>(接口中的方法和抽象方法无法被实例化)</p>
+</blockquote></li>
+<li><p><code>dispatch()</code>得到的<code>JMethod</code>如果是<code>Abstract</code>,
+同样需要返回<code>null</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 由于OOP的机制,
+当<code>JMethod</code>是<code>Abstract</code>时,
+不需要继续<code>dispatch</code>了.
+如果对此感到困惑可以去查阅相关的OOP资料.</p>
+</blockquote></li>
 </ul>
+<h3 id="resolve">resolve()</h3>
+<ul>
+<li><p>遍历的方式自选, 笔者采用较好实现的BFS.</p></li>
+<li><p>尽管课上将<code>Interface</code>归入了<strong>Virtual
+Invoke</strong>, 但按照代码框架,
+这部分单独作为一个需要处理的<code>CallKind</code>.
+不过处理起来也并非难事,
+因为处理方式和<code>VIRTUAL</code>没有实质性区别.</p></li>
+<li><p>需要注意的是,
+框架中处理<strong>Interface</strong>和<strong>Class</strong>分别有专门的API方法,
+具体使用什么API, 可以阅读<code>ClassHierarachy</code>,
+<code>CHABuilder</code>中也提供了访问<code>ClassHierarachy</code>的成员<code>private ClassHierarchy hierarchy</code>.</p></li>
+<li><p><code>STATIC</code>方法的获取在框架中没有专门的API,
+但可以使用<code>dispatch()</code>获取,
+因此<code>STATIC</code>和<code>SPRECIAL</code>也可以一起处理.</p></li>
+</ul>
+<h3 id="buildcallgraph">buildCallGraph()</h3>
+<p>实现和ppt中的算法没有区别.</p>
+<ul>
+<li><p>判断是否可达在框架中集成到了<code>Class CallGraph</code>的<code>addReachableMethod()</code>方法中了,
+可以阅读API注释获取更详细的信息.</p></li>
+<li><p>得到<code>callSite</code>,
+<code>callKind</code>的方法也可以通过<code>Class CallGraph</code>获取.<del>(我看看是谁不想去读API注释)</del></p></li>
+</ul>
+<h2 id="intersovler">InterSovler</h2>
+<p>由于框架代码在<code>InterSovler</code>这一部分进行了较大幅度的重构,
+因此笔者推荐先完成该部分使得对<code>InterConstantPropopagation</code>有一个自顶向下的认识.</p>
+<p>同手册所说, 该部分比起A2的<code>worklistSovler</code>没有太大的区别,
+跟着手册做即可.</p>
+<p><strong>注意:</strong>
+该部分实例化的<code>private final InterDataflowAnalysis&lt;Node, Fact&gt; analysis</code>继承自<code>Class AbstractInterDataflowAnalysis</code>,
+该部分的源码阅读是必不可少的.<del>(这里不读在完成InterConstantPropopagation的时候也要读)</del></p>
+<h3 id="initialize">initialize()</h3>
+<ul>
+<li>除去icfg的入口方法使用<code>BoundaryInit</code>外,
+其余节点均使用<code>NormalInit</code>.
+可以通过<code>icfg.entryMethods()</code>方法获取入口方法.</li>
+</ul>
+<blockquote>
+<p><strong>Tips:</strong>
+需要注意的是<code>icfg.entryMethods()</code>返回的是<code>Stream</code>类型,
+遍历该类型可以使用<code>forEach</code>.
+更多关于<code>forEach</code>的信息可以查阅java的文档.</p>
 </blockquote>
-<h3 id="java引用机制">java引用机制</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">transferNode</span><span class="params">(Stmt stmt, SetFact&lt;Var&gt; in, SetFact&lt;Var&gt; out)</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">//in = out.copy();</span></span><br><span class="line">        in.set(out);</span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>尽管两行代码"看起来"是一致的,
-但注释掉的代码只会改变形参<code>in</code>的取值,
-不会改变实际的<code>Fact in</code>. 详细原理可以参考<a
-target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/453857961"><strong>[知乎|java引用详解]</strong></a>.</p>
-<h2 id="solver-iterativesolver">Solver &amp; IterativeSolver</h2>
-<p>本部分对应具体的算法流程.</p>
-<p>实际上指南写的已足够详细,
-包括如何从<code>cfg</code>中获取信息的方法和两处<code>TODO</code>对应的具体部分,
-使得即便对框架不甚理解, 仍然能完成该部分.</p>
-<p>唯一需要阅读代码知道的是可以通过<code>analysis.xx</code>的方式调用我们在上一节中实现的<code>API</code>.</p>
-<p><code>Solver</code>的<code>Init</code>需要注意的是由于我们<code>analysis.meetInto()</code>与算法中不完全相同,
-在初始化阶段我们同样要对<code>out Fact</code>进行赋空初始化.</p>
-<p><code>IterativeSovlver</code>部分是算法的循环部分,
-由于我们的分析器<code>BB</code>是<code>stmt</code>,
-因此不需要考虑Block内部的执行顺序,
-直接使用<code>analysis.transferNode</code>即可.</p>
-<p>另外, 上课时遍历迭代顺序取的是较优结果, 我们不需要过多考虑性能问题,
-因此以任意节点顺序迭代仍然可以得到结果, 这大大降低了代码实现的复杂性,
-只需要使用简单的<code>for(Node node : cfg)</code>即可.</p>
-<p>笔者同样补充一些可能对本实验理解有帮助的细节部分.</p>
-<h3 id="dataflowresult">DataflowResult</h3>
-<p>其本质是两个<code>Nodes</code>对应的<code>inFacts</code>
-<code>outFacts</code>的集合, 通过给定的API获取和设置其中的值,
-其中<code>inFacts</code>和<code>outFacts</code>不过是<code>set</code>的封装,
-在抽象层面上意义和课程中的那个代表变量的二进制串相同.</p>
-<h3
-id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
-中的 <code>Node</code>具体指什么?</h3>
-<p>在本次实验中, <code>Node node</code>指的是<code>stmt</code>,
-从指南中可以推测出这点. 通过阅读源代码, 也可以得知</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LiveVariableAnalysis</span> <span class="keyword">extends</span></span><br><span class="line">        <span class="title class_">AbstractDataflowAnalysis</span>&lt;Stmt, SetFact&lt;Var&gt;&gt;</span><br></pre></td></tr></table></figure>
-<p>所以我们可以直接使用以下代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Node node : cfg)&#123;</span><br><span class="line">    ...</span><br><span class="line">    analysis.transferNode(node, in, out);</span><br><span class="line">    ...</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">icfg.entryMethods().forEach(method -&gt; &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Confusion:</strong> 笔者在此比较困惑为何可能会出现多个入口,
+虽然在网络上查询得知java中可能不止一个<code>main()</code>方法,
+但不知如何在tai-e框架中复现,
+以及本次实验中的"多个入口"是否对应该特性.</p>
+</blockquote>
+<h3 id="dosolve">dosolve()</h3>
+<p>与A2相比,
+只需要修改处理<code>pred Node</code>部分为<code>pred Edge</code>,
+可以通过<code>getInEdgesOf()</code>方法获得<code>pred Edge</code>信息,
+与<code>analysis.transferNode()</code>对应,
+可通过<code>analysis.transferEdge()</code>来处理<code>pred Edge</code>.</p>
+<h2 id="interconstantpropopagation">InterConstantPropopagation</h2>
+<p>部分API在框架中已经给出了实现, 在该部分只需要实现6个API即可.</p>
+<p><strong>善用A2中完成部分进行本次实验,
+过程间常量传播并不影响计算常量的逻辑.</strong></p>
+<h3 id="transfercallnode-transfernoncallnode">transferCallNode() &amp;
+transferNonCallNode()</h3>
+<p>含义同方法名,
+如果这个<code>Node</code>(即<code>Stmt</code>)是<code>Invoke</code>,
+就称该<code>Node</code>为<code>CallNode</code>,
+否则为<code>NonCallNode</code>.</p>
+<ul>
+<li>需要注意的是,
+过程间处理的大部分操作都在<code>Edge</code>上而非<code>Node</code>上,
+因此我们在<code>transferCallNode()</code>中并不会进行 add/kill def
+的操作. 这一点与指南上的图片逻辑相同.</li>
+</ul>
+<img src="/2024/11/18/SPA-A4/pic4-1.png" class="" title="pic4-1">
+<blockquote>
+<p>如图片所示,
+<code>Node 2</code>在经过<code>transferCallNode()</code>后并没有把<code>b</code>添加进<code>outFact</code>.</p>
+<p>尽管我们可以在这里处理, <del>但这样有可能会让你过不去oj</del>,
+但这样会造成逻辑上的混乱, 所有的<strong>interprocedural</strong>
+操作都在<code>Edge</code>上进行在逻辑上是一致的.
+接下来对四种<code>transferEdge</code>的处理中会解释这一点.</p>
+</blockquote>
+<ul>
+<li>所以对于非call Node,
+可以直接使用过程内分析的<code>transferNode()</code>方法, 对于call Node,
+<code>transferCallNode()</code>只需要把<code>inFact</code> 赋值给
+<code>outFact</code>即可.</li>
+</ul>
+<h3 id="transferedge">transfer**Edge</h3>
+<p>在完成该部分前, 要先知道该部分会在什么地方使用,
+通过阅读<code>Class AbstractInterDataflowAnalysis</code>的源码API,
+可以发现四种<code>transfer**Edge</code>
+统一为了一个方法<code>transferEdge()</code>.(如果阅读的足够仔细,
+会发现两个<code>NodeTransfer</code>的方法也被统一为了<code>transferNode()</code>)</p>
+<p><strong>注意:</strong> 如手册所言, 由于java的引用机制,
+不应当对第二个参数<code>CPFact out</code>做任何修改.
+返回值也不应是第二个参数本身,
+需要深拷贝一个<code>out</code>或者<code>new CPFact()</code>.</p>
+<h4 id="transfernormaledge">transferNormalEdge()</h4>
+<p>对于普通节点, 不需要对<code>OutFact</code>中的内容做修改,
+直接传给<code>Edge</code>的<code>target</code>即可.</p>
+<blockquote>
+<p>对应上文图片中的<strong>黑色实线</strong>.</p>
+</blockquote>
+<h4 id="transfercalltoreturnedge">transferCallToReturnEdge()</h4>
+<p>在这里要处理<strong>def kill</strong>工作, 根据框架代码,
+这里的<code>Stmt</code>一定是<code>Invoke</code>,
+请阅读源码API获取使用信息.</p>
+<ul>
+<li><code>Invoke</code>继承自<code>DefinitionStmt</code>,
+如何获取<code>def</code>在之前的实验中已有涉及.</li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>黑色虚线</strong>.</p>
+</blockquote>
+<h4 id="transfercalledge">transferCallEdge()</h4>
+<p>负责传参中的<code>Var</code>转换.</p>
+<ul>
+<li><p>对于<code>Invoke invoke</code>,
+可以通过<code>invoke.getInvokeExp().getArgs()</code>获取传入<strong>实参</strong>的信息.</p></li>
+<li><p>对于<code>JMethod callee</code>,
+可以通过<code>callee.getIR().getParams()</code>获取调用方法的<strong>形参</strong>信息.</p></li>
+<li><p>在tai-e框架中, 保证上述形参与实参列表顺序是一一对应的.
+可以根据这一特性维护传参的转换过程.</p></li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>蓝色虚线</strong>.</p>
+</blockquote>
+<h4 id="transferreturnedge">transferReturnEdge()</h4>
+<p>负责将调用方法的返回值传回<code>callSite</code>.</p>
+<ul>
+<li><code>Class ReturnEdge</code>的<code>getReturnVars()</code>的API说明讲明了为什么可能有多个返回值,
+需要注意的是, 如果有多个返回值,
+需要使用<code>cp.meetValue()</code>.</li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>红色虚线</strong>.</p>
+</blockquote>
 <h2 id="总结">总结</h2>
-<p>总的来说这次实验的难点在于框架代码的理解,
-笔者在记录中提及了部分关键定义和代码理解, 只要耐心阅读框架代码,
-相信一定会AC.</p>
+<p>过程间常量传播的思想还是比较巧妙的, 值得细心品味.</p>
 
     </div>
 
@@ -418,13 +480,10 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/" rel="prev" title="读书笔记-机器学习 Ch2">
-      <i class="fa fa-chevron-left"></i> 读书笔记-机器学习 Ch2
+    <a href="/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/" rel="prev" title="读书笔记-On Java8 Ch3-Ch5">
+      <i class="fa fa-chevron-left"></i> 读书笔记-On Java8 Ch3-Ch5
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2024/10/28/SPA-A2/" rel="next" title="NJU静态分析|A2-Constant Propagation">
-      NJU静态分析|A2-Constant Propagation <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -484,8 +543,8 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">实验信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">2.</span> <span class="nav-text">食用指南</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E7%9B%AE%E6%A0%87"><span class="nav-number">3.</span> <span class="nav-text">任务目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#livevariableanalysis"><span class="nav-number">4.</span> <span class="nav-text">LiveVariableAnalysis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#class-optional"><span class="nav-number">4.1.</span> <span class="nav-text">Class Optional</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#instanceof%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">4.2.</span> <span class="nav-text">instanceof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E5%BC%95%E7%94%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">4.3.</span> <span class="nav-text">java引用机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solver-iterativesolver"><span class="nav-number">5.</span> <span class="nav-text">Solver &amp; IterativeSolver</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dataflowresult"><span class="nav-number">5.1.</span> <span class="nav-text">DataflowResult</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cfgnode-cfg-%E4%B8%AD%E7%9A%84-node%E5%85%B7%E4%BD%93%E6%8C%87%E4%BB%80%E4%B9%88"><span class="nav-number">5.2.</span> <span class="nav-text">CFG&lt;Node&gt; cfg
-中的 Node具体指什么?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%BF%A1%E6%81%AF%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">实验信息&amp;食用指南</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">2.</span> <span class="nav-text">实验目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%AE%80%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">实验简析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preparation"><span class="nav-number">4.</span> <span class="nav-text">Preparation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chabuilder"><span class="nav-number">5.</span> <span class="nav-text">CHABuilder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatch"><span class="nav-number">5.1.</span> <span class="nav-text">dispatch()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolve"><span class="nav-number">5.2.</span> <span class="nav-text">resolve()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#buildcallgraph"><span class="nav-number">5.3.</span> <span class="nav-text">buildCallGraph()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#intersovler"><span class="nav-number">6.</span> <span class="nav-text">InterSovler</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#initialize"><span class="nav-number">6.1.</span> <span class="nav-text">initialize()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dosolve"><span class="nav-number">6.2.</span> <span class="nav-text">dosolve()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#interconstantpropopagation"><span class="nav-number">7.</span> <span class="nav-text">InterConstantPropopagation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#transfercallnode-transfernoncallnode"><span class="nav-number">7.1.</span> <span class="nav-text">transferCallNode() &amp;
+transferNonCallNode()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transferedge"><span class="nav-number">7.2.</span> <span class="nav-text">transfer**Edge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transfernormaledge"><span class="nav-number">7.2.1.</span> <span class="nav-text">transferNormalEdge()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#transfercalltoreturnedge"><span class="nav-number">7.2.2.</span> <span class="nav-text">transferCallToReturnEdge()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#transfercalledge"><span class="nav-number">7.2.3.</span> <span class="nav-text">transferCallEdge()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#transferreturnedge"><span class="nav-number">7.2.4.</span> <span class="nav-text">transferReturnEdge()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -805,7 +864,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'la-pluma.github.io',
       owner       : 'La-Pluma',
       admin       : ['La-Pluma'],
-      id          : '72ba755c6f4e5fb38c63c0ccdcddc2f0',
+      id          : '9bd95f69696af8c5aaf73f40ab988c89',
         language: 'zh-CN',
       distractionFreeMode: true
     });
