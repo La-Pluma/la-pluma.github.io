@@ -1,4 +1,5 @@
 http://la-pluma.github.io/2024/11/27/SPA-A5/
+http://la-pluma.github.io/2024/12/01/SPA-A6/
 http://la-pluma.github.io/2024/11/25/conda-env/
 http://la-pluma.github.io/2024/11/18/SPA-A4/
 http://la-pluma.github.io/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/
