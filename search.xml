@@ -2376,6 +2376,211 @@ href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和�
       </tags>
   </entry>
   <entry>
+    <title>NJU静态分析|A4-CHA &amp; Inter Constant Propagation</title>
+    <url>/2024/11/18/SPA-A4/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-4 Class Hierarchy
+Analysis &amp; Interprocedural Constant Propagation.</strong></p>
+<span id="more"></span>
+<h2 id="实验信息食用指南">实验信息&amp;食用指南</h2>
+<p>见本博客A1-A3.</p>
+<blockquote>
+<p><strong>手册的手册不能替代手册, 看不懂的话请回去看手册. ——</strong>
+<a
+href="https://github.com/RicoloveFeng"><strong>RicoloveFeng|SPA-Freestyle-Guidance</strong></a></p>
+</blockquote>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>Tai-e</strong> 框架实现 <strong>CHA</strong> &amp;
+<strong>Inter Constprop</strong>.</p>
+<p><del>真的还有必要在记录里补充这个吗</del></p>
+<h2 id="实验简析">实验简析</h2>
+<p>其实没什么好说的, 课程 &amp; ppt &amp; 指南已经讲的比较明确了,
+笔者在此补充一些手册写的不明确或是略去的部分.</p>
+<p><strong>不过本次实验涉及不少新东西,
+烦请耐心阅读相关代码API.</strong></p>
+<h2 id="preparation">Preparation</h2>
+<p>从Assignment2中将<code>ConstPropogation.java</code>
+copy到本次实验目录对应位置.</p>
+<p><strong>需要注意的是,
+A2中不完全正确的实现可能会影响本次实验的本地测试.</strong></p>
+<h2 id="chabuilder">CHABuilder</h2>
+<p>这部分tt老师贴心的在ppt中给好了算法框架,
+对应本次的框架代码复刻即可.</p>
+<p>需要注意的是, 只有在完成了该部分后,
+<strong>Tai-e</strong>框架才能正确构建<code>ICFG</code>,
+否则使用<code>Assignment</code>分析的结果只会为空.</p>
+<p>推荐完成顺序 <code>dispatch</code> -&gt; <code>resolve</code> -&gt;
+<code>buildCallGraph</code></p>
+<h3 id="dispatch">dispatch()</h3>
+<p>可以选择递归或者循环完成该部分.</p>
+<ul>
+<li><p><code>dispatch()</code>可能会失败, 此时可以返回<code>null</code>,
+但要确保<code>resolve()</code>中可以正确处理这一情况.</p>
+<blockquote>
+<p><strong>Additional:</strong> 为什么可能会失败?</p>
+<p><code>resolve()</code>中,
+假设我们要处理一个<code>Interface</code>或者<code>Abstract</code>类型声明的类方法,
+首先我们需要<code>dispatch</code>这个声明类本身,
+易见此时应当得到<code>null</code>(接口中的方法和抽象方法无法被实例化)</p>
+</blockquote></li>
+<li><p><code>dispatch()</code>得到的<code>JMethod</code>如果是<code>Abstract</code>,
+同样需要返回<code>null</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 由于OOP的机制,
+当<code>JMethod</code>是<code>Abstract</code>时,
+不需要继续<code>dispatch</code>了.
+如果对此感到困惑可以去查阅相关的OOP资料.</p>
+</blockquote></li>
+</ul>
+<h3 id="resolve">resolve()</h3>
+<ul>
+<li><p>遍历的方式自选, 笔者采用较好实现的BFS.</p></li>
+<li><p>尽管课上将<code>Interface</code>归入了<strong>Virtual
+Invoke</strong>, 但按照代码框架,
+这部分单独作为一个需要处理的<code>CallKind</code>.
+不过处理起来也并非难事,
+因为处理方式和<code>VIRTUAL</code>没有实质性区别.</p></li>
+<li><p>需要注意的是,
+框架中处理<strong>Interface</strong>和<strong>Class</strong>分别有专门的API方法,
+具体使用什么API, 可以阅读<code>ClassHierarachy</code>,
+<code>CHABuilder</code>中也提供了访问<code>ClassHierarachy</code>的成员<code>private ClassHierarchy hierarchy</code>.</p></li>
+<li><p><code>STATIC</code>方法的获取在框架中没有专门的API,
+但可以使用<code>dispatch()</code>获取,
+因此<code>STATIC</code>和<code>SPRECIAL</code>也可以一起处理.</p></li>
+</ul>
+<h3 id="buildcallgraph">buildCallGraph()</h3>
+<p>实现和ppt中的算法没有区别.</p>
+<ul>
+<li><p>判断是否可达在框架中集成到了<code>Class CallGraph</code>的<code>addReachableMethod()</code>方法中了,
+可以阅读API注释获取更详细的信息.</p></li>
+<li><p>得到<code>callSite</code>,
+<code>callKind</code>的方法也可以通过<code>Class CallGraph</code>获取.<del>(我看看是谁不想去读API注释)</del></p></li>
+</ul>
+<h2 id="intersovler">InterSovler</h2>
+<p>由于框架代码在<code>InterSovler</code>这一部分进行了较大幅度的重构,
+因此笔者推荐先完成该部分使得对<code>InterConstantPropopagation</code>有一个自顶向下的认识.</p>
+<p>同手册所说, 该部分比起A2的<code>worklistSovler</code>没有太大的区别,
+跟着手册做即可.</p>
+<p><strong>注意:</strong>
+该部分实例化的<code>private final InterDataflowAnalysis&lt;Node, Fact&gt; analysis</code>继承自<code>Class AbstractInterDataflowAnalysis</code>,
+该部分的源码阅读是必不可少的.<del>(这里不读在完成InterConstantPropopagation的时候也要读)</del></p>
+<h3 id="initialize">initialize()</h3>
+<ul>
+<li>除去icfg的入口方法使用<code>BoundaryInit</code>外,
+其余节点均使用<code>NormalInit</code>.
+可以通过<code>icfg.entryMethods()</code>方法获取入口方法.</li>
+</ul>
+<blockquote>
+<p><strong>Tips:</strong>
+需要注意的是<code>icfg.entryMethods()</code>返回的是<code>Stream</code>类型,
+遍历该类型可以使用<code>forEach</code>.
+更多关于<code>forEach</code>的信息可以查阅java的文档.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">icfg.entryMethods().forEach(method -&gt; &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Confusion:</strong> 笔者在此比较困惑为何可能会出现多个入口,
+虽然在网络上查询得知java中可能不止一个<code>main()</code>方法,
+但不知如何在tai-e框架中复现,
+以及本次实验中的"多个入口"是否对应该特性.</p>
+</blockquote>
+<h3 id="dosolve">dosolve()</h3>
+<p>与A2相比,
+只需要修改处理<code>pred Node</code>部分为<code>pred Edge</code>,
+可以通过<code>getInEdgesOf()</code>方法获得<code>pred Edge</code>信息,
+与<code>analysis.transferNode()</code>对应,
+可通过<code>analysis.transferEdge()</code>来处理<code>pred Edge</code>.</p>
+<h2 id="interconstantpropopagation">InterConstantPropopagation</h2>
+<p>部分API在框架中已经给出了实现, 在该部分只需要实现6个API即可.</p>
+<p><strong>善用A2中完成部分进行本次实验,
+过程间常量传播并不影响计算常量的逻辑.</strong></p>
+<h3 id="transfercallnode-transfernoncallnode">transferCallNode() &amp;
+transferNonCallNode()</h3>
+<p>含义同方法名,
+如果这个<code>Node</code>(即<code>Stmt</code>)是<code>Invoke</code>,
+就称该<code>Node</code>为<code>CallNode</code>,
+否则为<code>NonCallNode</code>.</p>
+<ul>
+<li>需要注意的是,
+过程间处理的大部分操作都在<code>Edge</code>上而非<code>Node</code>上,
+因此我们在<code>transferCallNode()</code>中并不会进行 add/kill def
+的操作. 这一点与指南上的图片逻辑相同.</li>
+</ul>
+<img src="/2024/11/18/SPA-A4/pic4-1.png" class="" title="pic4-1">
+<blockquote>
+<p>如图片所示,
+<code>Node 2</code>在经过<code>transferCallNode()</code>后并没有把<code>b</code>添加进<code>outFact</code>.</p>
+<p>尽管我们可以在这里处理, <del>但这样有可能会让你过不去oj</del>,
+但这样会造成逻辑上的混乱, 所有的<strong>interprocedural</strong>
+操作都在<code>Edge</code>上进行在逻辑上是一致的.
+接下来对四种<code>transferEdge</code>的处理中会解释这一点.</p>
+</blockquote>
+<ul>
+<li>所以对于非call Node,
+可以直接使用过程内分析的<code>transferNode()</code>方法, 对于call Node,
+<code>transferCallNode()</code>只需要把<code>inFact</code> 赋值给
+<code>outFact</code>即可.</li>
+</ul>
+<h3 id="transferedge">transfer**Edge</h3>
+<p>在完成该部分前, 要先知道该部分会在什么地方使用,
+通过阅读<code>Class AbstractInterDataflowAnalysis</code>的源码API,
+可以发现四种<code>transfer**Edge</code>
+统一为了一个方法<code>transferEdge()</code>.(如果阅读的足够仔细,
+会发现两个<code>NodeTransfer</code>的方法也被统一为了<code>transferNode()</code>)</p>
+<p><strong>注意:</strong> 如手册所言, 由于java的引用机制,
+不应当对第二个参数<code>CPFact out</code>做任何修改.
+返回值也不应是第二个参数本身,
+需要深拷贝一个<code>out</code>或者<code>new CPFact()</code>.</p>
+<h4 id="transfernormaledge">transferNormalEdge()</h4>
+<p>对于普通节点, 不需要对<code>OutFact</code>中的内容做修改,
+直接传给<code>Edge</code>的<code>target</code>即可.</p>
+<blockquote>
+<p>对应上文图片中的<strong>黑色实线</strong>.</p>
+</blockquote>
+<h4 id="transfercalltoreturnedge">transferCallToReturnEdge()</h4>
+<p>在这里要处理<strong>def kill</strong>工作, 根据框架代码,
+这里的<code>Stmt</code>一定是<code>Invoke</code>,
+请阅读源码API获取使用信息.</p>
+<ul>
+<li><code>Invoke</code>继承自<code>DefinitionStmt</code>,
+如何获取<code>def</code>在之前的实验中已有涉及.</li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>黑色虚线</strong>.</p>
+</blockquote>
+<h4 id="transfercalledge">transferCallEdge()</h4>
+<p>负责传参中的<code>Var</code>转换.</p>
+<ul>
+<li><p>对于<code>Invoke invoke</code>,
+可以通过<code>invoke.getInvokeExp().getArgs()</code>获取传入<strong>实参</strong>的信息.</p></li>
+<li><p>对于<code>JMethod callee</code>,
+可以通过<code>callee.getIR().getParams()</code>获取调用方法的<strong>形参</strong>信息.</p></li>
+<li><p>在tai-e框架中, 保证上述形参与实参列表顺序是一一对应的.
+可以根据这一特性维护传参的转换过程.</p></li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>蓝色虚线</strong>.</p>
+</blockquote>
+<h4 id="transferreturnedge">transferReturnEdge()</h4>
+<p>负责将调用方法的返回值传回<code>callSite</code>.</p>
+<ul>
+<li><code>Class ReturnEdge</code>的<code>getReturnVars()</code>的API说明讲明了为什么可能有多个返回值,
+需要注意的是, 如果有多个返回值,
+需要使用<code>cp.meetValue()</code>.</li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>红色虚线</strong>.</p>
+</blockquote>
+<h2 id="总结">总结</h2>
+<p>过程间常量传播的思想还是比较巧妙的, 值得细心品味.</p>
+]]></content>
+      <categories>
+        <category>NJU静态分析实验记录</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NJU静态分析|A3-DeadCode Detection</title>
     <url>/2024/11/02/SPA-A3/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-3 Dead-Code
@@ -2621,211 +2826,6 @@ Effect)</strong>在框架代码中已给出<code>API</code>,
 <h2 id="总结">总结</h2>
 <p>本次实验难度某种意义上低于A1, 是一个比较简单的实验,
 旨在考察对分析结果的应用能力. 祝早日AC!</p>
-]]></content>
-      <categories>
-        <category>NJU静态分析实验记录</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NJU静态分析|A4-CHA &amp; Inter Constant Propagation</title>
-    <url>/2024/11/18/SPA-A4/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-4 Class Hierarchy
-Analysis &amp; Interprocedural Constant Propagation.</strong></p>
-<span id="more"></span>
-<h2 id="实验信息食用指南">实验信息&amp;食用指南</h2>
-<p>见本博客A1-A3.</p>
-<blockquote>
-<p><strong>手册的手册不能替代手册, 看不懂的话请回去看手册. ——</strong>
-<a
-href="https://github.com/RicoloveFeng"><strong>RicoloveFeng|SPA-Freestyle-Guidance</strong></a></p>
-</blockquote>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>Tai-e</strong> 框架实现 <strong>CHA</strong> &amp;
-<strong>Inter Constprop</strong>.</p>
-<p><del>真的还有必要在记录里补充这个吗</del></p>
-<h2 id="实验简析">实验简析</h2>
-<p>其实没什么好说的, 课程 &amp; ppt &amp; 指南已经讲的比较明确了,
-笔者在此补充一些手册写的不明确或是略去的部分.</p>
-<p><strong>不过本次实验涉及不少新东西,
-烦请耐心阅读相关代码API.</strong></p>
-<h2 id="preparation">Preparation</h2>
-<p>从Assignment2中将<code>ConstPropogation.java</code>
-copy到本次实验目录对应位置.</p>
-<p><strong>需要注意的是,
-A2中不完全正确的实现可能会影响本次实验的本地测试.</strong></p>
-<h2 id="chabuilder">CHABuilder</h2>
-<p>这部分tt老师贴心的在ppt中给好了算法框架,
-对应本次的框架代码复刻即可.</p>
-<p>需要注意的是, 只有在完成了该部分后,
-<strong>Tai-e</strong>框架才能正确构建<code>ICFG</code>,
-否则使用<code>Assignment</code>分析的结果只会为空.</p>
-<p>推荐完成顺序 <code>dispatch</code> -&gt; <code>resolve</code> -&gt;
-<code>buildCallGraph</code></p>
-<h3 id="dispatch">dispatch()</h3>
-<p>可以选择递归或者循环完成该部分.</p>
-<ul>
-<li><p><code>dispatch()</code>可能会失败, 此时可以返回<code>null</code>,
-但要确保<code>resolve()</code>中可以正确处理这一情况.</p>
-<blockquote>
-<p><strong>Additional:</strong> 为什么可能会失败?</p>
-<p><code>resolve()</code>中,
-假设我们要处理一个<code>Interface</code>或者<code>Abstract</code>类型声明的类方法,
-首先我们需要<code>dispatch</code>这个声明类本身,
-易见此时应当得到<code>null</code>(接口中的方法和抽象方法无法被实例化)</p>
-</blockquote></li>
-<li><p><code>dispatch()</code>得到的<code>JMethod</code>如果是<code>Abstract</code>,
-同样需要返回<code>null</code>.</p>
-<blockquote>
-<p><strong>Tips:</strong> 由于OOP的机制,
-当<code>JMethod</code>是<code>Abstract</code>时,
-不需要继续<code>dispatch</code>了.
-如果对此感到困惑可以去查阅相关的OOP资料.</p>
-</blockquote></li>
-</ul>
-<h3 id="resolve">resolve()</h3>
-<ul>
-<li><p>遍历的方式自选, 笔者采用较好实现的BFS.</p></li>
-<li><p>尽管课上将<code>Interface</code>归入了<strong>Virtual
-Invoke</strong>, 但按照代码框架,
-这部分单独作为一个需要处理的<code>CallKind</code>.
-不过处理起来也并非难事,
-因为处理方式和<code>VIRTUAL</code>没有实质性区别.</p></li>
-<li><p>需要注意的是,
-框架中处理<strong>Interface</strong>和<strong>Class</strong>分别有专门的API方法,
-具体使用什么API, 可以阅读<code>ClassHierarachy</code>,
-<code>CHABuilder</code>中也提供了访问<code>ClassHierarachy</code>的成员<code>private ClassHierarchy hierarchy</code>.</p></li>
-<li><p><code>STATIC</code>方法的获取在框架中没有专门的API,
-但可以使用<code>dispatch()</code>获取,
-因此<code>STATIC</code>和<code>SPRECIAL</code>也可以一起处理.</p></li>
-</ul>
-<h3 id="buildcallgraph">buildCallGraph()</h3>
-<p>实现和ppt中的算法没有区别.</p>
-<ul>
-<li><p>判断是否可达在框架中集成到了<code>Class CallGraph</code>的<code>addReachableMethod()</code>方法中了,
-可以阅读API注释获取更详细的信息.</p></li>
-<li><p>得到<code>callSite</code>,
-<code>callKind</code>的方法也可以通过<code>Class CallGraph</code>获取.<del>(我看看是谁不想去读API注释)</del></p></li>
-</ul>
-<h2 id="intersovler">InterSovler</h2>
-<p>由于框架代码在<code>InterSovler</code>这一部分进行了较大幅度的重构,
-因此笔者推荐先完成该部分使得对<code>InterConstantPropopagation</code>有一个自顶向下的认识.</p>
-<p>同手册所说, 该部分比起A2的<code>worklistSovler</code>没有太大的区别,
-跟着手册做即可.</p>
-<p><strong>注意:</strong>
-该部分实例化的<code>private final InterDataflowAnalysis&lt;Node, Fact&gt; analysis</code>继承自<code>Class AbstractInterDataflowAnalysis</code>,
-该部分的源码阅读是必不可少的.<del>(这里不读在完成InterConstantPropopagation的时候也要读)</del></p>
-<h3 id="initialize">initialize()</h3>
-<ul>
-<li>除去icfg的入口方法使用<code>BoundaryInit</code>外,
-其余节点均使用<code>NormalInit</code>.
-可以通过<code>icfg.entryMethods()</code>方法获取入口方法.</li>
-</ul>
-<blockquote>
-<p><strong>Tips:</strong>
-需要注意的是<code>icfg.entryMethods()</code>返回的是<code>Stream</code>类型,
-遍历该类型可以使用<code>forEach</code>.
-更多关于<code>forEach</code>的信息可以查阅java的文档.</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">icfg.entryMethods().forEach(method -&gt; &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Confusion:</strong> 笔者在此比较困惑为何可能会出现多个入口,
-虽然在网络上查询得知java中可能不止一个<code>main()</code>方法,
-但不知如何在tai-e框架中复现,
-以及本次实验中的"多个入口"是否对应该特性.</p>
-</blockquote>
-<h3 id="dosolve">dosolve()</h3>
-<p>与A2相比,
-只需要修改处理<code>pred Node</code>部分为<code>pred Edge</code>,
-可以通过<code>getInEdgesOf()</code>方法获得<code>pred Edge</code>信息,
-与<code>analysis.transferNode()</code>对应,
-可通过<code>analysis.transferEdge()</code>来处理<code>pred Edge</code>.</p>
-<h2 id="interconstantpropopagation">InterConstantPropopagation</h2>
-<p>部分API在框架中已经给出了实现, 在该部分只需要实现6个API即可.</p>
-<p><strong>善用A2中完成部分进行本次实验,
-过程间常量传播并不影响计算常量的逻辑.</strong></p>
-<h3 id="transfercallnode-transfernoncallnode">transferCallNode() &amp;
-transferNonCallNode()</h3>
-<p>含义同方法名,
-如果这个<code>Node</code>(即<code>Stmt</code>)是<code>Invoke</code>,
-就称该<code>Node</code>为<code>CallNode</code>,
-否则为<code>NonCallNode</code>.</p>
-<ul>
-<li>需要注意的是,
-过程间处理的大部分操作都在<code>Edge</code>上而非<code>Node</code>上,
-因此我们在<code>transferCallNode()</code>中并不会进行 add/kill def
-的操作. 这一点与指南上的图片逻辑相同.</li>
-</ul>
-<img src="/2024/11/18/SPA-A4/pic4-1.png" class="" title="pic4-1">
-<blockquote>
-<p>如图片所示,
-<code>Node 2</code>在经过<code>transferCallNode()</code>后并没有把<code>b</code>添加进<code>outFact</code>.</p>
-<p>尽管我们可以在这里处理, <del>但这样有可能会让你过不去oj</del>,
-但这样会造成逻辑上的混乱, 所有的<strong>interprocedural</strong>
-操作都在<code>Edge</code>上进行在逻辑上是一致的.
-接下来对四种<code>transferEdge</code>的处理中会解释这一点.</p>
-</blockquote>
-<ul>
-<li>所以对于非call Node,
-可以直接使用过程内分析的<code>transferNode()</code>方法, 对于call Node,
-<code>transferCallNode()</code>只需要把<code>inFact</code> 赋值给
-<code>outFact</code>即可.</li>
-</ul>
-<h3 id="transferedge">transfer**Edge</h3>
-<p>在完成该部分前, 要先知道该部分会在什么地方使用,
-通过阅读<code>Class AbstractInterDataflowAnalysis</code>的源码API,
-可以发现四种<code>transfer**Edge</code>
-统一为了一个方法<code>transferEdge()</code>.(如果阅读的足够仔细,
-会发现两个<code>NodeTransfer</code>的方法也被统一为了<code>transferNode()</code>)</p>
-<p><strong>注意:</strong> 如手册所言, 由于java的引用机制,
-不应当对第二个参数<code>CPFact out</code>做任何修改.
-返回值也不应是第二个参数本身,
-需要深拷贝一个<code>out</code>或者<code>new CPFact()</code>.</p>
-<h4 id="transfernormaledge">transferNormalEdge()</h4>
-<p>对于普通节点, 不需要对<code>OutFact</code>中的内容做修改,
-直接传给<code>Edge</code>的<code>target</code>即可.</p>
-<blockquote>
-<p>对应上文图片中的<strong>黑色实线</strong>.</p>
-</blockquote>
-<h4 id="transfercalltoreturnedge">transferCallToReturnEdge()</h4>
-<p>在这里要处理<strong>def kill</strong>工作, 根据框架代码,
-这里的<code>Stmt</code>一定是<code>Invoke</code>,
-请阅读源码API获取使用信息.</p>
-<ul>
-<li><code>Invoke</code>继承自<code>DefinitionStmt</code>,
-如何获取<code>def</code>在之前的实验中已有涉及.</li>
-</ul>
-<blockquote>
-<p>对应上文图片中的<strong>黑色虚线</strong>.</p>
-</blockquote>
-<h4 id="transfercalledge">transferCallEdge()</h4>
-<p>负责传参中的<code>Var</code>转换.</p>
-<ul>
-<li><p>对于<code>Invoke invoke</code>,
-可以通过<code>invoke.getInvokeExp().getArgs()</code>获取传入<strong>实参</strong>的信息.</p></li>
-<li><p>对于<code>JMethod callee</code>,
-可以通过<code>callee.getIR().getParams()</code>获取调用方法的<strong>形参</strong>信息.</p></li>
-<li><p>在tai-e框架中, 保证上述形参与实参列表顺序是一一对应的.
-可以根据这一特性维护传参的转换过程.</p></li>
-</ul>
-<blockquote>
-<p>对应上文图片中的<strong>蓝色虚线</strong>.</p>
-</blockquote>
-<h4 id="transferreturnedge">transferReturnEdge()</h4>
-<p>负责将调用方法的返回值传回<code>callSite</code>.</p>
-<ul>
-<li><code>Class ReturnEdge</code>的<code>getReturnVars()</code>的API说明讲明了为什么可能有多个返回值,
-需要注意的是, 如果有多个返回值,
-需要使用<code>cp.meetValue()</code>.</li>
-</ul>
-<blockquote>
-<p>对应上文图片中的<strong>红色虚线</strong>.</p>
-</blockquote>
-<h2 id="总结">总结</h2>
-<p>过程间常量传播的思想还是比较巧妙的, 值得细心品味.</p>
 ]]></content>
       <categories>
         <category>NJU静态分析实验记录</category>
@@ -3116,7 +3116,9 @@ href="#s--s_m"><strong>S &amp; S_m</strong></a>部分已经讲过,
 <ul>
 <li>如何处理<code>JMethod</code>在A4中已经接触过了,
 可以通过<code>method.getIR().getThis()</code>获取该方法的this Var,
-然后再通过<strong>PFG</strong>就能获取this Pointer了.</li>
+然后再通过<strong>PFG</strong>就能获取this Pointer了. 如果还有印象的话,
+A4中通过<code>CallGraphs.getCallKind()</code>来获取<code>CallKind</code>,
+在本次实验沿用该方法即可.</li>
 <li>在这里不处理Static Call, 通过判断是否存在this指针,
 <code>isStatic()</code>方法都可以判断(尽管从实际上分析,
 此处不应该也不可能出现Static Call)</li>
@@ -3139,6 +3141,8 @@ href="#s--s_m"><strong>S &amp; S_m</strong></a>部分已经讲过,
 在遍历到一个新方法时只需要处理一次.</p>
 </blockquote>
 <ul>
+<li>框架代码中的<code>CallGraph</code>包含了<code>RM</code>,
+阅读相关API以获取详细信息.</li>
 <li>如何根据<code>Stmt</code>信息获取指针<code>Pointer</code>的方法在上文框架代码分析中已经指出.
 如果该方法在后期完成, 此时应当已经知道如何获取所需参数和类型.</li>
 <li>需要注意的是在此仍然需要通过<code>resolveCallee()</code>方法获得静态方法,
@@ -3157,11 +3161,185 @@ href="#s--s_m"><strong>S &amp; S_m</strong></a>部分已经讲过,
       </tags>
   </entry>
   <entry>
-    <title>NJU静态分析|A5-Context Sensitive Pointer Analysis</title>
+    <title>NJU静态分析|A6-Context Sensitive Pointer Analysis</title>
     <url>/2024/12/01/SPA-A6/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-6 Context Sensitive
 Pointer Analysis.</strong></p>
 <span id="more"></span>
+<p>笔者写该实验写了一个下午之后注意力涣散了😇(†升天†)</p>
+<blockquote>
+<p><strong>Tips:</strong> 本次实验的指南中存在省略,
+因此Debug过程可能会包含一些困难.</p>
+</blockquote>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>tai-e</strong>框架实现上下文敏感的指针分析.</p>
+<h2 id="preparation">Preparation</h2>
+<ul>
+<li><p><strong>确保</strong>理解了CI和CS的指针分析理论部分知识,
+笔者不负责讲解课程中已经讲述过的理论知识.</p></li>
+<li><p><strong>确保</strong>理解了实验指南中的注意事项和框架中新增以及修改的源码,
+否则在阅读本实验记录可能会遇到"共识"缺失的问题.</p></li>
+</ul>
+<h2 id="理论部分">理论部分</h2>
+<p>总体来说, 上下文敏感指针分析算法和理论与上下文非敏感指针分析区别不大,
+大体框架是一致的. 笔者不再像A5中整理, 不同的部分会在下文需要时给出.</p>
+<h2 id="框架代码">框架代码</h2>
+<p>比起A5的框架代码变动并不大, 笔者在此简要解释一些要点.</p>
+<img src="/2024/12/01/SPA-A6/pic1-1.png" class="" title="pic1-1">
+<ul>
+<li><p>手册中该部分提及了上下文敏感指针分析中最重要的部分之一,
+<code>CSElement</code>和<code>Pointer</code>是本次实验主要操作的对象.</p></li>
+<li><p>在正式写实验之前请思考这两者间的不同,
+如有混淆可能会影响实验的完成.(明晰两者的区别才知道该去哪里找API,
+该调用什么方法, 毕竟ppt上的算法是类型"模糊"的)</p></li>
+<li><p>与A5相同, <code>Pointer</code>与<code>Obj</code>相对独立,
+但请注意这里的<code>CSElement</code>与<code>Element</code>同样相对独立,
+<code>Element</code>与<code>Context</code>组合形成了<code>CSElement</code>,
+因此许多API需要先取出<code>Context</code>或<code>Element</code>才能使用.
+具体如何取出请参阅框架代码.</p></li>
+<li><p><code>PointsToSets</code>的实例化需要调用<code>PointsToSetsFactory</code>,
+这点与A5不尽相同.</p></li>
+<li><p>上下文敏感指针信息不再通过<code>PointerFlowGraph</code>获取而是<code>CSManager</code>.</p></li>
+<li><p><code>Solver</code>中提供了<code>private final ContextSelector contextSelector</code>来获取算法中的<code>select()</code>方法,
+该部分的实现对应实验指南的<strong>Task2</strong>.
+对于<strong>Task1</strong>, 只需要知道可以调用其中的方法获取<span
+class="math inline">\(c^t\)</span>上下文即可.</p></li>
+</ul>
+<h2 id="task1-实现上下文敏感指针分析">Task1 实现上下文敏感指针分析</h2>
+<p>与A5相同, 推荐先完成顶层方法<code>analysis()</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+在写代码时<strong>一定一定</strong>要注意上下文, 变量命名时要有区分度,
+否则<strong>DEBUG</strong>时会充满痛苦.</p>
+</blockquote>
+<p><strong>重要:</strong> 虽然<code>Stmt</code>中不包含上下文信息,
+但框架代码中提供了丰富的API来根据<code>Stmt</code>的信息获取上下文信息.
+同时可以确定的已知的相同上下文可以直接拿过来使用.
+框架代码和算法原理确保了上述两点都是正确的.</p>
+<h3 id="analysis">analysis()</h3>
+<ul>
+<li>逻辑上与上下文非敏感一致,
+区别在于需要做例如<code>Var</code>与<code>CSVar</code>的转化,
+传入<code>addPFGEdge()</code>的参数需要附上上下文,
+可通过<code>csManager.getXXX()</code>获取.</li>
+<li>别忘了处理<strong>Array Store/Load</strong>,
+以及判断<code>Field</code>是否为静态字段.</li>
+</ul>
+<h3 id="addpfgedge">addPFGEdge()</h3>
+<ul>
+<li>该函数内不涉及对上下文的关注,
+与A5中的<code>addPFGEdge()</code>字符级一致,
+可以直接<code>Crtl + C/V</code>.</li>
+</ul>
+<h3 id="propagate">propagate()</h3>
+<ul>
+<li>同样不关注上下文信息, 逻辑一致,
+但不同的是<code>PointsToSet</code>的实例化,
+需要通过<code>PointsToSetFactory</code>完成.</li>
+</ul>
+<h3 id="processcall">processCall()</h3>
+<ul>
+<li>注意该过程涉及三个不同的上下文: <code>CSVar recv</code>的上下文<span
+class="math inline">\(c\)</span>,
+<code>CSObj recvObj</code>的上下文<span
+class="math inline">\(c&#39;\)</span>,
+和通过<code>select</code>选择出的上下文<span
+class="math inline">\(c^t\)</span>.
+在使用上下文时请确保使用的是正确的上下文.</li>
+<li>上下文<span
+class="math inline">\(c^t\)</span>的获取可通过<code>contextSelector.selectContext()</code>方法获取.</li>
+<li>Callee的<code>thisVar</code>以及参数和返回值的获取在A4,
+A5中已经指出, 如有遗忘请进行复习.</li>
+<li><code>callGraph.addEdge()</code>中需要新建<code>Edge</code>,
+其中参数<code>CallKind</code>可以通过<code>CallGraphs.getCallKind()</code>获取(通过A4了解).
+需要注意的是,
+<code>CallGraphs</code>类虽然在本次实验中并未显式放在<code>src\</code>目录下,
+但仍然可以使用.</li>
+<li>其余要点在A4和A5中已经提到过, 在此不再赘述.</li>
+</ul>
+<h3 id="addreachable">addReachable()</h3>
+<ul>
+<li><p>使用访问者模式时代码依旧简洁,
+但是需要注意的是此次使用<code>StmtProcessor</code>类时需要为每个方法实例化一个<code>StmtProcessor</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 原因比较直接, 为了区分上下文信息.
+本次实验中处理语句需要用到<code>CSMethod</code>的上下文信息.</p>
+</blockquote></li>
+</ul>
+<h4 id="class-stmtprocessor">Class StmtProcessor</h4>
+<p>实现访问者模式的类, 在完成该部分时存在一些注意事项.</p>
+<ul>
+<li><p><code>Copy</code>,
+<code>Static StoreField</code>和<code>Static LoadField</code>与A5几乎没有区别,
+注意传入的参数转换为带上下文的即可.</p></li>
+<li><p>算法伪代码中对<code>New</code>的处理和实际代码略有出入,
+主要体现在上下文<span class="math inline">\(c\)</span>上.
+<code>Obj</code>的上下文要通过<code>contextSelector.selectHeapContext()</code>获取.</p>
+<blockquote>
+<p>笔者在此简要的解释一下.</p>
+<img src="/2024/12/01/SPA-A6/pic1-2.png" class="" title="pic1-2">
+<p>算法中将<span class="math inline">\(x\)</span>和<span
+class="math inline">\(o_i\)</span>的上下文均描述成<span
+class="math inline">\(c\)</span>, 这其实表明<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(o_i\)</span>的上下文来源相同, 而不代表这两个<span
+class="math inline">\(c\)</span>是一致的,
+主要原因是限制两者的<code>k</code>不一定相同.为了区分, 令其为<span
+class="math inline">\(c_x\)</span>和<span
+class="math inline">\(c_o\)</span>, 笔者通过一个例子说明原因.</p>
+<p>假设使用<strong>CallSite敏感</strong>策略, <code>k = 2</code>,
+令堆上下文为<code>k - 1 = 1</code>.
+那么传入的<code>c:method</code>的上下文为<code>[3, 9]</code>,
+在该Method中有<code>15: y = new T()</code>, 对于<code>y</code>,
+其上下文为<code>[3, 9]</code>, 但对于<code>o15</code>,
+其上下文为<code>[9]</code>.
+即二者上下文均来自<code>c:method</code>的上下文<span
+class="math inline">\(c\)</span>, 但由于层数不同,
+上下文也可能是不同的.</p>
+</blockquote></li>
+<li><p>对于<strong>静态</strong><code>Stmt Invoke</code>的处理,
+最好调用<code>Context selectContext(CSCallSite, JMethod)</code>而不是<code>Context selectContext(CSCallSite, CSObj, JMethod)</code>,
+这是更符合框架代码API的描述的用法. 当然,
+也可以选择在Task2中的后者加入静态调用的处理,
+这样就可以在<code>Solver</code>中统一使用同一个方法.</p></li>
+</ul>
+<h2 id="task2-实现常见的上下文敏感策略">Task2
+实现常见的上下文敏感策略</h2>
+<img src="/2024/12/01/SPA-A6/pic1-3.png" class="" title="pic1-3">
+<ul>
+<li><p>注意手册上的要求和明确根据<strong>哪个参数</strong>获取上下文即可.
+该部分并不难实现.</p></li>
+<li><p>另外需要注意的是框架中将四个参数合并为三个,
+<code>CSCallSite</code>中包含了<code>Context</code>和<code>Invoke</code>两个参数.</p></li>
+<li><p>注意手册中对静态方法的处理要求,
+<strong>CallSite</strong>和<strong>Object</strong>,
+<strong>Type</strong>的要求并不一致.</p></li>
+<li><p>对于<code>selectContext()</code>处理方法调用的上下文,
+需要根据参数新生成一层;
+但对于<code>selectHeapContext()</code>处理堆的上下文,
+则直接根据参数截取即可.</p></li>
+</ul>
+<h3 id="callselector-_2callselector">_1CallSelector &amp;
+_2CallSelector</h3>
+<p>对于<strong>CallSite敏感</strong>策略,
+上下文自然在参数<code>CSCallSite callSite</code>中获取.</p>
+<p>如果<code>k = 2</code>,
+枚举<code>Context</code>的层数选择最后一个和新上下文组合即可.</p>
+<h3 id="objselector-_2objselector">_1ObjSelector &amp;
+_2ObjSelector</h3>
+<p>对于<strong>Object敏感</strong>策略,
+上下文需要在<code>CSObj recv</code>中获取.</p>
+<h3 id="typeselector-_2typeselector">_1TypeSelector &amp;
+_2TypeSelector</h3>
+<p>对于<strong>Type敏感</strong>策略,
+上下文也需要在<code>CSObj recv</code>中获取.
+(想一想<code>Type</code>上下文选取是如何来的)</p>
+<p>根据<strong>Type敏感</strong>的定义,
+可以在框架代码中找到一个对应的API: <code>Obj.getContainerType()</code>.
+通过该方法获取<code>Type</code>即可.</p>
+<h2 id="总结">总结</h2>
+<p>如果理解了CI指针分析, 本次CS指针分析实验的原理和逻辑就不难理解,
+但细节处理上比A5要麻烦很多, 还请小心仔细.</p>
 ]]></content>
       <categories>
         <category>NJU静态分析实验记录</category>
@@ -3169,6 +3347,21 @@ Pointer Analysis.</strong></p>
       <tags>
         <tag>NJU</tag>
         <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>千里之行，始于足下</title>
+    <url>/2024/09/08/hello-world/</url>
+    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
+step.</strong></p>
+<span id="more"></span>
+<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>杂项</tag>
       </tags>
   </entry>
   <entry>
@@ -3343,21 +3536,6 @@ class="uri">https://blog.csdn.net/weixin_62075168/article/details/131226082</a><
       <tags>
         <tag>环境配置</tag>
         <tag>AI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>千里之行，始于足下</title>
-    <url>/2024/09/08/hello-world/</url>
-    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
-step.</strong></p>
-<span id="more"></span>
-<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
-]]></content>
-      <categories>
-        <category>杂项</category>
-      </categories>
-      <tags>
-        <tag>杂项</tag>
       </tags>
   </entry>
 </search>
