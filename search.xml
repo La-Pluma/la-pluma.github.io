@@ -2193,6 +2193,261 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
       </tags>
   </entry>
   <entry>
+    <title>NJU静态分析|A3-DeadCode Detection</title>
+    <url>/2024/11/02/SPA-A3/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-3 Dead-Code
+Detection.</strong></p>
+<span id="more"></span>
+<p>2024.11.7已更新</p>
+<h2 id="实验信息食用指南">实验信息&amp;食用指南</h2>
+<p>见本博客A1 &amp; A2</p>
+<p><strong>Tips:</strong> 实验指南和框架代码仍然是最一手最正确的资料,
+对于实验指南中已涉及的信息, 本记录不会过多赘述.</p>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>Tai-e</strong> 框架实现一个 <strong>死代码检测</strong>
+算法.</p>
+<h2 id="实验简析">实验简析</h2>
+<p>实验指南没有给出实现的框架,
+因此至此已有完成本次知识的全部基础知识(活跃变量分析 &amp;
+常量传播算法).</p>
+<p>故本次实验主要考察对A1, A2的实验理解,
+有遗忘或有不清楚的读者还望移步至官方教学视频复习后再完成本次实验.</p>
+<ul>
+<li><p>死代码检测是一个<strong>Must Analysis</strong> ,
+允许漏报而不允许错报.</p></li>
+<li><p>由分支不可达的特性, 采用<strong>Forward Analysis</strong>
+比较符合死代码检测的特性.</p></li>
+<li><p>为了走一遍<strong>CFG</strong> 便得到结果,
+我们可以将全部<code>Stmt</code>加入<code>DeadCodeSet</code>中,
+将不是死代码的<code>Stmt</code>删去. 留下的便是死代码.</p></li>
+<li><p>此处笔者采用<strong>BFS</strong>算法进行<strong>CFG</strong>遍历,
+使用<code>Set Traveled</code>避免环路影响.</p></li>
+</ul>
+<h3 id="伪代码框架">伪代码框架</h3>
+<p>死代码检测的大致框架伪代码如下:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">liveVarsResult &lt;- LiveVarsAnalysis(IR)</span><br><span class="line">constantResult &lt;- ConstantAnalysis(IR)</span><br><span class="line">DeadcodeSet &lt;- all stmt in IR</span><br><span class="line">TraveledSet &lt;- empty</span><br><span class="line">BFSlist &lt;- entry</span><br><span class="line"><span class="title function_">while</span><span class="params">(BFSlist is not empty)</span>&#123;</span><br><span class="line">    pickup a stmt from BFSlist</span><br><span class="line">    TraveledSet &lt;- stmt</span><br><span class="line">    <span class="comment">//handle jump Stmt</span></span><br><span class="line">    <span class="keyword">if</span> (stmt is <span class="keyword">if</span> or <span class="keyword">switch</span>)&#123;</span><br><span class="line">        DeadcodeSet remove stmt</span><br><span class="line">        <span class="comment">// ConditionExp is Constant may cause Unreachable DeadCode</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">if</span>/<span class="keyword">switch</span> ConditionExp is Constant by ConstantResult)&#123;</span><br><span class="line">            BFSlist &lt;- Target Stmt of Constant ConditionExp Path</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            BFS &lt;- succ of stmt not in Travaled</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//handle Assign Deadcode</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (stmt is AssignStmt)&#123;</span><br><span class="line">        <span class="keyword">if</span>(stmt is not DeadAssign by LiveVarsResult || stmt has SideEffect)&#123;</span><br><span class="line">            DeadcodeSet remove stmt</span><br><span class="line">        &#125;</span><br><span class="line">        BFSlist &lt;- succ of stmt not in Travaled</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//normal Stmt</span></span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        DeadCodeSet remove stmt</span><br><span class="line">        BFSlist &lt;- succ of stmt not in Travaled</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<p><strong><em>更新:</em></strong></p>
+<blockquote>
+<p><strong>Compare:</strong> <code>ir.getStmts()</code> &amp;
+<code>cfg.getNodes()</code></p>
+<p>笔者一开始未意识到这个问题, <strong>IR</strong>
+中是不包含<code>Entry</code>和<code>Exit</code>的. 换句话说,
+<code>Entry</code>和<code>Exit</code>是由<strong>CFG</strong> 生成的.
+因此, 在初始化时,
+需要使用<code>ir.getStmts()</code>而不是<code>cfg.getNodes()</code>,
+否则在面对<strong>Infinity Loop</strong> 时,
+<code>Exit</code>节点会错误的被当作<code>Dead Code</code>.</p>
+</blockquote>
+<hr />
+<h2 id="cfg生成细节">CFG生成细节</h2>
+<p>完成本实验最重要的部分莫过于<strong>CFG</strong> 的结构,
+实验指南没有为我们提供所有的实现细节,
+而且<code>CFGBuilder</code>部分的代码对我们来说是不公开的.
+那我们该如何获取关于<strong>CFG</strong> 的细节?</p>
+<h3 id="框架代码提供的接口">框架代码提供的接口</h3>
+<p>好在<strong>tai-e</strong>框架为我们提供了<code>Class Assignment</code>来<a
+href="https://tai-e.pascal-lab.net/intro/selfmade-testcases.html"><strong>分析自测样例</strong></a>,
+输出<code>*.dot</code>文件到<code>./output/</code>目录下, 可以使用<a
+href="https://graphviz.org/download/"><strong>[Graphviz]</strong></a>可视化<code>*.dot</code>文件.
+使用细节见上述链接中的官方文档.</p>
+<p>笔者所使用的<strong>IDE</strong> 为<strong>JetBrian IDEA 2023.1.4
+Community</strong>版本, <code>Class Assignment</code>运行配置如下.</p>
+<img src="/2024/11/02/SPA-A3/pic1.png" class="" title="pic1">
+<p>在终端中进入工作目录(此处为<code>output/</code>)执行以下命令:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dot -Tpng ClassMethod.dot -o ClassMethod.png</span></span><br></pre></td></tr></table></figure>
+<p>然后我们就可以得到<code>*.dot</code>文件的可视化<strong>CFG</strong>
+结果.</p>
+<h3
+id="根据自测样例推测cfg的生成逻辑">根据自测样例推测CFG的生成逻辑</h3>
+<p>经过前两次的实验, 普通节点和跳转的关联顺序在<strong>CFG</strong>
+中是简单的,
+<code>for</code>和<code>while</code>的循环结构在<strong>tai-e</strong>中转化为简单的<code>goto stmt</code>.
+因此此处笔者着重说明<code>If</code>和<code>Switch</code>在<strong>Tai-e</strong>
+框架中的处理方式.</p>
+<h4 id="控制流不可达代码">控制流不可达代码</h4>
+<p>源代码如下:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ControlFlowUnreachable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">foo</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">        dead(); <span class="comment">// unreachable</span></span><br><span class="line">        x = <span class="number">3</span>; <span class="comment">// unreachable</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dead</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码对应IR如下:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;ControlFlowUnreachable: <span class="type">int</span> <span class="title function_">foo</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] <span class="keyword">return</span> x;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] invokestatic &lt;ControlFlowUnreachable: <span class="keyword">void</span> <span class="title function_">dead</span><span class="params">()</span>&gt;();</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>CFG</strong> 可视结果如下:</p>
+<img src="/2024/11/02/SPA-A3/pic2.png" class="" title="pic2">
+<blockquote>
+<p>不难发现,
+控制流不可达代码在可视化图中的表示是独立于<strong>Entry</strong>到<strong>Exit</strong>
+路径的子图</p>
+</blockquote>
+<h4 id="if-stmt">If Stmt</h4>
+<p>我们先来看看最基础的情况:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            z = <span class="number">200</span>; <span class="comment">// unreachable branch</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">7</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">9</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L10</span>] z = <span class="number">200</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L12</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
+<img src="/2024/11/02/SPA-A3/pic3.png" class="" title="pic3">
+<blockquote>
+<p>可以从可视化<strong>CFG</strong> 中获取不少信息.</p>
+<ul>
+<li><code>[line]:if(ConditionExp) goto [line]</code>
+是<code>if stmt</code>结构的入口(图中为<code>2: if(x &gt; y) goto 4</code>),
+<strong>tai-e</strong>框架会为<code>if stmt</code>结构提供一个统一的<code>nop</code>出口(图中为<code>9: nop</code>).</li>
+<li><code>if</code>结构会根据<code>ConditionExp</code>的<strong>T/F</strong>取值生成<code>Edge</code>,
+分为<code>IF_FALSE</code>和<code>IF_TRUE</code>,
+<code>Edge Target</code>分别为<strong>T/F</strong> 的代码块.
+可以观测到框架会为<strong>T/F</strong>的代码块添加一个<code>nop stmt</code>作为代码块的起始(图中为<code>4: nop</code>和<code>7: nop</code>).</li>
+</ul>
+</blockquote>
+<hr />
+<p>如果我们不显式指定<code>else</code>结构:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">6</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L8</span>] nop;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L13</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
+<img src="/2024/11/02/SPA-A3/pic4.png" class="" title="pic4">
+<blockquote>
+<ul>
+<li>可以看到<code>if</code>结构的<code>IF_FALSE</code>对应的代码块消失,
+<code>IF_FALSE</code>直接跳转到<code>if</code>结构的结束<code>nop</code>语句.(图中为<code>6: nop</code>)</li>
+</ul>
+<blockquote>
+<p><strong>Tips:</strong></p>
+<p>如果显式写出<code>else</code>但<code>else</code>为空体,
+<strong>tai-e</strong>框架会生成一条<code>nop</code>语句对应该<code>else</code>空体,
+感兴趣的读者可以自行测试, 笔者在此不再赘述.</p>
+<p>通过阅读框架代码中的<code>Class If extends JumpStmt</code>和<code>Class JumpStmt</code>可以知晓,
+<code>If</code>将<code>JumpStmt</code>的成员变量<code>target</code>和对应方法(如<code>getTarget()</code>)和<code>If</code>结构中的<code>IF_TRUE</code>对应起来,
+因此此时的<code>Edge IF_FALSE</code>其实等价于<code>FALL_THROUGH</code>,
+<code>IF_FALSE</code>的<code>target</code>是一条指向真正<strong>False代码块</strong>的<code>goto stmt</code>.
+通过阅读框架代码, 便不难理解为何<strong>CFG</strong>
+要这样处理<code>IF</code>结构.</p>
+</blockquote>
+</blockquote>
+<hr />
+<p><code>if-else</code>的嵌套等价于普通的<code>if-else</code>的组合.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(x &lt; y) &#123;</span><br><span class="line">            z = <span class="number">200</span>; <span class="comment">// unreachable branch</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            z = <span class="number">300</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">7</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">16</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L10</span>] <span class="keyword">if</span> (x &lt; y) <span class="keyword">goto</span> <span class="number">10</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">13</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L11</span>] z = <span class="number">200</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">15</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L14</span>] z = <span class="number">300</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L14</span>] nop;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L14</span>] nop;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L16</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
+<img src="/2024/11/02/SPA-A3/pic5.png" class="" title="pic5">
+<h4 id="switch-stmt">Switch Stmt</h4>
+<p>与<code>If</code>一样, 我们先来看看一般情况:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                z = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L16</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L16</span>] nop;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L18</span>] z = <span class="number">0</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L19</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">19</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">13</span>&#125;;</span><br><span class="line">[<span class="number">20</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">21</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
+<img src="/2024/11/02/SPA-A3/pic6.png" class="" title="pic6">
+<blockquote>
+<ul>
+<li>与<code>If</code>一致,
+<code>[line]: [method]switch([var]) &#123;[branch]&#125;</code>是<code>Switch</code>结构的起点(图中为<code>19: lookupswitch(y) &#123;2-&gt;4, 4-&gt;7, 8-&gt;10, default-&gt;13&#125;</code>).
+同样会生成一条<code>nop stmt</code>表示<code>Switch</code>结构的出口.</li>
+<li>经过笔者的多次测试,
+<strong>tai-e</strong>框架的<code>Switch</code>语句处理有些的微妙的奇怪之处.
+与<code>If</code>不同,
+<code>Switch</code>语句的入口在<code>line num</code>上位于<code>Switch</code>结构的最后部分,
+到达该入口需要经过两条<code>nop stmt</code>,
+并且会在<code>CASE</code>和<code>DEFAULT</code>代码块之外添加一个到<code>Switch</code>结构出口的<code>goto stmt</code>.
+然而由于<code>DEFAULT</code>一定存在(下文会解释),
+因此这条<code>goto</code>语句一定为死代码,
+不存在一条从<code>Entry</code>到该语句的路径.</li>
+</ul>
+<blockquote>
+<p><strong>Tips:</strong> 笔者认为这是一个非常奇怪的处理,
+猜测可能跟Soot生成的字节码有关(<strong>Tai-e</strong>框架基于Soot搭建)
+<strong>该猜想未证实</strong>.</p>
+</blockquote>
+<ul>
+<li>笔者推测<code>CASE</code>和<code>DEFAULT</code>代码块中的第一条<code>nop</code>语句来源是<code>case 2:</code>和<code>default:</code>,
+即<strong>Tai-e</strong>框架选择保留了原来的控制信息语句(控制信息在<strong>CFG</strong>中体现为<code>Edge</code>),
+但将其替换成了<code>nop</code>语句(该推测在不显示指定<code>default</code>时得到部分证实).</li>
+</ul>
+</blockquote>
+<hr />
+<p>不显式指定<code>default</code>时:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">14</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L16</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">17</span>&#125;;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
+<img src="/2024/11/02/SPA-A3/pic7.png" class="" title="pic7">
+<blockquote>
+<ul>
+<li>可以观测到<strong>CFG</strong>
+会添加未被显式写出的<code>default</code>,
+但不生成<code>default</code>指向的代码块(如果显示写出<code>default</code>但为空体,
+会保留<code>nop</code>和<code>goto</code>跳转, 笔者在此不再赘述,
+感兴趣的读者可以自行测试),
+而是直接指向<code>Switch</code>结构的出口.</li>
+</ul>
+</blockquote>
+<h4 id="case-break">case &amp; break</h4>
+<p>了解java语法性质的读者应该理解笔者在本小结的标题.</p>
+<p>我们来看看如下代码:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">option</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">switch</span> (option) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;Selected 1&quot;</span>);</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;Selected 2&quot;</span>);</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;Selected 3&quot;</span>);</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;Selected other&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与预期不同, 这段代码的输出如下:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">java Main</span></span><br><span class="line">Selected 2</span><br><span class="line">Selected 3</span><br><span class="line">Selected other</span><br></pre></td></tr></table></figure>
+<p>当<code>switch</code>匹配2成功时, 如果不加<code>break</code>,
+会顺次匹配在<code>case 2:</code>之后的所有<code>case</code>.
+这称为<code>case</code>的<strong>穿透性</strong>.</p>
+<hr />
+<p>我们来看看<strong>CFG</strong>是如何处理这种情况的:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;  <span class="comment">// unreachable case</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// unreachable case</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="comment">//break;</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                z = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// unreachable case</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">16</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L15</span>] nop;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L18</span>] z = <span class="number">0</span>;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L19</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">12</span>&#125;;</span><br><span class="line">[<span class="number">19</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">20</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
+<img src="/2024/11/02/SPA-A3/pic8.png" class="" title="pic8">
+<blockquote>
+<ul>
+<li>这是一个符合预期的处理, 也是一个非常自然而然的想法.</li>
+</ul>
+</blockquote>
+<h2 id="deadcodedetection">DeadCodeDetection</h2>
+<p>本次实验只需要完成<code>Class DeadCodeDetection</code>中的<code>analysis()</code>方法.</p>
+<h3 id="准备工作">准备工作</h3>
+<p>将A1,
+A2中完成的<strong>活跃变量分析</strong>和<strong>常量传播</strong>代码copy到本次实验A3的工作目录中.
+需要注意的是,
+本次活跃变量分析部分不使用<code>IteratorSovler</code>而是使用<code>BackwardWorklist</code>,
+此部分代码需要额外完成.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+不要过多的依赖诸如<strong>ChatGPT</strong>或<strong>Copilot</strong>的书写代码功能,
+其生成的代码很可能存在潜在的不易发现的bug(<del>你猜我为什么会加这个Tips</del>).
+实际上, <code>JetBrain IDEA</code>的成员变量和方法补全功能已经足够好使,
+使用<strong>Copilot</strong>的代码补全反而可能造成一些不必要的麻烦.</p>
+</blockquote>
+<h3 id="控制流不可达代码实现细节">控制流不可达代码实现细节</h3>
+<p>实验指南已写明该部分的具体原理, 此处涉及一些实现细节.</p>
+<ul>
+<li>通过恰当的维护<code>BFSlist</code>可以仅遍历可达代码(主要处理<code>If</code>和<code>Switch</code>),
+因此初始化所有的<code>Stmt</code>为<code>DeadCode</code>,
+遍历到即排除其为死代码是一个不错的选择.</li>
+<li>无论使用<strong>BFS</strong>还是<strong>DFS</strong>,
+都要处理环路引起的<strong>Infinity Loop</strong>,
+一个简单的方法是创建一个<code>Traveled Set</code>保证每个<code>Stmt</code>仅会被遍历到一次(同样的,
+对于<code>BFSList</code>维护也可以通过类似的技巧提升效率).</li>
+<li>遍历一次就能得到结果依托于<strong>不需要处理由删除死代码产生的死代码</strong>(例子可见实验指南).</li>
+<li>关于图的遍历方式,
+笔者在此推荐使用<code>CFG</code>的顶层方法<code>getSuccOf()</code>和<code>getOutEdge()</code>,
+而不是<code>If Stmt</code>和<code>Switch Stmt</code>中的方法.
+这两个跳转语句的实现因为继承自<code>JumpStmt</code>所以细节上可能与想象中有所差异,
+如果一定要使用,
+还请小心谨慎的阅读<code>API</code>注释以获取详细信息.</li>
+<li>关于<code>ConditionExp</code>的处理,
+可以复用A2中实现的<code>evaluate()</code>方法.</li>
+</ul>
+<h3 id="无用赋值代码实现细节">无用赋值代码实现细节</h3>
+<p>同上, 原理部分请参见实验指南.</p>
+<ul>
+<li>继承<code>AssignStmt</code>的子类有足足十几个,
+可以从lib反编译或者科研版代码中获取相关细节, 关于<strong>副作用(Side
+Effect)</strong>在框架代码中已给出<code>API</code>,
+解释了哪些派生类可能引起副作用.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> true if given RValue has no side effect, otherwise false.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">hasNoSideEffect</span><span class="params">(RValue rvalue)</span> &#123;</span><br><span class="line">    <span class="comment">// new expression modifies the heap</span></span><br><span class="line">    <span class="keyword">if</span> (rvalue <span class="keyword">instanceof</span> NewExp ||</span><br><span class="line">            <span class="comment">// cast may trigger ClassCastException</span></span><br><span class="line">            rvalue <span class="keyword">instanceof</span> CastExp ||</span><br><span class="line">            <span class="comment">// static field access may trigger class initialization</span></span><br><span class="line">            <span class="comment">// instance field access may trigger NPE</span></span><br><span class="line">            rvalue <span class="keyword">instanceof</span> FieldAccess ||</span><br><span class="line">            <span class="comment">// array access may trigger NPE(None Pointer Exception)</span></span><br><span class="line">            rvalue <span class="keyword">instanceof</span> ArrayAccess) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (rvalue <span class="keyword">instanceof</span> ArithmeticExp) &#123;</span><br><span class="line">        ArithmeticExp.<span class="type">Op</span> <span class="variable">op</span> <span class="operator">=</span> ((ArithmeticExp) rvalue).getOperator();</span><br><span class="line">        <span class="comment">// may trigger DivideByZeroException</span></span><br><span class="line">        <span class="keyword">return</span> op != ArithmeticExp.Op.DIV &amp;&amp; op != ArithmeticExp.Op.REM;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>小心, 不要忘记判断<code>lValue</code>是否为<code>Var</code>,
+与之前相同, 我们只需要处理<code>Var</code>类型的语句.</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>本次实验难度某种意义上低于A1, 是一个比较简单的实验,
+旨在考察对分析结果的应用能力. 祝早日AC!</p>
+]]></content>
+      <categories>
+        <category>NJU静态分析实验记录</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NJU静态分析|A2-Constant Propagation</title>
     <url>/2024/10/28/SPA-A2/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-2 Constant
@@ -2571,261 +2826,6 @@ transferNonCallNode()</h3>
 </blockquote>
 <h2 id="总结">总结</h2>
 <p>过程间常量传播的思想还是比较巧妙的, 值得细心品味.</p>
-]]></content>
-      <categories>
-        <category>NJU静态分析实验记录</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NJU静态分析|A3-DeadCode Detection</title>
-    <url>/2024/11/02/SPA-A3/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-3 Dead-Code
-Detection.</strong></p>
-<span id="more"></span>
-<p>2024.11.7已更新</p>
-<h2 id="实验信息食用指南">实验信息&amp;食用指南</h2>
-<p>见本博客A1 &amp; A2</p>
-<p><strong>Tips:</strong> 实验指南和框架代码仍然是最一手最正确的资料,
-对于实验指南中已涉及的信息, 本记录不会过多赘述.</p>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>Tai-e</strong> 框架实现一个 <strong>死代码检测</strong>
-算法.</p>
-<h2 id="实验简析">实验简析</h2>
-<p>实验指南没有给出实现的框架,
-因此至此已有完成本次知识的全部基础知识(活跃变量分析 &amp;
-常量传播算法).</p>
-<p>故本次实验主要考察对A1, A2的实验理解,
-有遗忘或有不清楚的读者还望移步至官方教学视频复习后再完成本次实验.</p>
-<ul>
-<li><p>死代码检测是一个<strong>Must Analysis</strong> ,
-允许漏报而不允许错报.</p></li>
-<li><p>由分支不可达的特性, 采用<strong>Forward Analysis</strong>
-比较符合死代码检测的特性.</p></li>
-<li><p>为了走一遍<strong>CFG</strong> 便得到结果,
-我们可以将全部<code>Stmt</code>加入<code>DeadCodeSet</code>中,
-将不是死代码的<code>Stmt</code>删去. 留下的便是死代码.</p></li>
-<li><p>此处笔者采用<strong>BFS</strong>算法进行<strong>CFG</strong>遍历,
-使用<code>Set Traveled</code>避免环路影响.</p></li>
-</ul>
-<h3 id="伪代码框架">伪代码框架</h3>
-<p>死代码检测的大致框架伪代码如下:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">liveVarsResult &lt;- LiveVarsAnalysis(IR)</span><br><span class="line">constantResult &lt;- ConstantAnalysis(IR)</span><br><span class="line">DeadcodeSet &lt;- all stmt in IR</span><br><span class="line">TraveledSet &lt;- empty</span><br><span class="line">BFSlist &lt;- entry</span><br><span class="line"><span class="title function_">while</span><span class="params">(BFSlist is not empty)</span>&#123;</span><br><span class="line">    pickup a stmt from BFSlist</span><br><span class="line">    TraveledSet &lt;- stmt</span><br><span class="line">    <span class="comment">//handle jump Stmt</span></span><br><span class="line">    <span class="keyword">if</span> (stmt is <span class="keyword">if</span> or <span class="keyword">switch</span>)&#123;</span><br><span class="line">        DeadcodeSet remove stmt</span><br><span class="line">        <span class="comment">// ConditionExp is Constant may cause Unreachable DeadCode</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">if</span>/<span class="keyword">switch</span> ConditionExp is Constant by ConstantResult)&#123;</span><br><span class="line">            BFSlist &lt;- Target Stmt of Constant ConditionExp Path</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            BFS &lt;- succ of stmt not in Travaled</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//handle Assign Deadcode</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (stmt is AssignStmt)&#123;</span><br><span class="line">        <span class="keyword">if</span>(stmt is not DeadAssign by LiveVarsResult || stmt has SideEffect)&#123;</span><br><span class="line">            DeadcodeSet remove stmt</span><br><span class="line">        &#125;</span><br><span class="line">        BFSlist &lt;- succ of stmt not in Travaled</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//normal Stmt</span></span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        DeadCodeSet remove stmt</span><br><span class="line">        BFSlist &lt;- succ of stmt not in Travaled</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr />
-<p><strong><em>更新:</em></strong></p>
-<blockquote>
-<p><strong>Compare:</strong> <code>ir.getStmts()</code> &amp;
-<code>cfg.getNodes()</code></p>
-<p>笔者一开始未意识到这个问题, <strong>IR</strong>
-中是不包含<code>Entry</code>和<code>Exit</code>的. 换句话说,
-<code>Entry</code>和<code>Exit</code>是由<strong>CFG</strong> 生成的.
-因此, 在初始化时,
-需要使用<code>ir.getStmts()</code>而不是<code>cfg.getNodes()</code>,
-否则在面对<strong>Infinity Loop</strong> 时,
-<code>Exit</code>节点会错误的被当作<code>Dead Code</code>.</p>
-</blockquote>
-<hr />
-<h2 id="cfg生成细节">CFG生成细节</h2>
-<p>完成本实验最重要的部分莫过于<strong>CFG</strong> 的结构,
-实验指南没有为我们提供所有的实现细节,
-而且<code>CFGBuilder</code>部分的代码对我们来说是不公开的.
-那我们该如何获取关于<strong>CFG</strong> 的细节?</p>
-<h3 id="框架代码提供的接口">框架代码提供的接口</h3>
-<p>好在<strong>tai-e</strong>框架为我们提供了<code>Class Assignment</code>来<a
-href="https://tai-e.pascal-lab.net/intro/selfmade-testcases.html"><strong>分析自测样例</strong></a>,
-输出<code>*.dot</code>文件到<code>./output/</code>目录下, 可以使用<a
-href="https://graphviz.org/download/"><strong>[Graphviz]</strong></a>可视化<code>*.dot</code>文件.
-使用细节见上述链接中的官方文档.</p>
-<p>笔者所使用的<strong>IDE</strong> 为<strong>JetBrian IDEA 2023.1.4
-Community</strong>版本, <code>Class Assignment</code>运行配置如下.</p>
-<img src="/2024/11/02/SPA-A3/pic1.png" class="" title="pic1">
-<p>在终端中进入工作目录(此处为<code>output/</code>)执行以下命令:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dot -Tpng ClassMethod.dot -o ClassMethod.png</span></span><br></pre></td></tr></table></figure>
-<p>然后我们就可以得到<code>*.dot</code>文件的可视化<strong>CFG</strong>
-结果.</p>
-<h3
-id="根据自测样例推测cfg的生成逻辑">根据自测样例推测CFG的生成逻辑</h3>
-<p>经过前两次的实验, 普通节点和跳转的关联顺序在<strong>CFG</strong>
-中是简单的,
-<code>for</code>和<code>while</code>的循环结构在<strong>tai-e</strong>中转化为简单的<code>goto stmt</code>.
-因此此处笔者着重说明<code>If</code>和<code>Switch</code>在<strong>Tai-e</strong>
-框架中的处理方式.</p>
-<h4 id="控制流不可达代码">控制流不可达代码</h4>
-<p>源代码如下:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ControlFlowUnreachable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">foo</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">        dead(); <span class="comment">// unreachable</span></span><br><span class="line">        x = <span class="number">3</span>; <span class="comment">// unreachable</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dead</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码对应IR如下:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;ControlFlowUnreachable: <span class="type">int</span> <span class="title function_">foo</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] <span class="keyword">return</span> x;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] invokestatic &lt;ControlFlowUnreachable: <span class="keyword">void</span> <span class="title function_">dead</span><span class="params">()</span>&gt;();</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p><strong>CFG</strong> 可视结果如下:</p>
-<img src="/2024/11/02/SPA-A3/pic2.png" class="" title="pic2">
-<blockquote>
-<p>不难发现,
-控制流不可达代码在可视化图中的表示是独立于<strong>Entry</strong>到<strong>Exit</strong>
-路径的子图</p>
-</blockquote>
-<h4 id="if-stmt">If Stmt</h4>
-<p>我们先来看看最基础的情况:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            z = <span class="number">200</span>; <span class="comment">// unreachable branch</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">7</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">9</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L10</span>] z = <span class="number">200</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L12</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic3.png" class="" title="pic3">
-<blockquote>
-<p>可以从可视化<strong>CFG</strong> 中获取不少信息.</p>
-<ul>
-<li><code>[line]:if(ConditionExp) goto [line]</code>
-是<code>if stmt</code>结构的入口(图中为<code>2: if(x &gt; y) goto 4</code>),
-<strong>tai-e</strong>框架会为<code>if stmt</code>结构提供一个统一的<code>nop</code>出口(图中为<code>9: nop</code>).</li>
-<li><code>if</code>结构会根据<code>ConditionExp</code>的<strong>T/F</strong>取值生成<code>Edge</code>,
-分为<code>IF_FALSE</code>和<code>IF_TRUE</code>,
-<code>Edge Target</code>分别为<strong>T/F</strong> 的代码块.
-可以观测到框架会为<strong>T/F</strong>的代码块添加一个<code>nop stmt</code>作为代码块的起始(图中为<code>4: nop</code>和<code>7: nop</code>).</li>
-</ul>
-</blockquote>
-<hr />
-<p>如果我们不显式指定<code>else</code>结构:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">6</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L8</span>] nop;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L13</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic4.png" class="" title="pic4">
-<blockquote>
-<ul>
-<li>可以看到<code>if</code>结构的<code>IF_FALSE</code>对应的代码块消失,
-<code>IF_FALSE</code>直接跳转到<code>if</code>结构的结束<code>nop</code>语句.(图中为<code>6: nop</code>)</li>
-</ul>
-<blockquote>
-<p><strong>Tips:</strong></p>
-<p>如果显式写出<code>else</code>但<code>else</code>为空体,
-<strong>tai-e</strong>框架会生成一条<code>nop</code>语句对应该<code>else</code>空体,
-感兴趣的读者可以自行测试, 笔者在此不再赘述.</p>
-<p>通过阅读框架代码中的<code>Class If extends JumpStmt</code>和<code>Class JumpStmt</code>可以知晓,
-<code>If</code>将<code>JumpStmt</code>的成员变量<code>target</code>和对应方法(如<code>getTarget()</code>)和<code>If</code>结构中的<code>IF_TRUE</code>对应起来,
-因此此时的<code>Edge IF_FALSE</code>其实等价于<code>FALL_THROUGH</code>,
-<code>IF_FALSE</code>的<code>target</code>是一条指向真正<strong>False代码块</strong>的<code>goto stmt</code>.
-通过阅读框架代码, 便不难理解为何<strong>CFG</strong>
-要这样处理<code>IF</code>结构.</p>
-</blockquote>
-</blockquote>
-<hr />
-<p><code>if-else</code>的嵌套等价于普通的<code>if-else</code>的组合.</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(x &lt; y) &#123;</span><br><span class="line">            z = <span class="number">200</span>; <span class="comment">// unreachable branch</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            z = <span class="number">300</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">7</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">16</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L10</span>] <span class="keyword">if</span> (x &lt; y) <span class="keyword">goto</span> <span class="number">10</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">13</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L11</span>] z = <span class="number">200</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">15</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L14</span>] z = <span class="number">300</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L14</span>] nop;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L14</span>] nop;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L16</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic5.png" class="" title="pic5">
-<h4 id="switch-stmt">Switch Stmt</h4>
-<p>与<code>If</code>一样, 我们先来看看一般情况:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                z = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L16</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L16</span>] nop;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L18</span>] z = <span class="number">0</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L19</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">19</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">13</span>&#125;;</span><br><span class="line">[<span class="number">20</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">21</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic6.png" class="" title="pic6">
-<blockquote>
-<ul>
-<li>与<code>If</code>一致,
-<code>[line]: [method]switch([var]) &#123;[branch]&#125;</code>是<code>Switch</code>结构的起点(图中为<code>19: lookupswitch(y) &#123;2-&gt;4, 4-&gt;7, 8-&gt;10, default-&gt;13&#125;</code>).
-同样会生成一条<code>nop stmt</code>表示<code>Switch</code>结构的出口.</li>
-<li>经过笔者的多次测试,
-<strong>tai-e</strong>框架的<code>Switch</code>语句处理有些的微妙的奇怪之处.
-与<code>If</code>不同,
-<code>Switch</code>语句的入口在<code>line num</code>上位于<code>Switch</code>结构的最后部分,
-到达该入口需要经过两条<code>nop stmt</code>,
-并且会在<code>CASE</code>和<code>DEFAULT</code>代码块之外添加一个到<code>Switch</code>结构出口的<code>goto stmt</code>.
-然而由于<code>DEFAULT</code>一定存在(下文会解释),
-因此这条<code>goto</code>语句一定为死代码,
-不存在一条从<code>Entry</code>到该语句的路径.</li>
-</ul>
-<blockquote>
-<p><strong>Tips:</strong> 笔者认为这是一个非常奇怪的处理,
-猜测可能跟Soot生成的字节码有关(<strong>Tai-e</strong>框架基于Soot搭建)
-<strong>该猜想未证实</strong>.</p>
-</blockquote>
-<ul>
-<li>笔者推测<code>CASE</code>和<code>DEFAULT</code>代码块中的第一条<code>nop</code>语句来源是<code>case 2:</code>和<code>default:</code>,
-即<strong>Tai-e</strong>框架选择保留了原来的控制信息语句(控制信息在<strong>CFG</strong>中体现为<code>Edge</code>),
-但将其替换成了<code>nop</code>语句(该推测在不显示指定<code>default</code>时得到部分证实).</li>
-</ul>
-</blockquote>
-<hr />
-<p>不显式指定<code>default</code>时:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">14</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L16</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">17</span>&#125;;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic7.png" class="" title="pic7">
-<blockquote>
-<ul>
-<li>可以观测到<strong>CFG</strong>
-会添加未被显式写出的<code>default</code>,
-但不生成<code>default</code>指向的代码块(如果显示写出<code>default</code>但为空体,
-会保留<code>nop</code>和<code>goto</code>跳转, 笔者在此不再赘述,
-感兴趣的读者可以自行测试),
-而是直接指向<code>Switch</code>结构的出口.</li>
-</ul>
-</blockquote>
-<h4 id="case-break">case &amp; break</h4>
-<p>了解java语法性质的读者应该理解笔者在本小结的标题.</p>
-<p>我们来看看如下代码:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">option</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">switch</span> (option) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;Selected 1&quot;</span>);</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;Selected 2&quot;</span>);</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;Selected 3&quot;</span>);</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;Selected other&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>与预期不同, 这段代码的输出如下:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">java Main</span></span><br><span class="line">Selected 2</span><br><span class="line">Selected 3</span><br><span class="line">Selected other</span><br></pre></td></tr></table></figure>
-<p>当<code>switch</code>匹配2成功时, 如果不加<code>break</code>,
-会顺次匹配在<code>case 2:</code>之后的所有<code>case</code>.
-这称为<code>case</code>的<strong>穿透性</strong>.</p>
-<hr />
-<p>我们来看看<strong>CFG</strong>是如何处理这种情况的:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;  <span class="comment">// unreachable case</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// unreachable case</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="comment">//break;</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                z = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// unreachable case</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">16</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L15</span>] nop;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L18</span>] z = <span class="number">0</span>;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L19</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">12</span>&#125;;</span><br><span class="line">[<span class="number">19</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">20</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic8.png" class="" title="pic8">
-<blockquote>
-<ul>
-<li>这是一个符合预期的处理, 也是一个非常自然而然的想法.</li>
-</ul>
-</blockquote>
-<h2 id="deadcodedetection">DeadCodeDetection</h2>
-<p>本次实验只需要完成<code>Class DeadCodeDetection</code>中的<code>analysis()</code>方法.</p>
-<h3 id="准备工作">准备工作</h3>
-<p>将A1,
-A2中完成的<strong>活跃变量分析</strong>和<strong>常量传播</strong>代码copy到本次实验A3的工作目录中.
-需要注意的是,
-本次活跃变量分析部分不使用<code>IteratorSovler</code>而是使用<code>BackwardWorklist</code>,
-此部分代码需要额外完成.</p>
-<blockquote>
-<p><strong>Tips:</strong>
-不要过多的依赖诸如<strong>ChatGPT</strong>或<strong>Copilot</strong>的书写代码功能,
-其生成的代码很可能存在潜在的不易发现的bug(<del>你猜我为什么会加这个Tips</del>).
-实际上, <code>JetBrain IDEA</code>的成员变量和方法补全功能已经足够好使,
-使用<strong>Copilot</strong>的代码补全反而可能造成一些不必要的麻烦.</p>
-</blockquote>
-<h3 id="控制流不可达代码实现细节">控制流不可达代码实现细节</h3>
-<p>实验指南已写明该部分的具体原理, 此处涉及一些实现细节.</p>
-<ul>
-<li>通过恰当的维护<code>BFSlist</code>可以仅遍历可达代码(主要处理<code>If</code>和<code>Switch</code>),
-因此初始化所有的<code>Stmt</code>为<code>DeadCode</code>,
-遍历到即排除其为死代码是一个不错的选择.</li>
-<li>无论使用<strong>BFS</strong>还是<strong>DFS</strong>,
-都要处理环路引起的<strong>Infinity Loop</strong>,
-一个简单的方法是创建一个<code>Traveled Set</code>保证每个<code>Stmt</code>仅会被遍历到一次(同样的,
-对于<code>BFSList</code>维护也可以通过类似的技巧提升效率).</li>
-<li>遍历一次就能得到结果依托于<strong>不需要处理由删除死代码产生的死代码</strong>(例子可见实验指南).</li>
-<li>关于图的遍历方式,
-笔者在此推荐使用<code>CFG</code>的顶层方法<code>getSuccOf()</code>和<code>getOutEdge()</code>,
-而不是<code>If Stmt</code>和<code>Switch Stmt</code>中的方法.
-这两个跳转语句的实现因为继承自<code>JumpStmt</code>所以细节上可能与想象中有所差异,
-如果一定要使用,
-还请小心谨慎的阅读<code>API</code>注释以获取详细信息.</li>
-<li>关于<code>ConditionExp</code>的处理,
-可以复用A2中实现的<code>evaluate()</code>方法.</li>
-</ul>
-<h3 id="无用赋值代码实现细节">无用赋值代码实现细节</h3>
-<p>同上, 原理部分请参见实验指南.</p>
-<ul>
-<li>继承<code>AssignStmt</code>的子类有足足十几个,
-可以从lib反编译或者科研版代码中获取相关细节, 关于<strong>副作用(Side
-Effect)</strong>在框架代码中已给出<code>API</code>,
-解释了哪些派生类可能引起副作用.</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> true if given RValue has no side effect, otherwise false.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">hasNoSideEffect</span><span class="params">(RValue rvalue)</span> &#123;</span><br><span class="line">    <span class="comment">// new expression modifies the heap</span></span><br><span class="line">    <span class="keyword">if</span> (rvalue <span class="keyword">instanceof</span> NewExp ||</span><br><span class="line">            <span class="comment">// cast may trigger ClassCastException</span></span><br><span class="line">            rvalue <span class="keyword">instanceof</span> CastExp ||</span><br><span class="line">            <span class="comment">// static field access may trigger class initialization</span></span><br><span class="line">            <span class="comment">// instance field access may trigger NPE</span></span><br><span class="line">            rvalue <span class="keyword">instanceof</span> FieldAccess ||</span><br><span class="line">            <span class="comment">// array access may trigger NPE(None Pointer Exception)</span></span><br><span class="line">            rvalue <span class="keyword">instanceof</span> ArrayAccess) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (rvalue <span class="keyword">instanceof</span> ArithmeticExp) &#123;</span><br><span class="line">        ArithmeticExp.<span class="type">Op</span> <span class="variable">op</span> <span class="operator">=</span> ((ArithmeticExp) rvalue).getOperator();</span><br><span class="line">        <span class="comment">// may trigger DivideByZeroException</span></span><br><span class="line">        <span class="keyword">return</span> op != ArithmeticExp.Op.DIV &amp;&amp; op != ArithmeticExp.Op.REM;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>小心, 不要忘记判断<code>lValue</code>是否为<code>Var</code>,
-与之前相同, 我们只需要处理<code>Var</code>类型的语句.</li>
-</ul>
-<h2 id="总结">总结</h2>
-<p>本次实验难度某种意义上低于A1, 是一个比较简单的实验,
-旨在考察对分析结果的应用能力. 祝早日AC!</p>
 ]]></content>
       <categories>
         <category>NJU静态分析实验记录</category>
@@ -3350,18 +3350,299 @@ _2TypeSelector</h3>
       </tags>
   </entry>
   <entry>
-    <title>千里之行，始于足下</title>
-    <url>/2024/09/08/hello-world/</url>
-    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
-step.</strong></p>
+    <title>NJU静态分析|A7-Alias-Aware Interprocedural Constant Propagation</title>
+    <url>/2024/12/09/SPA-A7/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-7 Alias-Aware
+Interprocedural Constant Propagation.</strong></p>
 <span id="more"></span>
-<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>tai-e</strong>框架实现带别名分析的过程间常量传播.</p>
+<h2 id="preparation">Preparation</h2>
+<ul>
+<li><p>将<code>A2/.../ConstantPropagation</code>复制到<code>A7/.../ConstantPropagation</code></p></li>
+<li><p>将<code>A4/.../InterConstantPropagation</code>复制到<code>A7/.../InterConstantPropagation</code></p></li>
+<li><p>将<code>A4/.../InterSolver</code>复制到<code>A7/InterSolver</code></p></li>
+<li><p>将<code>A6/.../cs/Solver</code>复制到<code>A7/.../cs/Solver</code></p></li>
+<li><p>将<code>A6/.../_2ObjSelector</code>复制到<code>A7/.../_2ObjSelector</code></p>
+<blockquote>
+<p><strong>Tips:</strong>
+<code>plan.yml</code>已经配置好了<code>cs: 2-obj</code>,
+如果本地测试中想要使用其他策略,
+需要将对应<code>Selector</code>复制到本次实验目录,
+并配置<code>plan.yml</code>(方法已在A6实验指南中给出)</p>
+</blockquote></li>
+</ul>
+<p><strong><em>注意:</em></strong>
+除去指针分析的部分作为结果查询字段指向外,
+其余文件都可以是本次实验的更改范围.</p>
+<h2 id="review">Review</h2>
+<p>由于要设计算法, 不妨先复习一下A2和A4中常量传播算法和应用范围.</p>
+<ul>
+<li><p>常量传播算法是<strong>Forward &amp; Must Analysis</strong>.
+迭代至收敛至"最大"不动点.</p>
+<blockquote>
+<p><strong>Additional:</strong></p>
+<p>迭代算法框架如下:</p>
+<img src="/2024/12/09/SPA-A7/pic1-1.png" class="" title="pic1-1">
+<p>活跃变量分析的迭代示例:</p>
+<img src="/2024/12/09/SPA-A7/pic1-2.png" class="" title="pic1-2">
+</blockquote></li>
+<li><p>常量传播算法中对数值的抽象为<code>UNDEF-&gt;CONST-&gt;NAC</code>.</p></li>
+<li><p>由于数据流动的"单调性", <strong>Meet</strong>要满足</p>
+<blockquote>
+<img src="/2024/12/09/SPA-A7/pic1-3.png" class="" title="pic1-3">
+</blockquote></li>
+<li><p>语句处理的<strong>Transfer Function</strong></p>
+<blockquote>
+<img src="/2024/12/09/SPA-A7/pic1-4.png" class="" title="pic1-4">
+</blockquote></li>
+</ul>
+<blockquote>
+<p>在A2中,
+处理范围仅限于<code>DefinitionStmt</code>中的变量和表达式部分,
+对于诸如<strong>字段, 数组</strong>部分采取保守策略,
+赋值为<code>NAC</code>; 分析范围仅局限于<strong>过程内分析</strong>,
+此时为方法调用的返回值采取保守策略, 赋值为<code>NAC</code>.</p>
+<p>在A4中, 同样只处理变量, 但分析范围扩展为过程间分析,
+需要完成对方法调用传参, 传返回值, 为了完成过程间的数据流传递,
+加入了<strong>Transfer Edge</strong>.</p>
+<p>由于方法调用的<strong>动态时确认</strong>,
+需要知道在这个调用点<code>callsite</code>,
+真正的<code>callee</code>是什么,
+因此建立<strong>CallGraph</strong>为<strong>ICFG(inter-procedural
+control-flow graph)</strong>
+提供调用图信息.(你应该还记得在A4的<code>CHABuilder</code>完成前,
+<code>Assignment</code>不会输出任何ICFG信息)</p>
+<img src="/2024/12/09/SPA-A7/pic1-5.png" class="" title="pic1-5">
+</blockquote>
+<h2 id="requirement-analysis">Requirement &amp; Analysis</h2>
+<p>现在来看看实验要求和手上的工具, 看看如何处理新需求.</p>
+<h3 id="常量处理范围">常量处理范围</h3>
+<p>在之前的实验中,
+忽略了<strong>字段Field</strong>和<strong>数组Array</strong>的分析,
+原因在本次实验已经指出, 是<strong>别名Alias</strong>所引起的,
+由于多个变量(指针)可以指向同一个对象, 只有当明确指针所指向对象时,
+才能为其赋值<strong>常量Constant</strong>.</p>
+<p>需要指出的是, 本次实验仍然<strong>只需要处理int类型的变量</strong>.
+A2中已经提供了足够好用的<code>canHoldInt()</code>.</p>
+<p>另外,
+指南上讲述了实验框架中会忽略<strong>静态字段的初始化</strong>的情况,
+因其在控制流图中不可达, 不需要对其进行额外的处理.</p>
+<h3 id="域分析范围">域分析范围</h3>
+<p>A4开始采用了一种精度较低的方法CHA构建<strong>CallGraph</strong>; A5,
+A6使用了精度更高的指针分析技术构建<strong>CallGraph</strong>.</p>
+<p>本次实验仍然是处理<strong>过程间常量传播</strong>,
+由于<strong>CallGraph</strong>更加精确, 分析精度相较于A4也会更进一步.
+同时,
+在Tai-e框架下完成实验不需要关注<strong>ICFG</strong>如何获得<strong>CG</strong>信息(如有兴趣可自行阅读框架代码).</p>
+<h3 id="pointeranalysisresult">PointerAnalysisResult</h3>
+<p>框架代码提供了<code>class PointerAnalysisResult</code>用来获取指针分析的结果,
+该部分的初始化在<code>InterConstantPropagation</code>中的<code>initial()</code>中完成.</p>
+<p>其中包含的API说明都较为清晰, 笔者在此不过多赘述.</p>
+<h3 id="别名分析">别名分析</h3>
+<p>该部分实验指南已经给出了一个比较简单的实现方法,
+<strong>Pointer指向的PointsToSet存在交集,
+则认为二者互为别名.</strong></p>
+<p>换个说法, <strong>存在两个或两个以上Pointer指向同一个Obj,
+则认为二者互为别名.</strong></p>
+<p>实验指南中讲述了为什么只需要<code>Pointer</code>而不是<code>CSPointer</code>的原因</p>
+<p>笔者在此给出两个简单的算法思路:</p>
+<ul>
+<li><p>遍历所有的<code>Pointer1</code>与<code>Pointer2</code>,
+获取<code>PointsToSet</code>,
+如果有交集就加入<code>Multiple Map</code>中,
+简单地以<code>&lt;Var, Var&gt;</code>的形式维护alias信息.</p></li>
+<li><p>遍历所有的<code>Pointer</code>和对应的<code>PointsToSet</code>,
+维护一个<code>&lt;Obj, Var&gt;</code>结构,
+对于<code>&lt;Obj, Var1&gt;</code>和<code>&lt;Obj, Var2&gt;</code>,
+<code>Var1</code>和<code>Var2</code>互为别名.</p></li>
+</ul>
+<blockquote>
+<p><strong>Tips: 框架代码的做法</strong></p>
+<p>如果你有阅读过框架代码或者"意外"跳转到<code>class Maps</code>,
+便会发现,
+Tai-e框架中已经配置了好了获取基本数据结构的API(被TT深不可测的代码力所折服).
+可以通过简单的<code>Maps.newMultiMap()</code>获取实例化数据结构. 当然,
+也可以选择自己实例化Map的结构.</p>
+<p>不过需要注意的是, 该部分代码<strong>不是显式给出的</strong>,
+而是封装在<code>tai-e-assignment.jar</code>中,
+可以选择阅读科研版doc或者阅读反编译后的源码(该部分结构简单,
+即便无注释也可以理解)</p>
+</blockquote>
+<h3 id="field处理">Field处理</h3>
+<p>在这里会遇到第一个头疼的点: <strong>ConstPropagation是流敏感的,
+但PointerAnalysis是流不敏感的.</strong></p>
+<p>尽管别名信息不依赖于常量传播, 但对象存储的值来源常量传播. 因此,
+需要先理清楚如何处理<code>Load</code>和<code>Store</code>.(<strong>注意:</strong>
+笔者以下论述基于InstanceField,
+SaticField的处理只会比InstanceField简单)</p>
+<blockquote>
+<p><strong>Try: 先收集所有的Store再更新给Load?</strong></p>
+<p>这是符合流不敏感的思路,
+但是在ConstPropagation的流敏感框架中非常难以实现. 在迭代过程中,
+Store的<strong>右值</strong>可能会改变,
+Store的变化也会引起非Field和Array变量的变化. 所以,
+Field和Array的更新也需要采用流敏感框架中的迭代方法.</p>
+</blockquote>
+<p>现在来分析如何用迭代的方法处理Field.</p>
+<ul>
+<li><p>对于Load, 因为迭代的缘故, 可以先假设后续的处理会正确的广播到此处,
+更新Load的值. 因此只需要简单的传播到def即可.</p></li>
+<li><p>对于Store, 假设已经有了一个对应的Load结构,
+Store产生了更新该如何广播?
+worklist加入<code>Load Stmt</code>迭代即可.</p></li>
+<li><p>同时, 需要注意InstanceFiled的特性,
+考虑别名信息进行更新即可.</p></li>
+</ul>
+<h3 id="array处理">Array处理</h3>
+<p>Array可以理解成一种特殊的InstanceField, 不过需要注意何时互为别名,
+只有在互为别名的情况下才考虑广播.</p>
+<h3 id="小结">小结</h3>
+<p>至此已经有了一个对完成本次实验的一个基本思路了,
+接下来开始考虑一些完成实验的细节.</p>
+<h2 id="算法设计">算法设计</h2>
+<blockquote>
+<p><strong>Tips:</strong> 笔者在此章节不详谈实现上的细节, 该部分在<a
+href="#拾遗-tai-e-faq-you-need-to-know">拾遗</a>章节分点给出. 并且,
+由于框架代码的特性, 算法的实现可能与思路有所出入.</p>
+</blockquote>
+<blockquote>
+<p><strong>Question: 这次新写的代码和A4冲突吗?</strong></p>
+<p>这个问题实际上是在问:
+Field和Array的传播是否会影响到过程间常量传播的<strong>EdgeTransfer</strong>.</p>
+<p>答案自然是否定的, Field和Array可以理解成一种特殊的Var,
+尽管其结果不需要呈现在<code>DataFlowResult</code>中. 可以自然地得出结论:
+加入Field和Array并不会改变A4的算法框架.</p>
+<p>也即,
+本次实验所设计的算法是对<strong>TransferNonCallNode(A2-IntraConstPropagation)</strong>的补全.</p>
+</blockquote>
+<p>所以, 本次算法的基本框架可以表示为:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="title function_">transferNonCallNode</span><span class="params">(Stmt stmt, CPFact in, CPFact out)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (stmt <span class="keyword">instanceof</span> LoadField)&#123;</span><br><span class="line">        <span class="comment">//handle</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (stmt <span class="keyword">instanceof</span> StoreFiled)&#123;</span><br><span class="line">        <span class="comment">//handle</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (stmt <span class="keyword">instanceof</span> LoadArray)&#123;</span><br><span class="line">        <span class="comment">//handle</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (stmt <span class="keyword">instanceof</span> StoreArray)&#123;</span><br><span class="line">        <span class="comment">//handle</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        cp.transferNode(); <span class="comment">//form A2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然,
+你也可以选择将这些语句的处理直接整合进<code>ConstantPropagation</code>(前提是A2的实现最好确保是正确的).</p>
+<blockquote>
+<p><strong>Tips:</strong>
+还记得在A5和A6中是如何优雅地处理繁杂的<code>instanceof</code>判断吗? 对,
+就是<strong>访问者模式</strong>, 在本次实验中,
+仍然可以选择这样的方法实现算法.
+所有的<code>Stmt</code>类中都已经内置了<code>accept()</code>API可供访问,
+只需要新的访问类继承自<code>StmtVisitor</code>即可.</p>
+</blockquote>
+<h3
+id="field-value的存储和广播"><code>&lt;Field, Value&gt;</code>的存储和广播</h3>
+<blockquote>
+<p><strong>Tips:</strong> 在Tai-e框架中, 将Array等效抽象成Field,
+并不对<strong>Index</strong>做具体的区分(对<code>a[i]</code>和<code>a[j]</code>的store操作视为对同一对象<code>a[...]</code>的store操作).
+尽管如此,
+index信息也有助于分区<code>a[i]</code>和<code>a[j]</code>是否为别名,
+从而决定是否需要广播. 因此, Array的维护会比Field更复杂, 但基本原理一致,
+笔者在此章节<strong>不再</strong>赘述Array应如何处理.</p>
+</blockquote>
+<p>在之前的分析中已经获知了<a href="#别名分析">Alias信息</a>,
+该部分算法的实现依赖于别名信息.</p>
+<p>笔者在此给出两个算法思路抛砖引玉:</p>
+<h4 id="只考虑alias层">只考虑Alias层</h4>
+<p>这是个朴实但简单的想法:
+所有的<code>y = x.f</code>来自也只来自<code>x.f = z</code>,
+这句"废话"意味着什么?</p>
+<p><strong>意味着其实根本就不需要考虑<code>x.f</code>或者说<code>oi.f</code>的取值,
+如果想知道<code>y</code>可能的value值,
+只需要<code>meet</code>所有的<code>z</code>就可以了.</strong></p>
+<p>根据这个思路, 有:</p>
+<ul>
+<li><p>对于<code>LoadField</code>,
+找到所有与<code>x.f</code>相关的<code>x'.f = z</code>,
+其中<code>x'</code>是<code>x</code>的别名, <strong>meet</strong>
+<code>z</code>的<code>value</code>值.
+如果<code>y = meet(foreach(z))</code>有更新,
+将其后续<code>Node</code>加入<code>workList</code>.</p></li>
+<li><p>对于<code>StoreField</code>,
+找到所有与<code>x.f</code>相关的<code>y = x'.f</code>,
+其中<code>x'</code>是<code>x</code>的别名,
+将这些<code>StoreField</code>加入<code>workList</code>.</p></li>
+</ul>
+<p>这个算法的优点是实现简单, 但缺点是效率低,
+展现着独属于暴力的美学魅力.</p>
+<p>其关键在于如何维护<code>&lt;Field, Stmt&gt;</code>的结构,
+框架代码中有不少细节需要关注.</p>
+<h4 id="考虑mapobj-value">考虑<code>Map&lt;Obj, Value&gt;</code></h4>
+<p><code>x.f</code>中的<code>x</code>是<code>Pointer</code>,
+真正存储Value值的是<code>Obj</code>,
+因此可以考虑维护<code>&lt;Var, Obj&gt;</code>和<code>&lt;Obj.field, Value&gt;</code>两个Map,
+<code>Load</code>和<code>Store</code>均对Map进行操作.</p>
+<p>该思路避免了之前算法中的大量冗余计算(笔者自测跑完本地测试需要近30s),
+提高了效率, 但Map的维护较为复杂.</p>
+<p>具体处理<code>LoadField</code>和<code>StoreField</code>时,
+只需要将信息更新到<code>Map&lt;Obj.field, Value&gt;</code>即可,
+广播逻辑与之前相同.</p>
+<p>不过需要注意的是, 由于指针分析结果是流不敏感的,
+对于<code>Store</code>操作只使用<code>meet</code>而不是<code>kill</code>.</p>
+<h2 id="拾遗-tai-e-faq-you-need-to-know">拾遗: Tai-e FAQ You Need to
+Know</h2>
+<h3 id="cs-ci-pointer-analysis">CS &amp; CI Pointer Analysis</h3>
+<p>CallGraph建立的ICFG是没有上下文的,
+这和常量传播不关注上下文的行为一致.
+但对<code>Pointer</code>指向信息可以使用带上下文的分析结果以获取更高的精度,
+这与ICFG并不冲突.</p>
+<h3 id="ir">IR</h3>
+<p>IR的使用为本次实验做了大量简化, 你可能会疑惑,
+对于<code>x.f = y.g</code>这样的操作,
+上述算法框架可以覆盖到该语句吗?</p>
+<p>实际上, <code>x.f = y.g</code>在IR中会被转化为:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">[<span class="number">21</span><span class="meta">@L16</span>] temp$<span class="number">8</span> = x.&lt;X: <span class="type">int</span> f&gt;;</span><br><span class="line">[<span class="number">22</span><span class="meta">@L16</span>] y.&lt;Y: <span class="type">int</span> g&gt; = temp$<span class="number">8</span>;</span><br></pre></td></tr></table></figure>
+<p>与之类似的, <code>Invoke</code>,
+<code>BinaryExp</code>也具有相同的特性.</p>
+<p>如果不确定某条语句在框架中如何表示,
+可以自己设计测试样例通过Assignment分析其结果.</p>
+<p>回到这次实验,
+可以简单认为<strong>所有<code>AssignStmt</code>的左值和右值中最多只有一个是Field/Array,
+另外一个是Var</strong>.</p>
+<h3
+id="intersolver与interconstpropagation">InterSolver与InterConstPropagation</h3>
+<p>InterConstPropagation的字段可以简单的通过参数的方式进行传递,
+但InterSolver与InterConstPropagation间该如何通信?</p>
+<p>注意到<code>InterConstantPropagation extends AbstractInterDataflowAnalysis</code>,
+其父类中含有字段<code>InterSolver solver</code>,
+可以通过<code>solver.xxx</code>实现通信.</p>
+<p>对于其中的<code>private</code>和<code>protected</code>字段,
+可以为其编写一个<code>public XType getX()</code>API提供访问接口.(如<code>result</code>,
+<code>worklist</code>等).</p>
+<h3 id="数据结构map">数据结构Map</h3>
+<p>本次实验中存在大量"一对多"的联系,
+可以考虑选取<code>MultiMap</code>进行维护.
+其中提供了不少相当便捷的API.</p>
+<h3 id="relevantstmt">relevantStmt</h3>
+<p>如果能把字段中的Var取出,
+可以使用其中的API<code>var.getStoreField()</code>等API方便的获取有关语句,
+不过对Static就没有太好的方法了,
+笔者采用的是遍历<code>icfg.getNodes()</code>.</p>
+<h3 id="fieldstmt-fieldaccesss-filedref-jfield">FieldStmt, FieldAccesss,
+FiledRef &amp; JField</h3>
+<p>Tai-e框架中的Field的处理要比Array复杂不少, 笔者在此做简要解释.</p>
+<ul>
+<li><p>JField的结构是<code>&lt;Type: FieldName&gt;</code>,
+可以使用<code>FieldStmt.getRef().resolve()</code>得到.
+当使用Stmt解析出JField进行比较时会获取更高的精度.
+(笔者因为这个卡了hidden test)</p></li>
+<li><p>如果想获取Field的Obj(即base部分),
+可以使用<code>FieldStmt.getFieldAccess().getBase()</code>.
+不过需要先转换为<code>InstanceFieldAccess</code>类型才能使用<code>getBase()</code>的API.</p>
+<blockquote>
+<p><strong>Tips:</strong> 笔者在此吐槽一句,
+为何关于Field的API都封装在了<code>tai-e-Assignemnt.jar</code>中而不是显式的给出,
+增大了如何处理Field的学习成本.</p>
+</blockquote></li>
+</ul>
+<h3 id="arraystmt">ArrayStmt</h3>
+<p>Array的结构相对简单一点,
+通过<code>getAccess()</code>就可以简单的<code>access.getBase/Index()</code>获取需要的信息.</p>
 ]]></content>
       <categories>
-        <category>杂项</category>
+        <category>NJU静态分析实验记录</category>
       </categories>
       <tags>
-        <tag>杂项</tag>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
       </tags>
   </entry>
   <entry>
@@ -3536,6 +3817,21 @@ class="uri">https://blog.csdn.net/weixin_62075168/article/details/131226082</a><
       <tags>
         <tag>环境配置</tag>
         <tag>AI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>千里之行，始于足下</title>
+    <url>/2024/09/08/hello-world/</url>
+    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
+step.</strong></p>
+<span id="more"></span>
+<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>杂项</tag>
       </tags>
   </entry>
 </search>
