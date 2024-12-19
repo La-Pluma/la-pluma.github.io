@@ -1975,89 +1975,6 @@ href="https://www.zhihu.com/question/31203609?sort=created"><strong>[知乎|Java
       </tags>
   </entry>
   <entry>
-    <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
-    <url>/2024/09/21/LeetCode-P4/</url>
-    <content><![CDATA[<p><strong>题目链接:</strong> <a
-href="https://leetcode.cn/problems/median-of-two-sorted-arrays/"><strong>LeetCode|4.寻找两个正序数组的中位数</strong></a></p>
-<span id="more"></span>
-<hr />
-<h2 id="题面解释">题面解释</h2>
-<p>找出两个有序数组合并后的中位数. 但要求时间复杂度<span
-class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
-<h2 id="解法一-二分">解法一 二分</h2>
-<p>笔者看到复杂度<span class="math inline">\(\mathit{O}(log(m +
-n))\)</span>第一想法便是二分, 但怎么二分? 两个数组只是内部有序,
-两个数组并不有序, 常规对数组二分的思路肯定是不行的.</p>
-<p>那该如何进行二分呢, 对答案进行二分. 令k为所寻找的k阶数, 初始为中位数,
-则此时我们取两个数组的前<span
-class="math inline">\(k/2\)</span>部分出来, 比较<span
-class="math inline">\(nums1[k/2]\)</span>和<span
-class="math inline">\(nums2[k/2]\)</span>, 则可以直接排除<span
-class="math inline">\(k/2\)</span>个数. 我们以下图例子来解释.</p>
-<img src="/2024/09/21/LeetCode-P4/p1.png" class="" title="p1">
-<p><span class="math inline">\(m = n = 4\)</span>, 我们有 <span
-class="math inline">\(k = 4, k/2 = 2\)</span>,
-于是我们取两个数组的前两位, 比较3和5, 不难看出, 1和3不可能是中位数.
-为什么? 因为1和3的阶必定小于<span class="math inline">\(k = 4\)</span>,
-即便第一个数组的3比第二个数组的5前面所有数都大, 3的阶也只能是3,
-1就更不必说了. 而5前面的数可能大于3后面的数(例子中未能体现,
-读者可以自行构造一个满足这种情况的简单例子). 因此通过这种操作,
-我们可以排掉 <span class="math inline">\(k/2\)</span>
-个不可能是中位数的元素, 接着我们令<span class="math inline">\(k = k -
-k/2\)</span>, 将被排除的数去掉, 重新进行上述过程.</p>
-<img src="/2024/09/21/LeetCode-P4/p2.png" class="" title="p2">
-<p>选取两个数组的前1位.比较2 和 4, 可以排除掉2. 此时过程进行到了边界处,
-接下来<span class="math inline">\(k = 1\)</span>无法继续了.
-而此时剩下的4和5正是我们需要的中位数.</p>
-<blockquote>
-<p><strong>Tips:</strong> 为什么第二个数组不是选择2, 5, 7?</p>
-<p>因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
-而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉</p>
-</blockquote>
-<p>k为奇数时情况稍有不同, 但大多是一些细节问题, 笔者在此不再赘述.
-推荐读者自己构建一个例子去推算上面的过程, 相信不难理解其中要义.</p>
-<p>每次排除<span class="math inline">\(k/2\)</span>, 而 <span
-class="math inline">\(k = (m + n + 1) / 2\)</span>, 故时间复杂度<span
-class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
-<p>参考代码如下:</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m = nums<span class="number">1.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> n = nums<span class="number">2.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; m &lt;&lt; &quot; &quot; &lt;&lt; n &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int i = 0; i &lt; m; i++)&#123;cout &lt;&lt; nums1[i] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int j = 0; j &lt; n; j++)&#123;cout &lt;&lt; nums2[j] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> left1 = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> k = (m + n - <span class="number">1</span>) &gt;&gt; <span class="number">1</span>; <span class="comment">// 排除掉小于中位数的数</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (k &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 一个数组被清空</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="type">int</span> mid = k &gt;&gt; <span class="number">1</span>; <span class="comment">// 注意循环条件 k &gt; 1</span></span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> mid1 = left1 + mid - <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> mid2 = left2 + mid - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 边界情况，剩余数组大小不足k</span></span><br><span class="line">            <span class="keyword">if</span> (left1 + mid &gt; m) &#123; <span class="comment">// 等价于 left1 + mid - 1 &gt;= m</span></span><br><span class="line">                mid1 = m - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 + mid &gt; n) &#123;</span><br><span class="line">                mid2 = n - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums1[mid1] &gt;= nums2[mid2]) &#123;</span><br><span class="line">                k -= mid2 - left2 + <span class="number">1</span>; <span class="comment">// 一轮可以排除掉一半</span></span><br><span class="line">                left2 = mid2 + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                k -= mid1 - left1 + <span class="number">1</span>;</span><br><span class="line">                left1 = mid1 + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理 k == 1</span></span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                    left2++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    left1++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 别忘了处理边界情况</span></span><br><span class="line">        <span class="keyword">if</span> ((m + n) &amp; <span class="number">1</span> == <span class="number">1</span>) &#123; <span class="comment">// 奇数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> std::<span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 偶数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="built_in">return</span> (nums2[left2] + nums2[left2 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> (nums1[left1] + nums1[left1 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> num1;</span><br><span class="line">            <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                num1 = nums2[left2];</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                num1 = nums1[left1];</span><br><span class="line">                left1++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> num2;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                num2 = nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                num2 = nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                num2 = <span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> (num1 + num2) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Tips:</strong> 本题思路并不难想出或者说并不难理解,
-但非常考验代码功底, 对细节和边界情况的考察更像是此题的侧重点.
-还望看到此处的读者能静下心来调试代码, 祝早日AC.</p>
-</blockquote>
-<h2 id="解法二-分割">解法二 分割</h2>
-<blockquote>
-<p>笔者阅读题解时注意到的巧妙的解法, 原链接在此<a
-href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/"><strong>P4|windliang</strong></a></p>
-</blockquote>
-<p>更详细的数学证明, 思路和代码请阅读原文,
-笔者在此只给出自己对其的理解.</p>
-<p>本质来说, 两种方法殊途同归, 但分割的方法较为巧妙一些. 中位数,
-或者说k阶数, 就是将数组分为两个部分, 其一是比k阶数小的部分,
-其二是比k阶数大的部分.</p>
-<p>对于有序的一个数组, 其性质本身就已经满足,
-我们不妨将两部分简称为左半部分(小)和右半部分(大). 对于两个有序数组,
-情况是一样的, 如果存在一种划分, 满足左边最大MaxLeft小于右边最小MinRight,
-我们则认为这是关于k阶数的一种有效划分.</p>
-<p>因此, 这道题就被转化为寻找数组中满足中位数的有效划分,
-关于特定k阶数划分, 还需要满足左半部分和右半部分的数量关系,
-若规定将k阶数划在左半部分, 则左半部分有k个元素, 右半部分有 n - k
-个元素.</p>
-<p>后面的事情就简单了, 固定数组1的划分位置,
-根据数量关系找到数组2待判定划分位置,
-根据MaxLeft和MinRight的大小关系决定数组1划分位置的左移或右移,
-该过程可以通过二分完成.</p>
-]]></content>
-      <categories>
-        <category>LeetCode刷题记录</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
-        <tag>二分</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>NJU静态分析|A1-Live Variable Analysis</title>
     <url>/2024/10/20/SPA-A1/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-1 Live Variable
@@ -2190,6 +2107,89 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
       <tags>
         <tag>NJU</tag>
         <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
+    <url>/2024/09/21/LeetCode-P4/</url>
+    <content><![CDATA[<p><strong>题目链接:</strong> <a
+href="https://leetcode.cn/problems/median-of-two-sorted-arrays/"><strong>LeetCode|4.寻找两个正序数组的中位数</strong></a></p>
+<span id="more"></span>
+<hr />
+<h2 id="题面解释">题面解释</h2>
+<p>找出两个有序数组合并后的中位数. 但要求时间复杂度<span
+class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
+<h2 id="解法一-二分">解法一 二分</h2>
+<p>笔者看到复杂度<span class="math inline">\(\mathit{O}(log(m +
+n))\)</span>第一想法便是二分, 但怎么二分? 两个数组只是内部有序,
+两个数组并不有序, 常规对数组二分的思路肯定是不行的.</p>
+<p>那该如何进行二分呢, 对答案进行二分. 令k为所寻找的k阶数, 初始为中位数,
+则此时我们取两个数组的前<span
+class="math inline">\(k/2\)</span>部分出来, 比较<span
+class="math inline">\(nums1[k/2]\)</span>和<span
+class="math inline">\(nums2[k/2]\)</span>, 则可以直接排除<span
+class="math inline">\(k/2\)</span>个数. 我们以下图例子来解释.</p>
+<img src="/2024/09/21/LeetCode-P4/p1.png" class="" title="p1">
+<p><span class="math inline">\(m = n = 4\)</span>, 我们有 <span
+class="math inline">\(k = 4, k/2 = 2\)</span>,
+于是我们取两个数组的前两位, 比较3和5, 不难看出, 1和3不可能是中位数.
+为什么? 因为1和3的阶必定小于<span class="math inline">\(k = 4\)</span>,
+即便第一个数组的3比第二个数组的5前面所有数都大, 3的阶也只能是3,
+1就更不必说了. 而5前面的数可能大于3后面的数(例子中未能体现,
+读者可以自行构造一个满足这种情况的简单例子). 因此通过这种操作,
+我们可以排掉 <span class="math inline">\(k/2\)</span>
+个不可能是中位数的元素, 接着我们令<span class="math inline">\(k = k -
+k/2\)</span>, 将被排除的数去掉, 重新进行上述过程.</p>
+<img src="/2024/09/21/LeetCode-P4/p2.png" class="" title="p2">
+<p>选取两个数组的前1位.比较2 和 4, 可以排除掉2. 此时过程进行到了边界处,
+接下来<span class="math inline">\(k = 1\)</span>无法继续了.
+而此时剩下的4和5正是我们需要的中位数.</p>
+<blockquote>
+<p><strong>Tips:</strong> 为什么第二个数组不是选择2, 5, 7?</p>
+<p>因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
+而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉</p>
+</blockquote>
+<p>k为奇数时情况稍有不同, 但大多是一些细节问题, 笔者在此不再赘述.
+推荐读者自己构建一个例子去推算上面的过程, 相信不难理解其中要义.</p>
+<p>每次排除<span class="math inline">\(k/2\)</span>, 而 <span
+class="math inline">\(k = (m + n + 1) / 2\)</span>, 故时间复杂度<span
+class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
+<p>参考代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m = nums<span class="number">1.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> n = nums<span class="number">2.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; m &lt;&lt; &quot; &quot; &lt;&lt; n &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int i = 0; i &lt; m; i++)&#123;cout &lt;&lt; nums1[i] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int j = 0; j &lt; n; j++)&#123;cout &lt;&lt; nums2[j] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> left1 = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> k = (m + n - <span class="number">1</span>) &gt;&gt; <span class="number">1</span>; <span class="comment">// 排除掉小于中位数的数</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (k &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 一个数组被清空</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="type">int</span> mid = k &gt;&gt; <span class="number">1</span>; <span class="comment">// 注意循环条件 k &gt; 1</span></span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> mid1 = left1 + mid - <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> mid2 = left2 + mid - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 边界情况，剩余数组大小不足k</span></span><br><span class="line">            <span class="keyword">if</span> (left1 + mid &gt; m) &#123; <span class="comment">// 等价于 left1 + mid - 1 &gt;= m</span></span><br><span class="line">                mid1 = m - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 + mid &gt; n) &#123;</span><br><span class="line">                mid2 = n - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums1[mid1] &gt;= nums2[mid2]) &#123;</span><br><span class="line">                k -= mid2 - left2 + <span class="number">1</span>; <span class="comment">// 一轮可以排除掉一半</span></span><br><span class="line">                left2 = mid2 + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                k -= mid1 - left1 + <span class="number">1</span>;</span><br><span class="line">                left1 = mid1 + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理 k == 1</span></span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                    left2++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    left1++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 别忘了处理边界情况</span></span><br><span class="line">        <span class="keyword">if</span> ((m + n) &amp; <span class="number">1</span> == <span class="number">1</span>) &#123; <span class="comment">// 奇数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> std::<span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 偶数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="built_in">return</span> (nums2[left2] + nums2[left2 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> (nums1[left1] + nums1[left1 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> num1;</span><br><span class="line">            <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                num1 = nums2[left2];</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                num1 = nums1[left1];</span><br><span class="line">                left1++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> num2;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                num2 = nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                num2 = nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                num2 = <span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> (num1 + num2) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong> 本题思路并不难想出或者说并不难理解,
+但非常考验代码功底, 对细节和边界情况的考察更像是此题的侧重点.
+还望看到此处的读者能静下心来调试代码, 祝早日AC.</p>
+</blockquote>
+<h2 id="解法二-分割">解法二 分割</h2>
+<blockquote>
+<p>笔者阅读题解时注意到的巧妙的解法, 原链接在此<a
+href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/"><strong>P4|windliang</strong></a></p>
+</blockquote>
+<p>更详细的数学证明, 思路和代码请阅读原文,
+笔者在此只给出自己对其的理解.</p>
+<p>本质来说, 两种方法殊途同归, 但分割的方法较为巧妙一些. 中位数,
+或者说k阶数, 就是将数组分为两个部分, 其一是比k阶数小的部分,
+其二是比k阶数大的部分.</p>
+<p>对于有序的一个数组, 其性质本身就已经满足,
+我们不妨将两部分简称为左半部分(小)和右半部分(大). 对于两个有序数组,
+情况是一样的, 如果存在一种划分, 满足左边最大MaxLeft小于右边最小MinRight,
+我们则认为这是关于k阶数的一种有效划分.</p>
+<p>因此, 这道题就被转化为寻找数组中满足中位数的有效划分,
+关于特定k阶数划分, 还需要满足左半部分和右半部分的数量关系,
+若规定将k阶数划在左半部分, 则左半部分有k个元素, 右半部分有 n - k
+个元素.</p>
+<p>后面的事情就简单了, 固定数组1的划分位置,
+根据数量关系找到数组2待判定划分位置,
+根据MaxLeft和MinRight的大小关系决定数组1划分位置的左移或右移,
+该过程可以通过二分完成.</p>
+]]></content>
+      <categories>
+        <category>LeetCode刷题记录</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>二分</tag>
       </tags>
   </entry>
   <entry>
@@ -3654,6 +3654,188 @@ FiledRef &amp; JField</h3>
       </tags>
   </entry>
   <entry>
+    <title>NJU静态分析|A8-Taint Analysis</title>
+    <url>/2024/12/17/SPA-A8/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-8 Taint
+Analysis.</strong></p>
+<span id="more"></span>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>tai-e</strong>框架实现污点分析.</p>
+<h2 id="preparation">Preparation</h2>
+<p>将A6的代码复制到此处.</p>
+<p><strong>注意:</strong>
+A8的<code>Solver</code>中额外加入了污点分析所需的字段,
+因此不能直接替换A8的<code>Solver</code>.</p>
+<h2 id="部分框架代码带读">部分框架代码带读</h2>
+<p>在上过课程和阅读了实验指南后, 对于怎么做这个实验会有一个大概的思路,
+那么不妨先阅读一下框架代码, 看看Tai-e提供了什么样的工具和API.</p>
+<h3 id="source-sink">Source &amp; Sink</h3>
+<p>分别代表了污点分析中的Source和Sink语句,
+结构为<code>Source&lt;JMethod, Type&gt;</code>和<code>Sink&lt;JMethod, index&gt;</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+<code>record</code>的用法在之前的实验已经接触过了, 简单来说,
+可以通过<code>source.method()</code>获取其中的<code>JMethod method</code>信息.</p>
+</blockquote>
+<h3 id="tainttransfer">TaintTransfer</h3>
+<p>对应污点传播的类, 即实验指南中的:</p>
+<img src="/2024/12/17/SPA-A8/pic1-1.png" class="" title="pic1-1">
+<p>具体规则实验指南和框架代码已足够清晰.</p>
+<h3 id="taintmanager">TaintManager</h3>
+<p>实验框架中用来管理污点对象的类(或许命名为<code>TaintObjManager</code>更合适).</p>
+<p>类内采用简单的Map实现<code>&lt;(Invoke, Type), TaintObj&gt;</code>的查找.</p>
+<p><strong>注意: 笔者为了方便表述,
+使用<code>TaintObj</code>表示污点对象,
+该类在框架代码中并不存在.</strong></p>
+<p>其中包含三个方法:</p>
+<ul>
+<li><p><code>Obj makeTaint(Invoke source, Type type)</code>返回一个污点对象实例.</p>
+<blockquote>
+<p><strong>Tips:</strong> 注意到污点对象也是<code>obj</code>,
+即<code>taintObj</code>可以使用<code>obj</code>的方法进行操作.</p>
+</blockquote></li>
+<li><p><code>boolean isTaint(Obj obj)</code>判断一个<code>Obj</code>是否为<code>TaintObj</code>.</p></li>
+<li><p><code>Invoke getSourceCall(Obj obj)</code>返回该对象实例化对应的<code>Invoke</code>.</p></li>
+</ul>
+<h3 id="taintflow">TaintFlow</h3>
+<p>表示<code>Source -&gt; Sink</code>的污染流,
+也即污点分析的结果(TT老师在本次课程中一嘴带过的可以追踪的<code>Source -&gt; Sink</code>).</p>
+<h3 id="taintconfig">TaintConfig</h3>
+<p><del>碎碎念:
+不是为什么要把管理污点分析所需的数据结构和设置污点分析的配置两个功能都塞进来啊喂!!!
+阅读类名谁能知道会把数据结构放在这里啊喂!!!</del></p>
+<p>存储污点分析所需的信息, 可以通过<code>getSources()</code>,
+<code>getSinks()</code>, <code>getTransfers()</code>获取,
+注意返回的类型是<code>Set</code>,
+请使用<code>Set</code>的API对其进行操作.</p>
+<p>可以看出,
+TaintSources和TaintSinks以及TaintTransfers的规则在该类中已经配置 完成,
+可以在实验中<strong>直接使用</strong>.</p>
+<blockquote>
+<p><strong>Tips</strong> 其余部分都是有关配置污点分析的工具,
+本次实验不需要过多了解, 读者若有兴趣可以自行阅读框架代码.</p>
+</blockquote>
+<h3 id="taintanalysis">TaintAnalysis</h3>
+<blockquote>
+<p><strong>Tips:</strong>
+实验指南解释了为何是<code>TaintAnalysiss</code>,
+笔者在此使用更容易理解的表述.</p>
+</blockquote>
+<p>本次实验主要的逻辑实现部分,
+<code>Solver</code>可以根据其中的<code>taintAnalysis</code>字段调用<code>TaintAnalysis</code>中的API,
+从代码规范角度, 处理污点分析的代码应当在此处完成,
+<code>Solver</code>中仅调用API.</p>
+<p>先看看该类具有哪些字段:</p>
+<ul>
+<li><code>TaintManager manager</code></li>
+<li><code>TaintConfig config</code></li>
+<li><code>Solver solver</code></li>
+<li><code>CSManager csManager</code></li>
+<li><code>Context emptyContext</code></li>
+</ul>
+<p>注意到除了污点分析相关组件,
+<code>TaintAnalysis</code>也可以和<code>Solver</code>和<code>CSManager</code>通信,
+并且给出了一个<code>emptyContext</code>, 以供直接使用.</p>
+<p>以上字段均在实例化时被初始化.</p>
+<p>接着看看类中的方法:</p>
+<ul>
+<li><p><code>void onFinish()</code>,
+向外部(这里是<code>Solver</code>)给出污点分析结果<code>taintFlows</code>.</p></li>
+<li><p><code>Set&lt;TaintFlow&gt; collectTaintFlows()</code>,
+该部分等待完成, 用以计算所有的污染流.</p></li>
+</ul>
+<h3 id="solver">Solver</h3>
+<p>到此已经知道所有污点分析相关类了,
+现在从顶层<code>Solver</code>中看看污点分析的使用.</p>
+<ul>
+<li><code>void solve()</code>是指针分析的步骤, 可以看到相比A6,
+最后一步设置了污点分析结果. 换句话说,
+本次实验中只需要考虑污点分析的实现,
+污点分析的前置工作和结果存储框架都已经做好了.</li>
+</ul>
+<h2 id="算法设计">算法设计</h2>
+<h3 id="基本假设">基本假设</h3>
+<p>在本次实验的污点分析中, 有几个基本假设:</p>
+<ul>
+<li><p><code>TaintObj</code>只会由<code>Source</code>产生,
+依据<code>TaintTransfer</code>的规则, 最终传播到<code>Sink</code>.
+其中<code>Source</code>的语句类型均为<code>Invoke</code>.</p></li>
+<li><p>本次实验不考虑<strong>隐式污染</strong>(详见<a
+href="https://cs.nju.edu.cn/tiantan/software-analysis/Security.pdf#page=44"><strong>课程ppt</strong></a>),
+这大大简化了本次实验分析难度.</p></li>
+<li><p><code>TaintObj</code>是以<code>Obj</code>的方式进行封装的,
+这意味着<code>TaintObj</code>可以像<code>Obj</code>一样在指针流图<code>PointerFlowGraph</code>中传递.</p>
+<blockquote>
+<p><strong>Tips: 这意味着什么?</strong></p>
+<p>这意味着除了<strong>TaintTransfer</strong>和<strong>Source
+Invoke</strong>的传播途径外,
+<code>TaintObj</code>的其余传播途径都可以在之前的指针分析实现中完成.(如果感到难以理解可以试试推一下<code>Assign</code>,
+<code>Store</code>和<code>Load</code>语句的传播)</p>
+</blockquote></li>
+<li><p><code>TaintObj</code>的上下文被简单的处理成<code>emptyContext</code>,
+即来自同一个<code>Index: Invoke</code>的<code>TaintObj</code>在堆中被抽象为一个对象.</p></li>
+<li><p><strong><em>(存疑)</em></strong> Online
+Judge上似乎所有的<code>Source</code>相关语句<strong>均是静态方法</strong>,
+因此理论上不需要进行<strong>dispatch</strong>也可以通过测试.</p></li>
+</ul>
+<h3 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
+TaintTransferFlow</h3>
+<p>三者均是在<code>Invoke</code>上进行操作,
+因此需要修的地方有<code>processCall</code>和<code>addReachable</code>.</p>
+<ul>
+<li><p>对于<code>Source</code>, 只需要按实验指南上的规则处理即可.
+但需要注意的是, 只有当<code>Invoke</code>存在返回值时,
+才执行<code>Source</code>的处理.</p></li>
+<li><p>对于<code>Sink</code>, 可以选择边迭代边处理.
+但因为<strong>Pointer Analysis</strong>不依赖于<code>Sink</code>,
+也可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
+也就是说,
+这部分代码可以在<code>collectTaintFlows()</code>中统一完成.</p></li>
+<li><p>对于<code>TaintTransferFlow</code>,
+同样只需要小心的按照指南规则处理即可. 但需要注意的是,
+由于污点数据流向目标时可能会有类型转换,
+因此需要创建一个新的<code>TaintObj</code>实例赋值给目标的<code>PointsToSet</code>.</p></li>
+</ul>
+<h3 id="污点数据的广播">污点数据的广播</h3>
+<p>污点数据的传播逻辑处理是本次实验相对简单的部分,
+困难的是想清楚如何传播污点数据.</p>
+<p>想知道答案, 就要先回顾一下指针分析的广播.</p>
+<img src="/2024/12/17/SPA-A8/pic1-2.png" class="" title="pic1-2">
+<p>这个大循环中当<code>n</code>是变量<code>x</code>时,
+对相关语句进行广播.</p>
+<p>如在A5, A6中,
+需要对<code>Array</code>和<code>Filed</code>以及<code>processCall</code>进行广播.</p>
+<p>污点分析也是一种指针分析, 那么其理应也在这里广播.</p>
+<p><code>from -&gt; to</code>的情况有三种,
+<code>from</code>的取值只有<code>Arg</code>和<code>Base</code>两种情况.</p>
+<ul>
+<li><p><code>Base</code>的广播可以在<code>processCall</code>中进行,
+因为二者中变量<code>x</code>都作为<code>Base</code>出现.</p></li>
+<li><p><code>Arg</code>的广播没有现成的方法, 那么就考虑与其余情况并列,
+若<code>x</code>是某条<code>Invoke</code>的实参时, 则需要广播到此处,
+为该<code>Invoke</code>执行<code>TaintTransferFlow</code></p></li>
+</ul>
+<p>特别的, 因为这样的特性,
+你也可以考虑将<code>TaintTransferFlow</code>拆开来写.
+这样更符合其广播逻辑.</p>
+<h2 id="拾遗">拾遗</h2>
+<p>本次实验几乎不涉及新的方法和工具(当然你也可以选择使用一些隐藏API来完成本次实验,
+例如对于<strong>Instance Invoke</strong>,
+可以通过<code>((InvokeInstanceExp)(invoke.getInvokeExp())).getBase()</code>来获取<code>base</code>信息).</p>
+<p><strong>All you need has already in Tai-e.</strong></p>
+<h2 id="总结">总结</h2>
+<p>完结撒花啦!</p>
+<img src="/2024/12/17/SPA-A8/pic1-3.png" class="" title="pic1-3">
+]]></content>
+      <categories>
+        <category>NJU静态分析实验记录</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Anaconda+Cuda+Pytorch+Pycharm环境配置</title>
     <url>/2024/11/25/conda-env/</url>
     <content><![CDATA[<p><strong>笔者个人conda环境搭建记录.</strong></p>
@@ -3825,189 +4007,6 @@ class="uri">https://blog.csdn.net/weixin_62075168/article/details/131226082</a><
       <tags>
         <tag>环境配置</tag>
         <tag>AI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NJU静态分析|A8-Taint Analysis</title>
-    <url>/2024/12/17/SPA-A8/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-8 Taint
-Analysis.</strong></p>
-<span id="more"></span>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>tai-e</strong>框架实现污点分析.</p>
-<h2 id="preparation">Preparation</h2>
-<p>将A6的代码复制到此处.</p>
-<p><strong>注意:</strong>
-A8的<code>Solver</code>中额外加入了污点分析所需的字段,
-因此不能直接替换A8的<code>Solver</code>.</p>
-<h2 id="部分框架代码带读">部分框架代码带读</h2>
-<p>在上过课程和阅读了实验指南后, 对于怎么做这个实验会有一个大概的思路,
-那么不妨先阅读一下框架代码, 看看Tai-e提供了什么样的工具和API.</p>
-<h3 id="source-sink">Source &amp; Sink</h3>
-<p>分别代表了污点分析中的Source和Sink语句,
-结构为<code>Source&lt;JMethod, Type&gt;</code>和<code>Sink&lt;JMethod, index&gt;</code>.</p>
-<blockquote>
-<p><strong>Tips:</strong>
-<code>record</code>的用法在之前的实验已经接触过了, 简单来说,
-可以通过<code>source.method()</code>获取其中的信息.</p>
-</blockquote>
-<h3 id="tainttransfer">TaintTransfer</h3>
-<p>对应污点传播的类, 即实验指南中的:</p>
-<img src="/2024/12/17/SPA-A8/pic1-1.png" class="" title="pic1-1">
-<p>具体规则实验指南和框架代码已足够清晰.</p>
-<h3 id="taintmanager">TaintManager</h3>
-<p>实验框架中用来管理污点对象的类(或许命名为<code>TaintObjManager</code>更合适).</p>
-<p>类内采用简单的Map实现<code>&lt;(Invoke, Type), TaintObj&gt;</code>的查找.</p>
-<p><strong>注意: 笔者为了方便表述,
-使用<code>TaintObj</code>表示污点对象,
-该类在框架代码中并不存在.</strong></p>
-<p>其中包含三个方法:</p>
-<ul>
-<li><p><code>Obj makeTaint(Invoke source, Type type)</code>返回一个污点对象实例.</p>
-<blockquote>
-<p><strong>Tips:</strong> 注意到污点对象也是<code>obj</code>,
-即<code>taintObj</code>可以使用<code>obj</code>的方法进行操作.</p>
-</blockquote></li>
-<li><p><code>boolean isTaint(Obj obj)</code>判断一个<code>Obj</code>是否为<code>TaintObj</code>.</p></li>
-<li><p><code>Invoke getSourceCall(Obj obj)</code>返回该对象实例化对应的<code>Invoke</code>.</p></li>
-</ul>
-<h3 id="taintflow">TaintFlow</h3>
-<p>表示<code>Source -&gt; Sink</code>的污染流,
-也即污点分析的结果(TT老师在本次课程中一嘴带过的可以追踪的<code>Source -&gt; Sink</code>).</p>
-<h3 id="taintconfig">TaintConfig</h3>
-<p><del>碎碎念:
-不是为什么要把管理污点分析所需的数据结构和设置污点分析的配置两个功能都塞进来啊喂!!!
-阅读类名谁能知道会把数据结构放在这里啊喂!!!</del></p>
-<p>存储污点分析所需的信息, 可以通过<code>getSources()</code>,
-<code>getSinks()</code>, <code>getTransfers()</code>获取,
-注意返回的类型是<code>Set</code>,
-请使用<code>Set</code>的API对其进行操作.</p>
-<p>可以看出,
-TaintSources和TaintSinks以及TaintTransfers的规则在该类中已经配置 完成,
-可以在实验中<strong>直接使用</strong>.</p>
-<blockquote>
-<p><strong>Tips</strong> 其余部分都是有关配置污点分析的工具,
-本次实验不需要过多了解, 读者若有兴趣可以自行阅读框架代码.</p>
-</blockquote>
-<h3 id="taintanalysis">TaintAnalysis</h3>
-<blockquote>
-<p><strong>Tips:</strong>
-实验指南解释了为何是<code>TaintAnalysiss</code>,
-笔者在此使用更容易理解的表述.</p>
-</blockquote>
-<p>本次实验主要的逻辑实现部分,
-<code>Solver</code>可以根据其中的<code>taintAnalysis</code>字段调用<code>TaintAnalysis</code>中的API,
-从代码规范角度, 处理污点分析的代码应当在此处完成,
-<code>Solver</code>中仅调用API.</p>
-<p>先看看该类具有哪些字段:</p>
-<ul>
-<li><code>TaintManager manager</code></li>
-<li><code>TaintConfig config</code></li>
-<li><code>Solver solver</code></li>
-<li><code>CSManager csManager</code></li>
-<li><code>Context emptyContext</code></li>
-</ul>
-<p>注意到除了污点分析相关组件,
-<code>TaintAnalysis</code>也可以和<code>Solver</code>和<code>CSManager</code>通信,
-并且给出了一个<code>emptyContext</code>, 以供直接使用.</p>
-<p>以上字段均在实例化时被初始化.</p>
-<p>接着看看类中的方法:</p>
-<ul>
-<li><p><code>void onFinish()</code>,
-向外部(这里是<code>Solver</code>)给出污点分析结果<code>taintFlows</code>.</p></li>
-<li><p><code>Set&lt;TaintFlow&gt; collectTaintFlows()</code>,
-该部分等待完成, 用以计算所有的污染流.</p></li>
-</ul>
-<h3 id="solver">Solver</h3>
-<p>到此已经知道所有污点分析相关类了,
-现在从顶层<code>Solver</code>中看看污点分析的使用.</p>
-<ul>
-<li><code>void solve()</code>是指针分析的步骤, 可以看到相比A6,
-最后一步设置了污点分析结果. 换句话说,
-本次实验中只需要考虑污点分析的实现,
-污点分析的前置工作和结果存储框架都已经做好了.</li>
-</ul>
-<h2 id="算法设计">算法设计</h2>
-<h3 id="污点分析">污点分析</h3>
-<h4 id="基本假设">基本假设</h4>
-<p>在本次实验的污点分析中, 有几个基本假设:</p>
-<ul>
-<li><p><code>TaintObj</code>只会由<code>Source</code>产生,
-依据<code>TaintTransfer</code>的规则, 最终传播到<code>Sink</code>.
-其中<code>Source</code>的语句类型均为<code>Invoke</code>.</p></li>
-<li><p>本次实验不考虑<strong>隐式污染</strong>(详见<a
-href="https://cs.nju.edu.cn/tiantan/software-analysis/Security.pdf#page=44"><strong>课程ppt</strong></a>),
-这大大简化了本次实验分析难度.</p></li>
-<li><p><code>TaintObj</code>是以<code>Obj</code>的方式进行封装的,
-这意味着<code>TaintObj</code>可以像<code>Obj</code>一样在指针流图<code>PointerFlowGraph</code>中传递.</p>
-<blockquote>
-<p><strong>Tips: 这意味着什么?</strong></p>
-<p>这意味着除了<strong>TaintTransfer</strong>和<strong>Source
-Invoke</strong>的传播途径外,
-<code>TaintObj</code>的其余传播途径都可以在之前的指针分析实现中完成.(如果感到难以理解可以试试推一下<code>Assign</code>,
-<code>Store</code>和<code>Load</code>语句的传播)</p>
-</blockquote></li>
-<li><p><code>TaintObj</code>的上下文被简单的处理成<code>emptyContext</code>,
-即来自同一个<code>Index: Invoke</code>的<code>TaintObj</code>在堆中被抽象为一个对象.</p></li>
-<li><p><strong><em>(存疑)</em></strong> Online
-Judge上似乎所有的<code>Source</code>相关语句<strong>均是静态方法</strong>,
-因此理论上不需要进行<strong>dispatch</strong>也可以通过测试.</p></li>
-</ul>
-<h4 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
-TaintTransferFlow</h4>
-<p>三者均是在<code>Invoke</code>上进行操作,
-因此需要修的地方有<code>processCall</code>和<code>addReachable</code>.</p>
-<ul>
-<li><p>对于<code>Source</code>, 只需要按实验指南上的规则处理即可.
-但需要注意的是, 只有当<code>Invoke</code>存在返回值时,
-才执行<code>Source</code>的处理.</p></li>
-<li><p>对于<code>Sink</code>, 可以选择边迭代边处理,
-但因为<strong>Pointer Analysis</strong>不依赖于<code>Sink</code>,
-可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
-也就是说,
-这部分代码可以在<code>collectTaintFlows()</code>中完成.</p></li>
-<li><p>对于<code>TaintTransferFlow</code>,
-同样只需要小心的按照指南规则处理即可. 但需要注意的是,
-由于污点数据流向目标时可能会有类型转换,
-因此需要创建一个新的<code>TaintObj</code>实例赋值给目标的<code>PointsToSet</code>.</p></li>
-</ul>
-<h4 id="污点数据的广播">污点数据的广播</h4>
-<p>污点数据的传播逻辑处理是本次实验相对简单的部分,
-困难的是如何传播污点数据.</p>
-<p>想知道答案, 就要先回顾一下指针分析的广播.</p>
-<img src="/2024/12/17/SPA-A8/pic1-2.png" class="" title="pic1-2">
-<p>这个大循环中当<code>n</code>是变量<code>x</code>时,
-对相关语句进行广播.</p>
-<p>如在A5, A6中,
-需要对<code>Array</code>和<code>Filed</code>以及<code>processCall</code>进行广播.</p>
-<p>污点分析也是一种指针分析, 那么其理应也在这里广播.</p>
-<p><code>from -&gt; to</code>的情况有三种,
-<code>from</code>的取值只有<code>Arg</code>和<code>Base</code>两种情况.</p>
-<ul>
-<li><p><code>Base</code>的广播可以在<code>processCall</code>中进行,
-因为二者中变量<code>x</code>都作为<code>Base</code>出现.</p></li>
-<li><p><code>Arg</code>的广播没有现成的方法, 那么就考虑与其余情况并列,
-若<code>x</code>是某条<code>Invoke</code>的实参时, 则需要广播到此处,
-为该<code>Invoke</code>执行<code>TaintTransferFlow</code></p></li>
-</ul>
-<p>特别的, 因为这样的特性,
-你也可以考虑将<code>TaintTransferFlow</code>拆开来写.
-这样更符合其广播逻辑.</p>
-<h2 id="拾遗">拾遗</h2>
-<p>本次实验几乎不涉及新的方法和工具(当然你也可以选择使用一些隐藏API来完成本次实验,
-例如对于<strong>Instance Invoke</strong>,
-可以通过<code>((InvokeInstanceExp)(invoke.getInvokeExp())).getBase()</code>来获取<code>base</code>信息).</p>
-<p><strong>All you need has already in Tai-e.</strong></p>
-<h2 id="总结">总结</h2>
-<p>完结撒花啦!</p>
-<img src="/2024/12/17/SPA-A8/pic1-3.png" class="" title="pic1-3">
-]]></content>
-      <categories>
-        <category>NJU静态分析实验记录</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
       </tags>
   </entry>
   <entry>

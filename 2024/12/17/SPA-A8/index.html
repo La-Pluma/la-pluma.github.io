@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://la-pluma.github.io/2024/12/17/SPA-A8/pic1-2.png">
 <meta property="og:image" content="http://la-pluma.github.io/2024/12/17/SPA-A8/pic1-3.png">
 <meta property="article:published_time" content="2024-12-17T00:29:48.000Z">
-<meta property="article:modified_time" content="2024-12-19T01:16:21.197Z">
+<meta property="article:modified_time" content="2024-12-19T08:06:42.187Z">
 <meta property="article:author" content="LaPluma">
 <meta property="article:tag" content="NJU">
 <meta property="article:tag" content="静态分析">
@@ -232,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-12-19 09:16:21" itemprop="dateModified" datetime="2024-12-19T09:16:21+08:00">2024-12-19</time>
+                <time title="修改时间：2024-12-19 16:06:42" itemprop="dateModified" datetime="2024-12-19T16:06:42+08:00">2024-12-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -295,7 +295,7 @@ A8的<code>Solver</code>中额外加入了污点分析所需的字段,
 <blockquote>
 <p><strong>Tips:</strong>
 <code>record</code>的用法在之前的实验已经接触过了, 简单来说,
-可以通过<code>source.method()</code>获取其中的信息.</p>
+可以通过<code>source.method()</code>获取其中的<code>JMethod method</code>信息.</p>
 </blockquote>
 <h3 id="tainttransfer">TaintTransfer</h3>
 <p>对应污点传播的类, 即实验指南中的:</p>
@@ -374,8 +374,7 @@ TaintSources和TaintSinks以及TaintTransfers的规则在该类中已经配置 �
 污点分析的前置工作和结果存储框架都已经做好了.</li>
 </ul>
 <h2 id="算法设计">算法设计</h2>
-<h3 id="污点分析">污点分析</h3>
-<h4 id="基本假设">基本假设</h4>
+<h3 id="基本假设">基本假设</h3>
 <p>在本次实验的污点分析中, 有几个基本假设:</p>
 <ul>
 <li><p><code>TaintObj</code>只会由<code>Source</code>产生,
@@ -399,27 +398,27 @@ Invoke</strong>的传播途径外,
 Judge上似乎所有的<code>Source</code>相关语句<strong>均是静态方法</strong>,
 因此理论上不需要进行<strong>dispatch</strong>也可以通过测试.</p></li>
 </ul>
-<h4 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
-TaintTransferFlow</h4>
+<h3 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
+TaintTransferFlow</h3>
 <p>三者均是在<code>Invoke</code>上进行操作,
 因此需要修的地方有<code>processCall</code>和<code>addReachable</code>.</p>
 <ul>
 <li><p>对于<code>Source</code>, 只需要按实验指南上的规则处理即可.
 但需要注意的是, 只有当<code>Invoke</code>存在返回值时,
 才执行<code>Source</code>的处理.</p></li>
-<li><p>对于<code>Sink</code>, 可以选择边迭代边处理,
+<li><p>对于<code>Sink</code>, 可以选择边迭代边处理.
 但因为<strong>Pointer Analysis</strong>不依赖于<code>Sink</code>,
-可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
+也可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
 也就是说,
-这部分代码可以在<code>collectTaintFlows()</code>中完成.</p></li>
+这部分代码可以在<code>collectTaintFlows()</code>中统一完成.</p></li>
 <li><p>对于<code>TaintTransferFlow</code>,
 同样只需要小心的按照指南规则处理即可. 但需要注意的是,
 由于污点数据流向目标时可能会有类型转换,
 因此需要创建一个新的<code>TaintObj</code>实例赋值给目标的<code>PointsToSet</code>.</p></li>
 </ul>
-<h4 id="污点数据的广播">污点数据的广播</h4>
+<h3 id="污点数据的广播">污点数据的广播</h3>
 <p>污点数据的传播逻辑处理是本次实验相对简单的部分,
-困难的是如何传播污点数据.</p>
+困难的是想清楚如何传播污点数据.</p>
 <p>想知道答案, 就要先回顾一下指针分析的广播.</p>
 <img src="/2024/12/17/SPA-A8/pic1-2.png" class="" title="pic1-2">
 <p>这个大循环中当<code>n</code>是变量<code>x</code>时,
@@ -529,8 +528,8 @@ TaintTransferFlow</h4>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">实验目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preparation"><span class="nav-number">2.</span> <span class="nav-text">Preparation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%B8%A6%E8%AF%BB"><span class="nav-number">3.</span> <span class="nav-text">部分框架代码带读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#source-sink"><span class="nav-number">3.1.</span> <span class="nav-text">Source &amp; Sink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tainttransfer"><span class="nav-number">3.2.</span> <span class="nav-text">TaintTransfer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintmanager"><span class="nav-number">3.3.</span> <span class="nav-text">TaintManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintflow"><span class="nav-number">3.4.</span> <span class="nav-text">TaintFlow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintconfig"><span class="nav-number">3.5.</span> <span class="nav-text">TaintConfig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintanalysis"><span class="nav-number">3.6.</span> <span class="nav-text">TaintAnalysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solver"><span class="nav-number">3.7.</span> <span class="nav-text">Solver</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">算法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%A1%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">4.1.</span> <span class="nav-text">污点分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%81%87%E8%AE%BE"><span class="nav-number">4.1.1.</span> <span class="nav-text">基本假设</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#source-sink-tainttransferflow"><span class="nav-number">4.1.2.</span> <span class="nav-text">Source &amp; Sink &amp;
-TaintTransferFlow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%A1%E7%82%B9%E6%95%B0%E6%8D%AE%E7%9A%84%E5%B9%BF%E6%92%AD"><span class="nav-number">4.1.3.</span> <span class="nav-text">污点数据的广播</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%BE%E9%81%97"><span class="nav-number">5.</span> <span class="nav-text">拾遗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">实验目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preparation"><span class="nav-number">2.</span> <span class="nav-text">Preparation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%B8%A6%E8%AF%BB"><span class="nav-number">3.</span> <span class="nav-text">部分框架代码带读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#source-sink"><span class="nav-number">3.1.</span> <span class="nav-text">Source &amp; Sink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tainttransfer"><span class="nav-number">3.2.</span> <span class="nav-text">TaintTransfer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintmanager"><span class="nav-number">3.3.</span> <span class="nav-text">TaintManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintflow"><span class="nav-number">3.4.</span> <span class="nav-text">TaintFlow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintconfig"><span class="nav-number">3.5.</span> <span class="nav-text">TaintConfig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintanalysis"><span class="nav-number">3.6.</span> <span class="nav-text">TaintAnalysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solver"><span class="nav-number">3.7.</span> <span class="nav-text">Solver</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">算法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%81%87%E8%AE%BE"><span class="nav-number">4.1.</span> <span class="nav-text">基本假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#source-sink-tainttransferflow"><span class="nav-number">4.2.</span> <span class="nav-text">Source &amp; Sink &amp;
+TaintTransferFlow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%A1%E7%82%B9%E6%95%B0%E6%8D%AE%E7%9A%84%E5%B9%BF%E6%92%AD"><span class="nav-number">4.3.</span> <span class="nav-text">污点数据的广播</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%BE%E9%81%97"><span class="nav-number">5.</span> <span class="nav-text">拾遗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
