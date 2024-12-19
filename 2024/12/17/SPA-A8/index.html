@@ -29,12 +29,16 @@
 <meta property="og:site_name" content="LaPluma">
 <meta property="og:description" content="NJU Static Program Analysis | Assignment-8 Taint Analysis.">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://la-pluma.github.io/2024/12/17/SPA-A8/pic1-1.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/12/17/SPA-A8/pic1-2.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/12/17/SPA-A8/pic1-3.png">
 <meta property="article:published_time" content="2024-12-17T00:29:48.000Z">
-<meta property="article:modified_time" content="2024-12-17T00:36:24.362Z">
+<meta property="article:modified_time" content="2024-12-19T01:16:21.197Z">
 <meta property="article:author" content="LaPluma">
 <meta property="article:tag" content="NJU">
 <meta property="article:tag" content="静态分析">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/2024/12/17/SPA-A8/pic1-1.png">
 
 <link rel="canonical" href="http://la-pluma.github.io/2024/12/17/SPA-A8/">
 
@@ -49,7 +53,7 @@
   };
 </script>
 
-  <title>NJU静态分析|A8-Taint Analysis | LaPluma</title><meta name="robots" content="noindex">
+  <title>NJU静态分析|A8-Taint Analysis | LaPluma</title>
   
 
 
@@ -220,10 +224,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-12-17 08:29:48 / 修改时间：08:36:24" itemprop="dateCreated datePublished" datetime="2024-12-17T08:29:48+08:00">2024-12-17</time>
+              <time title="创建时间：2024-12-17 08:29:48" itemprop="dateCreated datePublished" datetime="2024-12-17T08:29:48+08:00">2024-12-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-19 09:16:21" itemprop="dateModified" datetime="2024-12-19T09:16:21+08:00">2024-12-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -247,14 +257,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>71</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -271,7 +281,173 @@ Analysis.</strong></p>
 <span id="more"></span>
 <h2 id="实验目标">实验目标</h2>
 <p>基于<strong>tai-e</strong>框架实现污点分析.</p>
-<!-- flag of hidden posts -->
+<h2 id="preparation">Preparation</h2>
+<p>将A6的代码复制到此处.</p>
+<p><strong>注意:</strong>
+A8的<code>Solver</code>中额外加入了污点分析所需的字段,
+因此不能直接替换A8的<code>Solver</code>.</p>
+<h2 id="部分框架代码带读">部分框架代码带读</h2>
+<p>在上过课程和阅读了实验指南后, 对于怎么做这个实验会有一个大概的思路,
+那么不妨先阅读一下框架代码, 看看Tai-e提供了什么样的工具和API.</p>
+<h3 id="source-sink">Source &amp; Sink</h3>
+<p>分别代表了污点分析中的Source和Sink语句,
+结构为<code>Source&lt;JMethod, Type&gt;</code>和<code>Sink&lt;JMethod, index&gt;</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+<code>record</code>的用法在之前的实验已经接触过了, 简单来说,
+可以通过<code>source.method()</code>获取其中的信息.</p>
+</blockquote>
+<h3 id="tainttransfer">TaintTransfer</h3>
+<p>对应污点传播的类, 即实验指南中的:</p>
+<img src="/2024/12/17/SPA-A8/pic1-1.png" class="" title="pic1-1">
+<p>具体规则实验指南和框架代码已足够清晰.</p>
+<h3 id="taintmanager">TaintManager</h3>
+<p>实验框架中用来管理污点对象的类(或许命名为<code>TaintObjManager</code>更合适).</p>
+<p>类内采用简单的Map实现<code>&lt;(Invoke, Type), TaintObj&gt;</code>的查找.</p>
+<p><strong>注意: 笔者为了方便表述,
+使用<code>TaintObj</code>表示污点对象,
+该类在框架代码中并不存在.</strong></p>
+<p>其中包含三个方法:</p>
+<ul>
+<li><p><code>Obj makeTaint(Invoke source, Type type)</code>返回一个污点对象实例.</p>
+<blockquote>
+<p><strong>Tips:</strong> 注意到污点对象也是<code>obj</code>,
+即<code>taintObj</code>可以使用<code>obj</code>的方法进行操作.</p>
+</blockquote></li>
+<li><p><code>boolean isTaint(Obj obj)</code>判断一个<code>Obj</code>是否为<code>TaintObj</code>.</p></li>
+<li><p><code>Invoke getSourceCall(Obj obj)</code>返回该对象实例化对应的<code>Invoke</code>.</p></li>
+</ul>
+<h3 id="taintflow">TaintFlow</h3>
+<p>表示<code>Source -&gt; Sink</code>的污染流,
+也即污点分析的结果(TT老师在本次课程中一嘴带过的可以追踪的<code>Source -&gt; Sink</code>).</p>
+<h3 id="taintconfig">TaintConfig</h3>
+<p><del>碎碎念:
+不是为什么要把管理污点分析所需的数据结构和设置污点分析的配置两个功能都塞进来啊喂!!!
+阅读类名谁能知道会把数据结构放在这里啊喂!!!</del></p>
+<p>存储污点分析所需的信息, 可以通过<code>getSources()</code>,
+<code>getSinks()</code>, <code>getTransfers()</code>获取,
+注意返回的类型是<code>Set</code>,
+请使用<code>Set</code>的API对其进行操作.</p>
+<p>可以看出,
+TaintSources和TaintSinks以及TaintTransfers的规则在该类中已经配置 完成,
+可以在实验中<strong>直接使用</strong>.</p>
+<blockquote>
+<p><strong>Tips</strong> 其余部分都是有关配置污点分析的工具,
+本次实验不需要过多了解, 读者若有兴趣可以自行阅读框架代码.</p>
+</blockquote>
+<h3 id="taintanalysis">TaintAnalysis</h3>
+<blockquote>
+<p><strong>Tips:</strong>
+实验指南解释了为何是<code>TaintAnalysiss</code>,
+笔者在此使用更容易理解的表述.</p>
+</blockquote>
+<p>本次实验主要的逻辑实现部分,
+<code>Solver</code>可以根据其中的<code>taintAnalysis</code>字段调用<code>TaintAnalysis</code>中的API,
+从代码规范角度, 处理污点分析的代码应当在此处完成,
+<code>Solver</code>中仅调用API.</p>
+<p>先看看该类具有哪些字段:</p>
+<ul>
+<li><code>TaintManager manager</code></li>
+<li><code>TaintConfig config</code></li>
+<li><code>Solver solver</code></li>
+<li><code>CSManager csManager</code></li>
+<li><code>Context emptyContext</code></li>
+</ul>
+<p>注意到除了污点分析相关组件,
+<code>TaintAnalysis</code>也可以和<code>Solver</code>和<code>CSManager</code>通信,
+并且给出了一个<code>emptyContext</code>, 以供直接使用.</p>
+<p>以上字段均在实例化时被初始化.</p>
+<p>接着看看类中的方法:</p>
+<ul>
+<li><p><code>void onFinish()</code>,
+向外部(这里是<code>Solver</code>)给出污点分析结果<code>taintFlows</code>.</p></li>
+<li><p><code>Set&lt;TaintFlow&gt; collectTaintFlows()</code>,
+该部分等待完成, 用以计算所有的污染流.</p></li>
+</ul>
+<h3 id="solver">Solver</h3>
+<p>到此已经知道所有污点分析相关类了,
+现在从顶层<code>Solver</code>中看看污点分析的使用.</p>
+<ul>
+<li><code>void solve()</code>是指针分析的步骤, 可以看到相比A6,
+最后一步设置了污点分析结果. 换句话说,
+本次实验中只需要考虑污点分析的实现,
+污点分析的前置工作和结果存储框架都已经做好了.</li>
+</ul>
+<h2 id="算法设计">算法设计</h2>
+<h3 id="污点分析">污点分析</h3>
+<h4 id="基本假设">基本假设</h4>
+<p>在本次实验的污点分析中, 有几个基本假设:</p>
+<ul>
+<li><p><code>TaintObj</code>只会由<code>Source</code>产生,
+依据<code>TaintTransfer</code>的规则, 最终传播到<code>Sink</code>.
+其中<code>Source</code>的语句类型均为<code>Invoke</code>.</p></li>
+<li><p>本次实验不考虑<strong>隐式污染</strong>(详见<a
+target="_blank" rel="noopener" href="https://cs.nju.edu.cn/tiantan/software-analysis/Security.pdf#page=44"><strong>课程ppt</strong></a>),
+这大大简化了本次实验分析难度.</p></li>
+<li><p><code>TaintObj</code>是以<code>Obj</code>的方式进行封装的,
+这意味着<code>TaintObj</code>可以像<code>Obj</code>一样在指针流图<code>PointerFlowGraph</code>中传递.</p>
+<blockquote>
+<p><strong>Tips: 这意味着什么?</strong></p>
+<p>这意味着除了<strong>TaintTransfer</strong>和<strong>Source
+Invoke</strong>的传播途径外,
+<code>TaintObj</code>的其余传播途径都可以在之前的指针分析实现中完成.(如果感到难以理解可以试试推一下<code>Assign</code>,
+<code>Store</code>和<code>Load</code>语句的传播)</p>
+</blockquote></li>
+<li><p><code>TaintObj</code>的上下文被简单的处理成<code>emptyContext</code>,
+即来自同一个<code>Index: Invoke</code>的<code>TaintObj</code>在堆中被抽象为一个对象.</p></li>
+<li><p><strong><em>(存疑)</em></strong> Online
+Judge上似乎所有的<code>Source</code>相关语句<strong>均是静态方法</strong>,
+因此理论上不需要进行<strong>dispatch</strong>也可以通过测试.</p></li>
+</ul>
+<h4 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
+TaintTransferFlow</h4>
+<p>三者均是在<code>Invoke</code>上进行操作,
+因此需要修的地方有<code>processCall</code>和<code>addReachable</code>.</p>
+<ul>
+<li><p>对于<code>Source</code>, 只需要按实验指南上的规则处理即可.
+但需要注意的是, 只有当<code>Invoke</code>存在返回值时,
+才执行<code>Source</code>的处理.</p></li>
+<li><p>对于<code>Sink</code>, 可以选择边迭代边处理,
+但因为<strong>Pointer Analysis</strong>不依赖于<code>Sink</code>,
+可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
+也就是说,
+这部分代码可以在<code>collectTaintFlows()</code>中完成.</p></li>
+<li><p>对于<code>TaintTransferFlow</code>,
+同样只需要小心的按照指南规则处理即可. 但需要注意的是,
+由于污点数据流向目标时可能会有类型转换,
+因此需要创建一个新的<code>TaintObj</code>实例赋值给目标的<code>PointsToSet</code>.</p></li>
+</ul>
+<h4 id="污点数据的广播">污点数据的广播</h4>
+<p>污点数据的传播逻辑处理是本次实验相对简单的部分,
+困难的是如何传播污点数据.</p>
+<p>想知道答案, 就要先回顾一下指针分析的广播.</p>
+<img src="/2024/12/17/SPA-A8/pic1-2.png" class="" title="pic1-2">
+<p>这个大循环中当<code>n</code>是变量<code>x</code>时,
+对相关语句进行广播.</p>
+<p>如在A5, A6中,
+需要对<code>Array</code>和<code>Filed</code>以及<code>processCall</code>进行广播.</p>
+<p>污点分析也是一种指针分析, 那么其理应也在这里广播.</p>
+<p><code>from -&gt; to</code>的情况有三种,
+<code>from</code>的取值只有<code>Arg</code>和<code>Base</code>两种情况.</p>
+<ul>
+<li><p><code>Base</code>的广播可以在<code>processCall</code>中进行,
+因为二者中变量<code>x</code>都作为<code>Base</code>出现.</p></li>
+<li><p><code>Arg</code>的广播没有现成的方法, 那么就考虑与其余情况并列,
+若<code>x</code>是某条<code>Invoke</code>的实参时, 则需要广播到此处,
+为该<code>Invoke</code>执行<code>TaintTransferFlow</code></p></li>
+</ul>
+<p>特别的, 因为这样的特性,
+你也可以考虑将<code>TaintTransferFlow</code>拆开来写.
+这样更符合其广播逻辑.</p>
+<h2 id="拾遗">拾遗</h2>
+<p>本次实验几乎不涉及新的方法和工具(当然你也可以选择使用一些隐藏API来完成本次实验,
+例如对于<strong>Instance Invoke</strong>,
+可以通过<code>((InvokeInstanceExp)(invoke.getInvokeExp())).getBase()</code>来获取<code>base</code>信息).</p>
+<p><strong>All you need has already in Tai-e.</strong></p>
+<h2 id="总结">总结</h2>
+<p>完结撒花啦!</p>
+<img src="/2024/12/17/SPA-A8/pic1-3.png" class="" title="pic1-3">
+
     </div>
 
     
@@ -288,6 +464,13 @@ Analysis.</strong></p>
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/12/09/SPA-A7/" rel="prev" title="NJU静态分析|A7-Alias-Aware Interprocedural Constant Propagation">
+      <i class="fa fa-chevron-left"></i> NJU静态分析|A7-Alias-Aware Interprocedural Constant Propagation
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
     
   </article>
@@ -346,7 +529,8 @@ Analysis.</strong></p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">实验目标</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">实验目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preparation"><span class="nav-number">2.</span> <span class="nav-text">Preparation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%B8%A6%E8%AF%BB"><span class="nav-number">3.</span> <span class="nav-text">部分框架代码带读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#source-sink"><span class="nav-number">3.1.</span> <span class="nav-text">Source &amp; Sink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tainttransfer"><span class="nav-number">3.2.</span> <span class="nav-text">TaintTransfer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintmanager"><span class="nav-number">3.3.</span> <span class="nav-text">TaintManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintflow"><span class="nav-number">3.4.</span> <span class="nav-text">TaintFlow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintconfig"><span class="nav-number">3.5.</span> <span class="nav-text">TaintConfig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taintanalysis"><span class="nav-number">3.6.</span> <span class="nav-text">TaintAnalysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solver"><span class="nav-number">3.7.</span> <span class="nav-text">Solver</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">算法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%A1%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">4.1.</span> <span class="nav-text">污点分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%81%87%E8%AE%BE"><span class="nav-number">4.1.1.</span> <span class="nav-text">基本假设</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#source-sink-tainttransferflow"><span class="nav-number">4.1.2.</span> <span class="nav-text">Source &amp; Sink &amp;
+TaintTransferFlow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%A1%E7%82%B9%E6%95%B0%E6%8D%AE%E7%9A%84%E5%B9%BF%E6%92%AD"><span class="nav-number">4.1.3.</span> <span class="nav-text">污点数据的广播</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%BE%E9%81%97"><span class="nav-number">5.</span> <span class="nav-text">拾遗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -362,7 +546,7 @@ Analysis.</strong></p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -422,13 +606,13 @@ Analysis.</strong></p>
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">81k</span>
+    <span title="站点总字数">38k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:27</span>
+    <span title="站点阅读时长">2:19</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
