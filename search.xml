@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>读书笔记-大话设计模式 Ch1-</title>
+    <url>/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/</url>
+    <content><![CDATA[<p><strong>好的代码可维护, 可复用, 可扩展, 灵活性强.</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#additional--uml类图">Additional : UML类图</a>
+<ul>
+<li><a href="#什么是uml">什么是UML</a></li>
+<li><a href="#uml类图的示例">UML类图的示例</a></li>
+</ul></li>
+<li><a href="#chapter-1-简单工厂模式simple-factory">Chapter 1:
+简单工厂模式(Simple Factory)</a></li>
+<li><a href="#chapter2--策略模式strategy">Chapter2 :
+策略模式(Strategy)</a></li>
+</ul>
+<h2 id="additional-uml类图">Additional : UML类图</h2>
+<p><strong>在线UML工具:</strong> <a
+href="https://www.plantuml.com/plantuml/uml"
+class="uri">https://www.plantuml.com/plantuml/uml</a></p>
+<h3 id="什么是uml">什么是UML</h3>
+<p><strong>统一建模语言UML(Unified Modeling Language)</strong>
+是一种脚本语言, 是一种开放的方法, 用于说明, 可视化,
+构建和编写一个正在开发的, 面向对象的, 软件密集系统的产品的开放方法.</p>
+<p>简单来说, 对于应用的人, 可以通过简单的语言来生成描述的图像(包括类图,
+时序图等).</p>
+<h3 id="uml类图的示例">UML类图的示例</h3>
+<img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-2.png" class="" title="pic2-2">
+<p>关于UML类图的介绍在Internet中有充足的资料和手册,
+书中也有简单的规约介绍,
+笔者在此不详细介绍UML图的语法和规约.(或者待专门出一期整理UML用法的栏目)</p>
+<h2 id="chapter-1-简单工厂模式simple-factory">Chapter 1:
+简单工厂模式(Simple Factory)</h2>
+<p>先来看看书中给的例子:</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//简单工厂类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OperationFactory</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title">createOperate</span>(<span class="params"><span class="built_in">string</span> operate</span>)</span>&#123;</span><br><span class="line">        Operation oper = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (operate)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;+&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationAdd();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;-&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationSub();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ...</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> oper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//应用端</span></span><br><span class="line">Operation oper;</span><br><span class="line">oper = OperationFactory.createOperate(<span class="string">&quot;+&quot;</span>);</span><br><span class="line">oper.NumberA = <span class="number">1</span>;</span><br><span class="line">oper.NumberB = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">double</span> result = oper.GetResult();</span><br></pre></td></tr></table></figure>
+<p>UML图如下:</p>
+<img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-1.png" class="" title="pic2-1">
+<p>简单来说,
+就是通过一个简单工厂类<code>XXXFactory</code>生产"产品"(实例化类),即<strong>有一个专门的类负责创建实例的过程</strong>.
+这样修改后端的功能时(比如说添加新的运算类),
+前端的逻辑不需要重构(以上述例子中只需要修改<code>createOperate("+")-&gt;createOperate("-")</code>);
+同时后端的具体实现细节没有暴露给前端, 降低了耦合度.</p>
+<h2 id="chapter2-策略模式strategy">Chapter2 : 策略模式(Strategy)</h2>
+<ul>
+<li>面向对象的编程, 并不是类越多越好, 类的划分是为了封装,
+但分类的基础是抽象, 具有相同属性和功能的对象的抽象集合才是类.</li>
+</ul>
+<p><strong>策略模式(Strategy)</strong> 定义了算法家族, 分别封装起来,
+让它们之间相互替换, 此模式让算法的变化不会影响到使用算法的客户.</p>
+<img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-3.png" class="" title="pic2-3">
+]]></content>
+      <categories>
+        <category>读书笔记-设计模式</category>
+      </categories>
+      <tags>
+        <tag>读书笔记</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>读书笔记-大话设计模式 Ch0</title>
     <url>/2024/09/10/BookNote-DesignPatterns-by-JieCheng-1/</url>
     <content><![CDATA[<p><strong>精彩的代码是如何想出来的,
@@ -1975,6 +2037,244 @@ href="https://www.zhihu.com/question/31203609?sort=created"><strong>[知乎|Java
       </tags>
   </entry>
   <entry>
+    <title>课程笔记-NJU编译原理 Ch1 引论</title>
+    <url>/2025/02/17/Course-Compiler-1/</url>
+    <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch01
+Introduction</strong></p>
+<span id="more"></span>
+<h2 id="课程信息">课程信息</h2>
+<p>NJU许畅老师(<a
+href="https://cs.nju.edu.cn/changxu">主页</a>)开设的编译原理课程(<strong>Principles
+and Techniques of Compilers</strong>).</p>
+<p><strong>参考教材:</strong></p>
+<p>《编译原理》(龙书),《编译方法、技术与实践》/《编译原理实践与指导教程》</p>
+<h3 id="课程内容">课程内容</h3>
+<ul>
+<li><strong>Ch1 引论</strong></li>
+<li><strong>Ch3 词法分析</strong></li>
+<li><strong>Ch4 语法分析</strong></li>
+<li><strong>Ch5 语法制导的编译技术</strong></li>
+<li><strong>Ch6 中间代码生成</strong></li>
+<li><strong>Ch7 运行时刻环境</strong></li>
+<li><strong>Ch8 代码生成</strong></li>
+<li><strong>Ch9 机器无关优化</strong></li>
+</ul>
+<h3 id="实验内容">实验内容</h3>
+<p>TBC</p>
+<h2 id="引论">引论</h2>
+<h3 id="编译器compiler-解释器interpreter">编译器(Compiler) &amp;
+解释器(Interpreter)</h3>
+<ul>
+<li><strong>编译器</strong>
+<ul>
+<li>读入以某种语言(源语言) 编写的程序</li>
+<li>输出等价的用另一种语言(目标语言) 编写的程序</li>
+<li>通常目标程序是可执行的</li>
+</ul></li>
+</ul>
+<img src="/2025/02/17/Course-Compiler-1/pic1-1.png" class="" title="pic1-1">
+<ul>
+<li><strong>解释器</strong>
+<ul>
+<li>直接利用用户提供的输入，执行源程序中指定的操作</li>
+<li>不生成目标程序，而是根据源程序的语义直接运行</li>
+<li>Java语言的处理结合了编译和解释</li>
+</ul></li>
+</ul>
+<h3 id="编译器的结构">编译器的结构</h3>
+<p>编译器可以分为<strong>分析</strong>和<strong>综合</strong>两部分.</p>
+<ul>
+<li><strong>分析(Analysis)/前端(front end)</strong>
+<ul>
+<li>把源程序分解成组成要素，以及相应的语法结构</li>
+<li>使用这个结构创建源程序的中间表示</li>
+<li>同时收集和源程序相关的信息，存放到符号表</li>
+</ul></li>
+<li><strong>综合(Synthesis)/后端(back end)</strong>
+<ul>
+<li>根据中间表示和符号表信息构造目标程序</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>其中前端部分是机器无关的，后端部分是机器相关的</strong></p>
+</blockquote>
+<p>编译器执行步骤(phase)</p>
+<img src="/2025/02/17/Course-Compiler-1/pic1-2.png" class="" title="pic1-2">
+<h3 id="词法分析">词法分析</h3>
+<ul>
+<li><strong>词法分析/扫描(lexical analysis/scanning)</strong>
+<ul>
+<li>读入源程序的字符流，输出为有意义的词素(lexeme)</li>
+<li>格式: <code>&lt;token-name, attribute-value&gt;</code></li>
+<li>token-name由语法分析步骤使用</li>
+<li>attribute-value指向相应的符号表条目，由语义分析/代码生成步骤使用</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong> <img src="/2025/02/17/Course-Compiler-1/pic1-3.png" class="" title="pic1-3"></p>
+</blockquote></li>
+</ul>
+<h3 id="语法分析">语法分析</h3>
+<ul>
+<li><strong>语法分析/解析(syntaxanalysis/parsing)</strong>
+<ul>
+<li>根据各个词法单元的第一个分量来创建树型的中间表示形式，通常是<strong>语法树(syntax
+tree)</strong></li>
+<li>中间表示形式指出了词法单元流的语法结构</li>
+<li><img src="/2025/02/17/Course-Compiler-1/pic1-4.png" class="" title="pic1-4"></li>
+</ul></li>
+</ul>
+<h3 id="语义分析">语义分析</h3>
+<ul>
+<li><strong>语义分析(semantic analysis)</strong>
+<ul>
+<li>使用语法树和符号表中的信息，检查源程序是否满足语言定义的语义约束</li>
+<li>同时收集类型信息，用于代码生成、类型检查、类型转换</li>
+<li><img src="/2025/02/17/Course-Compiler-1/pic1-5.png" class="" title="pic1-5"></li>
+</ul></li>
+</ul>
+<h3 id="中间代码生成">中间代码生成</h3>
+<p>根据语义分析输出，生成类机器语言的中间表示</p>
+<ul>
+<li><strong>三地址代码(three-address code)</strong>
+<ul>
+<li>每个指令最多包含三个运算分量</li>
+<li>Example:
+<code>t1 = inttofloat(60); t2 = id3 * t1; t3 = id2 + t2;</code></li>
+<li>很容易生成机器语言指令</li>
+<li><img src="/2025/02/17/Course-Compiler-1/pic1-6.png" class="" title="pic1-6"></li>
+</ul></li>
+</ul>
+<h3 id="中间代码优化">中间代码优化</h3>
+<p>通过对中间代码的分析，改进中间代码的质量(更快、更短、能耗更低)</p>
+<img src="/2025/02/17/Course-Compiler-1/pic1-7.png" class="" title="pic1-7">
+<h3 id="代码生成">代码生成</h3>
+<p>把中间表示形式映射到目标语言(寄存器分配与指令选择)</p>
+<img src="/2025/02/17/Course-Compiler-1/pic1-8.png" class="" title="pic1-8">
+<h3 id="语言与编译器的关系">语言与编译器的关系</h3>
+<ul>
+<li>程序设计语言的新发展向编译器设计者提出新的要求
+<ul>
+<li>设计相应的算法和表示方法来翻译和支持新的语言特征，如多态、动态绑定、类、类属(模板)
+、…</li>
+</ul></li>
+<li>通过降低高级语言的执行开销，推动这些高级语言的使用</li>
+<li>编译器设计者还需要更好地利用新硬件的能力
+<ul>
+<li>RISC技术、多核技术、大规模并行技术</li>
+</ul></li>
+</ul>
+<h3 id="程序设计语言的基础概念">程序设计语言的基础概念</h3>
+<h4 id="动态静态">动态&amp;静态</h4>
+<ul>
+<li><strong>静态:</strong> 支持编译器静态决定某个问题</li>
+<li><strong>动态:</strong> 只允许在程序运行时刻作出决定</li>
+</ul>
+<h4 id="作用域">作用域</h4>
+<p>x的作用域指程序文本的一个区域，其中对x的使用都指向这个声明</p>
+<ul>
+<li><strong>静态作用域(static scope):</strong>
+通过静态阅读程序可决定</li>
+<li><strong>动态作用域(dynamic scope):</strong> 运行时确定x的指向</li>
+</ul>
+<h4 id="环境状态">环境&amp;状态</h4>
+<ul>
+<li><strong>环境(environment):</strong> 是从名字到存储位置的映射</li>
+<li><strong>状态(state):</strong> 从存储位置到它们值的映射</li>
+</ul>
+<img src="/2025/02/17/Course-Compiler-1/pic1-9.png" class="" title="pic1-9">
+]]></content>
+      <categories>
+        <category>课程笔记-编译原理</category>
+      </categories>
+      <tags>
+        <tag>课程笔记</tag>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
+    <url>/2024/09/21/LeetCode-P4/</url>
+    <content><![CDATA[<p><strong>题目链接:</strong> <a
+href="https://leetcode.cn/problems/median-of-two-sorted-arrays/"><strong>LeetCode|4.寻找两个正序数组的中位数</strong></a></p>
+<span id="more"></span>
+<hr />
+<h2 id="题面解释">题面解释</h2>
+<p>找出两个有序数组合并后的中位数. 但要求时间复杂度<span
+class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
+<h2 id="解法一-二分">解法一 二分</h2>
+<p>笔者看到复杂度<span class="math inline">\(\mathit{O}(log(m +
+n))\)</span>第一想法便是二分, 但怎么二分? 两个数组只是内部有序,
+两个数组并不有序, 常规对数组二分的思路肯定是不行的.</p>
+<p>那该如何进行二分呢, 对答案进行二分. 令k为所寻找的k阶数, 初始为中位数,
+则此时我们取两个数组的前<span
+class="math inline">\(k/2\)</span>部分出来, 比较<span
+class="math inline">\(nums1[k/2]\)</span>和<span
+class="math inline">\(nums2[k/2]\)</span>, 则可以直接排除<span
+class="math inline">\(k/2\)</span>个数. 我们以下图例子来解释.</p>
+<img src="/2024/09/21/LeetCode-P4/p1.png" class="" title="p1">
+<p><span class="math inline">\(m = n = 4\)</span>, 我们有 <span
+class="math inline">\(k = 4, k/2 = 2\)</span>,
+于是我们取两个数组的前两位, 比较3和5, 不难看出, 1和3不可能是中位数.
+为什么? 因为1和3的阶必定小于<span class="math inline">\(k = 4\)</span>,
+即便第一个数组的3比第二个数组的5前面所有数都大, 3的阶也只能是3,
+1就更不必说了. 而5前面的数可能大于3后面的数(例子中未能体现,
+读者可以自行构造一个满足这种情况的简单例子). 因此通过这种操作,
+我们可以排掉 <span class="math inline">\(k/2\)</span>
+个不可能是中位数的元素, 接着我们令<span class="math inline">\(k = k -
+k/2\)</span>, 将被排除的数去掉, 重新进行上述过程.</p>
+<img src="/2024/09/21/LeetCode-P4/p2.png" class="" title="p2">
+<p>选取两个数组的前1位.比较2 和 4, 可以排除掉2. 此时过程进行到了边界处,
+接下来<span class="math inline">\(k = 1\)</span>无法继续了.
+而此时剩下的4和5正是我们需要的中位数.</p>
+<blockquote>
+<p><strong>Tips:</strong> 为什么第二个数组不是选择2, 5, 7?</p>
+<p>因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
+而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉</p>
+</blockquote>
+<p>k为奇数时情况稍有不同, 但大多是一些细节问题, 笔者在此不再赘述.
+推荐读者自己构建一个例子去推算上面的过程, 相信不难理解其中要义.</p>
+<p>每次排除<span class="math inline">\(k/2\)</span>, 而 <span
+class="math inline">\(k = (m + n + 1) / 2\)</span>, 故时间复杂度<span
+class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
+<p>参考代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m = nums<span class="number">1.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> n = nums<span class="number">2.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; m &lt;&lt; &quot; &quot; &lt;&lt; n &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int i = 0; i &lt; m; i++)&#123;cout &lt;&lt; nums1[i] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int j = 0; j &lt; n; j++)&#123;cout &lt;&lt; nums2[j] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> left1 = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> k = (m + n - <span class="number">1</span>) &gt;&gt; <span class="number">1</span>; <span class="comment">// 排除掉小于中位数的数</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (k &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 一个数组被清空</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="type">int</span> mid = k &gt;&gt; <span class="number">1</span>; <span class="comment">// 注意循环条件 k &gt; 1</span></span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> mid1 = left1 + mid - <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> mid2 = left2 + mid - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 边界情况，剩余数组大小不足k</span></span><br><span class="line">            <span class="keyword">if</span> (left1 + mid &gt; m) &#123; <span class="comment">// 等价于 left1 + mid - 1 &gt;= m</span></span><br><span class="line">                mid1 = m - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 + mid &gt; n) &#123;</span><br><span class="line">                mid2 = n - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums1[mid1] &gt;= nums2[mid2]) &#123;</span><br><span class="line">                k -= mid2 - left2 + <span class="number">1</span>; <span class="comment">// 一轮可以排除掉一半</span></span><br><span class="line">                left2 = mid2 + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                k -= mid1 - left1 + <span class="number">1</span>;</span><br><span class="line">                left1 = mid1 + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理 k == 1</span></span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                    left2++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    left1++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 别忘了处理边界情况</span></span><br><span class="line">        <span class="keyword">if</span> ((m + n) &amp; <span class="number">1</span> == <span class="number">1</span>) &#123; <span class="comment">// 奇数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> std::<span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 偶数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="built_in">return</span> (nums2[left2] + nums2[left2 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> (nums1[left1] + nums1[left1 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> num1;</span><br><span class="line">            <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                num1 = nums2[left2];</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                num1 = nums1[left1];</span><br><span class="line">                left1++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> num2;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                num2 = nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                num2 = nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                num2 = <span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> (num1 + num2) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong> 本题思路并不难想出或者说并不难理解,
+但非常考验代码功底, 对细节和边界情况的考察更像是此题的侧重点.
+还望看到此处的读者能静下心来调试代码, 祝早日AC.</p>
+</blockquote>
+<h2 id="解法二-分割">解法二 分割</h2>
+<blockquote>
+<p>笔者阅读题解时注意到的巧妙的解法, 原链接在此<a
+href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/"><strong>P4|windliang</strong></a></p>
+</blockquote>
+<p>更详细的数学证明, 思路和代码请阅读原文,
+笔者在此只给出自己对其的理解.</p>
+<p>本质来说, 两种方法殊途同归, 但分割的方法较为巧妙一些. 中位数,
+或者说k阶数, 就是将数组分为两个部分, 其一是比k阶数小的部分,
+其二是比k阶数大的部分.</p>
+<p>对于有序的一个数组, 其性质本身就已经满足,
+我们不妨将两部分简称为左半部分(小)和右半部分(大). 对于两个有序数组,
+情况是一样的, 如果存在一种划分, 满足左边最大MaxLeft小于右边最小MinRight,
+我们则认为这是关于k阶数的一种有效划分.</p>
+<p>因此, 这道题就被转化为寻找数组中满足中位数的有效划分,
+关于特定k阶数划分, 还需要满足左半部分和右半部分的数量关系,
+若规定将k阶数划在左半部分, 则左半部分有k个元素, 右半部分有 n - k
+个元素.</p>
+<p>后面的事情就简单了, 固定数组1的划分位置,
+根据数量关系找到数组2待判定划分位置,
+根据MaxLeft和MinRight的大小关系决定数组1划分位置的左移或右移,
+该过程可以通过二分完成.</p>
+]]></content>
+      <categories>
+        <category>LeetCode刷题记录</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NJU静态分析|A1-Live Variable Analysis</title>
     <url>/2024/10/20/SPA-A1/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-1 Live Variable
@@ -2100,272 +2400,6 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
 <p>总的来说这次实验的难点在于框架代码的理解,
 笔者在记录中提及了部分关键定义和代码理解, 只要耐心阅读框架代码,
 相信一定会AC.</p>
-]]></content>
-      <categories>
-        <category>NJU静态分析实验记录</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
-    <url>/2024/09/21/LeetCode-P4/</url>
-    <content><![CDATA[<p><strong>题目链接:</strong> <a
-href="https://leetcode.cn/problems/median-of-two-sorted-arrays/"><strong>LeetCode|4.寻找两个正序数组的中位数</strong></a></p>
-<span id="more"></span>
-<hr />
-<h2 id="题面解释">题面解释</h2>
-<p>找出两个有序数组合并后的中位数. 但要求时间复杂度<span
-class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
-<h2 id="解法一-二分">解法一 二分</h2>
-<p>笔者看到复杂度<span class="math inline">\(\mathit{O}(log(m +
-n))\)</span>第一想法便是二分, 但怎么二分? 两个数组只是内部有序,
-两个数组并不有序, 常规对数组二分的思路肯定是不行的.</p>
-<p>那该如何进行二分呢, 对答案进行二分. 令k为所寻找的k阶数, 初始为中位数,
-则此时我们取两个数组的前<span
-class="math inline">\(k/2\)</span>部分出来, 比较<span
-class="math inline">\(nums1[k/2]\)</span>和<span
-class="math inline">\(nums2[k/2]\)</span>, 则可以直接排除<span
-class="math inline">\(k/2\)</span>个数. 我们以下图例子来解释.</p>
-<img src="/2024/09/21/LeetCode-P4/p1.png" class="" title="p1">
-<p><span class="math inline">\(m = n = 4\)</span>, 我们有 <span
-class="math inline">\(k = 4, k/2 = 2\)</span>,
-于是我们取两个数组的前两位, 比较3和5, 不难看出, 1和3不可能是中位数.
-为什么? 因为1和3的阶必定小于<span class="math inline">\(k = 4\)</span>,
-即便第一个数组的3比第二个数组的5前面所有数都大, 3的阶也只能是3,
-1就更不必说了. 而5前面的数可能大于3后面的数(例子中未能体现,
-读者可以自行构造一个满足这种情况的简单例子). 因此通过这种操作,
-我们可以排掉 <span class="math inline">\(k/2\)</span>
-个不可能是中位数的元素, 接着我们令<span class="math inline">\(k = k -
-k/2\)</span>, 将被排除的数去掉, 重新进行上述过程.</p>
-<img src="/2024/09/21/LeetCode-P4/p2.png" class="" title="p2">
-<p>选取两个数组的前1位.比较2 和 4, 可以排除掉2. 此时过程进行到了边界处,
-接下来<span class="math inline">\(k = 1\)</span>无法继续了.
-而此时剩下的4和5正是我们需要的中位数.</p>
-<blockquote>
-<p><strong>Tips:</strong> 为什么第二个数组不是选择2, 5, 7?</p>
-<p>因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
-而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉</p>
-</blockquote>
-<p>k为奇数时情况稍有不同, 但大多是一些细节问题, 笔者在此不再赘述.
-推荐读者自己构建一个例子去推算上面的过程, 相信不难理解其中要义.</p>
-<p>每次排除<span class="math inline">\(k/2\)</span>, 而 <span
-class="math inline">\(k = (m + n + 1) / 2\)</span>, 故时间复杂度<span
-class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
-<p>参考代码如下:</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m = nums<span class="number">1.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> n = nums<span class="number">2.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; m &lt;&lt; &quot; &quot; &lt;&lt; n &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int i = 0; i &lt; m; i++)&#123;cout &lt;&lt; nums1[i] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int j = 0; j &lt; n; j++)&#123;cout &lt;&lt; nums2[j] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> left1 = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> k = (m + n - <span class="number">1</span>) &gt;&gt; <span class="number">1</span>; <span class="comment">// 排除掉小于中位数的数</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (k &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 一个数组被清空</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="type">int</span> mid = k &gt;&gt; <span class="number">1</span>; <span class="comment">// 注意循环条件 k &gt; 1</span></span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> mid1 = left1 + mid - <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> mid2 = left2 + mid - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 边界情况，剩余数组大小不足k</span></span><br><span class="line">            <span class="keyword">if</span> (left1 + mid &gt; m) &#123; <span class="comment">// 等价于 left1 + mid - 1 &gt;= m</span></span><br><span class="line">                mid1 = m - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 + mid &gt; n) &#123;</span><br><span class="line">                mid2 = n - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums1[mid1] &gt;= nums2[mid2]) &#123;</span><br><span class="line">                k -= mid2 - left2 + <span class="number">1</span>; <span class="comment">// 一轮可以排除掉一半</span></span><br><span class="line">                left2 = mid2 + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                k -= mid1 - left1 + <span class="number">1</span>;</span><br><span class="line">                left1 = mid1 + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理 k == 1</span></span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                    left2++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    left1++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 别忘了处理边界情况</span></span><br><span class="line">        <span class="keyword">if</span> ((m + n) &amp; <span class="number">1</span> == <span class="number">1</span>) &#123; <span class="comment">// 奇数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> std::<span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 偶数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="built_in">return</span> (nums2[left2] + nums2[left2 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> (nums1[left1] + nums1[left1 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> num1;</span><br><span class="line">            <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                num1 = nums2[left2];</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                num1 = nums1[left1];</span><br><span class="line">                left1++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> num2;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                num2 = nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                num2 = nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                num2 = <span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> (num1 + num2) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Tips:</strong> 本题思路并不难想出或者说并不难理解,
-但非常考验代码功底, 对细节和边界情况的考察更像是此题的侧重点.
-还望看到此处的读者能静下心来调试代码, 祝早日AC.</p>
-</blockquote>
-<h2 id="解法二-分割">解法二 分割</h2>
-<blockquote>
-<p>笔者阅读题解时注意到的巧妙的解法, 原链接在此<a
-href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/"><strong>P4|windliang</strong></a></p>
-</blockquote>
-<p>更详细的数学证明, 思路和代码请阅读原文,
-笔者在此只给出自己对其的理解.</p>
-<p>本质来说, 两种方法殊途同归, 但分割的方法较为巧妙一些. 中位数,
-或者说k阶数, 就是将数组分为两个部分, 其一是比k阶数小的部分,
-其二是比k阶数大的部分.</p>
-<p>对于有序的一个数组, 其性质本身就已经满足,
-我们不妨将两部分简称为左半部分(小)和右半部分(大). 对于两个有序数组,
-情况是一样的, 如果存在一种划分, 满足左边最大MaxLeft小于右边最小MinRight,
-我们则认为这是关于k阶数的一种有效划分.</p>
-<p>因此, 这道题就被转化为寻找数组中满足中位数的有效划分,
-关于特定k阶数划分, 还需要满足左半部分和右半部分的数量关系,
-若规定将k阶数划在左半部分, 则左半部分有k个元素, 右半部分有 n - k
-个元素.</p>
-<p>后面的事情就简单了, 固定数组1的划分位置,
-根据数量关系找到数组2待判定划分位置,
-根据MaxLeft和MinRight的大小关系决定数组1划分位置的左移或右移,
-该过程可以通过二分完成.</p>
-]]></content>
-      <categories>
-        <category>LeetCode刷题记录</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
-        <tag>二分</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NJU静态分析|A2-Constant Propagation</title>
-    <url>/2024/10/28/SPA-A2/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-2 Constant
-Propagation &amp; WorlistSolver.</strong></p>
-<span id="more"></span>
-<h2 id="实验信息与食用指南">实验信息与食用指南</h2>
-<p>请翻阅<a
-href="https://la-pluma.github.io/2024/10/20/SPA-A1/#more"><strong>[NJU静态分析|A1-Live
-Variable Analysis]</strong></a>.</p>
-<p>在此进行一点补充, 笔者的这份实验记录更像是Free
-Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
-在理解了<strong>理论知识</strong>, <strong>实验指南</strong> 和
-<strong>框架代码</strong> 后再参考本记录, 与A1相同, 本记录
-<strong><em>不提供</em></strong> 源代码(<del>或者说暂时没有</del>).</p>
-<p><del>如果您对本实验记录中的内容感到困惑,
-可能是因为笔者能力不足或您未能理解实验指南和框架代码,
-同时本试验记录难以涵盖所有的坑, 还望海涵.</del></p>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
-<p>大致的框架代码如下:</p>
-<img src="/2024/10/28/SPA-A2/pic1.png" class="" title="pic1">
-<p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
-<h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
-<p><del>我知道你们有些人肯定是不看框架代码的,
-除非不得不用或者报错的时候.</del></p>
-<h3 id="ir-irbuilder">IR &amp; IRBuilder</h3>
-<p>Tai-e框架中的<code>IR</code>与课上教授的IR稍有不同, 以A2
-test中的<strong>Assign.java</strong>为例,</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*   From A2 test/Assign.java   */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Assign</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>, y;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        x = <span class="number">3</span>;</span><br><span class="line">        x = <span class="number">4</span>;</span><br><span class="line">        y = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>经过tai-e框架的分析后会得到</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
-href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
-<img src="/2024/10/28/SPA-A2/pic2.png" class="" title="pic2">
-<p><del>IR我懒得贴了</del></p>
-<p><code>IR</code>的基本单元是<strong>method</strong>
-(请意识到java是oop语言),
-<code>IRBuilder</code>提供了分析单个方法的API<code>buildIR(JMethod method)</code>和分析整个<code>class hierarchy</code>(不明白,
-等到A4就明白了, 笑)中的所有方法的API<code>buildAll()</code></p>
-<p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
-我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
-可能会有所出入, 但大致如此).</p>
-<img src="/2024/10/28/SPA-A2/pic3.png" class="" title="pic3">
-<blockquote>
-<p><strong>Tips:</strong>
-严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
-见A1试验记录说明), 只存储<code>Stmt</code>的关联信息,
-但为了方便图示遂如此展示. 至于为何左值和右值都是<code>Exp</code>,
-请翻阅A1官方实验指南中对<code>Exp</code>的图示表示部分.</p>
-</blockquote>
-<h3 id="definitionstmt">DefinitionStmt</h3>
-<p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
-但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
-为什么不用呢?</p>
-<img src="/2024/10/28/SPA-A2/pic4.png" class="" title="pic4.png">
-<p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
-<code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
-extends <code>Exp</code>),
-而不需要像<code>Stmt</code>中的<code>getDef()</code> &amp;
-<code>getUses()</code>
-做较为繁琐的判断和筛选(如果对<code>getUses()</code>感到困惑,
-也还请翻阅A1实验记录, 里面有解释和参考来源).</p>
-<p>需要注意的是,
-<code>getLValue()</code>可能会返回<code>null</code>.</p>
-<h2 id="constantpropagation">ConstantPropagation</h2>
-<p>与活跃变量分析类似, 我们需要完成5个API的功能.</p>
-<h3 id="newboundaryfact-newinitialfact">newBoundaryFact() &amp;
-newInitialFact()</h3>
-<p>需要注意的是, 本次存储分析结果的数据结构是<code>CPFact</code>,
-与A1相同, 在完成本次实验代码之前需要了解相关API的用法.</p>
-<p>既然是<strong>Must Analysis</strong>, 我们需要将初值赋为空,
-但需要注意的是, 我们的<strong>Analysis</strong>仅分析语句,
-在进入第一条语句之前, 是否有什么东西需要初始化?</p>
-<p>这个问题就对应了指南中为什么<code>BoundaryInit</code> 要通过
-<code>getIR().getParas()</code>获取参数并赋值<code>NAC</code>的提示.</p>
-<p>在对<code>IR</code>的解释中我们提到过,
-<code>IR</code>的基本分析单元是<strong>method</strong>, 即函数,
-函数就可能有传入的参数, 这些参数易见<strong>不是Constant</strong>,
-因此要赋值为<code>NAC</code></p>
-<blockquote>
-<p><strong>Tips:</strong> 如果是Constant干嘛还要传参, 即便真的这么做了,
-我们的分析也可以满足<strong>safe-approximation</strong>.</p>
-</blockquote>
-<p>这部分是在方法体(函数语句)执行前就完成的初始化,
-因此我们需要赋值给<code>Entry</code>的<code>outFact</code>.</p>
-<h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
-<p><code>meetValue()</code>的完成没有任何难点,
-只需要照抄ppt中的规则即可.</p>
-<img src="/2024/10/28/SPA-A2/pic5.png" class="" title="pic5">
-<p>同样的,
-完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
-<p>关于<code>meetInto()</code>,
-如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
-就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
-<img src="/2024/10/28/SPA-A2/pic6.png" class="" title="pic6">
-<h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
-<p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
-test的时候, 大概率寄在这里.</p>
-<p>笔者建议在<code>transferNode()</code>中处理<code>Stmt</code>的左值def部分,
-在<code>evaluate()</code>中处理右值exp部分. 这是比较符合功能分离的写法,
-当然, 也可以选择在
-<code>transferNode()</code>中处理<code>Var</code>和<code>IntLiteral</code>,
-<code>evaluate()</code>只负责处理<code>BinaryExp</code>的计算值.
-笔者在此按第一种写法进行说明.</p>
-<h4 id="transfernode">transferNode()</h4>
-<p>这个函数中你需要依次做(次流程可能存在可以优化的部分,
-不必完全照做):</p>
-<ul>
-<li><p>保存<code>outFact</code>原值,
-将<code>inFact</code>赋值给<code>outFact</code>.</p></li>
-<li><p>判断<code>Node</code>(<code>Stmt</code>)是否为<code>DefinitionStmt</code></p></li>
-<li><p>判断是否拥有<strong>合法</strong>左值,
-包括<code>def</code>的类型<code>Var</code>和<code>Var</code>中的<code>ValueType</code>是否为<code>Int</code>,
-如果不是, 本次实验中可以认为是<code>nop</code>空操作.
-不需要为这个<code>Stmt</code>做任何分析, 直接将<code>inFact</code>
-copy给 <code>outFact</code>即可.</p>
-<blockquote>
-<p><strong>Tips:</strong> IDEA教给我一个很有意思的语法糖</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> DefinitionStmt def_stmt)&#123;</span><br><span class="line">    <span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> def_stmt.getLValue();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个用法可以避开繁琐的类型转化, 在判断类型时便做了类型转化.</p>
-</blockquote></li>
-<li><p>计算<code>Stmt</code>的右值(通过<code>evaluate()</code>获得),
-并更新<code>outFact</code>中的相应<code>Var def</code>(笔者在此并未使用<code>update</code>方法的返回值,
-或许可从此处入手优化效率, 但笔者不能保证其正确性)</p></li>
-<li><p>比较<code>outFact</code>是否更新返回布尔值.</p></li>
-</ul>
-<h4 id="evaluate">evaluate()</h4>
-<p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中二元表达式计算规则见ppt所示,</p>
-<img src="/2024/10/28/SPA-A2/pic7.png" class="" title="pic7">
-<p>笔者在此给出一些细节和边界条件,
-也可以通过阅读上述代码框架获得细节提示:</p>
-<ul>
-<li><p><code>exp</code>中的操作数可能不是<code>IntType</code>,
-所以你需要做一个<code>canHoldInt()</code>判断,
-非法<code>exp</code>为了安全性应赋值为<code>NAC</code></p></li>
-<li><p>实验指南中提到, 对于<code>/</code>和<code>%</code>的除零错误,
-应当给出<code>Undef</code>,
-<strong>即使</strong>被除数是<code>NAC</code>.</p></li>
-</ul>
-<h2 id="sovler-worklistsolver">Sovler &amp; WorkListSolver</h2>
-<h3 id="sovler-init">Sovler Init</h3>
-<p>照着算法流程前三行写便是,
-但这里要提到框架代码的"<strong>robustness</strong>".</p>
-<p>尽管从分析流程上来看, 我们不应该分析<code>Node Entry</code>,
-但是框架代码允许我们这样做.
-这时框架代码会认为<code>Node Entry</code>是一条<code>nop Stmt</code>,
-不会做constant update,
-因此只要在<code>Init</code>部分对<code>Entry</code>的<code>inFact</code>和<code>outFact</code>都赋上初值,
-就不需要在worklist中考虑<code>Entry</code>的处理了.</p>
-<h3 id="worklistsolver-dosolveforward">WorkListSolver
-doSolveForward</h3>
-<p><strong>worklist</strong>是一种非常简单的算法,
-笔者在此不对算法实现过多赘述.
-注意在实现worklist的时候可以使用java自带的容器<code>Queue</code> &amp;
-<code>ArrayList</code>.</p>
-<p>关于<strong>worklist</strong>的初始化问题,
-需要注意的是应当为其加入所有的<code>Node</code>,
-如果只加入<code>Entry</code>的后继, 会产生问题, 笔者在此给出一个例子.
-(感谢课程群中<a
-href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和另一位不知道github链接的大佬构造的反例)</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] nop;     &#123;&#125;</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>在这个例子中,
-<code>Entry outFact</code>初始化为<code>&#123;&#125;</code>(没有参数),
-然而<code>Stmt0</code> 的 <code>outFact</code>
-同样初始化为<code>&#123;&#125;</code>,
-如果只添加<code>Entry</code>的后继<code>&#123;Stmt0&#125;</code>,
-会导致worklist在分析完<code>Stmt0</code>后错误终止.</p>
-<h2 id="总结">总结</h2>
-<p>本次实验应该是所有Assignment中代码量最多的一次, 细节也是让人头皮发麻,
-还望能静下心来看代码和debug, 祝早日AC!</p>
 ]]></content>
       <categories>
         <category>NJU静态分析实验记录</category>
@@ -3161,6 +3195,189 @@ A4中通过<code>CallGraphs.getCallKind()</code>来获取<code>CallKind</code>,
       </tags>
   </entry>
   <entry>
+    <title>NJU静态分析|A2-Constant Propagation</title>
+    <url>/2024/10/28/SPA-A2/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-2 Constant
+Propagation &amp; WorlistSolver.</strong></p>
+<span id="more"></span>
+<h2 id="实验信息与食用指南">实验信息与食用指南</h2>
+<p>请翻阅<a
+href="https://la-pluma.github.io/2024/10/20/SPA-A1/#more"><strong>[NJU静态分析|A1-Live
+Variable Analysis]</strong></a>.</p>
+<p>在此进行一点补充, 笔者的这份实验记录更像是Free
+Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
+在理解了<strong>理论知识</strong>, <strong>实验指南</strong> 和
+<strong>框架代码</strong> 后再参考本记录, 与A1相同, 本记录
+<strong><em>不提供</em></strong> 源代码(<del>或者说暂时没有</del>).</p>
+<p><del>如果您对本实验记录中的内容感到困惑,
+可能是因为笔者能力不足或您未能理解实验指南和框架代码,
+同时本试验记录难以涵盖所有的坑, 还望海涵.</del></p>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
+<p>大致的框架代码如下:</p>
+<img src="/2024/10/28/SPA-A2/pic1.png" class="" title="pic1">
+<p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
+<h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
+<p><del>我知道你们有些人肯定是不看框架代码的,
+除非不得不用或者报错的时候.</del></p>
+<h3 id="ir-irbuilder">IR &amp; IRBuilder</h3>
+<p>Tai-e框架中的<code>IR</code>与课上教授的IR稍有不同, 以A2
+test中的<strong>Assign.java</strong>为例,</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*   From A2 test/Assign.java   */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Assign</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>, y;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        x = <span class="number">3</span>;</span><br><span class="line">        x = <span class="number">4</span>;</span><br><span class="line">        y = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过tai-e框架的分析后会得到</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
+href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
+<img src="/2024/10/28/SPA-A2/pic2.png" class="" title="pic2">
+<p><del>IR我懒得贴了</del></p>
+<p><code>IR</code>的基本单元是<strong>method</strong>
+(请意识到java是oop语言),
+<code>IRBuilder</code>提供了分析单个方法的API<code>buildIR(JMethod method)</code>和分析整个<code>class hierarchy</code>(不明白,
+等到A4就明白了, 笑)中的所有方法的API<code>buildAll()</code></p>
+<p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
+我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
+可能会有所出入, 但大致如此).</p>
+<img src="/2024/10/28/SPA-A2/pic3.png" class="" title="pic3">
+<blockquote>
+<p><strong>Tips:</strong>
+严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
+见A1试验记录说明), 只存储<code>Stmt</code>的关联信息,
+但为了方便图示遂如此展示. 至于为何左值和右值都是<code>Exp</code>,
+请翻阅A1官方实验指南中对<code>Exp</code>的图示表示部分.</p>
+</blockquote>
+<h3 id="definitionstmt">DefinitionStmt</h3>
+<p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
+但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
+为什么不用呢?</p>
+<img src="/2024/10/28/SPA-A2/pic4.png" class="" title="pic4.png">
+<p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
+<code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
+extends <code>Exp</code>),
+而不需要像<code>Stmt</code>中的<code>getDef()</code> &amp;
+<code>getUses()</code>
+做较为繁琐的判断和筛选(如果对<code>getUses()</code>感到困惑,
+也还请翻阅A1实验记录, 里面有解释和参考来源).</p>
+<p>需要注意的是,
+<code>getLValue()</code>可能会返回<code>null</code>.</p>
+<h2 id="constantpropagation">ConstantPropagation</h2>
+<p>与活跃变量分析类似, 我们需要完成5个API的功能.</p>
+<h3 id="newboundaryfact-newinitialfact">newBoundaryFact() &amp;
+newInitialFact()</h3>
+<p>需要注意的是, 本次存储分析结果的数据结构是<code>CPFact</code>,
+与A1相同, 在完成本次实验代码之前需要了解相关API的用法.</p>
+<p>既然是<strong>Must Analysis</strong>, 我们需要将初值赋为空,
+但需要注意的是, 我们的<strong>Analysis</strong>仅分析语句,
+在进入第一条语句之前, 是否有什么东西需要初始化?</p>
+<p>这个问题就对应了指南中为什么<code>BoundaryInit</code> 要通过
+<code>getIR().getParas()</code>获取参数并赋值<code>NAC</code>的提示.</p>
+<p>在对<code>IR</code>的解释中我们提到过,
+<code>IR</code>的基本分析单元是<strong>method</strong>, 即函数,
+函数就可能有传入的参数, 这些参数易见<strong>不是Constant</strong>,
+因此要赋值为<code>NAC</code></p>
+<blockquote>
+<p><strong>Tips:</strong> 如果是Constant干嘛还要传参, 即便真的这么做了,
+我们的分析也可以满足<strong>safe-approximation</strong>.</p>
+</blockquote>
+<p>这部分是在方法体(函数语句)执行前就完成的初始化,
+因此我们需要赋值给<code>Entry</code>的<code>outFact</code>.</p>
+<h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
+<p><code>meetValue()</code>的完成没有任何难点,
+只需要照抄ppt中的规则即可.</p>
+<img src="/2024/10/28/SPA-A2/pic5.png" class="" title="pic5">
+<p>同样的,
+完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
+<p>关于<code>meetInto()</code>,
+如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
+就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
+<img src="/2024/10/28/SPA-A2/pic6.png" class="" title="pic6">
+<h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
+<p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
+test的时候, 大概率寄在这里.</p>
+<p>笔者建议在<code>transferNode()</code>中处理<code>Stmt</code>的左值def部分,
+在<code>evaluate()</code>中处理右值exp部分. 这是比较符合功能分离的写法,
+当然, 也可以选择在
+<code>transferNode()</code>中处理<code>Var</code>和<code>IntLiteral</code>,
+<code>evaluate()</code>只负责处理<code>BinaryExp</code>的计算值.
+笔者在此按第一种写法进行说明.</p>
+<h4 id="transfernode">transferNode()</h4>
+<p>这个函数中你需要依次做(次流程可能存在可以优化的部分,
+不必完全照做):</p>
+<ul>
+<li><p>保存<code>outFact</code>原值,
+将<code>inFact</code>赋值给<code>outFact</code>.</p></li>
+<li><p>判断<code>Node</code>(<code>Stmt</code>)是否为<code>DefinitionStmt</code></p></li>
+<li><p>判断是否拥有<strong>合法</strong>左值,
+包括<code>def</code>的类型<code>Var</code>和<code>Var</code>中的<code>ValueType</code>是否为<code>Int</code>,
+如果不是, 本次实验中可以认为是<code>nop</code>空操作.
+不需要为这个<code>Stmt</code>做任何分析, 直接将<code>inFact</code>
+copy给 <code>outFact</code>即可.</p>
+<blockquote>
+<p><strong>Tips:</strong> IDEA教给我一个很有意思的语法糖</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> DefinitionStmt def_stmt)&#123;</span><br><span class="line">    <span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> def_stmt.getLValue();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个用法可以避开繁琐的类型转化, 在判断类型时便做了类型转化.</p>
+</blockquote></li>
+<li><p>计算<code>Stmt</code>的右值(通过<code>evaluate()</code>获得),
+并更新<code>outFact</code>中的相应<code>Var def</code>(笔者在此并未使用<code>update</code>方法的返回值,
+或许可从此处入手优化效率, 但笔者不能保证其正确性)</p></li>
+<li><p>比较<code>outFact</code>是否更新返回布尔值.</p></li>
+</ul>
+<h4 id="evaluate">evaluate()</h4>
+<p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中二元表达式计算规则见ppt所示,</p>
+<img src="/2024/10/28/SPA-A2/pic7.png" class="" title="pic7">
+<p>笔者在此给出一些细节和边界条件,
+也可以通过阅读上述代码框架获得细节提示:</p>
+<ul>
+<li><p><code>exp</code>中的操作数可能不是<code>IntType</code>,
+所以你需要做一个<code>canHoldInt()</code>判断,
+非法<code>exp</code>为了安全性应赋值为<code>NAC</code></p></li>
+<li><p>实验指南中提到, 对于<code>/</code>和<code>%</code>的除零错误,
+应当给出<code>Undef</code>,
+<strong>即使</strong>被除数是<code>NAC</code>.</p></li>
+</ul>
+<h2 id="sovler-worklistsolver">Sovler &amp; WorkListSolver</h2>
+<h3 id="sovler-init">Sovler Init</h3>
+<p>照着算法流程前三行写便是,
+但这里要提到框架代码的"<strong>robustness</strong>".</p>
+<p>尽管从分析流程上来看, 我们不应该分析<code>Node Entry</code>,
+但是框架代码允许我们这样做.
+这时框架代码会认为<code>Node Entry</code>是一条<code>nop Stmt</code>,
+不会做constant update,
+因此只要在<code>Init</code>部分对<code>Entry</code>的<code>inFact</code>和<code>outFact</code>都赋上初值,
+就不需要在worklist中考虑<code>Entry</code>的处理了.</p>
+<h3 id="worklistsolver-dosolveforward">WorkListSolver
+doSolveForward</h3>
+<p><strong>worklist</strong>是一种非常简单的算法,
+笔者在此不对算法实现过多赘述.
+注意在实现worklist的时候可以使用java自带的容器<code>Queue</code> &amp;
+<code>ArrayList</code>.</p>
+<p>关于<strong>worklist</strong>的初始化问题,
+需要注意的是应当为其加入所有的<code>Node</code>,
+如果只加入<code>Entry</code>的后继, 会产生问题, 笔者在此给出一个例子.
+(感谢课程群中<a
+href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和另一位不知道github链接的大佬构造的反例)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] nop;     &#123;&#125;</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在这个例子中,
+<code>Entry outFact</code>初始化为<code>&#123;&#125;</code>(没有参数),
+然而<code>Stmt0</code> 的 <code>outFact</code>
+同样初始化为<code>&#123;&#125;</code>,
+如果只添加<code>Entry</code>的后继<code>&#123;Stmt0&#125;</code>,
+会导致worklist在分析完<code>Stmt0</code>后错误终止.</p>
+<h2 id="总结">总结</h2>
+<p>本次实验应该是所有Assignment中代码量最多的一次, 细节也是让人头皮发麻,
+还望能静下心来看代码和debug, 祝早日AC!</p>
+]]></content>
+      <categories>
+        <category>NJU静态分析实验记录</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NJU静态分析|A6-Context Sensitive Pointer Analysis</title>
     <url>/2024/12/01/SPA-A6/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-6 Context Sensitive
@@ -3340,6 +3557,188 @@ _2TypeSelector</h3>
 <h2 id="总结">总结</h2>
 <p>如果理解了CI指针分析, 本次CS指针分析实验的原理和逻辑就不难理解,
 但细节处理上比A5要麻烦很多, 还请小心仔细.</p>
+]]></content>
+      <categories>
+        <category>NJU静态分析实验记录</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NJU静态分析|A8-Taint Analysis</title>
+    <url>/2024/12/17/SPA-A8/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-8 Taint
+Analysis.</strong></p>
+<span id="more"></span>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>tai-e</strong>框架实现污点分析.</p>
+<h2 id="preparation">Preparation</h2>
+<p>将A6的代码复制到此处.</p>
+<p><strong>注意:</strong>
+A8的<code>Solver</code>中额外加入了污点分析所需的字段,
+因此不能直接替换A8的<code>Solver</code>.</p>
+<h2 id="部分框架代码带读">部分框架代码带读</h2>
+<p>在上过课程和阅读了实验指南后, 对于怎么做这个实验会有一个大概的思路,
+那么不妨先阅读一下框架代码, 看看Tai-e提供了什么样的工具和API.</p>
+<h3 id="source-sink">Source &amp; Sink</h3>
+<p>分别代表了污点分析中的Source和Sink语句,
+结构为<code>Source&lt;JMethod, Type&gt;</code>和<code>Sink&lt;JMethod, index&gt;</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+<code>record</code>的用法在之前的实验已经接触过了, 简单来说,
+可以通过<code>source.method()</code>获取其中的<code>JMethod method</code>信息.</p>
+</blockquote>
+<h3 id="tainttransfer">TaintTransfer</h3>
+<p>对应污点传播的类, 即实验指南中的:</p>
+<img src="/2024/12/17/SPA-A8/pic1-1.png" class="" title="pic1-1">
+<p>具体规则实验指南和框架代码已足够清晰.</p>
+<h3 id="taintmanager">TaintManager</h3>
+<p>实验框架中用来管理污点对象的类(或许命名为<code>TaintObjManager</code>更合适).</p>
+<p>类内采用简单的Map实现<code>&lt;(Invoke, Type), TaintObj&gt;</code>的查找.</p>
+<p><strong>注意: 笔者为了方便表述,
+使用<code>TaintObj</code>表示污点对象,
+该类在框架代码中并不存在.</strong></p>
+<p>其中包含三个方法:</p>
+<ul>
+<li><p><code>Obj makeTaint(Invoke source, Type type)</code>返回一个污点对象实例.</p>
+<blockquote>
+<p><strong>Tips:</strong> 注意到污点对象也是<code>obj</code>,
+即<code>taintObj</code>可以使用<code>obj</code>的方法进行操作.</p>
+</blockquote></li>
+<li><p><code>boolean isTaint(Obj obj)</code>判断一个<code>Obj</code>是否为<code>TaintObj</code>.</p></li>
+<li><p><code>Invoke getSourceCall(Obj obj)</code>返回该对象实例化对应的<code>Invoke</code>.</p></li>
+</ul>
+<h3 id="taintflow">TaintFlow</h3>
+<p>表示<code>Source -&gt; Sink</code>的污染流,
+也即污点分析的结果(TT老师在本次课程中一嘴带过的可以追踪的<code>Source -&gt; Sink</code>).</p>
+<h3 id="taintconfig">TaintConfig</h3>
+<p><del>碎碎念:
+不是为什么要把管理污点分析所需的数据结构和设置污点分析的配置两个功能都塞进来啊喂!!!
+阅读类名谁能知道会把数据结构放在这里啊喂!!!</del></p>
+<p>存储污点分析所需的信息, 可以通过<code>getSources()</code>,
+<code>getSinks()</code>, <code>getTransfers()</code>获取,
+注意返回的类型是<code>Set</code>,
+请使用<code>Set</code>的API对其进行操作.</p>
+<p>可以看出,
+TaintSources和TaintSinks以及TaintTransfers的规则在该类中已经配置 完成,
+可以在实验中<strong>直接使用</strong>.</p>
+<blockquote>
+<p><strong>Tips</strong> 其余部分都是有关配置污点分析的工具,
+本次实验不需要过多了解, 读者若有兴趣可以自行阅读框架代码.</p>
+</blockquote>
+<h3 id="taintanalysis">TaintAnalysis</h3>
+<blockquote>
+<p><strong>Tips:</strong>
+实验指南解释了为何是<code>TaintAnalysiss</code>,
+笔者在此使用更容易理解的表述.</p>
+</blockquote>
+<p>本次实验主要的逻辑实现部分,
+<code>Solver</code>可以根据其中的<code>taintAnalysis</code>字段调用<code>TaintAnalysis</code>中的API,
+从代码规范角度, 处理污点分析的代码应当在此处完成,
+<code>Solver</code>中仅调用API.</p>
+<p>先看看该类具有哪些字段:</p>
+<ul>
+<li><code>TaintManager manager</code></li>
+<li><code>TaintConfig config</code></li>
+<li><code>Solver solver</code></li>
+<li><code>CSManager csManager</code></li>
+<li><code>Context emptyContext</code></li>
+</ul>
+<p>注意到除了污点分析相关组件,
+<code>TaintAnalysis</code>也可以和<code>Solver</code>和<code>CSManager</code>通信,
+并且给出了一个<code>emptyContext</code>, 以供直接使用.</p>
+<p>以上字段均在实例化时被初始化.</p>
+<p>接着看看类中的方法:</p>
+<ul>
+<li><p><code>void onFinish()</code>,
+向外部(这里是<code>Solver</code>)给出污点分析结果<code>taintFlows</code>.</p></li>
+<li><p><code>Set&lt;TaintFlow&gt; collectTaintFlows()</code>,
+该部分等待完成, 用以计算所有的污染流.</p></li>
+</ul>
+<h3 id="solver">Solver</h3>
+<p>到此已经知道所有污点分析相关类了,
+现在从顶层<code>Solver</code>中看看污点分析的使用.</p>
+<ul>
+<li><code>void solve()</code>是指针分析的步骤, 可以看到相比A6,
+最后一步设置了污点分析结果. 换句话说,
+本次实验中只需要考虑污点分析的实现,
+污点分析的前置工作和结果存储框架都已经做好了.</li>
+</ul>
+<h2 id="算法设计">算法设计</h2>
+<h3 id="基本假设">基本假设</h3>
+<p>在本次实验的污点分析中, 有几个基本假设:</p>
+<ul>
+<li><p><code>TaintObj</code>只会由<code>Source</code>产生,
+依据<code>TaintTransfer</code>的规则, 最终传播到<code>Sink</code>.
+其中<code>Source</code>的语句类型均为<code>Invoke</code>.</p></li>
+<li><p>本次实验不考虑<strong>隐式污染</strong>(详见<a
+href="https://cs.nju.edu.cn/tiantan/software-analysis/Security.pdf#page=44"><strong>课程ppt</strong></a>),
+这大大简化了本次实验分析难度.</p></li>
+<li><p><code>TaintObj</code>是以<code>Obj</code>的方式进行封装的,
+这意味着<code>TaintObj</code>可以像<code>Obj</code>一样在指针流图<code>PointerFlowGraph</code>中传递.</p>
+<blockquote>
+<p><strong>Tips: 这意味着什么?</strong></p>
+<p>这意味着除了<strong>TaintTransfer</strong>和<strong>Source
+Invoke</strong>的传播途径外,
+<code>TaintObj</code>的其余传播途径都可以在之前的指针分析实现中完成.(如果感到难以理解可以试试推一下<code>Assign</code>,
+<code>Store</code>和<code>Load</code>语句的传播)</p>
+</blockquote></li>
+<li><p><code>TaintObj</code>的上下文被简单的处理成<code>emptyContext</code>,
+即来自同一个<code>Index: Invoke</code>的<code>TaintObj</code>在堆中被抽象为一个对象.</p></li>
+<li><p><strong><em>(存疑)</em></strong> Online
+Judge上似乎所有的<code>Source</code>相关语句<strong>均是静态方法</strong>,
+因此理论上不需要进行<strong>dispatch</strong>也可以通过测试.</p></li>
+</ul>
+<h3 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
+TaintTransferFlow</h3>
+<p>三者均是在<code>Invoke</code>上进行操作,
+因此需要修的地方有<code>processCall</code>和<code>addReachable</code>.</p>
+<ul>
+<li><p>对于<code>Source</code>, 只需要按实验指南上的规则处理即可.
+但需要注意的是, 只有当<code>Invoke</code>存在返回值时,
+才执行<code>Source</code>的处理.</p></li>
+<li><p>对于<code>Sink</code>, 可以选择边迭代边处理.
+但因为<strong>Pointer Analysis</strong>不依赖于<code>Sink</code>,
+也可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
+也就是说,
+这部分代码可以在<code>collectTaintFlows()</code>中统一完成.</p></li>
+<li><p>对于<code>TaintTransferFlow</code>,
+同样只需要小心的按照指南规则处理即可. 但需要注意的是,
+由于污点数据流向目标时可能会有类型转换,
+因此需要创建一个新的<code>TaintObj</code>实例赋值给目标的<code>PointsToSet</code>.</p></li>
+</ul>
+<h3 id="污点数据的广播">污点数据的广播</h3>
+<p>污点数据的传播逻辑处理是本次实验相对简单的部分,
+困难的是想清楚如何传播污点数据.</p>
+<p>想知道答案, 就要先回顾一下指针分析的广播.</p>
+<img src="/2024/12/17/SPA-A8/pic1-2.png" class="" title="pic1-2">
+<p>这个大循环中当<code>n</code>是变量<code>x</code>时,
+对相关语句进行广播.</p>
+<p>如在A5, A6中,
+需要对<code>Array</code>和<code>Filed</code>以及<code>processCall</code>进行广播.</p>
+<p>污点分析也是一种指针分析, 那么其理应也在这里广播.</p>
+<p><code>from -&gt; to</code>的情况有三种,
+<code>from</code>的取值只有<code>Arg</code>和<code>Base</code>两种情况.</p>
+<ul>
+<li><p><code>Base</code>的广播可以在<code>processCall</code>中进行,
+因为二者中变量<code>x</code>都作为<code>Base</code>出现.</p></li>
+<li><p><code>Arg</code>的广播没有现成的方法, 那么就考虑与其余情况并列,
+若<code>x</code>是某条<code>Invoke</code>的实参时, 则需要广播到此处,
+为该<code>Invoke</code>执行<code>TaintTransferFlow</code></p></li>
+</ul>
+<p>特别的, 因为这样的特性,
+你也可以考虑将<code>TaintTransferFlow</code>拆开来写.
+这样更符合其广播逻辑.</p>
+<h2 id="拾遗">拾遗</h2>
+<p>本次实验几乎不涉及新的方法和工具(当然你也可以选择使用一些隐藏API来完成本次实验,
+例如对于<strong>Instance Invoke</strong>,
+可以通过<code>((InvokeInstanceExp)(invoke.getInvokeExp())).getBase()</code>来获取<code>base</code>信息).</p>
+<p><strong>All you need has already in Tai-e.</strong></p>
+<h2 id="总结">总结</h2>
+<p>完结撒花啦!</p>
+<img src="/2024/12/17/SPA-A8/pic1-3.png" class="" title="pic1-3">
 ]]></content>
       <categories>
         <category>NJU静态分析实验记录</category>
@@ -3654,188 +4053,6 @@ FiledRef &amp; JField</h3>
       </tags>
   </entry>
   <entry>
-    <title>NJU静态分析|A8-Taint Analysis</title>
-    <url>/2024/12/17/SPA-A8/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-8 Taint
-Analysis.</strong></p>
-<span id="more"></span>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>tai-e</strong>框架实现污点分析.</p>
-<h2 id="preparation">Preparation</h2>
-<p>将A6的代码复制到此处.</p>
-<p><strong>注意:</strong>
-A8的<code>Solver</code>中额外加入了污点分析所需的字段,
-因此不能直接替换A8的<code>Solver</code>.</p>
-<h2 id="部分框架代码带读">部分框架代码带读</h2>
-<p>在上过课程和阅读了实验指南后, 对于怎么做这个实验会有一个大概的思路,
-那么不妨先阅读一下框架代码, 看看Tai-e提供了什么样的工具和API.</p>
-<h3 id="source-sink">Source &amp; Sink</h3>
-<p>分别代表了污点分析中的Source和Sink语句,
-结构为<code>Source&lt;JMethod, Type&gt;</code>和<code>Sink&lt;JMethod, index&gt;</code>.</p>
-<blockquote>
-<p><strong>Tips:</strong>
-<code>record</code>的用法在之前的实验已经接触过了, 简单来说,
-可以通过<code>source.method()</code>获取其中的<code>JMethod method</code>信息.</p>
-</blockquote>
-<h3 id="tainttransfer">TaintTransfer</h3>
-<p>对应污点传播的类, 即实验指南中的:</p>
-<img src="/2024/12/17/SPA-A8/pic1-1.png" class="" title="pic1-1">
-<p>具体规则实验指南和框架代码已足够清晰.</p>
-<h3 id="taintmanager">TaintManager</h3>
-<p>实验框架中用来管理污点对象的类(或许命名为<code>TaintObjManager</code>更合适).</p>
-<p>类内采用简单的Map实现<code>&lt;(Invoke, Type), TaintObj&gt;</code>的查找.</p>
-<p><strong>注意: 笔者为了方便表述,
-使用<code>TaintObj</code>表示污点对象,
-该类在框架代码中并不存在.</strong></p>
-<p>其中包含三个方法:</p>
-<ul>
-<li><p><code>Obj makeTaint(Invoke source, Type type)</code>返回一个污点对象实例.</p>
-<blockquote>
-<p><strong>Tips:</strong> 注意到污点对象也是<code>obj</code>,
-即<code>taintObj</code>可以使用<code>obj</code>的方法进行操作.</p>
-</blockquote></li>
-<li><p><code>boolean isTaint(Obj obj)</code>判断一个<code>Obj</code>是否为<code>TaintObj</code>.</p></li>
-<li><p><code>Invoke getSourceCall(Obj obj)</code>返回该对象实例化对应的<code>Invoke</code>.</p></li>
-</ul>
-<h3 id="taintflow">TaintFlow</h3>
-<p>表示<code>Source -&gt; Sink</code>的污染流,
-也即污点分析的结果(TT老师在本次课程中一嘴带过的可以追踪的<code>Source -&gt; Sink</code>).</p>
-<h3 id="taintconfig">TaintConfig</h3>
-<p><del>碎碎念:
-不是为什么要把管理污点分析所需的数据结构和设置污点分析的配置两个功能都塞进来啊喂!!!
-阅读类名谁能知道会把数据结构放在这里啊喂!!!</del></p>
-<p>存储污点分析所需的信息, 可以通过<code>getSources()</code>,
-<code>getSinks()</code>, <code>getTransfers()</code>获取,
-注意返回的类型是<code>Set</code>,
-请使用<code>Set</code>的API对其进行操作.</p>
-<p>可以看出,
-TaintSources和TaintSinks以及TaintTransfers的规则在该类中已经配置 完成,
-可以在实验中<strong>直接使用</strong>.</p>
-<blockquote>
-<p><strong>Tips</strong> 其余部分都是有关配置污点分析的工具,
-本次实验不需要过多了解, 读者若有兴趣可以自行阅读框架代码.</p>
-</blockquote>
-<h3 id="taintanalysis">TaintAnalysis</h3>
-<blockquote>
-<p><strong>Tips:</strong>
-实验指南解释了为何是<code>TaintAnalysiss</code>,
-笔者在此使用更容易理解的表述.</p>
-</blockquote>
-<p>本次实验主要的逻辑实现部分,
-<code>Solver</code>可以根据其中的<code>taintAnalysis</code>字段调用<code>TaintAnalysis</code>中的API,
-从代码规范角度, 处理污点分析的代码应当在此处完成,
-<code>Solver</code>中仅调用API.</p>
-<p>先看看该类具有哪些字段:</p>
-<ul>
-<li><code>TaintManager manager</code></li>
-<li><code>TaintConfig config</code></li>
-<li><code>Solver solver</code></li>
-<li><code>CSManager csManager</code></li>
-<li><code>Context emptyContext</code></li>
-</ul>
-<p>注意到除了污点分析相关组件,
-<code>TaintAnalysis</code>也可以和<code>Solver</code>和<code>CSManager</code>通信,
-并且给出了一个<code>emptyContext</code>, 以供直接使用.</p>
-<p>以上字段均在实例化时被初始化.</p>
-<p>接着看看类中的方法:</p>
-<ul>
-<li><p><code>void onFinish()</code>,
-向外部(这里是<code>Solver</code>)给出污点分析结果<code>taintFlows</code>.</p></li>
-<li><p><code>Set&lt;TaintFlow&gt; collectTaintFlows()</code>,
-该部分等待完成, 用以计算所有的污染流.</p></li>
-</ul>
-<h3 id="solver">Solver</h3>
-<p>到此已经知道所有污点分析相关类了,
-现在从顶层<code>Solver</code>中看看污点分析的使用.</p>
-<ul>
-<li><code>void solve()</code>是指针分析的步骤, 可以看到相比A6,
-最后一步设置了污点分析结果. 换句话说,
-本次实验中只需要考虑污点分析的实现,
-污点分析的前置工作和结果存储框架都已经做好了.</li>
-</ul>
-<h2 id="算法设计">算法设计</h2>
-<h3 id="基本假设">基本假设</h3>
-<p>在本次实验的污点分析中, 有几个基本假设:</p>
-<ul>
-<li><p><code>TaintObj</code>只会由<code>Source</code>产生,
-依据<code>TaintTransfer</code>的规则, 最终传播到<code>Sink</code>.
-其中<code>Source</code>的语句类型均为<code>Invoke</code>.</p></li>
-<li><p>本次实验不考虑<strong>隐式污染</strong>(详见<a
-href="https://cs.nju.edu.cn/tiantan/software-analysis/Security.pdf#page=44"><strong>课程ppt</strong></a>),
-这大大简化了本次实验分析难度.</p></li>
-<li><p><code>TaintObj</code>是以<code>Obj</code>的方式进行封装的,
-这意味着<code>TaintObj</code>可以像<code>Obj</code>一样在指针流图<code>PointerFlowGraph</code>中传递.</p>
-<blockquote>
-<p><strong>Tips: 这意味着什么?</strong></p>
-<p>这意味着除了<strong>TaintTransfer</strong>和<strong>Source
-Invoke</strong>的传播途径外,
-<code>TaintObj</code>的其余传播途径都可以在之前的指针分析实现中完成.(如果感到难以理解可以试试推一下<code>Assign</code>,
-<code>Store</code>和<code>Load</code>语句的传播)</p>
-</blockquote></li>
-<li><p><code>TaintObj</code>的上下文被简单的处理成<code>emptyContext</code>,
-即来自同一个<code>Index: Invoke</code>的<code>TaintObj</code>在堆中被抽象为一个对象.</p></li>
-<li><p><strong><em>(存疑)</em></strong> Online
-Judge上似乎所有的<code>Source</code>相关语句<strong>均是静态方法</strong>,
-因此理论上不需要进行<strong>dispatch</strong>也可以通过测试.</p></li>
-</ul>
-<h3 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
-TaintTransferFlow</h3>
-<p>三者均是在<code>Invoke</code>上进行操作,
-因此需要修的地方有<code>processCall</code>和<code>addReachable</code>.</p>
-<ul>
-<li><p>对于<code>Source</code>, 只需要按实验指南上的规则处理即可.
-但需要注意的是, 只有当<code>Invoke</code>存在返回值时,
-才执行<code>Source</code>的处理.</p></li>
-<li><p>对于<code>Sink</code>, 可以选择边迭代边处理.
-但因为<strong>Pointer Analysis</strong>不依赖于<code>Sink</code>,
-也可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
-也就是说,
-这部分代码可以在<code>collectTaintFlows()</code>中统一完成.</p></li>
-<li><p>对于<code>TaintTransferFlow</code>,
-同样只需要小心的按照指南规则处理即可. 但需要注意的是,
-由于污点数据流向目标时可能会有类型转换,
-因此需要创建一个新的<code>TaintObj</code>实例赋值给目标的<code>PointsToSet</code>.</p></li>
-</ul>
-<h3 id="污点数据的广播">污点数据的广播</h3>
-<p>污点数据的传播逻辑处理是本次实验相对简单的部分,
-困难的是想清楚如何传播污点数据.</p>
-<p>想知道答案, 就要先回顾一下指针分析的广播.</p>
-<img src="/2024/12/17/SPA-A8/pic1-2.png" class="" title="pic1-2">
-<p>这个大循环中当<code>n</code>是变量<code>x</code>时,
-对相关语句进行广播.</p>
-<p>如在A5, A6中,
-需要对<code>Array</code>和<code>Filed</code>以及<code>processCall</code>进行广播.</p>
-<p>污点分析也是一种指针分析, 那么其理应也在这里广播.</p>
-<p><code>from -&gt; to</code>的情况有三种,
-<code>from</code>的取值只有<code>Arg</code>和<code>Base</code>两种情况.</p>
-<ul>
-<li><p><code>Base</code>的广播可以在<code>processCall</code>中进行,
-因为二者中变量<code>x</code>都作为<code>Base</code>出现.</p></li>
-<li><p><code>Arg</code>的广播没有现成的方法, 那么就考虑与其余情况并列,
-若<code>x</code>是某条<code>Invoke</code>的实参时, 则需要广播到此处,
-为该<code>Invoke</code>执行<code>TaintTransferFlow</code></p></li>
-</ul>
-<p>特别的, 因为这样的特性,
-你也可以考虑将<code>TaintTransferFlow</code>拆开来写.
-这样更符合其广播逻辑.</p>
-<h2 id="拾遗">拾遗</h2>
-<p>本次实验几乎不涉及新的方法和工具(当然你也可以选择使用一些隐藏API来完成本次实验,
-例如对于<strong>Instance Invoke</strong>,
-可以通过<code>((InvokeInstanceExp)(invoke.getInvokeExp())).getBase()</code>来获取<code>base</code>信息).</p>
-<p><strong>All you need has already in Tai-e.</strong></p>
-<h2 id="总结">总结</h2>
-<p>完结撒花啦!</p>
-<img src="/2024/12/17/SPA-A8/pic1-3.png" class="" title="pic1-3">
-]]></content>
-      <categories>
-        <category>NJU静态分析实验记录</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Anaconda+Cuda+Pytorch+Pycharm环境配置</title>
     <url>/2024/11/25/conda-env/</url>
     <content><![CDATA[<p><strong>笔者个人conda环境搭建记录.</strong></p>
@@ -4005,8 +4222,8 @@ class="uri">https://blog.csdn.net/weixin_62075168/article/details/131226082</a><
         <category>AI</category>
       </categories>
       <tags>
-        <tag>环境配置</tag>
         <tag>AI</tag>
+        <tag>环境配置</tag>
       </tags>
   </entry>
   <entry>

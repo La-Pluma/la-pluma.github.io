@@ -22,19 +22,23 @@
     var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Chapter 1: 简单工厂模式 好的代码可维护, 可复用, 可扩展, 灵活性强.">
+  <meta name="description" content="好的代码可维护, 可复用, 可扩展, 灵活性强.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="读书笔记-大话设计模式 Ch1-">
 <meta property="og:url" content="http://la-pluma.github.io/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/index.html">
 <meta property="og:site_name" content="LaPluma">
-<meta property="og:description" content="Chapter 1: 简单工厂模式 好的代码可维护, 可复用, 可扩展, 灵活性强.">
+<meta property="og:description" content="好的代码可维护, 可复用, 可扩展, 灵活性强.">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://la-pluma.github.io/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-2.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-1.png">
+<meta property="og:image" content="http://la-pluma.github.io/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-3.png">
 <meta property="article:published_time" content="2024-09-24T15:12:19.000Z">
-<meta property="article:modified_time" content="2024-10-30T11:51:12.030Z">
+<meta property="article:modified_time" content="2025-01-29T12:47:24.535Z">
 <meta property="article:author" content="LaPluma">
 <meta property="article:tag" content="读书笔记">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-2.png">
 
 <link rel="canonical" href="http://la-pluma.github.io/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/">
 
@@ -49,7 +53,7 @@
   };
 </script>
 
-  <title>读书笔记-大话设计模式 Ch1- | LaPluma</title><meta name="robots" content="noindex">
+  <title>读书笔记-大话设计模式 Ch1- | LaPluma</title>
   
 
 
@@ -228,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-10-30 19:51:12" itemprop="dateModified" datetime="2024-10-30T19:51:12+08:00">2024-10-30</time>
+                <time title="修改时间：2025-01-29 20:47:24" itemprop="dateModified" datetime="2025-01-29T20:47:24+08:00">2025-01-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,14 +257,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>44</span>
+              <span>535</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -272,14 +276,57 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><a href="#chapter-1-简单工厂模式">Chapter 1: 简单工厂模式</a></p>
-<p><strong>好的代码可维护, 可复用, 可扩展, 灵活性强.</strong></p>
+        <p><strong>好的代码可维护, 可复用, 可扩展, 灵活性强.</strong></p>
 <span id="more"></span>
 <p>
 <font size = 5><b>目录</b></font>
 </p>
-<h2 id="chapter-1-简单工厂模式">Chapter 1: 简单工厂模式</h2>
-<!-- flag of hidden posts -->
+<ul>
+<li><a href="#additional--uml类图">Additional : UML类图</a>
+<ul>
+<li><a href="#什么是uml">什么是UML</a></li>
+<li><a href="#uml类图的示例">UML类图的示例</a></li>
+</ul></li>
+<li><a href="#chapter-1-简单工厂模式simple-factory">Chapter 1:
+简单工厂模式(Simple Factory)</a></li>
+<li><a href="#chapter2--策略模式strategy">Chapter2 :
+策略模式(Strategy)</a></li>
+</ul>
+<h2 id="additional-uml类图">Additional : UML类图</h2>
+<p><strong>在线UML工具:</strong> <a
+target="_blank" rel="noopener" href="https://www.plantuml.com/plantuml/uml"
+class="uri">https://www.plantuml.com/plantuml/uml</a></p>
+<h3 id="什么是uml">什么是UML</h3>
+<p><strong>统一建模语言UML(Unified Modeling Language)</strong>
+是一种脚本语言, 是一种开放的方法, 用于说明, 可视化,
+构建和编写一个正在开发的, 面向对象的, 软件密集系统的产品的开放方法.</p>
+<p>简单来说, 对于应用的人, 可以通过简单的语言来生成描述的图像(包括类图,
+时序图等).</p>
+<h3 id="uml类图的示例">UML类图的示例</h3>
+<img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-2.png" class="" title="pic2-2">
+<p>关于UML类图的介绍在Internet中有充足的资料和手册,
+书中也有简单的规约介绍,
+笔者在此不详细介绍UML图的语法和规约.(或者待专门出一期整理UML用法的栏目)</p>
+<h2 id="chapter-1-简单工厂模式simple-factory">Chapter 1:
+简单工厂模式(Simple Factory)</h2>
+<p>先来看看书中给的例子:</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//简单工厂类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OperationFactory</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title">createOperate</span>(<span class="params"><span class="built_in">string</span> operate</span>)</span>&#123;</span><br><span class="line">        Operation oper = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (operate)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;+&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationAdd();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;-&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationSub();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ...</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> oper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//应用端</span></span><br><span class="line">Operation oper;</span><br><span class="line">oper = OperationFactory.createOperate(<span class="string">&quot;+&quot;</span>);</span><br><span class="line">oper.NumberA = <span class="number">1</span>;</span><br><span class="line">oper.NumberB = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">double</span> result = oper.GetResult();</span><br></pre></td></tr></table></figure>
+<p>UML图如下:</p>
+<img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-1.png" class="" title="pic2-1">
+<p>简单来说,
+就是通过一个简单工厂类<code>XXXFactory</code>生产"产品"(实例化类),即<strong>有一个专门的类负责创建实例的过程</strong>.
+这样修改后端的功能时(比如说添加新的运算类),
+前端的逻辑不需要重构(以上述例子中只需要修改<code>createOperate("+")-&gt;createOperate("-")</code>);
+同时后端的具体实现细节没有暴露给前端, 降低了耦合度.</p>
+<h2 id="chapter2-策略模式strategy">Chapter2 : 策略模式(Strategy)</h2>
+<ul>
+<li>面向对象的编程, 并不是类越多越好, 类的划分是为了封装,
+但分类的基础是抽象, 具有相同属性和功能的对象的抽象集合才是类.</li>
+</ul>
+<p><strong>策略模式(Strategy)</strong> 定义了算法家族, 分别封装起来,
+让它们之间相互替换, 此模式让算法的变化不会影响到使用算法的客户.</p>
+<img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-3.png" class="" title="pic2-3">
+
     </div>
 
     
@@ -296,6 +343,16 @@
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/21/LeetCode-P4/" rel="prev" title="LeetCode个人题解[C++] P4 寻找两个正序数组的中位数">
+      <i class="fa fa-chevron-left"></i> LeetCode个人题解[C++] P4 寻找两个正序数组的中位数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/" rel="next" title="读书笔记-机器学习 Ch2">
+      读书笔记-机器学习 Ch2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -354,7 +411,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-1-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">Chapter 1: 简单工厂模式</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#additional-uml%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">Additional : UML类图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFuml"><span class="nav-number">1.1.</span> <span class="nav-text">什么是UML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uml%E7%B1%BB%E5%9B%BE%E7%9A%84%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">UML类图的示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-1-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8Fsimple-factory"><span class="nav-number">2.</span> <span class="nav-text">Chapter 1:
+简单工厂模式(Simple Factory)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8Fstrategy"><span class="nav-number">3.</span> <span class="nav-text">Chapter2 : 策略模式(Strategy)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -370,20 +428,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -418,7 +476,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <!--
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -430,13 +488,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">38k</span>
+    <span title="站点总字数">40k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:19</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>

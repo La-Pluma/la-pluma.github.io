@@ -6,7 +6,7 @@
   <link href="http://la-pluma.github.io/atom.xml" rel="self"/>
   
   <link href="http://la-pluma.github.io/"/>
-  <updated>2024-12-19T08:06:42.187Z</updated>
+  <updated>2025-02-17T07:29:11.172Z</updated>
   <id>http://la-pluma.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>课程笔记-NJU编译原理 Ch1 引论</title>
+    <link href="http://la-pluma.github.io/2025/02/17/Course-Compiler-1/"/>
+    <id>http://la-pluma.github.io/2025/02/17/Course-Compiler-1/</id>
+    <published>2025-02-17T02:49:36.000Z</published>
+    <updated>2025-02-17T07:29:11.172Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch01Introduction</strong></p><span id="more"></span><h2 id="课程信息">课程信息</h2><p>NJU许畅老师(<ahref="https://cs.nju.edu.cn/changxu">主页</a>)开设的编译原理课程(<strong>Principlesand Techniques of Compilers</strong>).</p><p><strong>参考教材:</strong></p><p>《编译原理》(龙书),《编译方法、技术与实践》/《编译原理实践与指导教程》</p><h3 id="课程内容">课程内容</h3><ul><li><strong>Ch1 引论</strong></li><li><strong>Ch3 词法分析</strong></li><li><strong>Ch4 语法分析</strong></li><li><strong>Ch5 语法制导的编译技术</strong></li><li><strong>Ch6 中间代码生成</strong></li><li><strong>Ch7 运行时刻环境</strong></li><li><strong>Ch8 代码生成</strong></li><li><strong>Ch9 机器无关优化</strong></li></ul><h3 id="实验内容">实验内容</h3><p>TBC</p><h2 id="引论">引论</h2><h3 id="编译器compiler-解释器interpreter">编译器(Compiler) &amp;解释器(Interpreter)</h3><ul><li><strong>编译器</strong><ul><li>读入以某种语言(源语言) 编写的程序</li><li>输出等价的用另一种语言(目标语言) 编写的程序</li><li>通常目标程序是可执行的</li></ul></li></ul><img src="/2025/02/17/Course-Compiler-1/pic1-1.png" class="" title="pic1-1"><ul><li><strong>解释器</strong><ul><li>直接利用用户提供的输入，执行源程序中指定的操作</li><li>不生成目标程序，而是根据源程序的语义直接运行</li><li>Java语言的处理结合了编译和解释</li></ul></li></ul><h3 id="编译器的结构">编译器的结构</h3><p>编译器可以分为<strong>分析</strong>和<strong>综合</strong>两部分.</p><ul><li><strong>分析(Analysis)/前端(front end)</strong><ul><li>把源程序分解成组成要素，以及相应的语法结构</li><li>使用这个结构创建源程序的中间表示</li><li>同时收集和源程序相关的信息，存放到符号表</li></ul></li><li><strong>综合(Synthesis)/后端(back end)</strong><ul><li>根据中间表示和符号表信息构造目标程序</li></ul></li></ul><blockquote><p><strong>其中前端部分是机器无关的，后端部分是机器相关的</strong></p></blockquote><p>编译器执行步骤(phase)</p><img src="/2025/02/17/Course-Compiler-1/pic1-2.png" class="" title="pic1-2"><h3 id="词法分析">词法分析</h3><ul><li><strong>词法分析/扫描(lexical analysis/scanning)</strong><ul><li>读入源程序的字符流，输出为有意义的词素(lexeme)</li><li>格式: <code>&lt;token-name, attribute-value&gt;</code></li><li>token-name由语法分析步骤使用</li><li>attribute-value指向相应的符号表条目，由语义分析/代码生成步骤使用</li></ul><blockquote><p><strong>Example:</strong> <img src="/2025/02/17/Course-Compiler-1/pic1-3.png" class="" title="pic1-3"></p></blockquote></li></ul><h3 id="语法分析">语法分析</h3><ul><li><strong>语法分析/解析(syntaxanalysis/parsing)</strong><ul><li>根据各个词法单元的第一个分量来创建树型的中间表示形式，通常是<strong>语法树(syntaxtree)</strong></li><li>中间表示形式指出了词法单元流的语法结构</li><li><img src="/2025/02/17/Course-Compiler-1/pic1-4.png" class="" title="pic1-4"></li></ul></li></ul><h3 id="语义分析">语义分析</h3><ul><li><strong>语义分析(semantic analysis)</strong><ul><li>使用语法树和符号表中的信息，检查源程序是否满足语言定义的语义约束</li><li>同时收集类型信息，用于代码生成、类型检查、类型转换</li><li><img src="/2025/02/17/Course-Compiler-1/pic1-5.png" class="" title="pic1-5"></li></ul></li></ul><h3 id="中间代码生成">中间代码生成</h3><p>根据语义分析输出，生成类机器语言的中间表示</p><ul><li><strong>三地址代码(three-address code)</strong><ul><li>每个指令最多包含三个运算分量</li><li>Example:<code>t1 = inttofloat(60); t2 = id3 * t1; t3 = id2 + t2;</code></li><li>很容易生成机器语言指令</li><li><img src="/2025/02/17/Course-Compiler-1/pic1-6.png" class="" title="pic1-6"></li></ul></li></ul><h3 id="中间代码优化">中间代码优化</h3><p>通过对中间代码的分析，改进中间代码的质量(更快、更短、能耗更低)</p><img src="/2025/02/17/Course-Compiler-1/pic1-7.png" class="" title="pic1-7"><h3 id="代码生成">代码生成</h3><p>把中间表示形式映射到目标语言(寄存器分配与指令选择)</p><img src="/2025/02/17/Course-Compiler-1/pic1-8.png" class="" title="pic1-8"><h3 id="语言与编译器的关系">语言与编译器的关系</h3><ul><li>程序设计语言的新发展向编译器设计者提出新的要求<ul><li>设计相应的算法和表示方法来翻译和支持新的语言特征，如多态、动态绑定、类、类属(模板)、…</li></ul></li><li>通过降低高级语言的执行开销，推动这些高级语言的使用</li><li>编译器设计者还需要更好地利用新硬件的能力<ul><li>RISC技术、多核技术、大规模并行技术</li></ul></li></ul><h3 id="程序设计语言的基础概念">程序设计语言的基础概念</h3><h4 id="动态静态">动态&amp;静态</h4><ul><li><strong>静态:</strong> 支持编译器静态决定某个问题</li><li><strong>动态:</strong> 只允许在程序运行时刻作出决定</li></ul><h4 id="作用域">作用域</h4><p>x的作用域指程序文本的一个区域，其中对x的使用都指向这个声明</p><ul><li><strong>静态作用域(static scope):</strong>通过静态阅读程序可决定</li><li><strong>动态作用域(dynamic scope):</strong> 运行时确定x的指向</li></ul><h4 id="环境状态">环境&amp;状态</h4><ul><li><strong>环境(environment):</strong> 是从名字到存储位置的映射</li><li><strong>状态(state):</strong> 从存储位置到它们值的映射</li></ul><img src="/2025/02/17/Course-Compiler-1/pic1-9.png" class="" title="pic1-9">]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;strong&gt;NJU-CourseNote: Principles and Techniques of Compilers - Ch01
+Introduction&lt;/strong&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="课程笔记-编译原理" scheme="http://la-pluma.github.io/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0-%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+    
+    
+    <category term="课程笔记" scheme="http://la-pluma.github.io/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="编译原理" scheme="http://la-pluma.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+    
+  </entry>
   
   <entry>
     <title>NJU静态分析|A8-Taint Analysis</title>
@@ -129,9 +153,9 @@ Insensitive Pointer Analysis.&lt;/strong&gt;&lt;/p&gt;</summary>
     <category term="AI" scheme="http://la-pluma.github.io/categories/AI/"/>
     
     
-    <category term="环境配置" scheme="http://la-pluma.github.io/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
-    
     <category term="AI" scheme="http://la-pluma.github.io/tags/AI/"/>
+    
+    <category term="环境配置" scheme="http://la-pluma.github.io/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
     
   </entry>
   
@@ -300,6 +324,29 @@ Analysis &amp;amp; IterativeSolver.&lt;/strong&gt;&lt;/p&gt;</summary>
     <category term="读书笔记" scheme="http://la-pluma.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     <category term="机器学习" scheme="http://la-pluma.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读书笔记-大话设计模式 Ch1-</title>
+    <link href="http://la-pluma.github.io/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/"/>
+    <id>http://la-pluma.github.io/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/</id>
+    <published>2024-09-24T15:12:19.000Z</published>
+    <updated>2025-01-29T12:47:24.535Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>好的代码可维护, 可复用, 可扩展, 灵活性强.</strong></p><span id="more"></span><p><font size = 5><b>目录</b></font></p><ul><li><a href="#additional--uml类图">Additional : UML类图</a><ul><li><a href="#什么是uml">什么是UML</a></li><li><a href="#uml类图的示例">UML类图的示例</a></li></ul></li><li><a href="#chapter-1-简单工厂模式simple-factory">Chapter 1:简单工厂模式(Simple Factory)</a></li><li><a href="#chapter2--策略模式strategy">Chapter2 :策略模式(Strategy)</a></li></ul><h2 id="additional-uml类图">Additional : UML类图</h2><p><strong>在线UML工具:</strong> <ahref="https://www.plantuml.com/plantuml/uml"class="uri">https://www.plantuml.com/plantuml/uml</a></p><h3 id="什么是uml">什么是UML</h3><p><strong>统一建模语言UML(Unified Modeling Language)</strong>是一种脚本语言, 是一种开放的方法, 用于说明, 可视化,构建和编写一个正在开发的, 面向对象的, 软件密集系统的产品的开放方法.</p><p>简单来说, 对于应用的人, 可以通过简单的语言来生成描述的图像(包括类图,时序图等).</p><h3 id="uml类图的示例">UML类图的示例</h3><img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-2.png" class="" title="pic2-2"><p>关于UML类图的介绍在Internet中有充足的资料和手册,书中也有简单的规约介绍,笔者在此不详细介绍UML图的语法和规约.(或者待专门出一期整理UML用法的栏目)</p><h2 id="chapter-1-简单工厂模式simple-factory">Chapter 1:简单工厂模式(Simple Factory)</h2><p>先来看看书中给的例子:</p><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//简单工厂类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OperationFactory</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title">createOperate</span>(<span class="params"><span class="built_in">string</span> operate</span>)</span>&#123;</span><br><span class="line">        Operation oper = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (operate)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;+&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationAdd();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;-&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationSub();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ...</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> oper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//应用端</span></span><br><span class="line">Operation oper;</span><br><span class="line">oper = OperationFactory.createOperate(<span class="string">&quot;+&quot;</span>);</span><br><span class="line">oper.NumberA = <span class="number">1</span>;</span><br><span class="line">oper.NumberB = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">double</span> result = oper.GetResult();</span><br></pre></td></tr></table></figure><p>UML图如下:</p><img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-1.png" class="" title="pic2-1"><p>简单来说,就是通过一个简单工厂类<code>XXXFactory</code>生产"产品"(实例化类),即<strong>有一个专门的类负责创建实例的过程</strong>.这样修改后端的功能时(比如说添加新的运算类),前端的逻辑不需要重构(以上述例子中只需要修改<code>createOperate("+")-&gt;createOperate("-")</code>);同时后端的具体实现细节没有暴露给前端, 降低了耦合度.</p><h2 id="chapter2-策略模式strategy">Chapter2 : 策略模式(Strategy)</h2><ul><li>面向对象的编程, 并不是类越多越好, 类的划分是为了封装,但分类的基础是抽象, 具有相同属性和功能的对象的抽象集合才是类.</li></ul><p><strong>策略模式(Strategy)</strong> 定义了算法家族, 分别封装起来,让它们之间相互替换, 此模式让算法的变化不会影响到使用算法的客户.</p><img src="/2024/09/24/BookNote-DesignPatterns-by-JieCheng-2/pic2-3.png" class="" title="pic2-3">]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;strong&gt;好的代码可维护, 可复用, 可扩展, 灵活性强.&lt;/strong&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="读书笔记-设计模式" scheme="http://la-pluma.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+    <category term="读书笔记" scheme="http://la-pluma.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="设计模式" scheme="http://la-pluma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
