@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/hikari_tairitsu/512x512.png">
+  <meta name="google-site-verification" content="t21aSpg50tWVwctahE4QnLP2-fo79rclxw9e2TGaamw">
+  <meta name="baidu-site-verification" content="to baidu automatically which is very helpful for SEO.">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="NJU-CourseNote: Principles and Techniques of Compilers - Ch01 Introduction">
+<meta property="og:type" content="article">
+<meta property="og:title" content="课程笔记-NJU编译原理 Ch1 引论">
+<meta property="og:url" content="http://la-pluma.github.io/Course-Compiler-1/index.html">
+<meta property="og:site_name" content="LaPluma">
+<meta property="og:description" content="NJU-CourseNote: Principles and Techniques of Compilers - Ch01 Introduction">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-1.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-2.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-3.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-4.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-5.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-6.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-7.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-8.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-9.png">
+<meta property="article:published_time" content="2025-02-17T02:49:36.000Z">
+<meta property="article:modified_time" content="2025-02-19T02:54:43.491Z">
+<meta property="article:author" content="LaPluma">
+<meta property="article:tag" content="课程笔记">
+<meta property="article:tag" content="编译原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-1.png">
+
+<link rel="canonical" href="http://la-pluma.github.io/Course-Compiler-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>课程笔记-NJU编译原理 Ch1 引论 | LaPluma</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="LaPluma" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999;width:36px;height:36px}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">LaPluma</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep it simple and stupid.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/La-Pluma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/Course-Compiler-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
+      <meta itemprop="name" content="LaPluma">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LaPluma">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          课程笔记-NJU编译原理 Ch1 引论
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-02-17 10:49:36" itemprop="dateCreated datePublished" datetime="2025-02-17T10:49:36+08:00">2025-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-02-19 10:54:43" itemprop="dateModified" datetime="2025-02-19T10:54:43+08:00">2025-02-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0-%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">课程笔记-编译原理</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch01
+Introduction</strong></p>
+<span id="more"></span>
+<h2 id="课程信息">课程信息</h2>
+<p>NJU许畅老师(<a
+target="_blank" rel="noopener" href="https://cs.nju.edu.cn/changxu">主页</a>)开设的编译原理课程(<strong>Principles
+and Techniques of Compilers</strong>).</p>
+<p><strong>参考教材:</strong></p>
+<p>《编译原理》(龙书),《编译方法、技术与实践》/《编译原理实践与指导教程》</p>
+<h3 id="课程内容">课程内容</h3>
+<ul>
+<li><a href="https://la-pluma.github.io/Course-Compiler-1"><strong>Ch1
+引论</strong></a></li>
+<li><a href="https://la-pluma.github.io/Course-Compiler-3"><strong>Ch3
+词法分析</strong></a></li>
+<li><strong>Ch4 语法分析</strong></li>
+<li><strong>Ch5 语法制导的编译技术</strong></li>
+<li><strong>Ch6 中间代码生成</strong></li>
+<li><strong>Ch7 运行时刻环境</strong></li>
+<li><strong>Ch8 代码生成</strong></li>
+<li><strong>Ch9 机器无关优化</strong></li>
+</ul>
+<h3 id="实验内容">实验内容</h3>
+<p>TBC</p>
+<h2 id="引论">引论</h2>
+<h3 id="编译器compiler-解释器interpreter">编译器(Compiler) &amp;
+解释器(Interpreter)</h3>
+<ul>
+<li><strong>编译器</strong>
+<ul>
+<li>读入以某种语言(源语言) 编写的程序</li>
+<li>输出等价的用另一种语言(目标语言) 编写的程序</li>
+<li>通常目标程序是可执行的</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-1/pic1-1.png" class="" title="pic1-1">
+<ul>
+<li><strong>解释器</strong>
+<ul>
+<li>直接利用用户提供的输入，执行源程序中指定的操作</li>
+<li>不生成目标程序，而是根据源程序的语义直接运行</li>
+<li>Java语言的处理结合了编译和解释</li>
+</ul></li>
+</ul>
+<h3 id="编译器的结构">编译器的结构</h3>
+<p>编译器可以分为<strong>分析</strong>和<strong>综合</strong>两部分.</p>
+<ul>
+<li><strong>分析(Analysis)/前端(front end)</strong>
+<ul>
+<li>把源程序分解成组成要素，以及相应的语法结构</li>
+<li>使用这个结构创建源程序的中间表示</li>
+<li>同时收集和源程序相关的信息，存放到符号表</li>
+</ul></li>
+<li><strong>综合(Synthesis)/后端(back end)</strong>
+<ul>
+<li>根据中间表示和符号表信息构造目标程序</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>其中前端部分是机器无关的，后端部分是机器相关的</strong></p>
+</blockquote>
+<p>编译器执行步骤(phase)</p>
+<img src="/Course-Compiler-1/pic1-2.png" class="" title="pic1-2">
+<h3 id="词法分析">词法分析</h3>
+<ul>
+<li><strong>词法分析/扫描(lexical analysis/scanning)</strong>
+<ul>
+<li>读入源程序的字符流，输出为有意义的词素(lexeme)</li>
+<li>格式: <code>&lt;token-name, attribute-value&gt;</code></li>
+<li>token-name由语法分析步骤使用</li>
+<li>attribute-value指向相应的符号表条目，由语义分析/代码生成步骤使用</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong> <img src="/Course-Compiler-1/pic1-3.png" class="" title="pic1-3"></p>
+</blockquote></li>
+</ul>
+<h3 id="语法分析">语法分析</h3>
+<ul>
+<li><strong>语法分析/解析(syntaxanalysis/parsing)</strong>
+<ul>
+<li>根据各个词法单元的第一个分量来创建树型的中间表示形式，通常是<strong>语法树(syntax
+tree)</strong></li>
+<li>中间表示形式指出了词法单元流的语法结构</li>
+<li><img src="/Course-Compiler-1/pic1-4.png" class="" title="pic1-4"></li>
+</ul></li>
+</ul>
+<h3 id="语义分析">语义分析</h3>
+<ul>
+<li><strong>语义分析(semantic analysis)</strong>
+<ul>
+<li>使用语法树和符号表中的信息，检查源程序是否满足语言定义的语义约束</li>
+<li>同时收集类型信息，用于代码生成、类型检查、类型转换</li>
+<li><img src="/Course-Compiler-1/pic1-5.png" class="" title="pic1-5"></li>
+</ul></li>
+</ul>
+<h3 id="中间代码生成">中间代码生成</h3>
+<p>根据语义分析输出，生成类机器语言的中间表示</p>
+<ul>
+<li><strong>三地址代码(three-address code)</strong>
+<ul>
+<li>每个指令最多包含三个运算分量</li>
+<li>Example:
+<code>t1 = inttofloat(60); t2 = id3 * t1; t3 = id2 + t2;</code></li>
+<li>很容易生成机器语言指令</li>
+<li><img src="/Course-Compiler-1/pic1-6.png" class="" title="pic1-6"></li>
+</ul></li>
+</ul>
+<h3 id="中间代码优化">中间代码优化</h3>
+<p>通过对中间代码的分析，改进中间代码的质量(更快、更短、能耗更低)</p>
+<img src="/Course-Compiler-1/pic1-7.png" class="" title="pic1-7">
+<h3 id="代码生成">代码生成</h3>
+<p>把中间表示形式映射到目标语言(寄存器分配与指令选择)</p>
+<img src="/Course-Compiler-1/pic1-8.png" class="" title="pic1-8">
+<h3 id="语言与编译器的关系">语言与编译器的关系</h3>
+<ul>
+<li>程序设计语言的新发展向编译器设计者提出新的要求
+<ul>
+<li>设计相应的算法和表示方法来翻译和支持新的语言特征，如多态、动态绑定、类、类属(模板)
+、…</li>
+</ul></li>
+<li>通过降低高级语言的执行开销，推动这些高级语言的使用</li>
+<li>编译器设计者还需要更好地利用新硬件的能力
+<ul>
+<li>RISC技术、多核技术、大规模并行技术</li>
+</ul></li>
+</ul>
+<h3 id="程序设计语言的基础概念">程序设计语言的基础概念</h3>
+<h4 id="动态静态">动态&amp;静态</h4>
+<ul>
+<li><strong>静态:</strong> 支持编译器静态决定某个问题</li>
+<li><strong>动态:</strong> 只允许在程序运行时刻作出决定</li>
+</ul>
+<h4 id="作用域">作用域</h4>
+<p>x的作用域指程序文本的一个区域，其中对x的使用都指向这个声明</p>
+<ul>
+<li><strong>静态作用域(static scope):</strong>
+通过静态阅读程序可决定</li>
+<li><strong>动态作用域(dynamic scope):</strong> 运行时确定x的指向</li>
+</ul>
+<h4 id="环境状态">环境&amp;状态</h4>
+<ul>
+<li><strong>环境(environment):</strong> 是从名字到存储位置的映射</li>
+<li><strong>状态(state):</strong> 从存储位置到它们值的映射</li>
+</ul>
+<img src="/Course-Compiler-1/pic1-9.png" class="" title="pic1-9">
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag"># 课程笔记</a>
+              <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag"># 编译原理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/SPA-A8/" rel="prev" title="NJU静态分析|A8-Taint Analysis">
+      <i class="fa fa-chevron-left"></i> NJU静态分析|A8-Taint Analysis
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">课程信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">课程内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9"><span class="nav-number">1.2.</span> <span class="nav-text">实验内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%AE%BA"><span class="nav-number">2.</span> <span class="nav-text">引论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8compiler-%E8%A7%A3%E9%87%8A%E5%99%A8interpreter"><span class="nav-number">2.1.</span> <span class="nav-text">编译器(Compiler) &amp;
+解释器(Interpreter)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.2.</span> <span class="nav-text">编译器的结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">2.4.</span> <span class="nav-text">语法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90"><span class="nav-number">2.5.</span> <span class="nav-text">语义分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90"><span class="nav-number">2.6.</span> <span class="nav-text">中间代码生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="nav-number">2.7.</span> <span class="nav-text">中间代码优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90"><span class="nav-number">2.8.</span> <span class="nav-text">代码生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E4%B8%8E%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.9.</span> <span class="nav-text">语言与编译器的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-number">2.10.</span> <span class="nav-text">程序设计语言的基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%9D%99%E6%80%81"><span class="nav-number">2.10.1.</span> <span class="nav-text">动态&amp;静态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">2.10.2.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E7%8A%B6%E6%80%81"><span class="nav-number">2.10.3.</span> <span class="nav-text">环境&amp;状态</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LaPluma"
+      src="/images/hikari_tairitsu/avatar.jpg">
+  <p class="site-author-name" itemprop="name">LaPluma</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/La-Pluma" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;La-Pluma" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:baixingluo0114@gmail.com" title="E-Mail → mailto:baixingluo0114@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  <span class="author" itemprop="copyrightHolder">LaPluma</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">40k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:25</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!--
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: inline;">
+    <!--<span class="post-meta-item">-->
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '24px',
+  right: 'unset',
+  left: '24px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#444',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'Ov23liouFxqnH4lyyruL',
+      clientSecret: '63c3d5092e75ac897fea78ade59a03c33b607595',
+      repo        : 'la-pluma.github.io',
+      owner       : 'La-Pluma',
+      admin       : ['La-Pluma'],
+      id          : '4080461e805c9c1165b8a3aef1ccc43d',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/hikari_tairitsu/512x512.png">
+  <meta name="google-site-verification" content="t21aSpg50tWVwctahE4QnLP2-fo79rclxw9e2TGaamw">
+  <meta name="baidu-site-verification" content="to baidu automatically which is very helpful for SEO.">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="NJU Static Program Analysis | Assignment-5 Context Insensitive Pointer Analysis.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJU静态分析|A5-Context Insensitive Pointer Analysis">
+<meta property="og:url" content="http://la-pluma.github.io/SPA-A5/index.html">
+<meta property="og:site_name" content="LaPluma">
+<meta property="og:description" content="NJU Static Program Analysis | Assignment-5 Context Insensitive Pointer Analysis.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://la-pluma.github.io/SPA-A5/pic1-1.png">
+<meta property="og:image" content="http://la-pluma.github.io/SPA-A5/pic1-2.png">
+<meta property="og:image" content="http://la-pluma.github.io/SPA-A5/pic1-3.png">
+<meta property="og:image" content="http://la-pluma.github.io/SPA-A5/pic1-4.png">
+<meta property="og:image" content="http://la-pluma.github.io/SPA-A5/pic1-5.png">
+<meta property="article:published_time" content="2024-11-27T06:38:06.000Z">
+<meta property="article:modified_time" content="2024-12-02T07:44:50.413Z">
+<meta property="article:author" content="LaPluma">
+<meta property="article:tag" content="NJU">
+<meta property="article:tag" content="静态分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/SPA-A5/pic1-1.png">
+
+<link rel="canonical" href="http://la-pluma.github.io/SPA-A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>NJU静态分析|A5-Context Insensitive Pointer Analysis | LaPluma</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="LaPluma" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999;width:36px;height:36px}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">LaPluma</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep it simple and stupid.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/La-Pluma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/SPA-A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
+      <meta itemprop="name" content="LaPluma">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LaPluma">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NJU静态分析|A5-Context Insensitive Pointer Analysis
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-11-27 14:38:06" itemprop="dateCreated datePublished" datetime="2024-11-27T14:38:06+08:00">2024-11-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-02 15:44:50" itemprop="dateModified" datetime="2024-12-02T15:44:50+08:00">2024-12-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NJU%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">NJU静态分析实验记录</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>NJU Static Program Analysis | Assignment-5 Context
+Insensitive Pointer Analysis.</strong></p>
+<span id="more"></span>
+<blockquote>
+<p>这些规则与你在课上所学到的规则非常相似
+<strong>（甚至更简单）</strong>. ——A5实验指南</p>
+</blockquote>
+<p>对......对吗？</p>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>tai-e</strong>框架实现非上下文敏感的指针分析.</p>
+<h2 id="preparation">Preparation</h2>
+<p><strong>Hint:</strong> A5和A6不再像之前的实验般友好,
+没有理解上课时所讲算法,
+实验指南或框架代码的人会被这两次实验狠狠地拷打.(笔者已感到有些汗流浃背了)</p>
+<h2 id="算法理论">算法理论</h2>
+<h3 id="算法伪代码">算法伪代码</h3>
+<img src="/SPA-A5/pic1-1.png" class="" title="pic1-1">
+<img src="/SPA-A5/pic1-2.png" class="" title="pic1-2">
+<h3 id="规则形式化表述">规则形式化表述</h3>
+<h4 id="分析语句类型">分析语句类型</h4>
+<img src="/SPA-A5/pic1-3.png" class="" title="pic1-3">
+<h4 id="符号体系">符号体系</h4>
+<img src="/SPA-A5/pic1-4.png" class="" title="pic1-4">
+<h4 id="对象传递规则">对象传递规则</h4>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">Kind</th>
+<th style="text-align: center;">Stmt</th>
+<th style="text-align: center;">Rule</th>
+<th style="text-align: center;">PFG Edge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">New</td>
+<td style="text-align: center;"><code>i : x = new T()</code></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{}{o_i
+\in pt(x)}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\text{N/A}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Assign</td>
+<td style="text-align: center;"><code>x = y</code></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{o_i
+\in pt(y)}{o_i \in pt(x)}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(x \leftarrow
+y\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Field Store</td>
+<td style="text-align: center;"><code>x.f = y</code></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{o_i
+\in pt(x),\ o_j \in pt(y)}{o_j \in pt(o_i.f)}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y \leftarrow
+o_i.f\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Field Load</td>
+<td style="text-align: center;"><code>y = x.f</code></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{o_i
+\in pt(x),\ o_j \in pt(o_i.f)}{o_j \in pt(y)}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y \leftarrow
+o_i.f\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Static Store</td>
+<td style="text-align: center;"><code>T.f = y</code></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{o_i
+\in pt(y)}{o_i \in pt(T.f)}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(T.f
+\leftarrow y\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Static Load</td>
+<td style="text-align: center;"><code>y = T.f</code></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{o_i
+\in pt(T.f)}{o_i \in pt(y)}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y \leftarrow
+T.f\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Array Store</td>
+<td style="text-align: center;"><code>x[i] = y</code></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{o_u
+\in pt(x),\ i_v \in pt(y)}{o_v \in pt(o_u[*])}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(o_u[*]
+\leftarrow y\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Array Load</td>
+<td style="text-align: center;"><code>y = x[i]</code></td>
+<td style="text-align: center;"><span class="math inline">\(\dfrac{o_u
+\in pt(x),\ o_v \in pt(o_u[*])}{o_v \in pt(y)}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y \leftarrow
+o_u[*]\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Call</td>
+<td
+style="text-align: center;"><code>l : r = x.k(a1, ..., an)</code></td>
+<td style="text-align: center;"><span
+class="math inline">\(\dfrac{\begin{array}{c} o_i \in pt(x),\ m =
+Dispatch(o_i,\ k),\\ o_u \in pt(aj),\ i \leq j \leq n,\\ o_v \in
+pt(m_{ret})\end{array}}{\begin{array}{c} o_i \in pt(m_{this}),\\ o_u \in
+pt(m_{pj}),\ 1 \leq j \leq n,\\ o_v \in pt(r)\end{array}}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\begin{array}{c}a1 \rightarrow m_{p1} \\ ... \\ an
+\rightarrow m_{pn} \\ r \leftarrow m_{ret}\end{array}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Static Call</td>
+<td style="text-align: center;"><code>r = T.k(a1, ..., an)</code></td>
+<td style="text-align: center;"><span
+class="math inline">\(\dfrac{\begin{array}{c} o_u \in pt(aj),\ i \leq j
+\leq n,\\ o_v \in pt(m_{ret}) \end{array}}{\begin{array}{c} o_u \in
+pt(m_{pj}),\ 1 \leq j \leq n,\\ o_v \in pt(r) \end{array}}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\begin{array}{c} a1 \rightarrow m_{p1} \\ ... \\
+an \rightarrow m_{pn} \\ r \leftarrow m_{ret} \end{array}\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="部分框架代码带读">部分框架代码带读</h2>
+<p>该部分是为分析实际伪代码的书写,
+因为课程上的算法和框架中的实现不完全一致, 主要体现在 <strong>Stmt in
+Method</strong> 这一部分. 笔者就部分关键框架代码进行讲解.</p>
+<h3 id="概览">概览</h3>
+<p><code>graph.callgraph</code>,
+<code>ir</code>包中的大部分文件在先前的实验中已经了解,
+如有遗忘或模糊可以参考先前的实验指南或自行阅读相关框架代码.</p>
+<p><strong>着重注意</strong>
+<code>Stmt</code>的层次结构和<code>Stmt</code>中包含的信息类型的继承关系(如<code>Var</code>,
+<code>LValue</code>等),
+以及<code>JMethod</code>和<code>IR</code>相关信息,
+较为重要的是在A4中如何获取形参和实参.</p>
+<p>新的文件主要集中在<code>pta</code>包中, 笔者在此着重介绍该部分.</p>
+<h3 id="pointer-pointstoset">Pointer &amp; PointsToSet</h3>
+<p>指针分析中最重要的两个类型, 前者是在指针流图中的节点,
+后者存储指向信息.</p>
+<p>在框架代码中,
+每个<code>Pointer</code>包含一个<code>PointsToSet</code>实例,
+包含该指针指向的对象信息.</p>
+<p>通过阅读<code>pointsToSet</code>源码,
+不难看出是由基本的<code>Set</code>实例化得到,
+支持<code>Set</code>的常规基本操作.</p>
+<h4 id="varptr-instancefield-staticfield-arrayindex">VarPtr &amp;
+InstanceField &amp; StaticField &amp; ArrayIndex</h4>
+<p>代表了四种指针类型, 均继承自<code>Pointer</code>.</p>
+<p>与<code>Pointer</code>相比没有太大的不同,
+仅根据类型不同添加了如何获取指针信息的API.</p>
+<h3 id="pointerflowgraph">PointerFlowGraph</h3>
+<p>本次实验中最重要的类之一, 存储了指针分析过程中的指针流信息.</p>
+<p>其实现运用了多个<code>Map</code>, 其提供的API包括两类:</p>
+<ul>
+<li><p>图结构的<code>addEdge()</code>和<code>getSuccOf()</code>,
+这两个API可以修改和遍历<strong>PFG</strong>.</p></li>
+<li><p>图信息的四种<code>get</code>方法,
+由于<code>JMethod</code>,<code>IR</code>以及<code>Obj</code>与<code>Pointer</code>并不是直接关联,
+该类方法提供了一个获取对应类型指针的API. &gt; <strong>Tips:</strong>
+举个例子, 对于<code>Stmt</code>类型的Assign语句<code>x = y</code>,
+可以解析得到<code>Var</code>类型的<code>x</code>和<code>y</code>,
+通过<code>getVarPtr()</code>方法就可以得到<code>Var</code>类型的<code>x</code>,<code>y</code>在<strong>PFG</strong>中对应的指针.</p></li>
+</ul>
+<h3 id="cipta-ciptaresult-resultprocessor">CIPTA &amp; CIPTAResult &amp;
+ResultProcessor</h3>
+<p>这些类与实现的核心逻辑联系不大,
+这三个类负责处理指针分析算法的前后工作, 提供了初始化,
+执行指针分析和解析指针分析结果的API. 更具体的信息可以阅读框架代码.</p>
+<h3 id="heapmodel-obj">HeapModel &amp; Obj</h3>
+<p>该部分对应了指针分析原理中的<strong>堆抽象</strong>部分.</p>
+<p>内部涉及的API比较简单, 且大多数不需要关注, 需要注意的是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HeapModel</span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the abstract object for given new statement.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Obj <span class="title function_">getObj</span><span class="params">(New allocSite)</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法提供了获取<code>Stmt New</code>语句创建的对象的API.</p>
+<blockquote>
+<p><strong>Tips:</strong> 指针分析中最特殊的语句便是<code>New</code>,
+只有<code>New</code>语句可以创建对象,
+指针流图中所有的对象均是由<code>New</code>方法创建出来的.
+因此只有<code>New</code>语句需要通过与<strong>抽象堆</strong>交互获取对象,
+其余语句获取对象均由<strong>PFG</strong>中传递得到.</p>
+</blockquote>
+<h3 id="stmt-package">Stmt Package</h3>
+<p>本次实验所涉及的<code>Stmt</code>类型继承关系为<code>Stmt-&gt;AbstractStmt-&gt;DefinitionStmt-&gt;AssignStmt-&gt;(FieldStmt)</code></p>
+<p>其中大部分API在之前的实验中已经熟悉了.
+以下介绍一些本实验中可能涉及的细节.</p>
+<h4 id="fieldstmt">FieldStmt</h4>
+<p>该类提供了<code>getFieldAccess()</code>和<code>getFieldRef()</code>,
+其中后者比较重要,
+可以通过<code>fieldStmt.getFieldRef().resolve()</code>获得<code>JField field</code>.(实验指南中已指出)</p>
+<h4 id="accept-可选">accept() *可选</h4>
+<p>详见<a href="#stmtvisitor-可选"><strong>StmtVisitor</strong></a></p>
+<h3 id="worklist">WorkList</h3>
+<p>对应算法伪代码中的WorkList.
+(笔者较为疑惑为何其内部节点称为<code>Entry</code>)</p>
+<h3 id="callgraph-abstractcallgraph-defaultcallgraph">CallGraph &amp;
+AbstractCallGraph &amp; DefaultCallGraph</h3>
+<p>CallGraph在实验A4中已经接触过了, 笔者在此不再赘述.</p>
+<h3 id="stmtvisitor-可选">StmtVisitor *可选</h3>
+<p>访问者模式不是完成本实验必要的部分, 如果不打算使用访问者模式,
+可以跳过这一部分.</p>
+<p><code>Solver</code>中的<code>class StmtProcessor</code>继承自该类,
+用以实现<strong>访问者设计模式</strong>.
+内部重载了多个<code>visit()</code>方法, 用以访问不同的类型.</p>
+<p>需要注意的是, 访问者模式需要被访问的类支持这一设计,
+具体表现为其包含<code>accept()</code>方法.</p>
+<p>访问者用以优雅地替代大量<code>instanceof</code>的判断,
+由<strong>访问类</strong>(本次实验中为<code>class StmtProcessor</code>)的函数重载巧妙地避开大量的类型判定.</p>
+<p>笔者在此以<code>New</code>,<code>Copy</code>和<code>StmtProcessor</code>为例具体说明.</p>
+<p>在本次实验中, <code>addReachable()</code>需要遍历新方法中的所有语句,
+对不同语句做不同处理.</p>
+<img src="/SPA-A5/pic1-5.png" class="" title="pic1-5">
+<p>显然这些处理从封装的角度看不应当嵌入到<code>New</code>和<code>Assign</code>类的内部,
+而是应当放在外部进行处理, 那么如果不使用访问者模式,
+写出来的代码大概是长这样的:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Stmt stmt : method.getIR().getStmts())&#123;</span><br><span class="line">    <span class="keyword">if</span> (stmt <span class="keyword">instanceof</span> New newStmt)&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> Assign assignStmt)&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样的代码一点也不优雅, 充斥着大量的冗余判断.
+访问者模式可以很好的解决这个问题.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">New</span>&#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; T <span class="title function_">accept</span><span class="params">(StmtVisitor&lt;T&gt; visitor)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> visitor.visit(<span class="built_in">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//此处略去Assign</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">StmtVisitor</span>&lt;T&gt; &#123;</span><br><span class="line">    T <span class="title function_">visit</span><span class="params">(New stmt)</span>;</span><br><span class="line">    T <span class="title function_">visit</span><span class="params">(Assign stmt)</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">StmtProcessor</span> <span class="keyword">implements</span> <span class="title class_">StmtVisitor</span>&lt;Void&gt;&#123;</span><br><span class="line">    Void <span class="title function_">visit</span><span class="params">(New stmt)</span>&#123;</span><br><span class="line">        <span class="comment">//handle new stmt</span></span><br><span class="line">    &#125;</span><br><span class="line">    Void <span class="title function_">visit</span><span class="params">(Assign stmt)</span>&#123;</span><br><span class="line">        <span class="comment">//handle assign stmt</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时将遍历<code>Stmt</code>的代码改为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Stmt stmt : method.getIR().getStmts())&#123;</span><br><span class="line">    stmt.accept(stmtProcessor); <span class="comment">// 已经实例化过了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的逻辑应该是不难理解的,
+在<code>instanceof</code>实现的遍历中, 就好像是一个提供多种服务的公司,
+挨个询问客户购买的是什么服务然后提供服务(在这里简单假设每家只购买了一种服务).而访问者模式中,
+客户向公司发送"请求",
+公司从多个服务中选择正确的为客户进行服务(函数重载).</p>
+<p>在访问者模式中,
+<code>New</code>和<code>Assign</code>通过<code>accept()</code>方法向<code>StmtProcessor</code>提供了自己的类型,
+并在该方法中调用来自<code>StmtProcessor</code>的处理方法<code>visit()</code>.
+从面向对象设计角度来看, 是一种优于前者的设计模式.</p>
+<h2 id="框架代码中的算法">框架代码中的算法</h2>
+<h3 id="s-s_m">S &amp; S_m</h3>
+<blockquote>
+<p>这里部分参考了<a
+target="_blank" rel="noopener" href="https://github.com/RicoloveFeng"><strong>RicoloveFeng|SPA-Freestyle-Guidance</strong></a>中的内容.</p>
+</blockquote>
+<p>这里是与课上讲述的算法区别最大的地方.
+阅读<code>Sovler</code>中的代码, 发现该部分是不存在对应关系的.</p>
+<p>重读定义<code>Var</code>的文件,
+会发现一些之前没有用到的函数在本次实验中利用了起来,
+如<code>addLoadField()</code>, <code>getLoadFields()</code>.</p>
+<p>这些方法就是"隐式"维护S和S_m的API(说<strong>隐式</strong>是因为对于完成实验来说,
+该部分不需要详细了解).</p>
+<p>这部分实现了S和S_m的"自动"维护, 即通过生成<strong>IR</strong>,
+和<code>CallGraph</code>中的<code>addMethod()</code>进行维护.
+具体的细节可以阅读源码.</p>
+<p>对于完成本次实验来说, 只需要知道不需要处理有关S和S_m的工作了,
+在需要获取相关信息时,
+直接通过<code>Var</code>中的<code>getXXX()</code>获取即可.</p>
+<h3 id="基于框架代码的算法伪代码">基于框架代码的算法伪代码</h3>
+<p><strong>Tips:</strong> 该部分的代码不会严格遵循框架代码中的API,
+仅作示例.</p>
+<p><strong>推荐完成顺序:</strong>
+优先实现顶层方法<code>analysis()</code></p>
+<h4 id="analysis">analysis()</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">analysis</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">// 所有的初始化工作框架代码中已经完成, 包括添加Entry Method</span></span><br><span class="line">    <span class="comment">// 这里只需要处理while WorkList NOT Empty即可</span></span><br><span class="line">    <span class="keyword">while</span>(WorkList.isNotEmpty())&#123;</span><br><span class="line">        &lt;n, pts&gt; = WorkList.poll() <span class="comment">// &lt;Pointer, PointsToSet&gt;</span></span><br><span class="line">        delta_pts = propagate(n, pts)</span><br><span class="line">        <span class="keyword">if</span>(n <span class="keyword">instanceof</span> VarPtr x)&#123;</span><br><span class="line">            foreach oi in delta_pts <span class="keyword">do</span>&#123;</span><br><span class="line">                foreach x.getStoreFields() <span class="keyword">do</span></span><br><span class="line">                    <span class="comment">// x.f = y</span></span><br><span class="line">                    addEdge(y, oi.f)</span><br><span class="line">                foreach x.getLoadFields() <span class="keyword">do</span></span><br><span class="line">                    <span class="comment">// y = x.f</span></span><br><span class="line">                    addEdge(oi.f, y)</span><br><span class="line">                foreach x.getStoreArrays() <span class="keyword">do</span></span><br><span class="line">                    <span class="comment">// x[i] = y</span></span><br><span class="line">                    addEdge(y, oi[*])</span><br><span class="line">                foreach x.getLoadArrays() <span class="keyword">do</span></span><br><span class="line">                    <span class="comment">// y = x[i]</span></span><br><span class="line">                    addEdge(oi[*], y)</span><br><span class="line"></span><br><span class="line">                processCall(x, oi);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该部分的逻辑比较简单, 照着算法写就行,
+获取跟<code>Var x</code>相关的<code>Stmt</code>的方法在<a
+href="#s--s_m"><strong>S &amp; S_m</strong></a>部分已经讲过,
+此处不再赘述.</p>
+<p>不要忘记依手册在此处完成对Array的处理.</p>
+<h4 id="addpfgedge">addPFGEdge()</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">addPFGEdge</span><span class="params">(Pointer source, Pointer target)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pointerFlowGraph.addEdge(source, target))&#123;</span><br><span class="line">        <span class="comment">// form API: true mean not include</span></span><br><span class="line">        <span class="keyword">if</span> (source.getPointsToSet().isNotEmpty())&#123;</span><br><span class="line">            WorkList.add(&lt;target, source_pts&gt;) <span class="comment">// &lt;Pointer, PointsToSet&gt;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样是照着算法写即可.</p>
+<h4 id="propagate">propagate()</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PointsToSet <span class="title function_">propagate</span><span class="params">(Pointer pointer, PointsToSet pointsToSet)</span>&#123;</span><br><span class="line">    delta_pts = pointsToSet - pointer.getPointsToSet();</span><br><span class="line"></span><br><span class="line">    pointer_pts += delta_pts;</span><br><span class="line"></span><br><span class="line">    foreach pointerpointerFlowGraph.getSuccsOf(pointer) <span class="keyword">do</span></span><br><span class="line">        <span class="comment">//succ of pointer node</span></span><br><span class="line">        WorkList.add(&lt;succ, delta_pts&gt;) <span class="comment">// &lt;Pointer, PointsToSet&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="processcall">processCall</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">processCall</span><span class="params">(Var <span class="keyword">var</span>, Obj recv)</span> &#123;</span><br><span class="line">    foreach <span class="keyword">var</span>.<span class="keyword">var</span>.getInvokes() <span class="keyword">do</span></span><br><span class="line">        <span class="comment">// [invoke] l: r = x.k(a1,..., an)</span></span><br><span class="line">        <span class="type">JMethod</span> <span class="variable">method</span> <span class="operator">=</span> resolveCallee(recv, invoke)</span><br><span class="line">        <span class="keyword">if</span>(method thisVar is not empty)&#123;</span><br><span class="line">            <span class="comment">//means is not Static</span></span><br><span class="line">            <span class="comment">//also can use !invoke.isStatic()</span></span><br><span class="line">            workList.add(&lt;method_this, recv&gt;);</span><br><span class="line">            <span class="keyword">if</span>(callGraph.addEdge(<span class="keyword">new</span> <span class="title class_">Edge</span>(callKind, invoke, method)))&#123;</span><br><span class="line">                <span class="comment">//transfer paramters &amp; return Var</span></span><br><span class="line">                foreach paramters : addEdge();</span><br><span class="line">                returnVar : addEdge();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有一些细节需要注意:</p>
+<ul>
+<li>如何处理<code>JMethod</code>在A4中已经接触过了,
+可以通过<code>method.getIR().getThis()</code>获取该方法的this Var,
+然后再通过<strong>PFG</strong>就能获取this Pointer了. 如果还有印象的话,
+A4中通过<code>CallGraphs.getCallKind()</code>来获取<code>CallKind</code>,
+在本次实验沿用该方法即可.</li>
+<li>在这里不处理Static Call, 通过判断是否存在this指针,
+<code>isStatic()</code>方法都可以判断(尽管从实际上分析,
+此处不应该也不可能出现Static Call)</li>
+<li>之后的处理参数和返回值同A4,
+同样需要注意返回值是否被丢弃或有复数个返回值.</li>
+</ul>
+<h4 id="addreachable">addReachable()</h4>
+<p>如果不使用访问者模式:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">addReachable</span><span class="params">(JMethod method)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (callGraph.addReachableMethod(method))&#123;</span><br><span class="line">        <span class="comment">//form API : true means not include</span></span><br><span class="line">        <span class="keyword">for</span>(Stmt stmt : method.getIR().getStmts())&#123;</span><br><span class="line">            <span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> New)&#123;</span><br><span class="line">                WorkList.add(stmt_def, obj)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> Assign)&#123;</span><br><span class="line">                addEdge(right, left)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> StoreField &amp;&amp; isStatic)&#123;</span><br><span class="line">                addEdge(right, left)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> LoadField &amp;&amp; isStatic)&#123;</span><br><span class="line">                addEdge(right, left)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> Invoke &amp;&amp; isStatic)&#123;</span><br><span class="line">                <span class="comment">//same as processCall</span></span><br><span class="line">                <span class="comment">//except do not need to add &lt;this, obj&gt; to workList</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果使用访问者模式:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">addReachable</span><span class="params">(JMethod method)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (callGraph.addReachableMethod(method))&#123;</span><br><span class="line">        <span class="keyword">for</span>(Stmt stmt : method.getIR().getStmts())&#123;</span><br><span class="line">            stmt.accept(stmtProcessor);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>逻辑同不使用访问模式的<code>instanceof</code>成立后执行的方法.
+将这些方法写进<code>StmtProcessor</code>中的<code>visit()</code>即可.</p>
+<blockquote>
+<p><strong>Tips:</strong> 为什么要在这里处理静态方法和字段?</p>
+<p>在回答这个问题之前,
+不妨思考一下为什么非静态指针要在<code>analysis()</code>中如此处理.
+因为不论是字段还是方法, 都需要"resolve"到一个确定的结果时,
+才能进行分析和对象传递. 而静态方法和静态字段的对象是唯一确定的,
+在遍历到一个新方法时只需要处理一次.</p>
+</blockquote>
+<ul>
+<li>框架代码中的<code>CallGraph</code>包含了<code>RM</code>,
+阅读相关API以获取详细信息.</li>
+<li>如何根据<code>Stmt</code>信息获取指针<code>Pointer</code>的方法在上文框架代码分析中已经指出.
+如果该方法在后期完成, 此时应当已经知道如何获取所需参数和类型.</li>
+<li>需要注意的是在此仍然需要通过<code>resolveCallee()</code>方法获得静态方法,
+参数设置为<code>recv = null</code>即可.</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>指针分析还是相当硬核的, 尽管实验框架已经化简了其中部分内容,
+这仍然是一个较困难的实验.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NJU/" rel="tag"># NJU</a>
+              <a href="/tags/%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" rel="tag"># 静态分析</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/conda-env/" rel="prev" title="Anaconda+Cuda+Pytorch+Pycharm环境配置">
+      <i class="fa fa-chevron-left"></i> Anaconda+Cuda+Pytorch+Pycharm环境配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/SPA-A6/" rel="next" title="NJU静态分析|A6-Context Sensitive Pointer Analysis">
+      NJU静态分析|A6-Context Sensitive Pointer Analysis <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">实验目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preparation"><span class="nav-number">2.</span> <span class="nav-text">Preparation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA"><span class="nav-number">3.</span> <span class="nav-text">算法理论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="nav-number">3.1.</span> <span class="nav-text">算法伪代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%84%E5%88%99%E5%BD%A2%E5%BC%8F%E5%8C%96%E8%A1%A8%E8%BF%B0"><span class="nav-number">3.2.</span> <span class="nav-text">规则形式化表述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%AF%AD%E5%8F%A5%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.1.</span> <span class="nav-text">分析语句类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E4%BD%93%E7%B3%BB"><span class="nav-number">3.2.2.</span> <span class="nav-text">符号体系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E4%BC%A0%E9%80%92%E8%A7%84%E5%88%99"><span class="nav-number">3.2.3.</span> <span class="nav-text">对象传递规则</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%B8%A6%E8%AF%BB"><span class="nav-number">4.</span> <span class="nav-text">部分框架代码带读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%A7%88"><span class="nav-number">4.1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pointer-pointstoset"><span class="nav-number">4.2.</span> <span class="nav-text">Pointer &amp; PointsToSet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#varptr-instancefield-staticfield-arrayindex"><span class="nav-number">4.2.1.</span> <span class="nav-text">VarPtr &amp;
+InstanceField &amp; StaticField &amp; ArrayIndex</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pointerflowgraph"><span class="nav-number">4.3.</span> <span class="nav-text">PointerFlowGraph</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cipta-ciptaresult-resultprocessor"><span class="nav-number">4.4.</span> <span class="nav-text">CIPTA &amp; CIPTAResult &amp;
+ResultProcessor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#heapmodel-obj"><span class="nav-number">4.5.</span> <span class="nav-text">HeapModel &amp; Obj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stmt-package"><span class="nav-number">4.6.</span> <span class="nav-text">Stmt Package</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fieldstmt"><span class="nav-number">4.6.1.</span> <span class="nav-text">FieldStmt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#accept-%E5%8F%AF%E9%80%89"><span class="nav-number">4.6.2.</span> <span class="nav-text">accept() *可选</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#worklist"><span class="nav-number">4.7.</span> <span class="nav-text">WorkList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#callgraph-abstractcallgraph-defaultcallgraph"><span class="nav-number">4.8.</span> <span class="nav-text">CallGraph &amp;
+AbstractCallGraph &amp; DefaultCallGraph</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stmtvisitor-%E5%8F%AF%E9%80%89"><span class="nav-number">4.9.</span> <span class="nav-text">StmtVisitor *可选</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">框架代码中的算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#s-s_m"><span class="nav-number">5.1.</span> <span class="nav-text">S &amp; S_m</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E7%9A%84%E7%AE%97%E6%B3%95%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="nav-number">5.2.</span> <span class="nav-text">基于框架代码的算法伪代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#analysis"><span class="nav-number">5.2.1.</span> <span class="nav-text">analysis()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addpfgedge"><span class="nav-number">5.2.2.</span> <span class="nav-text">addPFGEdge()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#propagate"><span class="nav-number">5.2.3.</span> <span class="nav-text">propagate()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#processcall"><span class="nav-number">5.2.4.</span> <span class="nav-text">processCall</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addreachable"><span class="nav-number">5.2.5.</span> <span class="nav-text">addReachable()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LaPluma"
+      src="/images/hikari_tairitsu/avatar.jpg">
+  <p class="site-author-name" itemprop="name">LaPluma</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/La-Pluma" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;La-Pluma" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:baixingluo0114@gmail.com" title="E-Mail → mailto:baixingluo0114@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  <span class="author" itemprop="copyrightHolder">LaPluma</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">40k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:25</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!--
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: inline;">
+    <!--<span class="post-meta-item">-->
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '24px',
+  right: 'unset',
+  left: '24px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#444',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'Ov23liouFxqnH4lyyruL',
+      clientSecret: '63c3d5092e75ac897fea78ade59a03c33b607595',
+      repo        : 'la-pluma.github.io',
+      owner       : 'La-Pluma',
+      admin       : ['La-Pluma'],
+      id          : 'cfa3795711620b87a0e4c0dc25a0abc5',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
