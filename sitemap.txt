@@ -1,6 +1,8 @@
+http://la-pluma.github.io/Course-Compiler-3/
+http://la-pluma.github.io/BookNote-MachineLearning-by-ZhihuaZhou-1/
+http://la-pluma.github.io/BookNote-MachineLearning-by-ZhihuaZhou-2/
 http://la-pluma.github.io/Course-Compiler-1/
 http://la-pluma.github.io/SPA-A2/
-http://la-pluma.github.io/BookNote-DesignPatterns-by-JieCheng-2/
 http://la-pluma.github.io/SPA-A8/
 http://la-pluma.github.io/SPA-A7/
 http://la-pluma.github.io/SPA-A6/
@@ -10,9 +12,7 @@ http://la-pluma.github.io/SPA-A4/
 http://la-pluma.github.io/BookNote-OnJava8-by-BruceEckel-2/
 http://la-pluma.github.io/SPA-A3/
 http://la-pluma.github.io/BookNote-OnJava8-by-BruceEckel-1/
-http://la-pluma.github.io/BookNote-MachineLearning-by-ZhihuaZhou-2/
 http://la-pluma.github.io/BookNote-DesignPatterns-by-JieCheng-1/
-http://la-pluma.github.io/BookNote-MachineLearning-by-ZhihuaZhou-1/
 http://la-pluma.github.io/SPA-A1/
 http://la-pluma.github.io/LeetCode-P4/
 http://la-pluma.github.io/404.html

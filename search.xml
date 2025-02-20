@@ -1,68 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>读书笔记-大话设计模式 Ch1-</title>
-    <url>/BookNote-DesignPatterns-by-JieCheng-2/</url>
-    <content><![CDATA[<p><strong>好的代码可维护, 可复用, 可扩展, 灵活性强.</strong></p>
-<span id="more"></span>
-<p>
-<font size = 5><b>目录</b></font>
-</p>
-<ul>
-<li><a href="#additional--uml类图">Additional : UML类图</a>
-<ul>
-<li><a href="#什么是uml">什么是UML</a></li>
-<li><a href="#uml类图的示例">UML类图的示例</a></li>
-</ul></li>
-<li><a href="#chapter-1-简单工厂模式simple-factory">Chapter 1:
-简单工厂模式(Simple Factory)</a></li>
-<li><a href="#chapter2--策略模式strategy">Chapter2 :
-策略模式(Strategy)</a></li>
-</ul>
-<h2 id="additional-uml类图">Additional : UML类图</h2>
-<p><strong>在线UML工具:</strong> <a
-href="https://www.plantuml.com/plantuml/uml"
-class="uri">https://www.plantuml.com/plantuml/uml</a></p>
-<h3 id="什么是uml">什么是UML</h3>
-<p><strong>统一建模语言UML(Unified Modeling Language)</strong>
-是一种脚本语言, 是一种开放的方法, 用于说明, 可视化,
-构建和编写一个正在开发的, 面向对象的, 软件密集系统的产品的开放方法.</p>
-<p>简单来说, 对于应用的人, 可以通过简单的语言来生成描述的图像(包括类图,
-时序图等).</p>
-<h3 id="uml类图的示例">UML类图的示例</h3>
-<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-2.png" class="" title="pic2-2">
-<p>关于UML类图的介绍在Internet中有充足的资料和手册,
-书中也有简单的规约介绍,
-笔者在此不详细介绍UML图的语法和规约.(或者待专门出一期整理UML用法的栏目)</p>
-<h2 id="chapter-1-简单工厂模式simple-factory">Chapter 1:
-简单工厂模式(Simple Factory)</h2>
-<p>先来看看书中给的例子:</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//简单工厂类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OperationFactory</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title">createOperate</span>(<span class="params"><span class="built_in">string</span> operate</span>)</span>&#123;</span><br><span class="line">        Operation oper = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (operate)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;+&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationAdd();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;-&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationSub();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ...</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> oper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//应用端</span></span><br><span class="line">Operation oper;</span><br><span class="line">oper = OperationFactory.createOperate(<span class="string">&quot;+&quot;</span>);</span><br><span class="line">oper.NumberA = <span class="number">1</span>;</span><br><span class="line">oper.NumberB = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">double</span> result = oper.GetResult();</span><br></pre></td></tr></table></figure>
-<p>UML图如下:</p>
-<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-1.png" class="" title="pic2-1">
-<p>简单来说,
-就是通过一个简单工厂类<code>XXXFactory</code>生产"产品"(实例化类),即<strong>有一个专门的类负责创建实例的过程</strong>.
-这样修改后端的功能时(比如说添加新的运算类),
-前端的逻辑不需要重构(以上述例子中只需要修改<code>createOperate("+")-&gt;createOperate("-")</code>);
-同时后端的具体实现细节没有暴露给前端, 降低了耦合度.</p>
-<h2 id="chapter2-策略模式strategy">Chapter2 : 策略模式(Strategy)</h2>
-<ul>
-<li>面向对象的编程, 并不是类越多越好, 类的划分是为了封装,
-但分类的基础是抽象, 具有相同属性和功能的对象的抽象集合才是类.</li>
-</ul>
-<p><strong>策略模式(Strategy)</strong> 定义了算法家族, 分别封装起来,
-让它们之间相互替换, 此模式让算法的变化不会影响到使用算法的客户.</p>
-<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-3.png" class="" title="pic2-3">
-]]></content>
-      <categories>
-        <category>读书笔记-设计模式</category>
-      </categories>
-      <tags>
-        <tag>读书笔记</tag>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>读书笔记-大话设计模式 Ch0</title>
     <url>/BookNote-DesignPatterns-by-JieCheng-1/</url>
     <content><![CDATA[<p><strong>精彩的代码是如何想出来的,
@@ -352,9 +290,9 @@ algorithm).</strong></p>
 <li><a href="#chapter-0-主要符号表">Chapter 0: 主要符号表</a></li>
 <li><a href="#chapter-1-绪论">Chapter 1: 绪论</a>
 <ul>
-<li><a href="#-11-基本术语">$ 1.1 基本术语</a></li>
-<li><a href="#-13-假设空间">$ 1.3 假设空间</a></li>
-<li><a href="#-14-归纳偏好">$ 1.4 归纳偏好</a></li>
+<li><a href="#11-基本术语">1.1 基本术语</a></li>
+<li><a href="#13-假设空间">1.3 假设空间</a></li>
+<li><a href="#14-归纳偏好">1.4 归纳偏好</a></li>
 </ul></li>
 </ul>
 <hr />
@@ -395,7 +333,7 @@ algorithm).</strong></p>
 0 , &gt;  0 时分别取值为 -1,0,1
 \end{aligned}\]</span></p>
 <h2 id="chapter-1-绪论">Chapter 1: 绪论</h2>
-<h3 id="基本术语">$ 1.1 基本术语</h3>
+<h3 id="基本术语">1.1 基本术语</h3>
 <blockquote>
 <p>假定我们收集了一批关于西瓜的数据, 例如(色泽 = 浅白; 根蒂 = 蜷缩; 敲声
 = 浊响), (色泽 = 乌黑; 根蒂 = 稍蜷; 敲声 = 沉闷), (色泽 = 浅白; 根蒂 =
@@ -536,7 +474,7 @@ href="https://www.zhihu.com/question/41222495"><strong>知乎|为什么机器学
 要假设我们的数据是独立同分布的?</strong></a>获取相关信息.</p>
 </blockquote></li>
 </ul>
-<h3 id="假设空间">$ 1.3 假设空间</h3>
+<h3 id="假设空间">1.3 假设空间</h3>
 <p><strong>归纳(Induction)</strong>与<strong>演绎(Deduction)</strong>是科学推理的两大基本手段.</p>
 <blockquote>
 <p>前者是从特殊到一般的<strong>泛化(Generalization)</strong>过程;
@@ -560,7 +498,7 @@ href="https://www.zhihu.com/question/41222495"><strong>知乎|为什么机器学
 因此色泽标识为通配符 <span class="math inline">\(*\)</span>, 同时,
 第一行的两种假设同样是与训练集一致的(可以匹配好瓜).</p>
 </blockquote>
-<h3 id="归纳偏好">$ 1.4 归纳偏好</h3>
+<h3 id="归纳偏好">1.4 归纳偏好</h3>
 <ul>
 <li><p><strong>归纳偏好(Inductive bias):</strong>
 算法在学习过程中对某种类型假设的偏好称为归纳偏好.</p>
@@ -687,36 +625,36 @@ NFL定理指出了<strong>没有一种机器学习算法是适用于所有情况
 <ul>
 <li><a href="#chapter-2-模型评估与选择">Chapter 2: 模型评估与选择</a>
 <ul>
-<li><a href="#-21-经验误差与过拟合">$ 2.1 经验误差与过拟合</a></li>
-<li><a href="#-22-评估方法">$ 2.2 评估方法</a>
+<li><a href="#21-经验误差与过拟合">2.1 经验误差与过拟合</a></li>
+<li><a href="#22-评估方法">2.2 评估方法</a>
 <ul>
-<li><a href="#-221-留出法hold-out">$ 2.2.1 留出法(Hold-Out)</a></li>
-<li><a href="#-222-交叉验证法cross-validation">$ 2.2.2 交叉验证法(Cross
+<li><a href="#221-留出法hold-out">2.2.1 留出法(Hold-Out)</a></li>
+<li><a href="#222-交叉验证法cross-validation">2.2.2 交叉验证法(Cross
 Validation)</a></li>
-<li><a href="#-223-自助法bootstapping">$ 2.2.3
+<li><a href="#223-自助法bootstapping">2.2.3
 自助法(Bootstapping)</a></li>
-<li><a href="#-224-调参与最终模型">$ 2.2.4 调参与最终模型</a></li>
+<li><a href="#224-调参与最终模型">2.2.4 调参与最终模型</a></li>
 </ul></li>
-<li><a href="#-23-性能度量">$ 2.3 性能度量</a>
+<li><a href="#23-性能度量">2.3 性能度量</a>
 <ul>
-<li><a href="#-231-错误率与精度">$ 2.3.1 错误率与精度</a></li>
-<li><a href="#-232-查准率precision-查全率recall-f1">$ 2.3.2
+<li><a href="#231-错误率与精度">2.3.1 错误率与精度</a></li>
+<li><a href="#232-查准率precision-查全率recall-f1">2.3.2
 查准率(Precision), 查全率(Recall), F1</a></li>
-<li><a href="#-233-roc与auc">$ 2.3.3 ROC与AUC</a></li>
-<li><a href="#-234-代价敏感错误率与代价曲线">$ 2.3.4
+<li><a href="#233-roc与auc">2.3.3 ROC与AUC</a></li>
+<li><a href="#234-代价敏感错误率与代价曲线">2.3.4
 代价敏感错误率与代价曲线</a></li>
 </ul></li>
-<li><a href="#-24-比较检验">$ 2.4 比较检验</a>
+<li><a href="#24-比较检验">2.4 比较检验</a>
 <ul>
-<li><a href="#-241-假设检验">$ 2.4.1 假设检验</a></li>
-<li><a href="#-242-多学习器比较">$ 2.4.2 多学习器比较</a></li>
+<li><a href="#241-假设检验">2.4.1 假设检验</a></li>
+<li><a href="#242-多学习器比较">2.4.2 多学习器比较</a></li>
 </ul></li>
 <li><a href="#25-偏差与方差">2.5 偏差与方差</a></li>
 </ul></li>
 </ul>
 <hr />
 <h2 id="chapter-2-模型评估与选择">Chapter 2: 模型评估与选择</h2>
-<h3 id="经验误差与过拟合">$ 2.1 经验误差与过拟合</h3>
+<h3 id="经验误差与过拟合">2.1 经验误差与过拟合</h3>
 <ul>
 <li><p><strong>错误率(Error Rate):</strong>
 分类错误的样本数占样本总数的比例, 记样本数为<span
@@ -758,7 +696,7 @@ Error)/经验误差(Empirical Error)</strong>,
 参数配置也会对模型产生影响.</li>
 </ul>
 <img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-2.png" class="" title="spic2-2">
-<h3 id="评估方法">$ 2.2 评估方法</h3>
+<h3 id="评估方法">2.2 评估方法</h3>
 <p>通常我们可以通过实验测试对学习器的泛化误差进行评估,
 使用<strong>测试集(Testing Set)</strong>测试学习器对新样本的判别能力,
 以测试集上<strong>测试误差(Testing Error)</strong>作为泛化误差的近似.
@@ -772,7 +710,7 @@ class="math inline">\(D\)</span>进行适当处理, 从中产生
 <strong>训练集</strong> <span class="math inline">\(S\)</span>和
 <strong>测试集</strong> <span class="math inline">\(T\)</span>.</p>
 </blockquote>
-<h4 id="留出法hold-out">$ 2.2.1 留出法(Hold-Out)</h4>
+<h4 id="留出法hold-out">2.2.1 留出法(Hold-Out)</h4>
 <p>留出法的思路很简单, 直接将数据集<span
 class="math inline">\(D\)</span>划分成两个互斥的集合, 即<span
 class="math inline">\(D = S \cup T, S \cap T = \emptyset\)</span>.</p>
@@ -781,7 +719,7 @@ class="math inline">\(D = S \cup T, S \cap T = \emptyset\)</span>.</p>
 同时单次留出法得到的估计往往并不够准确可靠, 一般采用若干次随机划分,
 重复进行实验评估取平均值作为留出法评估结果. 关于划分比例, 通常取2/3 ~
 4/5的样本用于训练, 其余用于测试.</p>
-<h4 id="交叉验证法cross-validation">$ 2.2.2 交叉验证法(Cross
+<h4 id="交叉验证法cross-validation">2.2.2 交叉验证法(Cross
 Validation)</h4>
 <p>交叉验证法可以看作是一种具体的留出法, 其方法过程是:</p>
 <p>先将数据集<span class="math inline">\(D\)</span>划分为<span
@@ -812,7 +750,7 @@ class="math inline">\(D\)</span>少一个样本,
 class="math inline">\(D\)</span>训练的模型相似.
 因此认为留一法评估结果较为准确. 缺点是当<span
 class="math inline">\(m\)</span>较大时, 计算开销过大以致无法接受.</p>
-<h4 id="自助法bootstapping">$ 2.2.3 自助法(Bootstapping)</h4>
+<h4 id="自助法bootstapping">2.2.3 自助法(Bootstapping)</h4>
 <p>留出法和交叉验证法都保留了一部分样本用于测试,
 因此实际评估的模型所使用的训练集比<span
 class="math inline">\(D\)</span>小,
@@ -849,7 +787,7 @@ class="math inline">\(D \backslash D&#39;\)</span>作为测试集.
 <p>自助法在数据集较小, 难以有效划分训练和测试集的时候具有优势.
 但自助法产生的数据集改变了初始数据集的分布, 会引入估计误差.
 初始数据集较大时更常用留出法和交叉验证法.</p>
-<h4 id="调参与最终模型">$ 2.2.4 调参与最终模型</h4>
+<h4 id="调参与最终模型">2.2.4 调参与最终模型</h4>
 <p><strong>参数(Parameter)</strong>和<strong>调参(Parameter
 Tuning)</strong>释义见名称.</p>
 <blockquote>
@@ -865,7 +803,7 @@ Tuning)</strong>释义见名称.</p>
 href="https://zhuanlan.zhihu.com/p/98532085"><strong>[知乎|训练集、验证集、测试集]</strong></a></p>
 </blockquote></li>
 </ul>
-<h3 id="性能度量">$ 2.3 性能度量</h3>
+<h3 id="性能度量">2.3 性能度量</h3>
 <ul>
 <li><strong>性能度量(Performance Measure):</strong>
 衡量模型泛化能力的评价标准. 显然该标准取决于任务需求.</li>
@@ -890,7 +828,7 @@ class="math inline">\(p(\cdot)\)</span>, 均方误差描述为</p>
 E(f;\mathcal{D}) = \int_{x \sim \mathcal{D}}^{}(f(\boldsymbol{x}) - y)^2
 p(\boldsymbol{x}) d\boldsymbol{x} \tag{2.3}
 \end{equation}\]</span></p>
-<h4 id="错误率与精度">$ 2.3.1 错误率与精度</h4>
+<h4 id="错误率与精度">2.3.1 错误率与精度</h4>
 <p>错误率和精度是分类任务中最常用的两种性能度量.</p>
 <p>对于样例集<span class="math inline">\(\mathcal{D}\)</span>,
 错误率和精度定义为</p>
@@ -915,7 +853,7 @@ acc(f;\mathcal{D}) = \int_{x \sim
 \mathcal{D}}^{}\mathbb{I}(f(\boldsymbol{x}) = y) p(\boldsymbol{x})
 d\boldsymbol{x} = 1 - E(f;\mathcal{D}) \tag{2.7}
 \end{equation}\]</span></p>
-<h4 id="查准率precision-查全率recall-f1">$ 2.3.2 查准率(Precision),
+<h4 id="查准率precision-查全率recall-f1">2.3.2 查准率(Precision),
 查全率(Recall), F1</h4>
 <p>有时我们更关心模型的正确率,
 比如说"挑选出来的瓜有多少是好瓜","有多少好瓜被挑选出来了",
@@ -1011,7 +949,7 @@ micro\text{-}R = \frac{\overline{TP}}{\overline{TP}+\overline{FN}}
 micro\text{-}F1 = \frac{2 \times micro\text{-}P \times
 micro\text{-}R}{micro\text{-}P + micro\text{-}R}\tag{2.17}
 \end{equation}\]</span></p>
-<h4 id="roc与auc">$ 2.3.3 ROC与AUC</h4>
+<h4 id="roc与auc">2.3.3 ROC与AUC</h4>
 <p>现重新考虑查准率和查全率, 首先我们来看看学习器如何给正/反的分类.</p>
 <p>很多学习器为测试样本产生一个实值或概率预测,
 将预测值与<strong>分类阈值(Threshold)</strong>比较, 大于阈值则为正类,
@@ -1068,7 +1006,7 @@ class="math inline">\(\mathscr{l}_{rank}\)</span>对应ROC曲线上方的面积,
 AUC = 1 - \mathscr{l}_{rank}
 \tag{2.22}
 \end{equation}\]</span></p>
-<h4 id="代价敏感错误率与代价曲线">$ 2.3.4 代价敏感错误率与代价曲线</h4>
+<h4 id="代价敏感错误率与代价曲线">2.3.4 代价敏感错误率与代价曲线</h4>
 <p>为权衡不同类型错误所造成的不同损失,
 我们为错误赋予<strong>非均等代价(UnEqual Cost)</strong>.</p>
 <p>以二分类为例, <strong>代价矩阵(Cost Matrix)</strong>如下:</p>
@@ -1117,11 +1055,11 @@ href="https://www.zhihu.com/question/63492375"><strong>[知乎|代价曲线的�
 对不同样本集的期望代价. 具体来说,
 是以FPR和FNR为预测值对不同样本集的预测.</p>
 </blockquote>
-<h3 id="比较检验">$ 2.4 比较检验</h3>
+<h3 id="比较检验">2.4 比较检验</h3>
 <p><strong>统计假设检验(Hypothesis Test)</strong>
 为比较学习器性能提供了重要依据. 本节默认以错误率为性能度量, 用<span
 class="math inline">\(\epsilon\)</span>表示.</p>
-<h4 id="假设检验">$ 2.4.1 假设检验</h4>
+<h4 id="假设检验">2.4.1 假设检验</h4>
 <p>现实中我们无法知道学习器的泛化错误率 <span
 class="math inline">\(\epsilon\)</span>, 只能获知其测试错误率 <span
 class="math inline">\(\hat{\epsilon}\)</span>.
@@ -1254,7 +1192,7 @@ class="math inline">\([t_{-\alpha/2},t_{\alpha/2}]\)</span>内(如图2.7所示),
 我们可以认为泛化错误率为<span
 class="math inline">\(\epsilon_0\)</span>.</p>
 <img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-7.png" class="" title="pic2-7">
-<h4 id="多学习器比较">$ 2.4.2 多学习器比较</h4>
+<h4 id="多学习器比较">2.4.2 多学习器比较</h4>
 <p>笔者对这部分不做过多记录, 翻阅原书该部分即可.</p>
 <p>对于两个学习器,我们有</p>
 <ul>
@@ -2194,6 +2132,264 @@ tree)</strong></li>
       </tags>
   </entry>
   <entry>
+    <title>课程笔记-NJU编译原理 Ch3 词法分析</title>
+    <url>/Course-Compiler-3/</url>
+    <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch03
+Lexical Analysis</strong></p>
+<span id="more"></span>
+<h2 id="词法分析器的作用">词法分析器的作用</h2>
+<ul>
+<li>读入字符流，组成词素，输出<strong>词法单元</strong>序列</li>
+<li>过滤空白、换行、制表符、注释等</li>
+<li>将词素添加到符号表中</li>
+<li>在逻辑上独立于语法分析，但是通常和语法分析器处于同一趟(pass)中</li>
+</ul>
+<img src="/Course-Compiler-3/pic3-1.png" class="" title="pic3-1">
+<h3 id="独立词法分析器设置原因">独立词法分析器设置原因</h3>
+<ul>
+<li>简化编译器的设计
+<ul>
+<li>词法分析器可以首先完成一些简单的处理工作</li>
+</ul></li>
+<li>提高编译器效率
+<ul>
+<li>相对于语法分析，词法分析过程简单，可高效实现(<strong>下推自动机PDA</strong>&amp;<strong>有穷自动机DFA</strong>)</li>
+</ul></li>
+<li>增强编译器的可移植性</li>
+</ul>
+<h2 id="名词定义符号规约">名词定义&amp;符号规约</h2>
+<blockquote>
+<p><strong>Tips:</strong>
+该部分涉及大量<strong>形式语言与自动机(FLA)</strong>的内容,
+笔者在此给出一个参考笔记<a
+href="https://fla.cuijiacai.com/"><strong>[崔家才|形式语言与自动机]</strong></a></p>
+</blockquote>
+<h3 id="名词定义">名词定义</h3>
+<ul>
+<li><strong>词法单元(token)</strong>
+<ul>
+<li><code>&lt;词法单元名, 属性值(可选) &gt;</code></li>
+<li>单元名是表示词法单位种类的抽象符号，语法分析器通过单元名即可确定词法单元序列的结构</li>
+<li>属性值通常用于语义分析之后的阶段</li>
+</ul></li>
+<li><strong>模式(pattern)</strong>
+<ul>
+<li>描述了一类词法单元的词素可能具有的形式</li>
+</ul></li>
+<li><strong>词素(lexeme)</strong>
+<ul>
+<li>源程序中的字符序列</li>
+<li>它和某个词法单元的模式匹配，被词法分析器识别为该词法单元的实例</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Additional:</strong></p>
+<img src="/Course-Compiler-3/pic3-2.png" class="" title="pic3-2">
+<p>上面的定义稍显晦涩, 不妨结合例子来看.</p>
+<p>不恰当的比喻来说, 词法单元是<strong>类型名</strong>,
+模式是<strong>类型特征</strong>, 词素是<strong>具体实例</strong>.
+即<code>猫 : 头顶有耳朵, 有尾巴的四足覆毛生物(非严谨) : 布偶猫</code>.</p>
+</blockquote>
+<h4 id="词法单元的属性">词法单元的属性</h4>
+<ul>
+<li>一个模式匹配多个词素时，必须通过属性来传递附加的信息
+<ul>
+<li>属性值将被用于语义分析、代码生成等阶段</li>
+</ul></li>
+<li>不同的目的需要不同的属性
+<ul>
+<li>属性值通常是一个结构化数据</li>
+</ul></li>
+<li>如词法单元id的属性
+<ul>
+<li>词素、类型、第一次出现的位置</li>
+</ul></li>
+</ul>
+<h3 id="符号规约">符号规约</h3>
+<blockquote>
+<p><strong>Tips:</strong> 由于本部分内容基本已在FLA中学习过,
+故此处笔者仅作最基本的符号规约和定义陈述.</p>
+</blockquote>
+<h4 id="串string和语言language">串(string)和语言(language)</h4>
+<ul>
+<li><p><strong>字母表(Alphabet):</strong> 一个有穷的符号集合<span
+class="math inline">\(\Sigma\)</span></p></li>
+<li><p><strong>串(String):</strong> 字母表中符号的有穷序列<span
+class="math inline">\(s\)</span></p>
+<ul>
+<li><span class="math inline">\(|s|\)</span>, 串长</li>
+<li><span class="math inline">\(\epsilon\)</span>, 空串</li>
+</ul></li>
+<li><p><strong>语言(language):</strong>
+是某个给定字母表上的串的可数集合</p></li>
+<li><p><strong>前缀(prefix)/后缀(suffix):</strong>
+从串的尾部/头部删除0个或多个符号后得到的串</p></li>
+<li><p><strong>子串(substring):</strong>
+删除串的某个前缀和某个后缀得到的串</p></li>
+<li><p><strong>子序列:</strong>
+从原串中删除0个或者多个符号后得到的串</p></li>
+<li><p><strong>真前缀, 真后缀, 真子串:</strong> 既不等于原串,
+也不等于空串的前缀, 后缀, 子串</p></li>
+<li><p><strong>串的运算</strong></p>
+<blockquote>
+<img src="/Course-Compiler-3/pic3-3.png" class="" title="pic3-3">
+<p>其中<span class="math inline">\(\lambda\)</span>和<span
+class="math inline">\(\epsilon\)</span>均表示空串</p>
+</blockquote></li>
+<li><p><strong>字母表的运算</strong></p>
+<blockquote>
+<img src="/Course-Compiler-3/pic3-4.png" class="" title="pic3-4">
+</blockquote></li>
+<li><p><strong>语言的运算</strong></p>
+<blockquote>
+<img src="/Course-Compiler-3/pic3-5.png" class="" title="pic3-5">
+</blockquote></li>
+</ul>
+<h4 id="正则表达式re">正则表达式(RE)</h4>
+<p><strong>归纳奠基:</strong></p>
+<ul>
+<li><span class="math inline">\(\epsilon\)</span>是一个正则表达式, <span
+class="math inline">\(L(\epsilon) = \{\epsilon\}\)</span></li>
+<li>如果<span class="math inline">\(a\)</span>是<span
+class="math inline">\(\Sigma\)</span>上的一个符号，那么<span
+class="math inline">\(a\)</span>是正则表达式, <span
+class="math inline">\(L(a) = \{a\}\)</span></li>
+</ul>
+<p><strong>归纳递推:</strong></p>
+<ul>
+<li><strong>选择(或):</strong> <span class="math inline">\(r|s,
+L(r|s)=L(r)\cup L(s)\)</span></li>
+<li><strong>连接(拼接):</strong> <span class="math inline">\(rs,
+L(rs)=L(r)L(s)\)</span></li>
+<li><strong>闭包:</strong> <span class="math inline">\(r^*,
+L(r^*)=L^*(r)\)</span></li>
+</ul>
+<blockquote>
+<p><strong>正则表达式的扩展运算:</strong></p>
+<img src="/Course-Compiler-3/pic3-6.png" class="" title="pic3-6">
+</blockquote>
+<h4 id="dfanfa">DFA&amp;NFA</h4>
+<p>详见<a
+href="https://fla.cuijiacai.com/02-fa/"><strong>崔家才|有穷自动机</strong></a></p>
+<p>内容包括</p>
+<ul>
+<li>DFA&amp;NFA的定义</li>
+<li>DFA&lt;-&gt;NFA的转化</li>
+<li>DFA最小化算法
+<ul>
+<li><a
+href="https://zhuanlan.zhihu.com/p/31166841"><strong>知乎|Hopcroft
+算法</strong></a></li>
+</ul></li>
+</ul>
+<h3 id="词法单元的规约">词法单元的规约</h3>
+<p><strong>正则表达式</strong>可以高效、简洁地描述处理词法单元时用到的模式类型</p>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-3/pic3-7.png" class="" title="pic3-7">
+</blockquote>
+<h3 id="词法单元的识别">词法单元的识别</h3>
+<ul>
+<li>词法分析器要求能够检查输入字符串，在其前缀中找出和某个模式匹配的词素</li>
+<li>首先通过正则定义来描述各种词法单元的模式</li>
+<li>定义<span class="math inline">\(ws \rightarrow(blank | tab |
+newline)^+\)</span>来消除空白
+<ul>
+<li>当词法分析器识别出这个模式时，不返回词法单元，继续识别其它模式</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-3/pic3-8.png" class="" title="pic3-8">
+<h4 id="状态转移图transition-diagram">状态转移图(transition
+diagram)</h4>
+<p>词法分析器最重要的组件之一.</p>
+<ul>
+<li><strong>状态(state):</strong> 表示在识别词素时可能出现的情况
+<ul>
+<li>状态看作是已处理部分的总结</li>
+<li>某些状态为接受状态或最终状态，表明已找到词素</li>
+<li>加上*的接受状态表示最后读入的符号不在词素中</li>
+<li>开始状态(初始状态)：用Start边表示</li>
+</ul></li>
+<li><strong>边(edge):</strong> 从一个状态指向另一个状态.
+<ul>
+<li>边的标号是一个或多个符号</li>
+<li>当前状态为s，下一个输入符号为a，就沿着从s离开，标号为a的边到达下一个状态</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-3/pic3-9.png" class="" title="pic3-9">
+</blockquote>
+<h3 id="词法分析器的体系结构">词法分析器的体系结构</h3>
+<ul>
+<li>从转换图构造词法分析器的方法
+<ul>
+<li>变量state记录当前状态</li>
+<li>一个switch语句根据state的值转到相应的代码</li>
+<li>每个状态对应于一段代码
+<ul>
+<li>这段代码根据读入的符号，确定下一个状态</li>
+<li>如果找不到相应的边，则调用<code>fail()</code>进行错误恢复</li>
+</ul></li>
+<li>进入某个接受状态时，返回相应的词法单元
+<ul>
+<li>注意状态有*标记时，需要回退forward指针</li>
+</ul></li>
+</ul></li>
+<li>实际是模拟转换图的运行</li>
+</ul>
+<h4 id="处理多个模式的方法">处理多个模式的方法</h4>
+<ul>
+<li>按照优先级，顺序地尝试各个状态转换图，如果引发<code>fail()</code>，回退并尝试下一个状态图</li>
+<li>更好的方法：并行地运行各个状态转换图；通过greedy策略，识别最长的与某个模式匹配的输入前缀</li>
+<li>实际使用的方法：预先把各个状态转换图合成一个状态转换图，然后运行这个状态转换图</li>
+</ul>
+<h3 id="词法分析工具lexflex">词法分析工具Lex/Flex</h3>
+<h4 id="lex源程序的结构">Lex源程序的结构</h4>
+<ul>
+<li><strong>声明部分</strong>
+<ul>
+<li>常量：表示常数的标识符</li>
+<li>正则定义</li>
+</ul></li>
+<li><strong>转换规则:</strong> <code>模式&#123; 动作 &#125;</code>
+<ul>
+<li>模式是正则表达式</li>
+<li>动作表示识别到相应模式时应采取的处理方式</li>
+<li>处理方式通常用是C语言代码表示</li>
+</ul></li>
+<li><strong>辅助函数</strong>
+<ul>
+<li>各个动作中使用的函数</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-3/pic3-10.png" class="" title="pic3-10">
+<blockquote>
+<p>例子详见ppt: <a
+href="https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_3.pdf#page=35"><strong>传送链接</strong></a></p>
+</blockquote>
+<h4 id="词法分析器的工作方式">词法分析器的工作方式</h4>
+<ul>
+<li>Lex生成的词法分析器作为一个函数被调用</li>
+<li>在每次调用过程中，不断读入余下的输入符号</li>
+<li>发现最长的、与某个模式匹配的输入前缀时
+<ul>
+<li>调用相应的动作，该动作进行相关处理</li>
+<li>之后词法分析器继续寻找其它词素</li>
+</ul></li>
+</ul>
+<h4 id="lex中的冲突解决方法">Lex中的冲突解决方法</h4>
+<img src="/Course-Compiler-3/pic3-11.png" class="" title="pic3-11">
+]]></content>
+      <categories>
+        <category>课程笔记-编译原理</category>
+      </categories>
+      <tags>
+        <tag>课程笔记</tag>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
     <url>/LeetCode-P4/</url>
     <content><![CDATA[<p><strong>题目链接:</strong> <a
@@ -2402,6 +2598,189 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
 <p>总的来说这次实验的难点在于框架代码的理解,
 笔者在记录中提及了部分关键定义和代码理解, 只要耐心阅读框架代码,
 相信一定会AC.</p>
+]]></content>
+      <categories>
+        <category>NJU静态分析实验记录</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NJU静态分析|A2-Constant Propagation</title>
+    <url>/SPA-A2/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-2 Constant
+Propagation &amp; WorlistSolver.</strong></p>
+<span id="more"></span>
+<h2 id="实验信息与食用指南">实验信息与食用指南</h2>
+<p>请翻阅<a
+href="https://la-pluma.github.io/SPA-A1"><strong>[NJU静态分析|A1-Live
+Variable Analysis]</strong></a>.</p>
+<p>在此进行一点补充, 笔者的这份实验记录更像是Free
+Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
+在理解了<strong>理论知识</strong>, <strong>实验指南</strong> 和
+<strong>框架代码</strong> 后再参考本记录, 与A1相同, 本记录
+<strong><em>不提供</em></strong> 源代码(<del>或者说暂时没有</del>).</p>
+<p><del>如果您对本实验记录中的内容感到困惑,
+可能是因为笔者能力不足或您未能理解实验指南和框架代码,
+同时本试验记录难以涵盖所有的坑, 还望海涵.</del></p>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
+<p>大致的框架代码如下:</p>
+<img src="/SPA-A2/pic1.png" class="" title="pic1">
+<p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
+<h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
+<p><del>我知道你们有些人肯定是不看框架代码的,
+除非不得不用或者报错的时候.</del></p>
+<h3 id="ir-irbuilder">IR &amp; IRBuilder</h3>
+<p>Tai-e框架中的<code>IR</code>与课上教授的IR稍有不同, 以A2
+test中的<strong>Assign.java</strong>为例,</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*   From A2 test/Assign.java   */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Assign</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>, y;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        x = <span class="number">3</span>;</span><br><span class="line">        x = <span class="number">4</span>;</span><br><span class="line">        y = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过tai-e框架的分析后会得到</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
+href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
+<img src="/SPA-A2/pic2.png" class="" title="pic2">
+<p><del>IR我懒得贴了</del></p>
+<p><code>IR</code>的基本单元是<strong>method</strong>
+(请意识到java是oop语言),
+<code>IRBuilder</code>提供了分析单个方法的API<code>buildIR(JMethod method)</code>和分析整个<code>class hierarchy</code>(不明白,
+等到A4就明白了, 笑)中的所有方法的API<code>buildAll()</code></p>
+<p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
+我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
+可能会有所出入, 但大致如此).</p>
+<img src="/SPA-A2/pic3.png" class="" title="pic3">
+<blockquote>
+<p><strong>Tips:</strong>
+严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
+见A1试验记录说明), 只存储<code>Stmt</code>的关联信息,
+但为了方便图示遂如此展示. 至于为何左值和右值都是<code>Exp</code>,
+请翻阅A1官方实验指南中对<code>Exp</code>的图示表示部分.</p>
+</blockquote>
+<h3 id="definitionstmt">DefinitionStmt</h3>
+<p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
+但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
+为什么不用呢?</p>
+<img src="/SPA-A2/pic4.png" class="" title="pic4.png">
+<p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
+<code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
+extends <code>Exp</code>),
+而不需要像<code>Stmt</code>中的<code>getDef()</code> &amp;
+<code>getUses()</code>
+做较为繁琐的判断和筛选(如果对<code>getUses()</code>感到困惑,
+也还请翻阅A1实验记录, 里面有解释和参考来源).</p>
+<p>需要注意的是,
+<code>getLValue()</code>可能会返回<code>null</code>.</p>
+<h2 id="constantpropagation">ConstantPropagation</h2>
+<p>与活跃变量分析类似, 我们需要完成5个API的功能.</p>
+<h3 id="newboundaryfact-newinitialfact">newBoundaryFact() &amp;
+newInitialFact()</h3>
+<p>需要注意的是, 本次存储分析结果的数据结构是<code>CPFact</code>,
+与A1相同, 在完成本次实验代码之前需要了解相关API的用法.</p>
+<p>既然是<strong>Must Analysis</strong>, 我们需要将初值赋为空,
+但需要注意的是, 我们的<strong>Analysis</strong>仅分析语句,
+在进入第一条语句之前, 是否有什么东西需要初始化?</p>
+<p>这个问题就对应了指南中为什么<code>BoundaryInit</code> 要通过
+<code>getIR().getParas()</code>获取参数并赋值<code>NAC</code>的提示.</p>
+<p>在对<code>IR</code>的解释中我们提到过,
+<code>IR</code>的基本分析单元是<strong>method</strong>, 即函数,
+函数就可能有传入的参数, 这些参数易见<strong>不是Constant</strong>,
+因此要赋值为<code>NAC</code></p>
+<blockquote>
+<p><strong>Tips:</strong> 如果是Constant干嘛还要传参, 即便真的这么做了,
+我们的分析也可以满足<strong>safe-approximation</strong>.</p>
+</blockquote>
+<p>这部分是在方法体(函数语句)执行前就完成的初始化,
+因此我们需要赋值给<code>Entry</code>的<code>outFact</code>.</p>
+<h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
+<p><code>meetValue()</code>的完成没有任何难点,
+只需要照抄ppt中的规则即可.</p>
+<img src="/SPA-A2/pic5.png" class="" title="pic5">
+<p>同样的,
+完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
+<p>关于<code>meetInto()</code>,
+如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
+就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
+<img src="/SPA-A2/pic6.png" class="" title="pic6">
+<h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
+<p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
+test的时候, 大概率寄在这里.</p>
+<p>笔者建议在<code>transferNode()</code>中处理<code>Stmt</code>的左值def部分,
+在<code>evaluate()</code>中处理右值exp部分. 这是比较符合功能分离的写法,
+当然, 也可以选择在
+<code>transferNode()</code>中处理<code>Var</code>和<code>IntLiteral</code>,
+<code>evaluate()</code>只负责处理<code>BinaryExp</code>的计算值.
+笔者在此按第一种写法进行说明.</p>
+<h4 id="transfernode">transferNode()</h4>
+<p>这个函数中你需要依次做(次流程可能存在可以优化的部分,
+不必完全照做):</p>
+<ul>
+<li><p>保存<code>outFact</code>原值,
+将<code>inFact</code>赋值给<code>outFact</code>.</p></li>
+<li><p>判断<code>Node</code>(<code>Stmt</code>)是否为<code>DefinitionStmt</code></p></li>
+<li><p>判断是否拥有<strong>合法</strong>左值,
+包括<code>def</code>的类型<code>Var</code>和<code>Var</code>中的<code>ValueType</code>是否为<code>Int</code>,
+如果不是, 本次实验中可以认为是<code>nop</code>空操作.
+不需要为这个<code>Stmt</code>做任何分析, 直接将<code>inFact</code>
+copy给 <code>outFact</code>即可.</p>
+<blockquote>
+<p><strong>Tips:</strong> IDEA教给我一个很有意思的语法糖</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> DefinitionStmt def_stmt)&#123;</span><br><span class="line">    <span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> def_stmt.getLValue();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个用法可以避开繁琐的类型转化, 在判断类型时便做了类型转化.</p>
+</blockquote></li>
+<li><p>计算<code>Stmt</code>的右值(通过<code>evaluate()</code>获得),
+并更新<code>outFact</code>中的相应<code>Var def</code>(笔者在此并未使用<code>update</code>方法的返回值,
+或许可从此处入手优化效率, 但笔者不能保证其正确性)</p></li>
+<li><p>比较<code>outFact</code>是否更新返回布尔值.</p></li>
+</ul>
+<h4 id="evaluate">evaluate()</h4>
+<p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中二元表达式计算规则见ppt所示,</p>
+<img src="/SPA-A2/pic7.png" class="" title="pic7">
+<p>笔者在此给出一些细节和边界条件,
+也可以通过阅读上述代码框架获得细节提示:</p>
+<ul>
+<li><p><code>exp</code>中的操作数可能不是<code>IntType</code>,
+所以你需要做一个<code>canHoldInt()</code>判断,
+非法<code>exp</code>为了安全性应赋值为<code>NAC</code></p></li>
+<li><p>实验指南中提到, 对于<code>/</code>和<code>%</code>的除零错误,
+应当给出<code>Undef</code>,
+<strong>即使</strong>被除数是<code>NAC</code>.</p></li>
+</ul>
+<h2 id="sovler-worklistsolver">Sovler &amp; WorkListSolver</h2>
+<h3 id="sovler-init">Sovler Init</h3>
+<p>照着算法流程前三行写便是,
+但这里要提到框架代码的"<strong>robustness</strong>".</p>
+<p>尽管从分析流程上来看, 我们不应该分析<code>Node Entry</code>,
+但是框架代码允许我们这样做.
+这时框架代码会认为<code>Node Entry</code>是一条<code>nop Stmt</code>,
+不会做constant update,
+因此只要在<code>Init</code>部分对<code>Entry</code>的<code>inFact</code>和<code>outFact</code>都赋上初值,
+就不需要在worklist中考虑<code>Entry</code>的处理了.</p>
+<h3 id="worklistsolver-dosolveforward">WorkListSolver
+doSolveForward</h3>
+<p><strong>worklist</strong>是一种非常简单的算法,
+笔者在此不对算法实现过多赘述.
+注意在实现worklist的时候可以使用java自带的容器<code>Queue</code> &amp;
+<code>ArrayList</code>.</p>
+<p>关于<strong>worklist</strong>的初始化问题,
+需要注意的是应当为其加入所有的<code>Node</code>,
+如果只加入<code>Entry</code>的后继, 会产生问题, 笔者在此给出一个例子.
+(感谢课程群中<a
+href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和另一位不知道github链接的大佬构造的反例)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] nop;     &#123;&#125;</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在这个例子中,
+<code>Entry outFact</code>初始化为<code>&#123;&#125;</code>(没有参数),
+然而<code>Stmt0</code> 的 <code>outFact</code>
+同样初始化为<code>&#123;&#125;</code>,
+如果只添加<code>Entry</code>的后继<code>&#123;Stmt0&#125;</code>,
+会导致worklist在分析完<code>Stmt0</code>后错误终止.</p>
+<h2 id="总结">总结</h2>
+<p>本次实验应该是所有Assignment中代码量最多的一次, 细节也是让人头皮发麻,
+还望能静下心来看代码和debug, 祝早日AC!</p>
 ]]></content>
       <categories>
         <category>NJU静态分析实验记录</category>
@@ -2657,189 +3036,6 @@ Effect)</strong>在框架代码中已给出<code>API</code>,
 <h2 id="总结">总结</h2>
 <p>本次实验难度某种意义上低于A1, 是一个比较简单的实验,
 旨在考察对分析结果的应用能力. 祝早日AC!</p>
-]]></content>
-      <categories>
-        <category>NJU静态分析实验记录</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NJU静态分析|A2-Constant Propagation</title>
-    <url>/SPA-A2/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-2 Constant
-Propagation &amp; WorlistSolver.</strong></p>
-<span id="more"></span>
-<h2 id="实验信息与食用指南">实验信息与食用指南</h2>
-<p>请翻阅<a
-href="https://la-pluma.github.io/SPA-A1"><strong>[NJU静态分析|A1-Live
-Variable Analysis]</strong></a>.</p>
-<p>在此进行一点补充, 笔者的这份实验记录更像是Free
-Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
-在理解了<strong>理论知识</strong>, <strong>实验指南</strong> 和
-<strong>框架代码</strong> 后再参考本记录, 与A1相同, 本记录
-<strong><em>不提供</em></strong> 源代码(<del>或者说暂时没有</del>).</p>
-<p><del>如果您对本实验记录中的内容感到困惑,
-可能是因为笔者能力不足或您未能理解实验指南和框架代码,
-同时本试验记录难以涵盖所有的坑, 还望海涵.</del></p>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
-<p>大致的框架代码如下:</p>
-<img src="/SPA-A2/pic1.png" class="" title="pic1">
-<p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
-<h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
-<p><del>我知道你们有些人肯定是不看框架代码的,
-除非不得不用或者报错的时候.</del></p>
-<h3 id="ir-irbuilder">IR &amp; IRBuilder</h3>
-<p>Tai-e框架中的<code>IR</code>与课上教授的IR稍有不同, 以A2
-test中的<strong>Assign.java</strong>为例,</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*   From A2 test/Assign.java   */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Assign</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>, y;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        x = <span class="number">3</span>;</span><br><span class="line">        x = <span class="number">4</span>;</span><br><span class="line">        y = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>经过tai-e框架的分析后会得到</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
-href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
-<img src="/SPA-A2/pic2.png" class="" title="pic2">
-<p><del>IR我懒得贴了</del></p>
-<p><code>IR</code>的基本单元是<strong>method</strong>
-(请意识到java是oop语言),
-<code>IRBuilder</code>提供了分析单个方法的API<code>buildIR(JMethod method)</code>和分析整个<code>class hierarchy</code>(不明白,
-等到A4就明白了, 笑)中的所有方法的API<code>buildAll()</code></p>
-<p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
-我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
-可能会有所出入, 但大致如此).</p>
-<img src="/SPA-A2/pic3.png" class="" title="pic3">
-<blockquote>
-<p><strong>Tips:</strong>
-严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
-见A1试验记录说明), 只存储<code>Stmt</code>的关联信息,
-但为了方便图示遂如此展示. 至于为何左值和右值都是<code>Exp</code>,
-请翻阅A1官方实验指南中对<code>Exp</code>的图示表示部分.</p>
-</blockquote>
-<h3 id="definitionstmt">DefinitionStmt</h3>
-<p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
-但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
-为什么不用呢?</p>
-<img src="/SPA-A2/pic4.png" class="" title="pic4.png">
-<p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
-<code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
-extends <code>Exp</code>),
-而不需要像<code>Stmt</code>中的<code>getDef()</code> &amp;
-<code>getUses()</code>
-做较为繁琐的判断和筛选(如果对<code>getUses()</code>感到困惑,
-也还请翻阅A1实验记录, 里面有解释和参考来源).</p>
-<p>需要注意的是,
-<code>getLValue()</code>可能会返回<code>null</code>.</p>
-<h2 id="constantpropagation">ConstantPropagation</h2>
-<p>与活跃变量分析类似, 我们需要完成5个API的功能.</p>
-<h3 id="newboundaryfact-newinitialfact">newBoundaryFact() &amp;
-newInitialFact()</h3>
-<p>需要注意的是, 本次存储分析结果的数据结构是<code>CPFact</code>,
-与A1相同, 在完成本次实验代码之前需要了解相关API的用法.</p>
-<p>既然是<strong>Must Analysis</strong>, 我们需要将初值赋为空,
-但需要注意的是, 我们的<strong>Analysis</strong>仅分析语句,
-在进入第一条语句之前, 是否有什么东西需要初始化?</p>
-<p>这个问题就对应了指南中为什么<code>BoundaryInit</code> 要通过
-<code>getIR().getParas()</code>获取参数并赋值<code>NAC</code>的提示.</p>
-<p>在对<code>IR</code>的解释中我们提到过,
-<code>IR</code>的基本分析单元是<strong>method</strong>, 即函数,
-函数就可能有传入的参数, 这些参数易见<strong>不是Constant</strong>,
-因此要赋值为<code>NAC</code></p>
-<blockquote>
-<p><strong>Tips:</strong> 如果是Constant干嘛还要传参, 即便真的这么做了,
-我们的分析也可以满足<strong>safe-approximation</strong>.</p>
-</blockquote>
-<p>这部分是在方法体(函数语句)执行前就完成的初始化,
-因此我们需要赋值给<code>Entry</code>的<code>outFact</code>.</p>
-<h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
-<p><code>meetValue()</code>的完成没有任何难点,
-只需要照抄ppt中的规则即可.</p>
-<img src="/SPA-A2/pic5.png" class="" title="pic5">
-<p>同样的,
-完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
-<p>关于<code>meetInto()</code>,
-如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
-就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
-<img src="/SPA-A2/pic6.png" class="" title="pic6">
-<h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
-<p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
-test的时候, 大概率寄在这里.</p>
-<p>笔者建议在<code>transferNode()</code>中处理<code>Stmt</code>的左值def部分,
-在<code>evaluate()</code>中处理右值exp部分. 这是比较符合功能分离的写法,
-当然, 也可以选择在
-<code>transferNode()</code>中处理<code>Var</code>和<code>IntLiteral</code>,
-<code>evaluate()</code>只负责处理<code>BinaryExp</code>的计算值.
-笔者在此按第一种写法进行说明.</p>
-<h4 id="transfernode">transferNode()</h4>
-<p>这个函数中你需要依次做(次流程可能存在可以优化的部分,
-不必完全照做):</p>
-<ul>
-<li><p>保存<code>outFact</code>原值,
-将<code>inFact</code>赋值给<code>outFact</code>.</p></li>
-<li><p>判断<code>Node</code>(<code>Stmt</code>)是否为<code>DefinitionStmt</code></p></li>
-<li><p>判断是否拥有<strong>合法</strong>左值,
-包括<code>def</code>的类型<code>Var</code>和<code>Var</code>中的<code>ValueType</code>是否为<code>Int</code>,
-如果不是, 本次实验中可以认为是<code>nop</code>空操作.
-不需要为这个<code>Stmt</code>做任何分析, 直接将<code>inFact</code>
-copy给 <code>outFact</code>即可.</p>
-<blockquote>
-<p><strong>Tips:</strong> IDEA教给我一个很有意思的语法糖</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> DefinitionStmt def_stmt)&#123;</span><br><span class="line">    <span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> def_stmt.getLValue();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个用法可以避开繁琐的类型转化, 在判断类型时便做了类型转化.</p>
-</blockquote></li>
-<li><p>计算<code>Stmt</code>的右值(通过<code>evaluate()</code>获得),
-并更新<code>outFact</code>中的相应<code>Var def</code>(笔者在此并未使用<code>update</code>方法的返回值,
-或许可从此处入手优化效率, 但笔者不能保证其正确性)</p></li>
-<li><p>比较<code>outFact</code>是否更新返回布尔值.</p></li>
-</ul>
-<h4 id="evaluate">evaluate()</h4>
-<p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中二元表达式计算规则见ppt所示,</p>
-<img src="/SPA-A2/pic7.png" class="" title="pic7">
-<p>笔者在此给出一些细节和边界条件,
-也可以通过阅读上述代码框架获得细节提示:</p>
-<ul>
-<li><p><code>exp</code>中的操作数可能不是<code>IntType</code>,
-所以你需要做一个<code>canHoldInt()</code>判断,
-非法<code>exp</code>为了安全性应赋值为<code>NAC</code></p></li>
-<li><p>实验指南中提到, 对于<code>/</code>和<code>%</code>的除零错误,
-应当给出<code>Undef</code>,
-<strong>即使</strong>被除数是<code>NAC</code>.</p></li>
-</ul>
-<h2 id="sovler-worklistsolver">Sovler &amp; WorkListSolver</h2>
-<h3 id="sovler-init">Sovler Init</h3>
-<p>照着算法流程前三行写便是,
-但这里要提到框架代码的"<strong>robustness</strong>".</p>
-<p>尽管从分析流程上来看, 我们不应该分析<code>Node Entry</code>,
-但是框架代码允许我们这样做.
-这时框架代码会认为<code>Node Entry</code>是一条<code>nop Stmt</code>,
-不会做constant update,
-因此只要在<code>Init</code>部分对<code>Entry</code>的<code>inFact</code>和<code>outFact</code>都赋上初值,
-就不需要在worklist中考虑<code>Entry</code>的处理了.</p>
-<h3 id="worklistsolver-dosolveforward">WorkListSolver
-doSolveForward</h3>
-<p><strong>worklist</strong>是一种非常简单的算法,
-笔者在此不对算法实现过多赘述.
-注意在实现worklist的时候可以使用java自带的容器<code>Queue</code> &amp;
-<code>ArrayList</code>.</p>
-<p>关于<strong>worklist</strong>的初始化问题,
-需要注意的是应当为其加入所有的<code>Node</code>,
-如果只加入<code>Entry</code>的后继, 会产生问题, 笔者在此给出一个例子.
-(感谢课程群中<a
-href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和另一位不知道github链接的大佬构造的反例)</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] nop;     &#123;&#125;</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>在这个例子中,
-<code>Entry outFact</code>初始化为<code>&#123;&#125;</code>(没有参数),
-然而<code>Stmt0</code> 的 <code>outFact</code>
-同样初始化为<code>&#123;&#125;</code>,
-如果只添加<code>Entry</code>的后继<code>&#123;Stmt0&#125;</code>,
-会导致worklist在分析完<code>Stmt0</code>后错误终止.</p>
-<h2 id="总结">总结</h2>
-<p>本次实验应该是所有Assignment中代码量最多的一次, 细节也是让人头皮发麻,
-还望能静下心来看代码和debug, 祝早日AC!</p>
 ]]></content>
       <categories>
         <category>NJU静态分析实验记录</category>
