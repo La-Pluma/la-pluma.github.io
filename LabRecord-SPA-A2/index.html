@@ -25,26 +25,26 @@
   <meta name="description" content="NJU Static Program Analysis | Assignment-2 Constant Propagation &amp; WorlistSolver.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NJU静态分析|A2-Constant Propagation">
-<meta property="og:url" content="http://la-pluma.github.io/SPA-A2/index.html">
+<meta property="og:url" content="http://la-pluma.github.io/LabRecord-SPA-A2/index.html">
 <meta property="og:site_name" content="LaPluma">
 <meta property="og:description" content="NJU Static Program Analysis | Assignment-2 Constant Propagation &amp; WorlistSolver.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://la-pluma.github.io/SPA-A2/pic1.png">
-<meta property="og:image" content="http://la-pluma.github.io/SPA-A2/pic2.png">
-<meta property="og:image" content="http://la-pluma.github.io/SPA-A2/pic3.png">
-<meta property="og:image" content="http://la-pluma.github.io/SPA-A2/pic4.png">
-<meta property="og:image" content="http://la-pluma.github.io/SPA-A2/pic5.png">
-<meta property="og:image" content="http://la-pluma.github.io/SPA-A2/pic6.png">
-<meta property="og:image" content="http://la-pluma.github.io/SPA-A2/pic7.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A2/pic1.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A2/pic2.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A2/pic3.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A2/pic4.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A2/pic5.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A2/pic6.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A2/pic7.png">
 <meta property="article:published_time" content="2024-10-28T12:59:35.000Z">
-<meta property="article:modified_time" content="2025-02-19T02:51:56.574Z">
+<meta property="article:modified_time" content="2025-02-20T12:34:34.075Z">
 <meta property="article:author" content="LaPluma">
 <meta property="article:tag" content="NJU">
 <meta property="article:tag" content="静态分析">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://la-pluma.github.io/SPA-A2/pic1.png">
+<meta name="twitter:image" content="http://la-pluma.github.io/LabRecord-SPA-A2/pic1.png">
 
-<link rel="canonical" href="http://la-pluma.github.io/SPA-A2/">
+<link rel="canonical" href="http://la-pluma.github.io/LabRecord-SPA-A2/">
 
 
 <script id="page-configurations">
@@ -206,7 +206,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/SPA-A2/">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/LabRecord-SPA-A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-02-19 10:51:56" itemprop="dateModified" datetime="2025-02-19T10:51:56+08:00">2025-02-19</time>
+                <time title="修改时间：2025-02-20 20:34:34" itemprop="dateModified" datetime="2025-02-20T20:34:34+08:00">2025-02-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -244,7 +244,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NJU%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">NJU静态分析实验记录</span></a>
+                  <a href="/categories/%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95-NJU%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">实验记录-NJU静态分析</span></a>
                 </span>
             </span>
 
@@ -285,7 +285,7 @@ Propagation &amp; WorlistSolver.</strong></p>
 <span id="more"></span>
 <h2 id="实验信息与食用指南">实验信息与食用指南</h2>
 <p>请翻阅<a
-href="https://la-pluma.github.io/SPA-A1"><strong>[NJU静态分析|A1-Live
+href="https://la-pluma.github.io/LabRecord-SPA-A1"><strong>[NJU静态分析|A1-Live
 Variable Analysis]</strong></a>.</p>
 <p>在此进行一点补充, 笔者的这份实验记录更像是Free
 Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
@@ -298,7 +298,7 @@ Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
 <h2 id="实验目标">实验目标</h2>
 <p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
 <p>大致的框架代码如下:</p>
-<img src="/SPA-A2/pic1.png" class="" title="pic1">
+<img src="/LabRecord-SPA-A2/pic1.png" class="" title="pic1">
 <p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
 <h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
 <p><del>我知道你们有些人肯定是不看框架代码的,
@@ -311,7 +311,7 @@ test中的<strong>Assign.java</strong>为例,</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
 target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
-<img src="/SPA-A2/pic2.png" class="" title="pic2">
+<img src="/LabRecord-SPA-A2/pic2.png" class="" title="pic2">
 <p><del>IR我懒得贴了</del></p>
 <p><code>IR</code>的基本单元是<strong>method</strong>
 (请意识到java是oop语言),
@@ -320,7 +320,7 @@ target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/docs/index.htm
 <p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
 我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
 可能会有所出入, 但大致如此).</p>
-<img src="/SPA-A2/pic3.png" class="" title="pic3">
+<img src="/LabRecord-SPA-A2/pic3.png" class="" title="pic3">
 <blockquote>
 <p><strong>Tips:</strong>
 严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
@@ -332,7 +332,7 @@ target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/docs/index.htm
 <p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
 但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
 为什么不用呢?</p>
-<img src="/SPA-A2/pic4.png" class="" title="pic4.png">
+<img src="/LabRecord-SPA-A2/pic4.png" class="" title="pic4">
 <p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
 <code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
 extends <code>Exp</code>),
@@ -366,14 +366,14 @@ newInitialFact()</h3>
 <h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
 <p><code>meetValue()</code>的完成没有任何难点,
 只需要照抄ppt中的规则即可.</p>
-<img src="/SPA-A2/pic5.png" class="" title="pic5">
+<img src="/LabRecord-SPA-A2/pic5.png" class="" title="pic5">
 <p>同样的,
 完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
 <p>关于<code>meetInto()</code>,
 如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
 就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
-<img src="/SPA-A2/pic6.png" class="" title="pic6">
+<img src="/LabRecord-SPA-A2/pic6.png" class="" title="pic6">
 <h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
 <p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
 test的时候, 大概率寄在这里.</p>
@@ -409,7 +409,7 @@ copy给 <code>outFact</code>即可.</p>
 <p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中二元表达式计算规则见ppt所示,</p>
-<img src="/SPA-A2/pic7.png" class="" title="pic7">
+<img src="/LabRecord-SPA-A2/pic7.png" class="" title="pic7">
 <p>笔者在此给出一些细节和边界条件,
 也可以通过阅读上述代码框架获得细节提示:</p>
 <ul>
@@ -470,7 +470,7 @@ target="_blank" rel="noopener" href="https://github.com/rijuyuezhu"><strong>日�
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/SPA-A1/" rel="prev" title="NJU静态分析|A1-Live Variable Analysis">
+    <a href="/LabRecord-SPA-A1/" rel="prev" title="NJU静态分析|A1-Live Variable Analysis">
       <i class="fa fa-chevron-left"></i> NJU静态分析|A1-Live Variable Analysis
     </a></div>
       <div class="post-nav-item">
@@ -858,7 +858,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'la-pluma.github.io',
       owner       : 'La-Pluma',
       admin       : ['La-Pluma'],
-      id          : 'b97a324e6aceaee13642ff986cc8a528',
+      id          : '1dcb45f8f11fc8d61599e2124f3719cf',
         language: 'zh-CN',
       distractionFreeMode: true
     });

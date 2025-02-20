@@ -22,22 +22,25 @@
     var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="基于Pytorch的简单卷积神经网络(CNN)构建并使用MNIST训练集进行数字识别训练.">
+  <meta name="description" content="NJU Static Program Analysis | Assignment-6 Context Sensitive Pointer Analysis.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="手写数字识别 | MNIST Handwritten Digit Recognition in PyTorch">
-<meta property="og:url" content="http://la-pluma.github.io/MNIST-Handwritten/index.html">
+<meta property="og:title" content="NJU静态分析|A6-Context Sensitive Pointer Analysis">
+<meta property="og:url" content="http://la-pluma.github.io/LabRecord-SPA-A6/index.html">
 <meta property="og:site_name" content="LaPluma">
-<meta property="og:description" content="基于Pytorch的简单卷积神经网络(CNN)构建并使用MNIST训练集进行数字识别训练.">
+<meta property="og:description" content="NJU Static Program Analysis | Assignment-6 Context Sensitive Pointer Analysis.">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-01-18T13:51:46.000Z">
-<meta property="article:modified_time" content="2025-01-19T14:14:32.115Z">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A6/pic1-1.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A6/pic1-2.png">
+<meta property="og:image" content="http://la-pluma.github.io/LabRecord-SPA-A6/pic1-3.png">
+<meta property="article:published_time" content="2024-12-01T13:52:02.000Z">
+<meta property="article:modified_time" content="2025-02-20T12:35:13.989Z">
 <meta property="article:author" content="LaPluma">
-<meta property="article:tag" content="计算机视觉">
-<meta property="article:tag" content="CNN">
-<meta property="article:tag" content="AI">
+<meta property="article:tag" content="NJU">
+<meta property="article:tag" content="静态分析">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/LabRecord-SPA-A6/pic1-1.png">
 
-<link rel="canonical" href="http://la-pluma.github.io/MNIST-Handwritten/">
+<link rel="canonical" href="http://la-pluma.github.io/LabRecord-SPA-A6/">
 
 
 <script id="page-configurations">
@@ -50,7 +53,7 @@
   };
 </script>
 
-  <title>手写数字识别 | MNIST Handwritten Digit Recognition in PyTorch | LaPluma</title><meta name="robots" content="noindex">
+  <title>NJU静态分析|A6-Context Sensitive Pointer Analysis | LaPluma</title>
   
 
 
@@ -199,7 +202,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/MNIST-Handwritten/">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/LabRecord-SPA-A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
@@ -212,7 +215,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          手写数字识别 | MNIST Handwritten Digit Recognition in PyTorch
+          NJU静态分析|A6-Context Sensitive Pointer Analysis
         </h1>
 
         <div class="post-meta">
@@ -222,14 +225,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2025-01-18 21:51:46" itemprop="dateCreated datePublished" datetime="2025-01-18T21:51:46+08:00">2025-01-18</time>
+              <time title="创建时间：2024-12-01 21:52:02" itemprop="dateCreated datePublished" datetime="2024-12-01T21:52:02+08:00">2024-12-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-19 22:14:32" itemprop="dateModified" datetime="2025-01-19T22:14:32+08:00">2025-01-19</time>
+                <time title="修改时间：2025-02-20 20:35:13" itemprop="dateModified" datetime="2025-02-20T20:35:13+08:00">2025-02-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +240,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                  <a href="/categories/%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95-NJU%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">实验记录-NJU静态分析</span></a>
                 </span>
             </span>
 
@@ -254,14 +257,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>102</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -273,27 +276,184 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>基于Pytorch的简单卷积神经网络(CNN)构建并使用MNIST训练集进行数字识别训练.</strong></p>
+        <p><strong>NJU Static Program Analysis | Assignment-6 Context Sensitive
+Pointer Analysis.</strong></p>
 <span id="more"></span>
-<p>
-<font size = 5><b>目录</b></font>
-</p>
+<p>笔者写该实验写了一个下午之后注意力涣散了😇(†升天†)</p>
+<blockquote>
+<p><strong>Tips:</strong> 本次实验的指南中存在省略,
+因此Debug过程可能会包含一些困难.</p>
+</blockquote>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>tai-e</strong>框架实现上下文敏感的指针分析.</p>
+<h2 id="preparation">Preparation</h2>
 <ul>
-<li><a href="#前言">前言</a></li>
-<li><a href="#参考资料">参考资料</a></li>
+<li><p><strong>确保</strong>理解了CI和CS的指针分析理论部分知识,
+笔者不负责讲解课程中已经讲述过的理论知识.</p></li>
+<li><p><strong>确保</strong>理解了实验指南中的注意事项和框架中新增以及修改的源码,
+否则在阅读本实验记录可能会遇到"共识"缺失的问题.</p></li>
 </ul>
-<hr />
-<h2 id="前言">前言</h2>
-<p>记录笔者基于Pytorch构建CNN,
-并使用MNIST训练集训练CNN进行手写数字识别的过程.</p>
-<h2 id="参考资料">参考资料</h2>
+<h2 id="理论部分">理论部分</h2>
+<p>总体来说, 上下文敏感指针分析算法和理论与上下文非敏感指针分析区别不大,
+大体框架是一致的. 笔者不再像A5中整理, 不同的部分会在下文需要时给出.</p>
+<h2 id="框架代码">框架代码</h2>
+<p>比起A5的框架代码变动并不大, 笔者在此简要解释一些要点.</p>
+<img src="/LabRecord-SPA-A6/pic1-1.png" class="" title="pic1-1">
 <ul>
-<li><p><a target="_blank" rel="noopener" href="https://nextjournal.com/gkoehler/pytorch-mnist">MNIST
-Handwritten Digit Recognition in PyTorch</a></p></li>
-<li><p><a
-target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/155748813">知乎|MNIST数据集下载及可视化</a></p></li>
+<li><p>手册中该部分提及了上下文敏感指针分析中最重要的部分之一,
+<code>CSElement</code>和<code>Pointer</code>是本次实验主要操作的对象.</p></li>
+<li><p>在正式写实验之前请思考这两者间的不同,
+如有混淆可能会影响实验的完成.(明晰两者的区别才知道该去哪里找API,
+该调用什么方法, 毕竟ppt上的算法是类型"模糊"的)</p></li>
+<li><p>与A5相同, <code>Pointer</code>与<code>Obj</code>相对独立,
+但请注意这里的<code>CSElement</code>与<code>Element</code>同样相对独立,
+<code>Element</code>与<code>Context</code>组合形成了<code>CSElement</code>,
+因此许多API需要先取出<code>Context</code>或<code>Element</code>才能使用.
+具体如何取出请参阅框架代码.</p></li>
+<li><p><code>PointsToSets</code>的实例化需要调用<code>PointsToSetsFactory</code>,
+这点与A5不尽相同.</p></li>
+<li><p>上下文敏感指针信息不再通过<code>PointerFlowGraph</code>获取而是<code>CSManager</code>.</p></li>
+<li><p><code>Solver</code>中提供了<code>private final ContextSelector contextSelector</code>来获取算法中的<code>select()</code>方法,
+该部分的实现对应实验指南的<strong>Task2</strong>.
+对于<strong>Task1</strong>, 只需要知道可以调用其中的方法获取<span
+class="math inline">\(c^t\)</span>上下文即可.</p></li>
 </ul>
-<!-- flag of hidden posts -->
+<h2 id="task1-实现上下文敏感指针分析">Task1 实现上下文敏感指针分析</h2>
+<p>与A5相同, 推荐先完成顶层方法<code>analysis()</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+在写代码时<strong>一定一定</strong>要注意上下文, 变量命名时要有区分度,
+否则<strong>DEBUG</strong>时会充满痛苦.</p>
+</blockquote>
+<p><strong>重要:</strong> 虽然<code>Stmt</code>中不包含上下文信息,
+但框架代码中提供了丰富的API来根据<code>Stmt</code>的信息获取上下文信息.
+同时可以确定的已知的相同上下文可以直接拿过来使用.
+框架代码和算法原理确保了上述两点都是正确的.</p>
+<h3 id="analysis">analysis()</h3>
+<ul>
+<li>逻辑上与上下文非敏感一致,
+区别在于需要做例如<code>Var</code>与<code>CSVar</code>的转化,
+传入<code>addPFGEdge()</code>的参数需要附上上下文,
+可通过<code>csManager.getXXX()</code>获取.</li>
+<li>别忘了处理<strong>Array Store/Load</strong>,
+以及判断<code>Field</code>是否为静态字段.</li>
+</ul>
+<h3 id="addpfgedge">addPFGEdge()</h3>
+<ul>
+<li>该函数内不涉及对上下文的关注,
+与A5中的<code>addPFGEdge()</code>字符级一致,
+可以直接<code>Crtl + C/V</code>.</li>
+</ul>
+<h3 id="propagate">propagate()</h3>
+<ul>
+<li>同样不关注上下文信息, 逻辑一致,
+但不同的是<code>PointsToSet</code>的实例化,
+需要通过<code>PointsToSetFactory</code>完成.</li>
+</ul>
+<h3 id="processcall">processCall()</h3>
+<ul>
+<li>注意该过程涉及三个不同的上下文: <code>CSVar recv</code>的上下文<span
+class="math inline">\(c\)</span>,
+<code>CSObj recvObj</code>的上下文<span
+class="math inline">\(c&#39;\)</span>,
+和通过<code>select</code>选择出的上下文<span
+class="math inline">\(c^t\)</span>.
+在使用上下文时请确保使用的是正确的上下文.</li>
+<li>上下文<span
+class="math inline">\(c^t\)</span>的获取可通过<code>contextSelector.selectContext()</code>方法获取.</li>
+<li>Callee的<code>thisVar</code>以及参数和返回值的获取在A4,
+A5中已经指出, 如有遗忘请进行复习.</li>
+<li><code>callGraph.addEdge()</code>中需要新建<code>Edge</code>,
+其中参数<code>CallKind</code>可以通过<code>CallGraphs.getCallKind()</code>获取(通过A4了解).
+需要注意的是,
+<code>CallGraphs</code>类虽然在本次实验中并未显式放在<code>src\</code>目录下,
+但仍然可以使用.</li>
+<li>其余要点在A4和A5中已经提到过, 在此不再赘述.</li>
+</ul>
+<h3 id="addreachable">addReachable()</h3>
+<ul>
+<li><p>使用访问者模式时代码依旧简洁,
+但是需要注意的是此次使用<code>StmtProcessor</code>类时需要为每个方法实例化一个<code>StmtProcessor</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 原因比较直接, 为了区分上下文信息.
+本次实验中处理语句需要用到<code>CSMethod</code>的上下文信息.</p>
+</blockquote></li>
+</ul>
+<h4 id="class-stmtprocessor">Class StmtProcessor</h4>
+<p>实现访问者模式的类, 在完成该部分时存在一些注意事项.</p>
+<ul>
+<li><p><code>Copy</code>,
+<code>Static StoreField</code>和<code>Static LoadField</code>与A5几乎没有区别,
+注意传入的参数转换为带上下文的即可.</p></li>
+<li><p>算法伪代码中对<code>New</code>的处理和实际代码略有出入,
+主要体现在上下文<span class="math inline">\(c\)</span>上.
+<code>Obj</code>的上下文要通过<code>contextSelector.selectHeapContext()</code>获取.</p>
+<blockquote>
+<p>笔者在此简要的解释一下.</p>
+<img src="/LabRecord-SPA-A6/pic1-2.png" class="" title="pic1-2">
+<p>算法中将<span class="math inline">\(x\)</span>和<span
+class="math inline">\(o_i\)</span>的上下文均描述成<span
+class="math inline">\(c\)</span>, 这其实表明<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(o_i\)</span>的上下文来源相同, 而不代表这两个<span
+class="math inline">\(c\)</span>是一致的,
+主要原因是限制两者的<code>k</code>不一定相同.为了区分, 令其为<span
+class="math inline">\(c_x\)</span>和<span
+class="math inline">\(c_o\)</span>, 笔者通过一个例子说明原因.</p>
+<p>假设使用<strong>CallSite敏感</strong>策略, <code>k = 2</code>,
+令堆上下文为<code>k - 1 = 1</code>.
+那么传入的<code>c:method</code>的上下文为<code>[3, 9]</code>,
+在该Method中有<code>15: y = new T()</code>, 对于<code>y</code>,
+其上下文为<code>[3, 9]</code>, 但对于<code>o15</code>,
+其上下文为<code>[9]</code>.
+即二者上下文均来自<code>c:method</code>的上下文<span
+class="math inline">\(c\)</span>, 但由于层数不同,
+上下文也可能是不同的.</p>
+</blockquote></li>
+<li><p>对于<strong>静态</strong><code>Stmt Invoke</code>的处理,
+最好调用<code>Context selectContext(CSCallSite, JMethod)</code>而不是<code>Context selectContext(CSCallSite, CSObj, JMethod)</code>,
+这是更符合框架代码API的描述的用法. 当然,
+也可以选择在Task2中的后者加入静态调用的处理,
+这样就可以在<code>Solver</code>中统一使用同一个方法.</p></li>
+</ul>
+<h2 id="task2-实现常见的上下文敏感策略">Task2
+实现常见的上下文敏感策略</h2>
+<img src="/LabRecord-SPA-A6/pic1-3.png" class="" title="pic1-3">
+<ul>
+<li><p>注意手册上的要求和明确根据<strong>哪个参数</strong>获取上下文即可.
+该部分并不难实现.</p></li>
+<li><p>另外需要注意的是框架中将四个参数合并为三个,
+<code>CSCallSite</code>中包含了<code>Context</code>和<code>Invoke</code>两个参数.</p></li>
+<li><p>注意手册中对静态方法的处理要求,
+<strong>CallSite</strong>和<strong>Object</strong>,
+<strong>Type</strong>的要求并不一致.</p></li>
+<li><p>对于<code>selectContext()</code>处理方法调用的上下文,
+需要根据参数新生成一层;
+但对于<code>selectHeapContext()</code>处理堆的上下文,
+则直接根据参数截取即可.</p></li>
+</ul>
+<h3 id="callselector-_2callselector">_1CallSelector &amp;
+_2CallSelector</h3>
+<p>对于<strong>CallSite敏感</strong>策略,
+上下文自然在参数<code>CSCallSite callSite</code>中获取.</p>
+<p>如果<code>k = 2</code>,
+枚举<code>Context</code>的层数选择最后一个和新上下文组合即可.</p>
+<h3 id="objselector-_2objselector">_1ObjSelector &amp;
+_2ObjSelector</h3>
+<p>对于<strong>Object敏感</strong>策略,
+上下文需要在<code>CSObj recv</code>中获取.</p>
+<h3 id="typeselector-_2typeselector">_1TypeSelector &amp;
+_2TypeSelector</h3>
+<p>对于<strong>Type敏感</strong>策略,
+上下文也需要在<code>CSObj recv</code>中获取.
+(想一想<code>Type</code>上下文选取是如何来的)</p>
+<p>根据<strong>Type敏感</strong>的定义,
+可以在框架代码中找到一个对应的API: <code>Obj.getContainerType()</code>.
+通过该方法获取<code>Type</code>即可.</p>
+<h2 id="总结">总结</h2>
+<p>如果理解了CI指针分析, 本次CS指针分析实验的原理和逻辑就不难理解,
+但细节处理上比A5要麻烦很多, 还请小心仔细.</p>
+
     </div>
 
     
@@ -302,15 +462,24 @@ target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/155748813">知
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag"># 计算机视觉</a>
-              <a href="/tags/CNN/" rel="tag"># CNN</a>
-              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/NJU/" rel="tag"># NJU</a>
+              <a href="/tags/%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/" rel="tag"># 静态分析</a>
           </div>
 
         
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/LabRecord-SPA-A5/" rel="prev" title="NJU静态分析|A5-Context Insensitive Pointer Analysis">
+      <i class="fa fa-chevron-left"></i> NJU静态分析|A5-Context Insensitive Pointer Analysis
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/LabRecord-SPA-A7/" rel="next" title="NJU静态分析|A7-Alias-Aware Interprocedural Constant Propagation">
+      NJU静态分析|A7-Alias-Aware Interprocedural Constant Propagation <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -369,7 +538,11 @@ target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/155748813">知
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">实验目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preparation"><span class="nav-number">2.</span> <span class="nav-text">Preparation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E9%83%A8%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">理论部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">框架代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#task1-%E5%AE%9E%E7%8E%B0%E4%B8%8A%E4%B8%8B%E6%96%87%E6%95%8F%E6%84%9F%E6%8C%87%E9%92%88%E5%88%86%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">Task1 实现上下文敏感指针分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#analysis"><span class="nav-number">5.1.</span> <span class="nav-text">analysis()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#addpfgedge"><span class="nav-number">5.2.</span> <span class="nav-text">addPFGEdge()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#propagate"><span class="nav-number">5.3.</span> <span class="nav-text">propagate()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#processcall"><span class="nav-number">5.4.</span> <span class="nav-text">processCall()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#addreachable"><span class="nav-number">5.5.</span> <span class="nav-text">addReachable()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class-stmtprocessor"><span class="nav-number">5.5.1.</span> <span class="nav-text">Class StmtProcessor</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#task2-%E5%AE%9E%E7%8E%B0%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E6%95%8F%E6%84%9F%E7%AD%96%E7%95%A5"><span class="nav-number">6.</span> <span class="nav-text">Task2
+实现常见的上下文敏感策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#callselector-_2callselector"><span class="nav-number">6.1.</span> <span class="nav-text">_1CallSelector &amp;
+_2CallSelector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#objselector-_2objselector"><span class="nav-number">6.2.</span> <span class="nav-text">_1ObjSelector &amp;
+_2ObjSelector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typeselector-_2typeselector"><span class="nav-number">6.3.</span> <span class="nav-text">_1TypeSelector &amp;
+_2TypeSelector</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -689,7 +862,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'la-pluma.github.io',
       owner       : 'La-Pluma',
       admin       : ['La-Pluma'],
-      id          : 'fe6e64ad610590ed168327cc36542952',
+      id          : 'a1525dd2d8d052caf299337b1c959d25',
         language: 'zh-CN',
       distractionFreeMode: true
     });
