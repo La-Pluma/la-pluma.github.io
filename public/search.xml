@@ -1,8 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Anaconda+Cuda+Pytorch+Pycharm环境配置</title>
+    <url>/AI-conda-env/</url>
+    <content><![CDATA[<p><strong>笔者个人conda环境搭建记录.</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#安装pycharm--anaconda">安装Pycharm &amp; Anaconda</a>
+<ul>
+<li><a href="#pycharm">Pycharm</a></li>
+<li><a href="#anaconda3">Anaconda3</a>
+<ul>
+<li><a href="#选项配置">选项配置</a></li>
+<li><a href="#环境变量">环境变量</a></li>
+<li><a href="#安装位置">安装位置</a></li>
+<li><a href="#debug">Debug</a></li>
+<li><a href="#anaconda-安装检测">Anaconda 安装检测</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#安装cuda">安装Cuda</a></li>
+<li><a href="#安装pytorch">安装Pytorch</a>
+<ul>
+<li><a href="#anaconda创建conda环境">Anaconda创建conda环境</a></li>
+<li><a href="#确定pytorch版本">确定Pytorch版本</a></li>
+<li><a href="#pytorch安装检测">Pytorch安装检测</a></li>
+</ul></li>
+<li><a href="#pycharm激活conda环境">Pycharm激活conda环境</a>
+<ul>
+<li><a href="#导入环境检测">导入环境检测</a></li>
+</ul></li>
+<li><a href="#参考资料">参考资料</a></li>
+</ul>
+<h2 id="前言">前言</h2>
+<p>本日志记录一次笔者配置conda环境的过程. 参考资料来源网络, 见<a
+href="#参考资料"><strong>参考资料</strong></a></p>
+<p>本次搭建环境基于<a
+href="https://www.anaconda.com/"><strong>Anaconda</strong></a>+<a
+href="https://developer.nvidia.com/"><strong>Cuda</strong></a>搭建<a
+href="https://pytorch.org/"><strong>Pytorch</strong></a>环境并导入<a
+href="https://www.jetbrains.com.cn/pycharm/"><strong>Pycharm</strong></a>中使用.</p>
+<p>笔者的环境为:</p>
+<p><strong>Win11家庭版23H2</strong> + <strong>CPU:AMD Ryzen 7
+5800H</strong> + <strong>GPU: 3060laptop</strong></p>
+<p><strong>Anaconda-2024.10.1</strong> + <strong>Cuda-12.6</strong> +
+<strong>Pytorch-win_x86_64-cuda12.4</strong> + <strong>Pycharm
+Community-2022.2.2</strong></p>
+<h2 id="安装pycharm-anaconda">安装Pycharm &amp; Anaconda</h2>
+<h3 id="pycharm">Pycharm</h3>
+<p>笔者的Pycharm已经安装好了, Community版本是可以免费使用的,
+安装教程可以<strong>STFW</strong>.</p>
+<p>需要注意的是, Pycharm本身不包含python, python需要自行下载.</p>
+<h3 id="anaconda3">Anaconda3</h3>
+<h4 id="选项配置">选项配置</h4>
+<img src="/AI-conda-env/pic1-1.png" class="" title="pic1-1">
+<p><code>Just Me</code>与<code>All Users</code>选择<code>All Users</code>.</p>
+<img src="/AI-conda-env/pic1-2.png" class="" title="pic1-2">
+<p>全部勾选.</p>
+<p>安装结束后不需要launch, 还要配置环境变量.</p>
+<h4 id="环境变量">环境变量</h4>
+<p>在高级系统设置中添加系统环境变量, 路径以安装路径为准.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">D:\anaconda3</span><br><span class="line">D:\anaconda3\Scripts</span><br><span class="line">D:\anaconda3\Library\bin</span><br><span class="line">D:\anaconda3\Library\mingw-w64\bin</span><br></pre></td></tr></table></figure>
+<h4 id="安装位置">安装位置</h4>
+<p>如果已有分盘, 推荐安装到别的分区.</p>
+<p>Anaconda的环境和包管理也可以迁移, 笔者本次省略了这个步骤.</p>
+<h4 id="debug">Debug</h4>
+<p>笔者在安装完成后遇到了打开<code>Anaconda Navigator</code>时卡死在<code>Loading Applications</code>页面上,
+通过为程序添加默认管理员权限解决.</p>
+<h4 id="anaconda-安装检测">Anaconda 安装检测</h4>
+<p>打开<code>Anaconda Prompt</code>, 页面如下:</p>
+<img src="/AI-conda-env/pic1-3.png" class="" title="pic1-3">
+<p>执行指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda --version</span></span><br></pre></td></tr></table></figure>
+<p>终端输出conda版本号即成功安装了conda</p>
+<img src="/AI-conda-env/pic1-4.png" class="" title="pic1-4">
+<p>可以通过如下指令查看conda的配置信息:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda info</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong> 笔者本次略去了Conda的配置, 如包和环境位置,
+镜像源的配置. 有需要可以自行配置.</p>
+</blockquote>
+<h2 id="安装cuda">安装Cuda</h2>
+<p>调出cmd后在终端中输入</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">nvidia-smi</span></span><br></pre></td></tr></table></figure>
+<p>得到</p>
+<img src="/AI-conda-env/pic1-5.png" class="" title="pic1-5">
+<p>其中<code>CUDA Version</code>代表最高支持的<code>CUDA</code>版本,
+到官网对应版本下载即可.</p>
+<p>安装完成后在cmd中执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">nvcc -V</span></span><br></pre></td></tr></table></figure>
+<p>正常输出Cuda版本即安装完成.</p>
+<img src="/AI-conda-env/pic1-6.png" class="" title="pic1-6">
+<h2 id="安装pytorch">安装Pytorch</h2>
+<p>Pytorch依赖于conda环境, 因此在安装Pytorch前需要配置conda虚拟环境.</p>
+<h3 id="anaconda创建conda环境">Anaconda创建conda环境</h3>
+<p>打开<code>Anaconda Prompt</code>,
+此时的环境为默认的<code>base</code>(见<a
+href="#anaconda-安装检测"><strong>上文</strong></a>)</p>
+<p>执行指令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda create –n pytorch python=3.10</span></span><br></pre></td></tr></table></figure>
+<p>其中<code>pytorch</code>为环境名称,
+<code>python=3.10</code>为指定python解释器版本.</p>
+<p>需要注意的是,
+目前(2024.11)的Pytorch需要<strong>至少</strong>python版本为3.9</p>
+<p>如果需要特定版本,
+在安装Pytorch时需要查看<code>Preview Version</code>.</p>
+<p>执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda activate pytorch</span></span><br></pre></td></tr></table></figure>
+<p>终端环境变更为<code>pytorch</code></p>
+<p>想要回到<code>base</code>环境, 只需要执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda deactivate</span></span><br></pre></td></tr></table></figure>
+<p>Pytorch的安装位置便是在名为<code>pytorch</code>的环境中.</p>
+<h3 id="确定pytorch版本">确定Pytorch版本</h3>
+<p>进入Pytorch官网的Install页面</p>
+<img src="/AI-conda-env/pic1-7.png" class="" title="pic1-7">
+<p>根据自己的Cuda版本选择安装.</p>
+<p>如果选择conda安装,
+只需要在<code>Anaconda Prompt</code>中激活创建的<code>pytorch</code>环境,
+执行官网上给出的安装命令.</p>
+<p>耐心等待安装完成即可.</p>
+<h3 id="pytorch安装检测">Pytorch安装检测</h3>
+<p>安装结束后, 在激活<code>pytorch</code>环境的终端中执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python</span></span><br></pre></td></tr></table></figure>
+<img src="/AI-conda-env/pic1-8.png" class="" title="pic1-8">
+<p>输入以下python代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="built_in">print</span>(torch.__version__)</span><br><span class="line"><span class="built_in">print</span>(torch.cuda.is_available())</span><br></pre></td></tr></table></figure>
+<img src="/AI-conda-env/pic1-9.png" class="" title="pic1-9">
+<p>得到类似输出而没有报错即成功在conda环境中安装pytorch.</p>
+<h2 id="pycharm激活conda环境">Pycharm激活conda环境</h2>
+<p>以创建的<code>pytorch</code>环境为例.</p>
+<p>使用Pycharm打开项目, 进入<code>File-&gt;Setting</code>页面</p>
+<img src="/AI-conda-env/pic1-10.png" class="" title="pic1-10">
+<p>选择<code>项目-&gt;Python解释器</code></p>
+<p>点击<code>添加解释器-&gt;添加本地解释器-&gt;conda环境</code></p>
+<img src="/AI-conda-env/pic1-11.png" class="" title="pic1-11">
+<p>Conda可执行文件输入<code>D:\anaconda3\Scripts\conda.exe</code>(依据Anaconda安装位置)</p>
+<p>选择解释器(依据自己的conda环境创建位置)</p>
+<img src="/AI-conda-env/pic1-12.png" class="" title="pic1-12">
+<p>点击确认等待配置完成.</p>
+<h3 id="导入环境检测">导入环境检测</h3>
+<p>与<a
+href="#pytorch安装检测"><strong>Pytorch安装检测</strong></a>类似,
+只需要在python文件中键入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="built_in">print</span>(torch.__version__)</span><br><span class="line"><span class="built_in">print</span>(torch.cuda.is_available())</span><br></pre></td></tr></table></figure>
+<p>执行代码得到</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2.5.1</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+<p>然后就可以开始愉快(迫真)的炼丹之旅啦!</p>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<p><strong>Tips:</strong> 博客并不能解决所有问题,
+对于博客中的内容要和面对ChatGPT生成的内容一样小心求证.
+必要时更推荐官方文档(此处略去).</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/qq_44000789/article/details/142214660"
+class="uri">https://blog.csdn.net/qq_44000789/article/details/142214660</a></p>
+<p><a
+href="https://blog.csdn.net/weixin_41401924/article/details/120332417"
+class="uri">https://blog.csdn.net/weixin_41401924/article/details/120332417</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/389992455"
+class="uri">https://zhuanlan.zhihu.com/p/389992455</a></p>
+<p><a
+href="https://blog.csdn.net/weixin_62075168/article/details/131226082"
+class="uri">https://blog.csdn.net/weixin_62075168/article/details/131226082</a></p>
+]]></content>
+      <categories>
+        <category>AI</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>环境配置</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>读书笔记-大话设计模式 Ch0</title>
-    <url>/2024/09/10/BookNote-DesignPatterns-by-JieCheng-1/</url>
+    <url>/BookNote-DesignPatterns-by-JieCheng-1/</url>
     <content><![CDATA[<p><strong>精彩的代码是如何想出来的,
 要比看到精彩的代码更加令人期待.</strong></p>
 <span id="more"></span>
@@ -276,8 +450,665 @@ Generic</a>将泛型表述为:</p>
       </tags>
   </entry>
   <entry>
+    <title>读书笔记-机器学习 Ch2</title>
+    <url>/BookNote-MachineLearning-by-ZhihuaZhou-2/</url>
+    <content><![CDATA[<p><strong>有多个算法和参数生成的模型, 哪个才是好的模型?</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#chapter-2-模型评估与选择">Chapter 2: 模型评估与选择</a>
+<ul>
+<li><a href="#21-经验误差与过拟合">2.1 经验误差与过拟合</a></li>
+<li><a href="#22-评估方法">2.2 评估方法</a>
+<ul>
+<li><a href="#221-留出法hold-out">2.2.1 留出法(Hold-Out)</a></li>
+<li><a href="#222-交叉验证法cross-validation">2.2.2 交叉验证法(Cross
+Validation)</a></li>
+<li><a href="#223-自助法bootstapping">2.2.3
+自助法(Bootstapping)</a></li>
+<li><a href="#224-调参与最终模型">2.2.4 调参与最终模型</a></li>
+</ul></li>
+<li><a href="#23-性能度量">2.3 性能度量</a>
+<ul>
+<li><a href="#231-错误率与精度">2.3.1 错误率与精度</a></li>
+<li><a href="#232-查准率precision-查全率recall-f1">2.3.2
+查准率(Precision), 查全率(Recall), F1</a></li>
+<li><a href="#233-roc与auc">2.3.3 ROC与AUC</a></li>
+<li><a href="#234-代价敏感错误率与代价曲线">2.3.4
+代价敏感错误率与代价曲线</a></li>
+</ul></li>
+<li><a href="#24-比较检验">2.4 比较检验</a>
+<ul>
+<li><a href="#241-假设检验">2.4.1 假设检验</a></li>
+<li><a href="#242-多学习器比较">2.4.2 多学习器比较</a></li>
+</ul></li>
+<li><a href="#25-偏差与方差">2.5 偏差与方差</a></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="chapter-2-模型评估与选择">Chapter 2: 模型评估与选择</h2>
+<h3 id="经验误差与过拟合">2.1 经验误差与过拟合</h3>
+<ul>
+<li><p><strong>错误率(Error Rate):</strong>
+分类错误的样本数占样本总数的比例, 记样本数为<span
+class="math inline">\(m\)</span>, <span
+class="math inline">\(a\)</span>个错误分类的样本, 错误率 <span
+class="math inline">\(E=\frac{a}{m}\)</span> .</p></li>
+<li><p><strong>精度(Accuracy):</strong> <span class="math inline">\((1 -
+\frac{a}{m}) \times 100\%\)</span> 称为精度, 即 "精度 = 1 -
+错误率".</p></li>
+<li><p><strong>误差(Error):</strong> 更一般地,
+我们把<strong>学习器的实际预测输出</strong>与<strong>样本的真实输出</strong>之间的差异称为误差,
+学习器在训练集上的误差称为 <strong>训练误差(Training
+Error)/经验误差(Empirical Error)</strong>,
+在新样本上的误差称为<strong>泛化误差(Generalization Error)</strong>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 这里的误差均指<strong>误差期望</strong>.</p>
+</blockquote></li>
+</ul>
+<p>尽管我们希望得到一个泛化误差小的学习器, 使得其在新样本上表现很好,
+但我们并不能预测新样本, 因此我们只能尝试降低经验误差.
+但经验误差很小的学习器往往在泛化误差的表现上都很糟糕.
+这样的学习器发生了<strong>过拟合</strong>.</p>
+<ul>
+<li><p><strong>过拟合(Overfitting):</strong>
+学习器可能将训练样本自身的一些特点当作了所有潜在样本都具有的一般性质,
+导致泛化能力下降的现象.</p></li>
+<li><p><strong>欠拟合(Underfitting):</strong> 与过拟合相对,
+指对训练样本的一般性质尚未学好.</p></li>
+</ul>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-1.png" class="" title="pic2-1">
+<blockquote>
+<p><strong>Tips:</strong> 导致过拟合的原因很多,
+最常见的原因是学习能力过强; 欠拟合则相反, 因为学习能力低下.
+欠拟合容易克服, 但过拟合很难解决, 且过拟合无法彻底避免.</p>
+</blockquote>
+<ul>
+<li><strong>模型选择(Model Selection):</strong> 在实际中,
+面对同一个问题, 往往有多种学习算法可以选择,
+参数配置也会对模型产生影响.</li>
+</ul>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-2.png" class="" title="spic2-2">
+<h3 id="评估方法">2.2 评估方法</h3>
+<p>通常我们可以通过实验测试对学习器的泛化误差进行评估,
+使用<strong>测试集(Testing Set)</strong>测试学习器对新样本的判别能力,
+以测试集上<strong>测试误差(Testing Error)</strong>作为泛化误差的近似.
+但需要注意的是, 测试集应尽可能与训练集互斥.</p>
+<blockquote>
+<p>假设我们有且只有一个包含<span
+class="math inline">\(m\)</span>个样例的数据集<span
+class="math inline">\(D = \{(x_1,y_1),(x_2,y_2), ...,
+(x_m,y_m)\}\)</span>, 既要训练, 又要测试, 这样就需要对<span
+class="math inline">\(D\)</span>进行适当处理, 从中产生
+<strong>训练集</strong> <span class="math inline">\(S\)</span>和
+<strong>测试集</strong> <span class="math inline">\(T\)</span>.</p>
+</blockquote>
+<h4 id="留出法hold-out">2.2.1 留出法(Hold-Out)</h4>
+<p>留出法的思路很简单, 直接将数据集<span
+class="math inline">\(D\)</span>划分成两个互斥的集合, 即<span
+class="math inline">\(D = S \cup T, S \cap T = \emptyset\)</span>.</p>
+<p>使用留出法时需要注意训练集和测试集的划分需要保持数据分布一致性,
+避免因数据划分引入额外偏差对结果产生影响.
+同时单次留出法得到的估计往往并不够准确可靠, 一般采用若干次随机划分,
+重复进行实验评估取平均值作为留出法评估结果. 关于划分比例, 通常取2/3 ~
+4/5的样本用于训练, 其余用于测试.</p>
+<h4 id="交叉验证法cross-validation">2.2.2 交叉验证法(Cross
+Validation)</h4>
+<p>交叉验证法可以看作是一种具体的留出法, 其方法过程是:</p>
+<p>先将数据集<span class="math inline">\(D\)</span>划分为<span
+class="math inline">\(k\)</span>个大小相似的互斥子集, <span
+class="math inline">\(D = D_1 \cup D_2 \cup ... \cup D_k, D_i \cap D_j =
+\emptyset (i \neq j)\)</span>, 子集<span
+class="math inline">\(D_i\)</span>通过保留类别比例的<strong>分层采样(Stratified
+Sampling)</strong>来尽可能保持数据分布一致性.</p>
+<p>接下来每次取<span class="math inline">\(k-1\)</span>个子集作为训练集,
+余下一个作为测试集, 进行<span
+class="math inline">\(k\)</span>次训练和测试, 最终结果取<span
+class="math inline">\(k\)</span>个结果的均值.</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-2.png" class="" title="pic2-2">
+<p>显然交叉验证法评估结果的<strong>稳定性(Stability)</strong>和<strong>保真性(Fidelity)</strong>与<span
+class="math inline">\(k\)</span>的取值强相关.
+故而交叉验证法又称<strong>k折交叉验证(k-fold Cross Validation)</strong>.
+最常见的取值是 <span class="math inline">\(k=10\)</span>.</p>
+<p>由于<span class="math inline">\(D\)</span>的<span
+class="math inline">\(k\)</span>划分不唯一, k折交叉验证通常也要重复多次,
+记为<span class="math inline">\(p\)</span>, 最终结果取这<span
+class="math inline">\(p\)</span>次k折交叉验证结果的均值.</p>
+<p><strong>留一法(Leave-One-Out, LOO)</strong>, <span
+class="math inline">\(|D| = m\)</span>, 则令<span
+class="math inline">\(k = m\)</span> 就得到了留一法.</p>
+<p>留一法的优势是不受样本划分影响(有且仅有一种划分方式), 训练集仅比<span
+class="math inline">\(D\)</span>少一个样本,
+绝大多数情况下留一法中被评估的模型与期望用<span
+class="math inline">\(D\)</span>训练的模型相似.
+因此认为留一法评估结果较为准确. 缺点是当<span
+class="math inline">\(m\)</span>较大时, 计算开销过大以致无法接受.</p>
+<h4 id="自助法bootstapping">2.2.3 自助法(Bootstapping)</h4>
+<p>留出法和交叉验证法都保留了一部分样本用于测试,
+因此实际评估的模型所使用的训练集比<span
+class="math inline">\(D\)</span>小,
+必然会引入一些因训练样本规模不同而导致的估计偏差.
+留一法的计算复杂度又太高了. 自助法提供了一个较好的解决方案.</p>
+<p>自助法直接以 <strong>自助采样法(Bootstrap Sampling)</strong> 为基础.
+给定包含<span class="math inline">\(m\)</span>个样本的数据集<span
+class="math inline">\(D\)</span>, 对其进行采样产生数据集<span
+class="math inline">\(D&#39;\)</span>. 采样过程每次随即从<span
+class="math inline">\(D\)</span>中挑选一个样本, 将拷贝放入<span
+class="math inline">\(M&#39;\)</span>
+<strong>(意味着下次采样该样本仍有可能被采样到)</strong>. 重复该过程<span
+class="math inline">\(m\)</span>次, 得到了包含<span
+class="math inline">\(m\)</span>个样本的数据集<span
+class="math inline">\(D&#39;\)</span>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 此处"自助"为意译,
+称<strong>可重复采样/有放回采样</strong>更符合其原理.</p>
+</blockquote>
+<p>不难看出, 可能存在部分样本被多次采样到, 部分样本未被采样到.
+我们关注某个样本在<span
+class="math inline">\(m\)</span>次中未被采样的概率,有</p>
+<p><span class="math display">\[\begin{equation}
+\lim_{m \rightarrow \infty}(1 - \frac{1}{m})^m  = \frac{1}{e} \approx
+0.368 \tag{2.1}
+\end{equation}\]</span></p>
+<p>通过自主采样, 初始数据集<span
+class="math inline">\(D\)</span>中约有<span
+class="math inline">\(36.8\%\)</span>的样本未出现在采样数据集<span
+class="math inline">\(D&#39;\)</span>中, 将<span
+class="math inline">\(D&#39;\)</span>作为训练集, <span
+class="math inline">\(D \backslash D&#39;\)</span>作为测试集.
+这样的测试结果称为<strong>包外估计(Out-Of-Bagestimate)</strong>.</p>
+<p>自助法在数据集较小, 难以有效划分训练和测试集的时候具有优势.
+但自助法产生的数据集改变了初始数据集的分布, 会引入估计误差.
+初始数据集较大时更常用留出法和交叉验证法.</p>
+<h4 id="调参与最终模型">2.2.4 调参与最终模型</h4>
+<p><strong>参数(Parameter)</strong>和<strong>调参(Parameter
+Tuning)</strong>释义见名称.</p>
+<blockquote>
+<p><strong>Tips:</strong> 机器学习常涉及两类参数:
+算法参数和模型参数.</p>
+</blockquote>
+<ul>
+<li><p><strong>验证集(Validation Set):</strong>
+模型评估与选择中用于评估测试的数据集常称为验证集.</p>
+<blockquote>
+<p><strong>Additonal:</strong> 关于训练集, 测试集和验证集的区别,
+笔者在此参考<a
+href="https://zhuanlan.zhihu.com/p/98532085"><strong>[知乎|训练集、验证集、测试集]</strong></a></p>
+</blockquote></li>
+</ul>
+<h3 id="性能度量">2.3 性能度量</h3>
+<ul>
+<li><strong>性能度量(Performance Measure):</strong>
+衡量模型泛化能力的评价标准. 显然该标准取决于任务需求.</li>
+</ul>
+<p>以预测任务为例, 给定样例集<span class="math inline">\(D =
+\{(\boldsymbol{x_1}, y_1), (\boldsymbol{x_2}, y_2), ...,
+(\boldsymbol{x_m}, y_m)\}\)</span>, 其中<span
+class="math inline">\(y_i\)</span>是<span
+class="math inline">\(\boldsymbol{x_i}\)</span>的真实标记,
+评估学习器<span class="math inline">\(f\)</span>的性能,
+需要比较预测结果<span class="math inline">\(f(x)\)</span>与真实标记<span
+class="math inline">\(y\)</span>.</p>
+<p>回归任务常用性能度量<strong>均方误差(Mean Squared Error)</strong></p>
+<p><span class="math display">\[\begin{equation}
+E(f;D) = \frac{1}{m} \sum_{i=1}^{m}(f(\boldsymbol{x_i}) - y_i)^2
+\tag{2.2}
+\end{equation}\]</span></p>
+<p>更一般地, 对于数据分布<span
+class="math inline">\(\mathcal{D}\)</span>和概率密度函数<span
+class="math inline">\(p(\cdot)\)</span>, 均方误差描述为</p>
+<p><span class="math display">\[\begin{equation}
+E(f;\mathcal{D}) = \int_{x \sim \mathcal{D}}^{}(f(\boldsymbol{x}) - y)^2
+p(\boldsymbol{x}) d\boldsymbol{x} \tag{2.3}
+\end{equation}\]</span></p>
+<h4 id="错误率与精度">2.3.1 错误率与精度</h4>
+<p>错误率和精度是分类任务中最常用的两种性能度量.</p>
+<p>对于样例集<span class="math inline">\(\mathcal{D}\)</span>,
+错误率和精度定义为</p>
+<p><span class="math display">\[\begin{equation}
+E(f;D) = \frac{1}{m} \sum_{i=1}^{m}\mathbb{I}(f(\boldsymbol{x_i}) \neq
+y_i) \tag{2.4}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+acc(f;D) = \frac{1}{m} \sum_{i=1}^{m}\mathbb{I}(f(\boldsymbol{x_i}) =
+y_i) = 1 - E(f;D) \tag{2.5}
+\end{equation}\]</span></p>
+<p>对于数据分布<span
+class="math inline">\(\mathcal{D}\)</span>和概率密度函数<span
+class="math inline">\(p(\cdot)\)</span>, 错误率和精度定义为</p>
+<p><span class="math display">\[\begin{equation}
+E(f;\mathcal{D}) = \int_{x \sim
+\mathcal{D}}^{}\mathbb{I}(f(\boldsymbol{x}) \neq y) p(\boldsymbol{x})
+d\boldsymbol{x} \tag{2.6}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+acc(f;\mathcal{D}) = \int_{x \sim
+\mathcal{D}}^{}\mathbb{I}(f(\boldsymbol{x}) = y) p(\boldsymbol{x})
+d\boldsymbol{x} = 1 - E(f;\mathcal{D}) \tag{2.7}
+\end{equation}\]</span></p>
+<h4 id="查准率precision-查全率recall-f1">2.3.2 查准率(Precision),
+查全率(Recall), F1</h4>
+<p>有时我们更关心模型的正确率,
+比如说"挑选出来的瓜有多少是好瓜","有多少好瓜被挑选出来了",
+查准率和查全率更适合用来度量.</p>
+<p>对于二分类问题, 我们有<strong>混淆矩阵(Confusion Matrix)</strong></p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/tab2-1.png" class="" title="tab2-1">
+<p>定义查准率<span class="math inline">\(P\)</span>, 查全率<span
+class="math inline">\(R\)</span></p>
+<p><span class="math display">\[\begin{equation}
+P = \frac{TP}{TP + FP}\tag{2.8}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+P = \frac{TP}{TP + FN}\tag{2.9}
+\end{equation}\]</span></p>
+<blockquote>
+<p><strong>Tips:</strong> 自然语言解释就是,
+查准率是在预测正确中实际正确的比率,
+查全率是在实际正确中预测正确的比率.</p>
+</blockquote>
+<p>查准率和查全率是一对矛盾的度量, 二者负相关.
+是<strong>sound</strong>和<strong>complete</strong>的关系</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-1.png" class="" title="spic2-1">
+<blockquote>
+<p><strong>Tips:</strong> 该图片截选自NJU软件分析课件,
+<del>ly和tt老师应该不会在意吧(雾)</del></p>
+<p>课程地址链接<a
+href="https://tai-e.pascal-lab.net/lectures.html"><strong>[Static
+Program Analysis]</strong></a></p>
+</blockquote>
+<p>查准率和查全率的关系可以用<strong>P-R图</strong>表示</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-3.png" class="" title="pic2-3">
+<ul>
+<li><strong>平衡点(Break-Even Point, BEP):</strong> <span
+class="math inline">\(P=R\)</span>时的取值,
+可基于BEP评估两个学习器的优劣, 如图2-3, 可认为<span
+class="math inline">\(A&gt;B&gt;C\)</span></li>
+</ul>
+<p>比BEP更常用的是<span class="math inline">\(F1\)</span>度量定义为</p>
+<p><span class="math display">\[\begin{equation}
+F1 = \frac{2 \times P \times R}{P + R} = \frac{2 \times TP}{样例总数 +
+TP - TN}\tag{2.10}
+\end{equation}\]</span></p>
+<p><span class="math inline">\(F_{\beta}\)</span>是<span
+class="math inline">\(F_1\)</span>的一般形式, 定义为</p>
+<p><span class="math display">\[\begin{equation}
+F_{\beta} = \frac{(1 + \beta^2) \times P \times R}{(\beta^2 \times P) +
+R}\tag{2.11}
+\end{equation}\]</span></p>
+<p>其中<span class="math inline">\(\beta &gt;
+0\)</span>度量了查全率对查准率的相对重要性, <span
+class="math inline">\(\beta = 1\)</span>时退化为<span
+class="math inline">\(F_1\)</span>, <span class="math inline">\(\beta
+&gt; 1\)</span>时查全率影响更大, <span class="math inline">\(\beta &lt;
+1\)</span>时查准率影响更大.</p>
+<blockquote>
+<p><strong>Tips:</strong></p>
+<p><span class="math inline">\(F_1\)</span>基于调和平均定义, <span
+class="math inline">\(\frac{1}{F_1} = \frac{1}{2} \cdot (\frac{1}{P} +
+\frac{1}{R})\)</span>.</p>
+<p><span class="math inline">\(F_\beta\)</span>基于加权调和平均定义,
+<span class="math inline">\(\frac{1}{F_\beta} = \frac{1}{1 + \beta^2}
+\cdot (\frac{1}{P} + \frac{\beta^2}{R})\)</span></p>
+</blockquote>
+<p>若在n个二分类混淆矩阵上考察准确率和查全率,
+我们有<strong>macro</strong>和<strong>micro</strong>两种选择.</p>
+<p>对于<strong>宏(macro)</strong>, 在各个混淆矩阵上分别计算<span
+class="math inline">\(P\)</span>和<span
+class="math inline">\(R\)</span>,
+再取平均.得到<strong>宏查准率(macro-P)</strong>,
+<strong>宏查全率(macro-R)</strong>, <strong>宏F1(macro-F1)</strong></p>
+<p><span class="math display">\[\begin{equation}
+macro\text{-}P = \frac{1}{n} \sum_{i=1}^{n} P_i\tag{2.12}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+macro\text{-}R = \frac{1}{n} \sum_{i=1}^{n} R_i\tag{2.13}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+macro\text{-}F1 = \frac{2 \times macro\text{-}P \times
+macro\text{-}R}{macro\text{-}P + macro\text{-}R}\tag{2.14}
+\end{equation}\]</span></p>
+<p>对于<strong>微(micro)</strong>, 先平均混淆矩阵得到$, , , $,
+再计算出<strong>微查准率(micro-P)</strong>,
+<strong>微查全率(micro-R)</strong>, <strong>微F1(micro-F1)</strong></p>
+<p><span class="math display">\[\begin{equation}
+micro\text{-}P =
+\frac{\overline{TP}}{\overline{TP}+\overline{FP}}\tag{2.15}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+micro\text{-}R = \frac{\overline{TP}}{\overline{TP}+\overline{FN}}
+\tag{2.16}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+micro\text{-}F1 = \frac{2 \times micro\text{-}P \times
+micro\text{-}R}{micro\text{-}P + micro\text{-}R}\tag{2.17}
+\end{equation}\]</span></p>
+<h4 id="roc与auc">2.3.3 ROC与AUC</h4>
+<p>现重新考虑查准率和查全率, 首先我们来看看学习器如何给正/反的分类.</p>
+<p>很多学习器为测试样本产生一个实值或概率预测,
+将预测值与<strong>分类阈值(Threshold)</strong>比较, 大于阈值则为正类,
+否则为反类. 根据该实值或概率预测进行排序, 概率高的在前, 概率低的在后,
+则这个分类阈值就是<strong>截断点(Cut Point)</strong>, 前一部分为正例,
+后一部分为负例.</p>
+<p>不难得到以下结论: 截断点越靠前, 查准率增高而查全率降低; 截断点越靠后,
+查准率降低而查全率增高. 同时,
+排序质量越好的学习器"在一般情况下"泛化性能越好,
+ROC基于此度量模型的泛化能力.</p>
+<p><strong>受试者工作特征(Receiver Operating Characteristic,
+ROC)</strong>, 根据学习器的预测结果对样例进行排序,
+顺序逐个把样本作为正例进行预测(选择不同的截断点),计算
+<strong>真正例率(True Positive Rate, TPR)</strong>,
+<strong>假正例率(False Positive Rate, FPR)</strong> 作为纵横轴.</p>
+<p><span class="math display">\[\begin{equation}
+TPR = \frac{TP}{TP + FN}
+\tag{2.18}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+FPR = \frac{FP}{TN + FP}
+\tag{2.19}
+\end{equation}\]</span></p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-4.png" class="" title="pic2-4">
+<p>对角线对应随即猜测模型, 点(0, 1)对应所有正例在负例前的理想模型.</p>
+<ul>
+<li><strong>AUC(Area Under ROC Curve):</strong> ROC曲线下面积.
+为依据两个模型绘制的ROC曲线比较两个模型的优劣而引入.</li>
+</ul>
+<p>对于离散样本, 计算AUC:</p>
+<p><span class="math display">\[\begin{equation}
+AUC = \frac{1}{2} \sum^{m - 1}_{i=1}(x_{i+1} - x_i)\cdot(y_i + y_{i + 1}
+)
+\tag{2.19}
+\end{equation}\]</span></p>
+<p>形式化上AUC度量排序质量, 记有<span
+class="math inline">\(m^+\)</span>个正例, <span
+class="math inline">\(m^-\)</span>个反例, 令<span
+class="math inline">\(D^+\)</span>为正例集合, <span
+class="math inline">\(D^-\)</span>为负例集合,
+定义排序<strong>损失(loss):</strong></p>
+<p><span class="math display">\[\begin{equation}
+\mathscr{l}_{rank} = \frac{1}{m^+ m^-}\sum_{x^+ \in D^+} \sum_{m^- \in
+D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) + \frac{1}{2} \mathbb{I}(f(x^+)=
+f(x^-))\right)
+\tag{2.21}
+\end{equation}\]</span></p>
+<p>如何理解这个式子? 考虑每一对正反例, 若正例小于反例记一个"罚分",
+相等则记半个. 不难看出, 对于每个正例/负例, 可能造成的"罚分"与其"位置",
+越"错误"的位置会引起越多的"罚分", 这与AUC计算过程及其相似. 实际上, <span
+class="math inline">\(\mathscr{l}_{rank}\)</span>对应ROC曲线上方的面积,
+有</p>
+<p><span class="math display">\[\begin{equation}
+AUC = 1 - \mathscr{l}_{rank}
+\tag{2.22}
+\end{equation}\]</span></p>
+<h4 id="代价敏感错误率与代价曲线">2.3.4 代价敏感错误率与代价曲线</h4>
+<p>为权衡不同类型错误所造成的不同损失,
+我们为错误赋予<strong>非均等代价(UnEqual Cost)</strong>.</p>
+<p>以二分类为例, <strong>代价矩阵(Cost Matrix)</strong>如下:</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/tab2-2.png" class="" title="tab2-2">
+<p>若将0类记为正例, 1类记为负例, 定义<span class="math inline">\(D^+,
+D^-\)</span>, <strong>代价敏感(Cost-Sensitive)</strong> 错误率为</p>
+<p><span class="math display">\[\begin{equation}
+E(f;D;cost) = \frac{1}{m} \left(\sum_{\boldsymbol{x}_i \in D^+}
+\mathbb{I}(f(\boldsymbol{x}_i) \neq y_i) \times cost_{01} +
+\sum_{\boldsymbol{x}_i \in D^-} \mathbb{I}(f(\boldsymbol{x}_i) \neq y_i)
+\times cost_{10}\right)
+\tag{2.23}
+\end{equation}\]</span></p>
+<p>非均等情况下, <strong>代价曲线(Cost
+Curve)</strong>可以解决ROC曲线不能反映出学习器的期望<strong>总体代价(Total
+Cost)</strong>问题.</p>
+<p>其横轴是取值为<span
+class="math inline">\([0,1]的\)</span>正例概率代价, 其中<span
+class="math inline">\(p\)</span>为样例是正例的概率</p>
+<p><span class="math display">\[\begin{equation}
+P(+)cost=\frac{p \times cost_{01}}{p \times cost_{01} + (1 - p) \times
+cost_{10}}
+\tag{2.24}
+\end{equation}\]</span></p>
+<p>纵轴是取值为<span
+class="math inline">\([0,1]\)</span>的归一化代价,FPR为假正例率,
+FNR为假反例率</p>
+<p><span class="math display">\[\begin{equation}
+cost_{norm} = \frac{FNR \times p \times cost_{01} + FPR \times (1 - p)
+\times cost_{10}}{p \times cost_{01} + (1 - p) \times cost_{10}}
+\tag{2.25}
+\end{equation}\]</span></p>
+<p>绘制代价曲线时, ROC曲线上每个点对应代价平面上的一条线段,
+设ROC点坐标为<span class="math inline">\((FPR, TPR)\)</span>,
+然后在代价平面上绘制一条从<span class="math inline">\((0,
+FPR)\)</span>到<span class="math inline">\((1, FNR)\)</span>的线段,
+线段下面积代表了该条件下的期望总体代价.如此为每个点绘制线段, 取线段下界,
+围成面积即为在所有条件下学习器的总体期望代价.</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-5.png" class="" title="pic2-5">
+<blockquote>
+<p><strong>Addtional:</strong> 如何理解代价曲线?</p>
+<p>笔者在此给出一篇参考<a
+href="https://www.zhihu.com/question/63492375"><strong>[知乎|代价曲线的理解]</strong></a>.这篇参考中对大部分问题给到了解释.</p>
+<p>在此额外补充一点困惑笔者许久的问题, 每一条线段代表什么?</p>
+<p>每一条线段代表当前<strong>阈值</strong>条件下,
+对不同样本集的期望代价. 具体来说,
+是以FPR和FNR为预测值对不同样本集的预测.</p>
+</blockquote>
+<h3 id="比较检验">2.4 比较检验</h3>
+<p><strong>统计假设检验(Hypothesis Test)</strong>
+为比较学习器性能提供了重要依据. 本节默认以错误率为性能度量, 用<span
+class="math inline">\(\epsilon\)</span>表示.</p>
+<h4 id="假设检验">2.4.1 假设检验</h4>
+<p>现实中我们无法知道学习器的泛化错误率 <span
+class="math inline">\(\epsilon\)</span>, 只能获知其测试错误率 <span
+class="math inline">\(\hat{\epsilon}\)</span>.
+常用测试错误率估推出泛化错误率.</p>
+<p>对于 <span class="math inline">\(m\)</span> 个测试样本,
+如果测试错误率为 <span class="math inline">\(\hat{\epsilon}\)</span>,
+则被误分类的样本数量 <span class="math inline">\(m&#39;=\hat{\epsilon}
+\times m\)</span>, 假定测试样本从样本总体分布中独立采样获得,
+由<strong>二项(Binomial)分布</strong>, 泛化错误率为 <span
+class="math inline">\(\hat{\epsilon}\)</span> 的学习器恰有 <span
+class="math inline">\(m&#39;\)</span> 个样本被误分类的概率是 <span
+class="math inline">\(\binom{m}{m&#39;}\epsilon^{m&#39;}(1-\epsilon)^{m-m&#39;}\)</span>
+. 同时, 这也表示泛化错误率为 <span
+class="math inline">\(\epsilon\)</span> 的学习器在<span
+class="math inline">\(m\)</span>个样本上测试得到测试错误率为 <span
+class="math inline">\(\hat{\epsilon}\)</span> 的概率:</p>
+<p><span class="math display">\[\begin{equation}
+P(\hat{\epsilon};\epsilon)=\binom{m}{\hat{\epsilon} \times m}
+\epsilon^{\hat{\epsilon} \times m} (1 - \epsilon)^{m - \hat{\epsilon}
+\times m}
+\tag{2.26}
+\end{equation}\]</span></p>
+<p>由二项分布性质, 或者计算 <span
+class="math inline">\(P(\hat{\epsilon};\epsilon)\)</span> 对 <span
+class="math inline">\(\epsilon\)</span> 的偏导, 可以知道 <span
+class="math inline">\(P(\hat{\epsilon};\epsilon)\)</span> 在 <span
+class="math inline">\(\epsilon = \hat{\epsilon}\)</span> 时最大, <span
+class="math inline">\(|\epsilon - \hat{\epsilon}|\)</span> 增大时 <span
+class="math inline">\(P(\hat{\epsilon};\epsilon)\)</span> 减小.</p>
+<p>若取 <span class="math inline">\(m=10, \epsilon = 0.3\)</span>,
+示意图如2.6所示.</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-6.png" class="" title="pic2-6">
+<blockquote>
+<p><strong>Tips:</strong>
+<del>死去的《概率论与数理统计》突然复活起来攻击我</del>, 推荐复习笔记<a
+href="https://zhuanlan.zhihu.com/p/243215469"><strong>[知乎|概率论与数理统计复习整理]</strong></a>.</p>
+</blockquote>
+<p>由<strong>二项检验(Binomial Test)</strong>, 考虑假设<span
+class="math inline">\(\epsilon \leq \epsilon_0\)</span>, 在 <span
+class="math inline">\(1 - \alpha\)</span>
+的概率内能观测到的最大错误率为</p>
+<p><span class="math display">\[\begin{equation}
+\bar{\epsilon} = \min \epsilon \ \ \text{s.t.} \ \ \sum_{i = \epsilon
+\times m + 1}^{m} \binom{m}{i}\epsilon_0^i (1 - \epsilon_0)^{m - i} &lt;
+\alpha
+\tag{2.27}
+\end{equation}\]</span></p>
+<p>其中 <span class="math inline">\(1-\alpha\)</span>
+为<strong>置信度(Confidence)</strong>, 直观上对应图2.6的非阴影部分;
+"s.t."是"subject to", 使左边式子在右边式子条件满足时成立.</p>
+<p>若测试错误率 <span class="math inline">\(\hat{\epsilon}\)</span>
+大于临界值 <span class="math inline">\(\bar{\epsilon}\)</span>,
+由二项检验, 我们可以认为在 <span class="math inline">\(\alpha\)</span>
+的显著度下, 假设 <span class="math inline">\(\epsilon \leq
+\hat{\epsilon}\)</span> 不能被拒绝, 即能以 <span
+class="math inline">\(1-\alpha\)</span> 的置信度认为,
+学习器的泛化错误率不高于 <span
+class="math inline">\(\epsilon_0\)</span>; 否则可以拒绝假设, 在 <span
+class="math inline">\(\alpha\)</span>
+的显著度下可认为学习器的泛化错误率大于 <span
+class="math inline">\(\epsilon_0\)</span>.</p>
+<p>在通过多次测试中中我们会获得多个测试错误率,
+此时可使用<strong>t检验(t-test)</strong>.</p>
+<p>设<span class="math inline">\(k\)</span>个错误率 <span
+class="math inline">\(\hat{\epsilon_1}, \hat{\epsilon_2}, ...,
+\hat{\epsilon_k}\)</span>, 则平均错误率 <span
+class="math inline">\(\mu\)</span>, 方差 <span
+class="math inline">\(\sigma^2\)</span> 为</p>
+<p><span class="math display">\[\begin{equation}
+\mu = \frac{1}{k} \sum_{i=1}^k \hat{\epsilon_i}
+\tag{2.28}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+\sigma^2=\frac{1}{k-1} \sum^{k}_{i=1}(\hat{\epsilon_i} - \mu)^2
+\tag{2.29}
+\end{equation}\]</span></p>
+<p><span class="math inline">\(k\)</span> 个测试错误率可看作是泛化错误率
+<span class="math inline">\(\epsilon_0\)</span> 的独立采样, 则变量</p>
+<p><span class="math display">\[\begin{equation}
+\tau_t=\frac{\sqrt{k} (\mu - \epsilon_0)}{\sigma}
+\tag{2.30}
+\end{equation}\]</span></p>
+<p>服从自由度为 <span class="math inline">\(k-1\)</span> 的 <span
+class="math inline">\(t\)</span> 分布.</p>
+<blockquote>
+<p><strong>Addtional:</strong> <strong>基础知识补充</strong></p>
+<p><span class="math inline">\(\chi^2\)</span> 分布: <span
+class="math inline">\(X_1, X_2, ..., X_n\)</span> 为独立同分布随机变量,
+服从 <span class="math inline">\(N(0, 1)\)</span>, 则 <span
+class="math inline">\(\chi^2_n = \sum_{i=1}^n X^2_i\)</span>
+为服从自由度为 <span class="math inline">\(n\)</span> 的 <span
+class="math inline">\(\chi^2\)</span> 分布</p>
+<p><span class="math inline">\(t\)</span> 分布: <span
+class="math inline">\(X \sim N(0,1), Y \sim \chi^2(n)\)</span>, <span
+class="math inline">\(X,Y\)</span> 独立, 称 <span
+class="math inline">\(T = \frac{X}{\sqrt{\frac{Y}{n}}}\)</span>
+为服从自由度为 <span class="math inline">\(n\)</span> 的 <span
+class="math inline">\(t\)</span> 分布.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tips:</strong> <strong>推导补充</strong></p>
+<p>原书中没有关于这个<span
+class="math inline">\(\tau_t\)</span>服从<span
+class="math inline">\(t\)</span>分布的推导, 笔者在此给出补充.</p>
+<p>假设<span
+class="math inline">\(X_1,X_2,...X_n\)</span>是来自正态总体<span
+class="math inline">\(N(\mu,\sigma^2)\)</span>的样本.
+我们有以下重要统计量:</p>
+<p><span class="math display">\[
+\begin{align}
+\nonumber\text{样本均值}&amp; \ \bar{X}=\frac{1}{n}\sum_{i=1}^n &gt;X_i
+\\
+\nonumber\text{样本方差}&amp; \
+S^2=\frac{1}{n-1}\sum_{i-1}^{n}(X_i-\bar{X})^2
+\end{align}
+\]</span></p>
+<p>我们有几个重要结论:</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-3.png" class="" title="spic2-3">
+<p>故而有推论:</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-4.png" class="" title="spic2-4">
+</blockquote>
+<p>对假设<span
+class="math inline">\(\mu=\epsilon_0\)</span>和显著度<span
+class="math inline">\(\alpha\)</span>, 可以算出临界值——在<span
+class="math inline">\(1-\alpha\)</span>内能观测到的最大错误率.
+考虑<strong>双边假设(Two-Tailed)</strong>, 若<span
+class="math inline">\(\tau_t\)</span>位于临界区<span
+class="math inline">\([t_{-\alpha/2},t_{\alpha/2}]\)</span>内(如图2.7所示),
+则不能拒绝假设<span class="math inline">\(\mu=\epsilon_0\)</span>.
+我们可以认为泛化错误率为<span
+class="math inline">\(\epsilon_0\)</span>.</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-7.png" class="" title="pic2-7">
+<h4 id="多学习器比较">2.4.2 多学习器比较</h4>
+<p>笔者对这部分不做过多记录, 翻阅原书该部分即可.</p>
+<p>对于两个学习器,我们有</p>
+<ul>
+<li>交叉验证t检验(基于成对t 检验)</li>
+<li>McNember检验(基于列联表，卡方检验)</li>
+</ul>
+<p>对于多个学习器,我们有</p>
+<ul>
+<li>Friedman检验(基于序值，F检验; 判断”是否都相同”)</li>
+<li>Nemenyi后续检验(基于序值，进一步判断两两差别)</li>
+</ul>
+<h3 id="偏差与方差">2.5 偏差与方差</h3>
+<ul>
+<li><strong>偏差-方差分解(Bias-variance Decomposition)</strong></li>
+</ul>
+<p>对测试样本<span class="math inline">\(\boldsymbol{x}\)</span>,
+令<span class="math inline">\(y_D\)</span>为<span
+class="math inline">\(\boldsymbol{x}\)</span>在数据集的集中标记, <span
+class="math inline">\(y\)</span>为<span
+class="math inline">\(\boldsymbol{x}\)</span>的真实标记, <span
+class="math inline">\(f(\boldsymbol{x};D)\)</span>为训练集<span
+class="math inline">\(D\)</span>上的学得模型<span
+class="math inline">\(f\)</span>在<span
+class="math inline">\(\boldsymbol{x}\)</span>上的预测输出.</p>
+<p>以回归算法为例, 我们有如下定义(符号定义见<a
+href="http://localhost:4000/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/#chapter-0-%E4%B8%BB%E8%A6%81%E7%AC%A6%E5%8F%B7%E8%A1%A8"><strong>[Lapluma|读书笔记-机器学习
+Ch0-Ch1]</strong></a>):</p>
+<p>学习算法的期望预测.</p>
+<p><span class="math display">\[\begin{equation}
+\bar{f}(\boldsymbol{x})=\mathbb{E}_D[f(\boldsymbol{x};D)]
+\tag{2.37}
+\end{equation}\]</span></p>
+<p>使用样本数相同的不同训练集产生的方差,
+度量了同样大小的训练集变动导致的学习性能变化,
+刻画了数据扰动造成的影响.</p>
+<p><span class="math display">\[\begin{equation}
+\mathcal{var}(\boldsymbol{x})=\mathbb{E}_D[(f(\boldsymbol{x};D)-\bar{f}(x))^2]
+\tag{2.38}
+\end{equation}\]</span></p>
+<p>噪声, 在当前学习任务上任何学习算法所能达到的期望泛化误差下界,
+刻画了学习问题本身的难度.</p>
+<p><span class="math display">\[\begin{equation}
+\varepsilon^2=\mathbb{E}_D[(y_D-y)^2]
+\tag{2.39}
+\end{equation}\]</span></p>
+<p>期望输出与真实标记的差别称为偏差,
+度量了学习算法的期望预测与真是结果的偏离程度,
+刻画了学习算法本身的拟合能力.</p>
+<p><span class="math display">\[\begin{equation}
+\mathcal{bias}^2(\boldsymbol{x})=(\bar{f}(\boldsymbol{x})-y)^2
+\tag{2.40}
+\end{equation}\]</span></p>
+<p>便于讨论,我们假定噪声期望为0, 即<span
+class="math inline">\(\mathbb{E}_D[y_D-y]=0\)</span>,
+对期望泛化误差进行分解(推导略, 见原书), 有</p>
+<p><span class="math display">\[\begin{equation}
+E(f;D)=bias^2(\boldsymbol{x})+var(\boldsymbol{x})+\varepsilon ^2
+\tag{2.42}
+\end{equation}\]</span></p>
+<p>即泛化误差可以分解为偏差, 方差和噪声之和.</p>
+<p>一般来说, 偏差和方差存在冲突, 称为<strong>偏差-方差窘境(Bias-Variance
+Dilemma)</strong>,见图2-9.</p>
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-9.png" class="" title="pic2-9">
+<p>训练不足时, 学习器拟合能力不足,
+训练数据的扰动不足以使学习器产生显著变化,
+此时偏差主导了泛化错误率;训练程度加深, 学习器拟合能力增强,
+训练数据发生的扰动被学习器学习到, 方差逐渐主导了泛化错误率;训练充足后,
+学习器拟合能力非常强. 训练数据发生轻微扰动都会导致学习器发生显著变化,
+此时训练数据自身,非全局的性质被学习器学习, 发生过拟合.</p>
+]]></content>
+      <categories>
+        <category>读书笔记-机器学习</category>
+      </categories>
+      <tags>
+        <tag>读书笔记</tag>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>读书笔记-机器学习 Ch0-Ch1</title>
-    <url>/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/</url>
+    <url>/BookNote-MachineLearning-by-ZhihuaZhou-1/</url>
     <content><![CDATA[<p><strong>机器学习所研究的主要内容,
 是关于在计算机上从数据中产生"模型"(model)的算法, 即"学习算法"(learning
 algorithm).</strong></p>
@@ -290,9 +1121,9 @@ algorithm).</strong></p>
 <li><a href="#chapter-0-主要符号表">Chapter 0: 主要符号表</a></li>
 <li><a href="#chapter-1-绪论">Chapter 1: 绪论</a>
 <ul>
-<li><a href="#-11-基本术语">$ 1.1 基本术语</a></li>
-<li><a href="#-13-假设空间">$ 1.3 假设空间</a></li>
-<li><a href="#-14-归纳偏好">$ 1.4 归纳偏好</a></li>
+<li><a href="#11-基本术语">1.1 基本术语</a></li>
+<li><a href="#13-假设空间">1.3 假设空间</a></li>
+<li><a href="#14-归纳偏好">1.4 归纳偏好</a></li>
 </ul></li>
 </ul>
 <hr />
@@ -333,7 +1164,7 @@ algorithm).</strong></p>
 0 , &gt;  0 时分别取值为 -1,0,1
 \end{aligned}\]</span></p>
 <h2 id="chapter-1-绪论">Chapter 1: 绪论</h2>
-<h3 id="基本术语">$ 1.1 基本术语</h3>
+<h3 id="基本术语">1.1 基本术语</h3>
 <blockquote>
 <p>假定我们收集了一批关于西瓜的数据, 例如(色泽 = 浅白; 根蒂 = 蜷缩; 敲声
 = 浊响), (色泽 = 乌黑; 根蒂 = 稍蜷; 敲声 = 沉闷), (色泽 = 浅白; 根蒂 =
@@ -474,7 +1305,7 @@ href="https://www.zhihu.com/question/41222495"><strong>知乎|为什么机器学
 要假设我们的数据是独立同分布的?</strong></a>获取相关信息.</p>
 </blockquote></li>
 </ul>
-<h3 id="假设空间">$ 1.3 假设空间</h3>
+<h3 id="假设空间">1.3 假设空间</h3>
 <p><strong>归纳(Induction)</strong>与<strong>演绎(Deduction)</strong>是科学推理的两大基本手段.</p>
 <blockquote>
 <p>前者是从特殊到一般的<strong>泛化(Generalization)</strong>过程;
@@ -488,17 +1319,17 @@ href="https://www.zhihu.com/question/41222495"><strong>知乎|为什么机器学
 <li><p><strong>版本空间(Version Space):</strong>
 存在一个与训练集一致的"假设集合", 称为版本空间, 例如:</p></li>
 </ul>
-<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/table1-1.png" class="" title="table1-1">
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-1/table1-1.png" class="" title="table1-1">
 <p>其假设空间为</p>
-<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-1.png" class="" title="pic1-1">
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-1.png" class="" title="pic1-1">
 <p>其版本空间为</p>
-<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-2.png" class="" title="pic1-2">
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-2.png" class="" title="pic1-2">
 <blockquote>
 <p><strong>Tips:</strong> 在该数据集中, 好瓜具有的共同特征是蜷缩和浊响.
 因此色泽标识为通配符 <span class="math inline">\(*\)</span>, 同时,
 第一行的两种假设同样是与训练集一致的(可以匹配好瓜).</p>
 </blockquote>
-<h3 id="归纳偏好">$ 1.4 归纳偏好</h3>
+<h3 id="归纳偏好">1.4 归纳偏好</h3>
 <ul>
 <li><p><strong>归纳偏好(Inductive bias):</strong>
 算法在学习过程中对某种类型假设的偏好称为归纳偏好.</p>
@@ -517,10 +1348,10 @@ Razor)</strong>原则(<strong>若有多个假设与观察一致,
 </blockquote></li>
 </ul>
 <p>接下来我们来比较不同归纳偏好的优劣</p>
-<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-3.png" class="" title="pic1-3">
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-3.png" class="" title="pic1-3">
 <p>从直观上看我们一般会认为, 拟合出平滑的曲线A要优于曲线B, 但很遗憾,
 当面临一些极端数据时, 曲线B可能会优于曲线A, 情形如下图所示.</p>
-<img src="/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-4.png" class="" title="pic1-4">
+<img src="/BookNote-MachineLearning-by-ZhihuaZhou-1/pic1-4.png" class="" title="pic1-4">
 <p>接下来我们用数学语言尝试量化模型的优劣.</p>
 <p>假设样本空间 <span class="math inline">\(\mathcal{X}\)</span>
 和假设空间 <span class="math inline">\(\mathcal{H}\)</span> 都是离散的,
@@ -615,665 +1446,8 @@ NFL定理指出了<strong>没有一种机器学习算法是适用于所有情况
       </tags>
   </entry>
   <entry>
-    <title>读书笔记-机器学习 Ch2</title>
-    <url>/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/</url>
-    <content><![CDATA[<p><strong>有多个算法和参数生成的模型, 哪个才是好的模型?</strong></p>
-<span id="more"></span>
-<p>
-<font size = 5><b>目录</b></font>
-</p>
-<ul>
-<li><a href="#chapter-2-模型评估与选择">Chapter 2: 模型评估与选择</a>
-<ul>
-<li><a href="#-21-经验误差与过拟合">$ 2.1 经验误差与过拟合</a></li>
-<li><a href="#-22-评估方法">$ 2.2 评估方法</a>
-<ul>
-<li><a href="#-221-留出法hold-out">$ 2.2.1 留出法(Hold-Out)</a></li>
-<li><a href="#-222-交叉验证法cross-validation">$ 2.2.2 交叉验证法(Cross
-Validation)</a></li>
-<li><a href="#-223-自助法bootstapping">$ 2.2.3
-自助法(Bootstapping)</a></li>
-<li><a href="#-224-调参与最终模型">$ 2.2.4 调参与最终模型</a></li>
-</ul></li>
-<li><a href="#-23-性能度量">$ 2.3 性能度量</a>
-<ul>
-<li><a href="#-231-错误率与精度">$ 2.3.1 错误率与精度</a></li>
-<li><a href="#-232-查准率precision-查全率recall-f1">$ 2.3.2
-查准率(Precision), 查全率(Recall), F1</a></li>
-<li><a href="#-233-roc与auc">$ 2.3.3 ROC与AUC</a></li>
-<li><a href="#-234-代价敏感错误率与代价曲线">$ 2.3.4
-代价敏感错误率与代价曲线</a></li>
-</ul></li>
-<li><a href="#-24-比较检验">$ 2.4 比较检验</a>
-<ul>
-<li><a href="#-241-假设检验">$ 2.4.1 假设检验</a></li>
-<li><a href="#-242-多学习器比较">$ 2.4.2 多学习器比较</a></li>
-</ul></li>
-<li><a href="#25-偏差与方差">2.5 偏差与方差</a></li>
-</ul></li>
-</ul>
-<hr />
-<h2 id="chapter-2-模型评估与选择">Chapter 2: 模型评估与选择</h2>
-<h3 id="经验误差与过拟合">$ 2.1 经验误差与过拟合</h3>
-<ul>
-<li><p><strong>错误率(Error Rate):</strong>
-分类错误的样本数占样本总数的比例, 记样本数为<span
-class="math inline">\(m\)</span>, <span
-class="math inline">\(a\)</span>个错误分类的样本, 错误率 <span
-class="math inline">\(E=\frac{a}{m}\)</span> .</p></li>
-<li><p><strong>精度(Accuracy):</strong> <span class="math inline">\((1 -
-\frac{a}{m}) \times 100\%\)</span> 称为精度, 即 "精度 = 1 -
-错误率".</p></li>
-<li><p><strong>误差(Error):</strong> 更一般地,
-我们把<strong>学习器的实际预测输出</strong>与<strong>样本的真实输出</strong>之间的差异称为误差,
-学习器在训练集上的误差称为 <strong>训练误差(Training
-Error)/经验误差(Empirical Error)</strong>,
-在新样本上的误差称为<strong>泛化误差(Generalization Error)</strong>.</p>
-<blockquote>
-<p><strong>Tips:</strong> 这里的误差均指<strong>误差期望</strong>.</p>
-</blockquote></li>
-</ul>
-<p>尽管我们希望得到一个泛化误差小的学习器, 使得其在新样本上表现很好,
-但我们并不能预测新样本, 因此我们只能尝试降低经验误差.
-但经验误差很小的学习器往往在泛化误差的表现上都很糟糕.
-这样的学习器发生了<strong>过拟合</strong>.</p>
-<ul>
-<li><p><strong>过拟合(Overfitting):</strong>
-学习器可能将训练样本自身的一些特点当作了所有潜在样本都具有的一般性质,
-导致泛化能力下降的现象.</p></li>
-<li><p><strong>欠拟合(Underfitting):</strong> 与过拟合相对,
-指对训练样本的一般性质尚未学好.</p></li>
-</ul>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-1.png" class="" title="pic2-1">
-<blockquote>
-<p><strong>Tips:</strong> 导致过拟合的原因很多,
-最常见的原因是学习能力过强; 欠拟合则相反, 因为学习能力低下.
-欠拟合容易克服, 但过拟合很难解决, 且过拟合无法彻底避免.</p>
-</blockquote>
-<ul>
-<li><strong>模型选择(Model Selection):</strong> 在实际中,
-面对同一个问题, 往往有多种学习算法可以选择,
-参数配置也会对模型产生影响.</li>
-</ul>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-2.png" class="" title="spic2-2">
-<h3 id="评估方法">$ 2.2 评估方法</h3>
-<p>通常我们可以通过实验测试对学习器的泛化误差进行评估,
-使用<strong>测试集(Testing Set)</strong>测试学习器对新样本的判别能力,
-以测试集上<strong>测试误差(Testing Error)</strong>作为泛化误差的近似.
-但需要注意的是, 测试集应尽可能与训练集互斥.</p>
-<blockquote>
-<p>假设我们有且只有一个包含<span
-class="math inline">\(m\)</span>个样例的数据集<span
-class="math inline">\(D = \{(x_1,y_1),(x_2,y_2), ...,
-(x_m,y_m)\}\)</span>, 既要训练, 又要测试, 这样就需要对<span
-class="math inline">\(D\)</span>进行适当处理, 从中产生
-<strong>训练集</strong> <span class="math inline">\(S\)</span>和
-<strong>测试集</strong> <span class="math inline">\(T\)</span>.</p>
-</blockquote>
-<h4 id="留出法hold-out">$ 2.2.1 留出法(Hold-Out)</h4>
-<p>留出法的思路很简单, 直接将数据集<span
-class="math inline">\(D\)</span>划分成两个互斥的集合, 即<span
-class="math inline">\(D = S \cup T, S \cap T = \emptyset\)</span>.</p>
-<p>使用留出法时需要注意训练集和测试集的划分需要保持数据分布一致性,
-避免因数据划分引入额外偏差对结果产生影响.
-同时单次留出法得到的估计往往并不够准确可靠, 一般采用若干次随机划分,
-重复进行实验评估取平均值作为留出法评估结果. 关于划分比例, 通常取2/3 ~
-4/5的样本用于训练, 其余用于测试.</p>
-<h4 id="交叉验证法cross-validation">$ 2.2.2 交叉验证法(Cross
-Validation)</h4>
-<p>交叉验证法可以看作是一种具体的留出法, 其方法过程是:</p>
-<p>先将数据集<span class="math inline">\(D\)</span>划分为<span
-class="math inline">\(k\)</span>个大小相似的互斥子集, <span
-class="math inline">\(D = D_1 \cup D_2 \cup ... \cup D_k, D_i \cap D_j =
-\emptyset (i \neq j)\)</span>, 子集<span
-class="math inline">\(D_i\)</span>通过保留类别比例的<strong>分层采样(Stratified
-Sampling)</strong>来尽可能保持数据分布一致性.</p>
-<p>接下来每次取<span class="math inline">\(k-1\)</span>个子集作为训练集,
-余下一个作为测试集, 进行<span
-class="math inline">\(k\)</span>次训练和测试, 最终结果取<span
-class="math inline">\(k\)</span>个结果的均值.</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-2.png" class="" title="pic2-2">
-<p>显然交叉验证法评估结果的<strong>稳定性(Stability)</strong>和<strong>保真性(Fidelity)</strong>与<span
-class="math inline">\(k\)</span>的取值强相关.
-故而交叉验证法又称<strong>k折交叉验证(k-fold Cross Validation)</strong>.
-最常见的取值是 <span class="math inline">\(k=10\)</span>.</p>
-<p>由于<span class="math inline">\(D\)</span>的<span
-class="math inline">\(k\)</span>划分不唯一, k折交叉验证通常也要重复多次,
-记为<span class="math inline">\(p\)</span>, 最终结果取这<span
-class="math inline">\(p\)</span>次k折交叉验证结果的均值.</p>
-<p><strong>留一法(Leave-One-Out, LOO)</strong>, <span
-class="math inline">\(|D| = m\)</span>, 则令<span
-class="math inline">\(k = m\)</span> 就得到了留一法.</p>
-<p>留一法的优势是不受样本划分影响(有且仅有一种划分方式), 训练集仅比<span
-class="math inline">\(D\)</span>少一个样本,
-绝大多数情况下留一法中被评估的模型与期望用<span
-class="math inline">\(D\)</span>训练的模型相似.
-因此认为留一法评估结果较为准确. 缺点是当<span
-class="math inline">\(m\)</span>较大时, 计算开销过大以致无法接受.</p>
-<h4 id="自助法bootstapping">$ 2.2.3 自助法(Bootstapping)</h4>
-<p>留出法和交叉验证法都保留了一部分样本用于测试,
-因此实际评估的模型所使用的训练集比<span
-class="math inline">\(D\)</span>小,
-必然会引入一些因训练样本规模不同而导致的估计偏差.
-留一法的计算复杂度又太高了. 自助法提供了一个较好的解决方案.</p>
-<p>自助法直接以 <strong>自助采样法(Bootstrap Sampling)</strong> 为基础.
-给定包含<span class="math inline">\(m\)</span>个样本的数据集<span
-class="math inline">\(D\)</span>, 对其进行采样产生数据集<span
-class="math inline">\(D&#39;\)</span>. 采样过程每次随即从<span
-class="math inline">\(D\)</span>中挑选一个样本, 将拷贝放入<span
-class="math inline">\(M&#39;\)</span>
-<strong>(意味着下次采样该样本仍有可能被采样到)</strong>. 重复该过程<span
-class="math inline">\(m\)</span>次, 得到了包含<span
-class="math inline">\(m\)</span>个样本的数据集<span
-class="math inline">\(D&#39;\)</span>.</p>
-<blockquote>
-<p><strong>Tips:</strong> 此处"自助"为意译,
-称<strong>可重复采样/有放回采样</strong>更符合其原理.</p>
-</blockquote>
-<p>不难看出, 可能存在部分样本被多次采样到, 部分样本未被采样到.
-我们关注某个样本在<span
-class="math inline">\(m\)</span>次中未被采样的概率,有</p>
-<p><span class="math display">\[\begin{equation}
-\lim_{m \rightarrow \infty}(1 - \frac{1}{m})^m  = \frac{1}{e} \approx
-0.368 \tag{2.1}
-\end{equation}\]</span></p>
-<p>通过自主采样, 初始数据集<span
-class="math inline">\(D\)</span>中约有<span
-class="math inline">\(36.8\%\)</span>的样本未出现在采样数据集<span
-class="math inline">\(D&#39;\)</span>中, 将<span
-class="math inline">\(D&#39;\)</span>作为训练集, <span
-class="math inline">\(D \backslash D&#39;\)</span>作为测试集.
-这样的测试结果称为<strong>包外估计(Out-Of-Bagestimate)</strong>.</p>
-<p>自助法在数据集较小, 难以有效划分训练和测试集的时候具有优势.
-但自助法产生的数据集改变了初始数据集的分布, 会引入估计误差.
-初始数据集较大时更常用留出法和交叉验证法.</p>
-<h4 id="调参与最终模型">$ 2.2.4 调参与最终模型</h4>
-<p><strong>参数(Parameter)</strong>和<strong>调参(Parameter
-Tuning)</strong>释义见名称.</p>
-<blockquote>
-<p><strong>Tips:</strong> 机器学习常涉及两类参数:
-算法参数和模型参数.</p>
-</blockquote>
-<ul>
-<li><p><strong>验证集(Validation Set):</strong>
-模型评估与选择中用于评估测试的数据集常称为验证集.</p>
-<blockquote>
-<p><strong>Additonal:</strong> 关于训练集, 测试集和验证集的区别,
-笔者在此参考<a
-href="https://zhuanlan.zhihu.com/p/98532085"><strong>[知乎|训练集、验证集、测试集]</strong></a></p>
-</blockquote></li>
-</ul>
-<h3 id="性能度量">$ 2.3 性能度量</h3>
-<ul>
-<li><strong>性能度量(Performance Measure):</strong>
-衡量模型泛化能力的评价标准. 显然该标准取决于任务需求.</li>
-</ul>
-<p>以预测任务为例, 给定样例集<span class="math inline">\(D =
-\{(\boldsymbol{x_1}, y_1), (\boldsymbol{x_2}, y_2), ...,
-(\boldsymbol{x_m}, y_m)\}\)</span>, 其中<span
-class="math inline">\(y_i\)</span>是<span
-class="math inline">\(\boldsymbol{x_i}\)</span>的真实标记,
-评估学习器<span class="math inline">\(f\)</span>的性能,
-需要比较预测结果<span class="math inline">\(f(x)\)</span>与真实标记<span
-class="math inline">\(y\)</span>.</p>
-<p>回归任务常用性能度量<strong>均方误差(Mean Squared Error)</strong></p>
-<p><span class="math display">\[\begin{equation}
-E(f;D) = \frac{1}{m} \sum_{i=1}^{m}(f(\boldsymbol{x_i}) - y_i)^2
-\tag{2.2}
-\end{equation}\]</span></p>
-<p>更一般地, 对于数据分布<span
-class="math inline">\(\mathcal{D}\)</span>和概率密度函数<span
-class="math inline">\(p(\cdot)\)</span>, 均方误差描述为</p>
-<p><span class="math display">\[\begin{equation}
-E(f;\mathcal{D}) = \int_{x \sim \mathcal{D}}^{}(f(\boldsymbol{x}) - y)^2
-p(\boldsymbol{x}) d\boldsymbol{x} \tag{2.3}
-\end{equation}\]</span></p>
-<h4 id="错误率与精度">$ 2.3.1 错误率与精度</h4>
-<p>错误率和精度是分类任务中最常用的两种性能度量.</p>
-<p>对于样例集<span class="math inline">\(\mathcal{D}\)</span>,
-错误率和精度定义为</p>
-<p><span class="math display">\[\begin{equation}
-E(f;D) = \frac{1}{m} \sum_{i=1}^{m}\mathbb{I}(f(\boldsymbol{x_i}) \neq
-y_i) \tag{2.4}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-acc(f;D) = \frac{1}{m} \sum_{i=1}^{m}\mathbb{I}(f(\boldsymbol{x_i}) =
-y_i) = 1 - E(f;D) \tag{2.5}
-\end{equation}\]</span></p>
-<p>对于数据分布<span
-class="math inline">\(\mathcal{D}\)</span>和概率密度函数<span
-class="math inline">\(p(\cdot)\)</span>, 错误率和精度定义为</p>
-<p><span class="math display">\[\begin{equation}
-E(f;\mathcal{D}) = \int_{x \sim
-\mathcal{D}}^{}\mathbb{I}(f(\boldsymbol{x}) \neq y) p(\boldsymbol{x})
-d\boldsymbol{x} \tag{2.6}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-acc(f;\mathcal{D}) = \int_{x \sim
-\mathcal{D}}^{}\mathbb{I}(f(\boldsymbol{x}) = y) p(\boldsymbol{x})
-d\boldsymbol{x} = 1 - E(f;\mathcal{D}) \tag{2.7}
-\end{equation}\]</span></p>
-<h4 id="查准率precision-查全率recall-f1">$ 2.3.2 查准率(Precision),
-查全率(Recall), F1</h4>
-<p>有时我们更关心模型的正确率,
-比如说"挑选出来的瓜有多少是好瓜","有多少好瓜被挑选出来了",
-查准率和查全率更适合用来度量.</p>
-<p>对于二分类问题, 我们有<strong>混淆矩阵(Confusion Matrix)</strong></p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/tab2-1.png" class="" title="tab2-1">
-<p>定义查准率<span class="math inline">\(P\)</span>, 查全率<span
-class="math inline">\(R\)</span></p>
-<p><span class="math display">\[\begin{equation}
-P = \frac{TP}{TP + FP}\tag{2.8}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-P = \frac{TP}{TP + FN}\tag{2.9}
-\end{equation}\]</span></p>
-<blockquote>
-<p><strong>Tips:</strong> 自然语言解释就是,
-查准率是在预测正确中实际正确的比率,
-查全率是在实际正确中预测正确的比率.</p>
-</blockquote>
-<p>查准率和查全率是一对矛盾的度量, 二者负相关.
-是<strong>sound</strong>和<strong>complete</strong>的关系</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-1.png" class="" title="spic2-1">
-<blockquote>
-<p><strong>Tips:</strong> 该图片截选自NJU软件分析课件,
-<del>ly和tt老师应该不会在意吧(雾)</del></p>
-<p>课程地址链接<a
-href="https://tai-e.pascal-lab.net/lectures.html"><strong>[Static
-Program Analysis]</strong></a></p>
-</blockquote>
-<p>查准率和查全率的关系可以用<strong>P-R图</strong>表示</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-3.png" class="" title="pic2-3">
-<ul>
-<li><strong>平衡点(Break-Even Point, BEP):</strong> <span
-class="math inline">\(P=R\)</span>时的取值,
-可基于BEP评估两个学习器的优劣, 如图2-3, 可认为<span
-class="math inline">\(A&gt;B&gt;C\)</span></li>
-</ul>
-<p>比BEP更常用的是<span class="math inline">\(F1\)</span>度量定义为</p>
-<p><span class="math display">\[\begin{equation}
-F1 = \frac{2 \times P \times R}{P + R} = \frac{2 \times TP}{样例总数 +
-TP - TN}\tag{2.10}
-\end{equation}\]</span></p>
-<p><span class="math inline">\(F_{\beta}\)</span>是<span
-class="math inline">\(F_1\)</span>的一般形式, 定义为</p>
-<p><span class="math display">\[\begin{equation}
-F_{\beta} = \frac{(1 + \beta^2) \times P \times R}{(\beta^2 \times P) +
-R}\tag{2.11}
-\end{equation}\]</span></p>
-<p>其中<span class="math inline">\(\beta &gt;
-0\)</span>度量了查全率对查准率的相对重要性, <span
-class="math inline">\(\beta = 1\)</span>时退化为<span
-class="math inline">\(F_1\)</span>, <span class="math inline">\(\beta
-&gt; 1\)</span>时查全率影响更大, <span class="math inline">\(\beta &lt;
-1\)</span>时查准率影响更大.</p>
-<blockquote>
-<p><strong>Tips:</strong></p>
-<p><span class="math inline">\(F_1\)</span>基于调和平均定义, <span
-class="math inline">\(\frac{1}{F_1} = \frac{1}{2} \cdot (\frac{1}{P} +
-\frac{1}{R})\)</span>.</p>
-<p><span class="math inline">\(F_\beta\)</span>基于加权调和平均定义,
-<span class="math inline">\(\frac{1}{F_\beta} = \frac{1}{1 + \beta^2}
-\cdot (\frac{1}{P} + \frac{\beta^2}{R})\)</span></p>
-</blockquote>
-<p>若在n个二分类混淆矩阵上考察准确率和查全率,
-我们有<strong>macro</strong>和<strong>micro</strong>两种选择.</p>
-<p>对于<strong>宏(macro)</strong>, 在各个混淆矩阵上分别计算<span
-class="math inline">\(P\)</span>和<span
-class="math inline">\(R\)</span>,
-再取平均.得到<strong>宏查准率(macro-P)</strong>,
-<strong>宏查全率(macro-R)</strong>, <strong>宏F1(macro-F1)</strong></p>
-<p><span class="math display">\[\begin{equation}
-macro\text{-}P = \frac{1}{n} \sum_{i=1}^{n} P_i\tag{2.12}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-macro\text{-}R = \frac{1}{n} \sum_{i=1}^{n} R_i\tag{2.13}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-macro\text{-}F1 = \frac{2 \times macro\text{-}P \times
-macro\text{-}R}{macro\text{-}P + macro\text{-}R}\tag{2.14}
-\end{equation}\]</span></p>
-<p>对于<strong>微(micro)</strong>, 先平均混淆矩阵得到$, , , $,
-再计算出<strong>微查准率(micro-P)</strong>,
-<strong>微查全率(micro-R)</strong>, <strong>微F1(micro-F1)</strong></p>
-<p><span class="math display">\[\begin{equation}
-micro\text{-}P =
-\frac{\overline{TP}}{\overline{TP}+\overline{FP}}\tag{2.15}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-micro\text{-}R = \frac{\overline{TP}}{\overline{TP}+\overline{FN}}
-\tag{2.16}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-micro\text{-}F1 = \frac{2 \times micro\text{-}P \times
-micro\text{-}R}{micro\text{-}P + micro\text{-}R}\tag{2.17}
-\end{equation}\]</span></p>
-<h4 id="roc与auc">$ 2.3.3 ROC与AUC</h4>
-<p>现重新考虑查准率和查全率, 首先我们来看看学习器如何给正/反的分类.</p>
-<p>很多学习器为测试样本产生一个实值或概率预测,
-将预测值与<strong>分类阈值(Threshold)</strong>比较, 大于阈值则为正类,
-否则为反类. 根据该实值或概率预测进行排序, 概率高的在前, 概率低的在后,
-则这个分类阈值就是<strong>截断点(Cut Point)</strong>, 前一部分为正例,
-后一部分为负例.</p>
-<p>不难得到以下结论: 截断点越靠前, 查准率增高而查全率降低; 截断点越靠后,
-查准率降低而查全率增高. 同时,
-排序质量越好的学习器"在一般情况下"泛化性能越好,
-ROC基于此度量模型的泛化能力.</p>
-<p><strong>受试者工作特征(Receiver Operating Characteristic,
-ROC)</strong>, 根据学习器的预测结果对样例进行排序,
-顺序逐个把样本作为正例进行预测(选择不同的截断点),计算
-<strong>真正例率(True Positive Rate, TPR)</strong>,
-<strong>假正例率(False Positive Rate, FPR)</strong> 作为纵横轴.</p>
-<p><span class="math display">\[\begin{equation}
-TPR = \frac{TP}{TP + FN}
-\tag{2.18}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-FPR = \frac{FP}{TN + FP}
-\tag{2.19}
-\end{equation}\]</span></p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-4.png" class="" title="pic2-4">
-<p>对角线对应随即猜测模型, 点(0, 1)对应所有正例在负例前的理想模型.</p>
-<ul>
-<li><strong>AUC(Area Under ROC Curve):</strong> ROC曲线下面积.
-为依据两个模型绘制的ROC曲线比较两个模型的优劣而引入.</li>
-</ul>
-<p>对于离散样本, 计算AUC:</p>
-<p><span class="math display">\[\begin{equation}
-AUC = \frac{1}{2} \sum^{m - 1}_{i=1}(x_{i+1} - x_i)\cdot(y_i + y_{i + 1}
-)
-\tag{2.19}
-\end{equation}\]</span></p>
-<p>形式化上AUC度量排序质量, 记有<span
-class="math inline">\(m^+\)</span>个正例, <span
-class="math inline">\(m^-\)</span>个反例, 令<span
-class="math inline">\(D^+\)</span>为正例集合, <span
-class="math inline">\(D^-\)</span>为负例集合,
-定义排序<strong>损失(loss):</strong></p>
-<p><span class="math display">\[\begin{equation}
-\mathscr{l}_{rank} = \frac{1}{m^+ m^-}\sum_{x^+ \in D^+} \sum_{m^- \in
-D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) + \frac{1}{2} \mathbb{I}(f(x^+)=
-f(x^-))\right)
-\tag{2.21}
-\end{equation}\]</span></p>
-<p>如何理解这个式子? 考虑每一对正反例, 若正例小于反例记一个"罚分",
-相等则记半个. 不难看出, 对于每个正例/负例, 可能造成的"罚分"与其"位置",
-越"错误"的位置会引起越多的"罚分", 这与AUC计算过程及其相似. 实际上, <span
-class="math inline">\(\mathscr{l}_{rank}\)</span>对应ROC曲线上方的面积,
-有</p>
-<p><span class="math display">\[\begin{equation}
-AUC = 1 - \mathscr{l}_{rank}
-\tag{2.22}
-\end{equation}\]</span></p>
-<h4 id="代价敏感错误率与代价曲线">$ 2.3.4 代价敏感错误率与代价曲线</h4>
-<p>为权衡不同类型错误所造成的不同损失,
-我们为错误赋予<strong>非均等代价(UnEqual Cost)</strong>.</p>
-<p>以二分类为例, <strong>代价矩阵(Cost Matrix)</strong>如下:</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/tab2-2.png" class="" title="tab2-2">
-<p>若将0类记为正例, 1类记为负例, 定义<span class="math inline">\(D^+,
-D^-\)</span>, <strong>代价敏感(Cost-Sensitive)</strong> 错误率为</p>
-<p><span class="math display">\[\begin{equation}
-E(f;D;cost) = \frac{1}{m} \left(\sum_{\boldsymbol{x}_i \in D^+}
-\mathbb{I}(f(\boldsymbol{x}_i) \neq y_i) \times cost_{01} +
-\sum_{\boldsymbol{x}_i \in D^-} \mathbb{I}(f(\boldsymbol{x}_i) \neq y_i)
-\times cost_{10}\right)
-\tag{2.23}
-\end{equation}\]</span></p>
-<p>非均等情况下, <strong>代价曲线(Cost
-Curve)</strong>可以解决ROC曲线不能反映出学习器的期望<strong>总体代价(Total
-Cost)</strong>问题.</p>
-<p>其横轴是取值为<span
-class="math inline">\([0,1]的\)</span>正例概率代价, 其中<span
-class="math inline">\(p\)</span>为样例是正例的概率</p>
-<p><span class="math display">\[\begin{equation}
-P(+)cost=\frac{p \times cost_{01}}{p \times cost_{01} + (1 - p) \times
-cost_{10}}
-\tag{2.24}
-\end{equation}\]</span></p>
-<p>纵轴是取值为<span
-class="math inline">\([0,1]\)</span>的归一化代价,FPR为假正例率,
-FNR为假反例率</p>
-<p><span class="math display">\[\begin{equation}
-cost_{norm} = \frac{FNR \times p \times cost_{01} + FPR \times (1 - p)
-\times cost_{10}}{p \times cost_{01} + (1 - p) \times cost_{10}}
-\tag{2.25}
-\end{equation}\]</span></p>
-<p>绘制代价曲线时, ROC曲线上每个点对应代价平面上的一条线段,
-设ROC点坐标为<span class="math inline">\((FPR, TPR)\)</span>,
-然后在代价平面上绘制一条从<span class="math inline">\((0,
-FPR)\)</span>到<span class="math inline">\((1, FNR)\)</span>的线段,
-线段下面积代表了该条件下的期望总体代价.如此为每个点绘制线段, 取线段下界,
-围成面积即为在所有条件下学习器的总体期望代价.</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-5.png" class="" title="pic2-5">
-<blockquote>
-<p><strong>Addtional:</strong> 如何理解代价曲线?</p>
-<p>笔者在此给出一篇参考<a
-href="https://www.zhihu.com/question/63492375"><strong>[知乎|代价曲线的理解]</strong></a>.这篇参考中对大部分问题给到了解释.</p>
-<p>在此额外补充一点困惑笔者许久的问题, 每一条线段代表什么?</p>
-<p>每一条线段代表当前<strong>阈值</strong>条件下,
-对不同样本集的期望代价. 具体来说,
-是以FPR和FNR为预测值对不同样本集的预测.</p>
-</blockquote>
-<h3 id="比较检验">$ 2.4 比较检验</h3>
-<p><strong>统计假设检验(Hypothesis Test)</strong>
-为比较学习器性能提供了重要依据. 本节默认以错误率为性能度量, 用<span
-class="math inline">\(\epsilon\)</span>表示.</p>
-<h4 id="假设检验">$ 2.4.1 假设检验</h4>
-<p>现实中我们无法知道学习器的泛化错误率 <span
-class="math inline">\(\epsilon\)</span>, 只能获知其测试错误率 <span
-class="math inline">\(\hat{\epsilon}\)</span>.
-常用测试错误率估推出泛化错误率.</p>
-<p>对于 <span class="math inline">\(m\)</span> 个测试样本,
-如果测试错误率为 <span class="math inline">\(\hat{\epsilon}\)</span>,
-则被误分类的样本数量 <span class="math inline">\(m&#39;=\hat{\epsilon}
-\times m\)</span>, 假定测试样本从样本总体分布中独立采样获得,
-由<strong>二项(Binomial)分布</strong>, 泛化错误率为 <span
-class="math inline">\(\hat{\epsilon}\)</span> 的学习器恰有 <span
-class="math inline">\(m&#39;\)</span> 个样本被误分类的概率是 <span
-class="math inline">\(\binom{m}{m&#39;}\epsilon^{m&#39;}(1-\epsilon)^{m-m&#39;}\)</span>
-. 同时, 这也表示泛化错误率为 <span
-class="math inline">\(\epsilon\)</span> 的学习器在<span
-class="math inline">\(m\)</span>个样本上测试得到测试错误率为 <span
-class="math inline">\(\hat{\epsilon}\)</span> 的概率:</p>
-<p><span class="math display">\[\begin{equation}
-P(\hat{\epsilon};\epsilon)=\binom{m}{\hat{\epsilon} \times m}
-\epsilon^{\hat{\epsilon} \times m} (1 - \epsilon)^{m - \hat{\epsilon}
-\times m}
-\tag{2.26}
-\end{equation}\]</span></p>
-<p>由二项分布性质, 或者计算 <span
-class="math inline">\(P(\hat{\epsilon};\epsilon)\)</span> 对 <span
-class="math inline">\(\epsilon\)</span> 的偏导, 可以知道 <span
-class="math inline">\(P(\hat{\epsilon};\epsilon)\)</span> 在 <span
-class="math inline">\(\epsilon = \hat{\epsilon}\)</span> 时最大, <span
-class="math inline">\(|\epsilon - \hat{\epsilon}|\)</span> 增大时 <span
-class="math inline">\(P(\hat{\epsilon};\epsilon)\)</span> 减小.</p>
-<p>若取 <span class="math inline">\(m=10, \epsilon = 0.3\)</span>,
-示意图如2.6所示.</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-6.png" class="" title="pic2-6">
-<blockquote>
-<p><strong>Tips:</strong>
-<del>死去的《概率论与数理统计》突然复活起来攻击我</del>, 推荐复习笔记<a
-href="https://zhuanlan.zhihu.com/p/243215469"><strong>[知乎|概率论与数理统计复习整理]</strong></a>.</p>
-</blockquote>
-<p>由<strong>二项检验(Binomial Test)</strong>, 考虑假设<span
-class="math inline">\(\epsilon \leq \epsilon_0\)</span>, 在 <span
-class="math inline">\(1 - \alpha\)</span>
-的概率内能观测到的最大错误率为</p>
-<p><span class="math display">\[\begin{equation}
-\bar{\epsilon} = \min \epsilon \ \ \text{s.t.} \ \ \sum_{i = \epsilon
-\times m + 1}^{m} \binom{m}{i}\epsilon_0^i (1 - \epsilon_0)^{m - i} &lt;
-\alpha
-\tag{2.27}
-\end{equation}\]</span></p>
-<p>其中 <span class="math inline">\(1-\alpha\)</span>
-为<strong>置信度(Confidence)</strong>, 直观上对应图2.6的非阴影部分;
-"s.t."是"subject to", 使左边式子在右边式子条件满足时成立.</p>
-<p>若测试错误率 <span class="math inline">\(\hat{\epsilon}\)</span>
-大于临界值 <span class="math inline">\(\bar{\epsilon}\)</span>,
-由二项检验, 我们可以认为在 <span class="math inline">\(\alpha\)</span>
-的显著度下, 假设 <span class="math inline">\(\epsilon \leq
-\hat{\epsilon}\)</span> 不能被拒绝, 即能以 <span
-class="math inline">\(1-\alpha\)</span> 的置信度认为,
-学习器的泛化错误率不高于 <span
-class="math inline">\(\epsilon_0\)</span>; 否则可以拒绝假设, 在 <span
-class="math inline">\(\alpha\)</span>
-的显著度下可认为学习器的泛化错误率大于 <span
-class="math inline">\(\epsilon_0\)</span>.</p>
-<p>在通过多次测试中中我们会获得多个测试错误率,
-此时可使用<strong>t检验(t-test)</strong>.</p>
-<p>设<span class="math inline">\(k\)</span>个错误率 <span
-class="math inline">\(\hat{\epsilon_1}, \hat{\epsilon_2}, ...,
-\hat{\epsilon_k}\)</span>, 则平均错误率 <span
-class="math inline">\(\mu\)</span>, 方差 <span
-class="math inline">\(\sigma^2\)</span> 为</p>
-<p><span class="math display">\[\begin{equation}
-\mu = \frac{1}{k} \sum_{i=1}^k \hat{\epsilon_i}
-\tag{2.28}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
-\sigma^2=\frac{1}{k-1} \sum^{k}_{i=1}(\hat{\epsilon_i} - \mu)^2
-\tag{2.29}
-\end{equation}\]</span></p>
-<p><span class="math inline">\(k\)</span> 个测试错误率可看作是泛化错误率
-<span class="math inline">\(\epsilon_0\)</span> 的独立采样, 则变量</p>
-<p><span class="math display">\[\begin{equation}
-\tau_t=\frac{\sqrt{k} (\mu - \epsilon_0)}{\sigma}
-\tag{2.30}
-\end{equation}\]</span></p>
-<p>服从自由度为 <span class="math inline">\(k-1\)</span> 的 <span
-class="math inline">\(t\)</span> 分布.</p>
-<blockquote>
-<p><strong>Addtional:</strong> <strong>基础知识补充</strong></p>
-<p><span class="math inline">\(\chi^2\)</span> 分布: <span
-class="math inline">\(X_1, X_2, ..., X_n\)</span> 为独立同分布随机变量,
-服从 <span class="math inline">\(N(0, 1)\)</span>, 则 <span
-class="math inline">\(\chi^2_n = \sum_{i=1}^n X^2_i\)</span>
-为服从自由度为 <span class="math inline">\(n\)</span> 的 <span
-class="math inline">\(\chi^2\)</span> 分布</p>
-<p><span class="math inline">\(t\)</span> 分布: <span
-class="math inline">\(X \sim N(0,1), Y \sim \chi^2(n)\)</span>, <span
-class="math inline">\(X,Y\)</span> 独立, 称 <span
-class="math inline">\(T = \frac{X}{\sqrt{\frac{Y}{n}}}\)</span>
-为服从自由度为 <span class="math inline">\(n\)</span> 的 <span
-class="math inline">\(t\)</span> 分布.</p>
-</blockquote>
-<blockquote>
-<p><strong>Tips:</strong> <strong>推导补充</strong></p>
-<p>原书中没有关于这个<span
-class="math inline">\(\tau_t\)</span>服从<span
-class="math inline">\(t\)</span>分布的推导, 笔者在此给出补充.</p>
-<p>假设<span
-class="math inline">\(X_1,X_2,...X_n\)</span>是来自正态总体<span
-class="math inline">\(N(\mu,\sigma^2)\)</span>的样本.
-我们有以下重要统计量:</p>
-<p><span class="math display">\[
-\begin{align}
-\nonumber\text{样本均值}&amp; \ \bar{X}=\frac{1}{n}\sum_{i=1}^n &gt;X_i
-\\
-\nonumber\text{样本方差}&amp; \
-S^2=\frac{1}{n-1}\sum_{i-1}^{n}(X_i-\bar{X})^2
-\end{align}
-\]</span></p>
-<p>我们有几个重要结论:</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-3.png" class="" title="spic2-3">
-<p>故而有推论:</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/spic2-4.png" class="" title="spic2-4">
-</blockquote>
-<p>对假设<span
-class="math inline">\(\mu=\epsilon_0\)</span>和显著度<span
-class="math inline">\(\alpha\)</span>, 可以算出临界值——在<span
-class="math inline">\(1-\alpha\)</span>内能观测到的最大错误率.
-考虑<strong>双边假设(Two-Tailed)</strong>, 若<span
-class="math inline">\(\tau_t\)</span>位于临界区<span
-class="math inline">\([t_{-\alpha/2},t_{\alpha/2}]\)</span>内(如图2.7所示),
-则不能拒绝假设<span class="math inline">\(\mu=\epsilon_0\)</span>.
-我们可以认为泛化错误率为<span
-class="math inline">\(\epsilon_0\)</span>.</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-7.png" class="" title="pic2-7">
-<h4 id="多学习器比较">$ 2.4.2 多学习器比较</h4>
-<p>笔者对这部分不做过多记录, 翻阅原书该部分即可.</p>
-<p>对于两个学习器,我们有</p>
-<ul>
-<li>交叉验证t检验(基于成对t 检验)</li>
-<li>McNember检验(基于列联表，卡方检验)</li>
-</ul>
-<p>对于多个学习器,我们有</p>
-<ul>
-<li>Friedman检验(基于序值，F检验; 判断”是否都相同”)</li>
-<li>Nemenyi后续检验(基于序值，进一步判断两两差别)</li>
-</ul>
-<h3 id="偏差与方差">2.5 偏差与方差</h3>
-<ul>
-<li><strong>偏差-方差分解(Bias-variance Decomposition)</strong></li>
-</ul>
-<p>对测试样本<span class="math inline">\(\boldsymbol{x}\)</span>,
-令<span class="math inline">\(y_D\)</span>为<span
-class="math inline">\(\boldsymbol{x}\)</span>在数据集的集中标记, <span
-class="math inline">\(y\)</span>为<span
-class="math inline">\(\boldsymbol{x}\)</span>的真实标记, <span
-class="math inline">\(f(\boldsymbol{x};D)\)</span>为训练集<span
-class="math inline">\(D\)</span>上的学得模型<span
-class="math inline">\(f\)</span>在<span
-class="math inline">\(\boldsymbol{x}\)</span>上的预测输出.</p>
-<p>以回归算法为例, 我们有如下定义(符号定义见<a
-href="http://localhost:4000/2024/09/18/BookNote-MachineLearning-by-ZhihuaZhou-1/#chapter-0-%E4%B8%BB%E8%A6%81%E7%AC%A6%E5%8F%B7%E8%A1%A8"><strong>[Lapluma|读书笔记-机器学习
-Ch0-Ch1]</strong></a>):</p>
-<p>学习算法的期望预测.</p>
-<p><span class="math display">\[\begin{equation}
-\bar{f}(\boldsymbol{x})=\mathbb{E}_D[f(\boldsymbol{x};D)]
-\tag{2.37}
-\end{equation}\]</span></p>
-<p>使用样本数相同的不同训练集产生的方差,
-度量了同样大小的训练集变动导致的学习性能变化,
-刻画了数据扰动造成的影响.</p>
-<p><span class="math display">\[\begin{equation}
-\mathcal{var}(\boldsymbol{x})=\mathbb{E}_D[(f(\boldsymbol{x};D)-\bar{f}(x))^2]
-\tag{2.38}
-\end{equation}\]</span></p>
-<p>噪声, 在当前学习任务上任何学习算法所能达到的期望泛化误差下界,
-刻画了学习问题本身的难度.</p>
-<p><span class="math display">\[\begin{equation}
-\varepsilon^2=\mathbb{E}_D[(y_D-y)^2]
-\tag{2.39}
-\end{equation}\]</span></p>
-<p>期望输出与真实标记的差别称为偏差,
-度量了学习算法的期望预测与真是结果的偏离程度,
-刻画了学习算法本身的拟合能力.</p>
-<p><span class="math display">\[\begin{equation}
-\mathcal{bias}^2(\boldsymbol{x})=(\bar{f}(\boldsymbol{x})-y)^2
-\tag{2.40}
-\end{equation}\]</span></p>
-<p>便于讨论,我们假定噪声期望为0, 即<span
-class="math inline">\(\mathbb{E}_D[y_D-y]=0\)</span>,
-对期望泛化误差进行分解(推导略, 见原书), 有</p>
-<p><span class="math display">\[\begin{equation}
-E(f;D)=bias^2(\boldsymbol{x})+var(\boldsymbol{x})+\varepsilon ^2
-\tag{2.42}
-\end{equation}\]</span></p>
-<p>即泛化误差可以分解为偏差, 方差和噪声之和.</p>
-<p>一般来说, 偏差和方差存在冲突, 称为<strong>偏差-方差窘境(Bias-Variance
-Dilemma)</strong>,见图2-9.</p>
-<img src="/2024/09/24/BookNote-MachineLearning-by-ZhihuaZhou-2/pic2-9.png" class="" title="pic2-9">
-<p>训练不足时, 学习器拟合能力不足,
-训练数据的扰动不足以使学习器产生显著变化,
-此时偏差主导了泛化错误率;训练程度加深, 学习器拟合能力增强,
-训练数据发生的扰动被学习器学习到, 方差逐渐主导了泛化错误率;训练充足后,
-学习器拟合能力非常强. 训练数据发生轻微扰动都会导致学习器发生显著变化,
-此时训练数据自身,非全局的性质被学习器学习, 发生过拟合.</p>
-]]></content>
-      <categories>
-        <category>读书笔记-机器学习</category>
-      </categories>
-      <tags>
-        <tag>读书笔记</tag>
-        <tag>机器学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>读书笔记-On Java8 Ch0-Ch2</title>
-    <url>/2024/10/30/BookNote-OnJava8-by-BruceEckel-1/</url>
+    <url>/BookNote-OnJava8-by-BruceEckel-1/</url>
     <content><![CDATA[<p><strong>你所使用的编程语言会将你的思维模式固化并逐渐远离其他语言,
 而且往往发生在潜移默化中. Java作为一门傲娇的语言尤其如此. —— Bruce
 Eckel</strong></p>
@@ -1407,7 +1581,7 @@ Kay)</h4>
 <p>假设我们有一个<code>Class Light</code>,
 其<strong>统一建模语言(Unified Modeling Language, UML)</strong>
 设计图如下:</p>
-<img src="/2024/10/30/BookNote-OnJava8-by-BruceEckel-1/pic1-1.png" class="" title="pic1-1">
+<img src="/BookNote-OnJava8-by-BruceEckel-1/pic1-1.png" class="" title="pic1-1">
 <p>可以通过这样的方式调用:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Light</span> <span class="variable">lt</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Light</span>()</span><br><span class="line">lt.on()</span><br></pre></td></tr></table></figure>
 <h3 id="服务提供">服务提供</h3>
@@ -1484,16 +1658,16 @@ relationship)</strong>.</p></li>
 </ul>
 <blockquote>
 <p><strong>Tips:</strong> 此处笔者直接使用原书中的例子.</p>
-<img src="/2024/10/30/BookNote-OnJava8-by-BruceEckel-1/pic1-2.png" class="" title="pic1-2">
-<img src="/2024/10/30/BookNote-OnJava8-by-BruceEckel-1/pic1-3.png" class="" title="pic1-3">
-<img src="/2024/10/30/BookNote-OnJava8-by-BruceEckel-1/pic1-4.png" class="" title="pic1-4">
+<img src="/BookNote-OnJava8-by-BruceEckel-1/pic1-2.png" class="" title="pic1-2">
+<img src="/BookNote-OnJava8-by-BruceEckel-1/pic1-3.png" class="" title="pic1-3">
+<img src="/BookNote-OnJava8-by-BruceEckel-1/pic1-4.png" class="" title="pic1-4">
 </blockquote>
 <h3 id="多态">多态</h3>
 <p>处理类的层次结构时, 通常把一个对象看成他所属的基类而不是具体类.
 这样可以编写出不局限于特定类型的代码.</p>
 <blockquote>
 <p>在此给出一个多态的例子:</p>
-<img src="/2024/10/30/BookNote-OnJava8-by-BruceEckel-1/pic1-5.png" class="" title="pic1-5">
+<img src="/BookNote-OnJava8-by-BruceEckel-1/pic1-5.png" class="" title="pic1-5">
 <p><code>Birld Controller</code>在<code>Relocate()</code>时不知道也不需要知道<code>Bird</code>的具体类,
 也不需要知道执行的是<code>Goose move()</code>还是<code>Penguin move()</code>.</p>
 </blockquote>
@@ -1561,7 +1735,7 @@ Type Mechanism)</strong>.</p>
   </entry>
   <entry>
     <title>读书笔记-On Java8 Ch3-Ch5</title>
-    <url>/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/</url>
+    <url>/BookNote-OnJava8-by-BruceEckel-2/</url>
     <content><![CDATA[<p><strong>Java语言假设程序员只进行面向对象编程,
 因此Java中(几乎)万物皆对象.</strong></p>
 <span id="more"></span>
@@ -1841,7 +2015,7 @@ Programming Language).</strong> 采用驼峰命名法. 其中类首字母大写,
 运算符可改变运算对象的值.</p></li>
 </ul>
 <h3 id="优先级关联性">优先级&amp;关联性</h3>
-<img src="/2024/11/03/BookNote-OnJava8-by-BruceEckel-2/pic2-1.png" class="" title="pic2-1">
+<img src="/BookNote-OnJava8-by-BruceEckel-2/pic2-1.png" class="" title="pic2-1">
 <blockquote>
 <p><strong>Tips:</strong> 节选自<a
 href="https://www.runoob.com/java/java-operators.html"><strong>[菜鸟教程|Java运算符]</strong></a></p>
@@ -1975,8 +2149,165 @@ href="https://www.zhihu.com/question/31203609?sort=created"><strong>[知乎|Java
       </tags>
   </entry>
   <entry>
+    <title>课程笔记-NJU编译原理 Ch1 引论</title>
+    <url>/Course-Compiler-1/</url>
+    <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch01
+Introduction</strong></p>
+<span id="more"></span>
+<h2 id="课程信息">课程信息</h2>
+<p>NJU许畅老师(<a
+href="https://cs.nju.edu.cn/changxu">主页</a>)开设的编译原理课程(<strong>Principles
+and Techniques of Compilers</strong>).</p>
+<p><strong>参考教材:</strong></p>
+<p>《编译原理》(龙书),《编译方法、技术与实践》/《编译原理实践与指导教程》</p>
+<h3 id="课程内容">课程内容</h3>
+<ul>
+<li><a href="https://la-pluma.github.io/Course-Compiler-1"><strong>Ch1
+引论</strong></a></li>
+<li><a href="https://la-pluma.github.io/Course-Compiler-3"><strong>Ch3
+词法分析</strong></a></li>
+<li><strong>Ch4 语法分析</strong></li>
+<li><strong>Ch5 语法制导的编译技术</strong></li>
+<li><strong>Ch6 中间代码生成</strong></li>
+<li><strong>Ch7 运行时刻环境</strong></li>
+<li><strong>Ch8 代码生成</strong></li>
+<li><strong>Ch9 机器无关优化</strong></li>
+</ul>
+<h3 id="实验内容">实验内容</h3>
+<p>TBC</p>
+<h2 id="引论">引论</h2>
+<h3 id="编译器compiler-解释器interpreter">编译器(Compiler) &amp;
+解释器(Interpreter)</h3>
+<ul>
+<li><strong>编译器</strong>
+<ul>
+<li>读入以某种语言(源语言) 编写的程序</li>
+<li>输出等价的用另一种语言(目标语言) 编写的程序</li>
+<li>通常目标程序是可执行的</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-1/pic1-1.png" class="" title="pic1-1">
+<ul>
+<li><strong>解释器</strong>
+<ul>
+<li>直接利用用户提供的输入，执行源程序中指定的操作</li>
+<li>不生成目标程序，而是根据源程序的语义直接运行</li>
+<li>Java语言的处理结合了编译和解释</li>
+</ul></li>
+</ul>
+<h3 id="编译器的结构">编译器的结构</h3>
+<p>编译器可以分为<strong>分析</strong>和<strong>综合</strong>两部分.</p>
+<ul>
+<li><strong>分析(Analysis)/前端(front end)</strong>
+<ul>
+<li>把源程序分解成组成要素，以及相应的语法结构</li>
+<li>使用这个结构创建源程序的中间表示</li>
+<li>同时收集和源程序相关的信息，存放到符号表</li>
+</ul></li>
+<li><strong>综合(Synthesis)/后端(back end)</strong>
+<ul>
+<li>根据中间表示和符号表信息构造目标程序</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>其中前端部分是机器无关的，后端部分是机器相关的</strong></p>
+</blockquote>
+<p>编译器执行步骤(phase)</p>
+<img src="/Course-Compiler-1/pic1-2.png" class="" title="pic1-2">
+<h3 id="词法分析">词法分析</h3>
+<ul>
+<li><strong>词法分析/扫描(lexical analysis/scanning)</strong>
+<ul>
+<li>读入源程序的字符流，输出为有意义的词素(lexeme)</li>
+<li>格式: <code>&lt;token-name, attribute-value&gt;</code></li>
+<li>token-name由语法分析步骤使用</li>
+<li>attribute-value指向相应的符号表条目，由语义分析/代码生成步骤使用</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong> <img src="/Course-Compiler-1/pic1-3.png" class="" title="pic1-3"></p>
+</blockquote></li>
+</ul>
+<h3 id="语法分析">语法分析</h3>
+<ul>
+<li><strong>语法分析/解析(syntaxanalysis/parsing)</strong>
+<ul>
+<li>根据各个词法单元的第一个分量来创建树型的中间表示形式，通常是<strong>语法树(syntax
+tree)</strong></li>
+<li>中间表示形式指出了词法单元流的语法结构</li>
+<li><img src="/Course-Compiler-1/pic1-4.png" class="" title="pic1-4"></li>
+</ul></li>
+</ul>
+<h3 id="语义分析">语义分析</h3>
+<ul>
+<li><strong>语义分析(semantic analysis)</strong>
+<ul>
+<li>使用语法树和符号表中的信息，检查源程序是否满足语言定义的语义约束</li>
+<li>同时收集类型信息，用于代码生成、类型检查、类型转换</li>
+<li><img src="/Course-Compiler-1/pic1-5.png" class="" title="pic1-5"></li>
+</ul></li>
+</ul>
+<h3 id="中间代码生成">中间代码生成</h3>
+<p>根据语义分析输出，生成类机器语言的中间表示</p>
+<ul>
+<li><strong>三地址代码(three-address code)</strong>
+<ul>
+<li>每个指令最多包含三个运算分量</li>
+<li>Example:
+<code>t1 = inttofloat(60); t2 = id3 * t1; t3 = id2 + t2;</code></li>
+<li>很容易生成机器语言指令</li>
+<li><img src="/Course-Compiler-1/pic1-6.png" class="" title="pic1-6"></li>
+</ul></li>
+</ul>
+<h3 id="中间代码优化">中间代码优化</h3>
+<p>通过对中间代码的分析，改进中间代码的质量(更快、更短、能耗更低)</p>
+<img src="/Course-Compiler-1/pic1-7.png" class="" title="pic1-7">
+<h3 id="代码生成">代码生成</h3>
+<p>把中间表示形式映射到目标语言(寄存器分配与指令选择)</p>
+<img src="/Course-Compiler-1/pic1-8.png" class="" title="pic1-8">
+<h3 id="语言与编译器的关系">语言与编译器的关系</h3>
+<ul>
+<li>程序设计语言的新发展向编译器设计者提出新的要求
+<ul>
+<li>设计相应的算法和表示方法来翻译和支持新的语言特征，如多态、动态绑定、类、类属(模板)
+、…</li>
+</ul></li>
+<li>通过降低高级语言的执行开销，推动这些高级语言的使用</li>
+<li>编译器设计者还需要更好地利用新硬件的能力
+<ul>
+<li>RISC技术、多核技术、大规模并行技术</li>
+</ul></li>
+</ul>
+<h3 id="程序设计语言的基础概念">程序设计语言的基础概念</h3>
+<h4 id="动态静态">动态&amp;静态</h4>
+<ul>
+<li><strong>静态:</strong> 支持编译器静态决定某个问题</li>
+<li><strong>动态:</strong> 只允许在程序运行时刻作出决定</li>
+</ul>
+<h4 id="作用域">作用域</h4>
+<p>x的作用域指程序文本的一个区域，其中对x的使用都指向这个声明</p>
+<ul>
+<li><strong>静态作用域(static scope):</strong>
+通过静态阅读程序可决定</li>
+<li><strong>动态作用域(dynamic scope):</strong> 运行时确定x的指向</li>
+</ul>
+<h4 id="环境状态">环境&amp;状态</h4>
+<ul>
+<li><strong>环境(environment):</strong> 是从名字到存储位置的映射</li>
+<li><strong>状态(state):</strong> 从存储位置到它们值的映射</li>
+</ul>
+<img src="/Course-Compiler-1/pic1-9.png" class="" title="pic1-9">
+]]></content>
+      <categories>
+        <category>课程笔记-编译原理</category>
+      </categories>
+      <tags>
+        <tag>课程笔记</tag>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NJU静态分析|A1-Live Variable Analysis</title>
-    <url>/2024/10/20/SPA-A1/</url>
+    <url>/LabRecord-SPA-A1/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-1 Live Variable
 Analysis &amp; IterativeSolver.</strong></p>
 <span id="more"></span>
@@ -2010,14 +2341,14 @@ href="https://tai-e.pascal-lab.net/pa1.html"><strong>实验指南</strong></a>�
 <p>具体来说, 实现Your
 Task中涉及的三份文件中的6个<code>TODO API</code>.</p>
 <p>涉及的主要算法如下图所示:</p>
-<img src="/2024/10/20/SPA-A1/pic1.png" class="" title="pic1">
+<img src="/LabRecord-SPA-A1/pic1.png" class="" title="pic1">
 <p>作为第一个实验, 总体难度不高, 关键在于熟悉Tai-e框架,
 还望读者耐心阅读框架代码. 不妨善用Github
 Copilot或者ChatGPT帮助理解框架代码.</p>
 <h2 id="livevariableanalysis">LiveVariableAnalysis</h2>
 <p>活跃变量分析算法中需要用到的具体方法, 实验指南中已有较为详细的说明,
 笔者在此不再赘述.</p>
-<img src="/2024/10/20/SPA-A1/pic2.png" class="" title="pic2">
+<img src="/LabRecord-SPA-A1/pic2.png" class="" title="pic2">
 <p>关于实现该部分所需的<code>API</code>,
 请阅读<code>Class SetFact</code>源码.</p>
 <p>笔者在此补充一些本实验所需java语法性质或语法糖.</p>
@@ -2036,7 +2367,7 @@ instanceof Operator]</strong></a>.</p>
 <p>使用示例:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(def <span class="keyword">instanceof</span> Var)</span><br></pre></td></tr></table></figure>
 <p>需要注意的是, 如指南所示</p>
-<img src="/2024/10/20/SPA-A1/pic3.png" class="" title="pic3">
+<img src="/LabRecord-SPA-A1/pic3.png" class="" title="pic3">
 <p><code>Exp</code>下的<code>LValue</code>
 <code>RValue</code>包括多种类型,
 我们只需要关注<code>Var</code>类型的使用.</p>
@@ -2102,7 +2433,7 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
 相信一定会AC.</p>
 ]]></content>
       <categories>
-        <category>NJU静态分析实验记录</category>
+        <category>实验记录-NJU静态分析</category>
       </categories>
       <tags>
         <tag>NJU</tag>
@@ -2110,97 +2441,272 @@ id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
       </tags>
   </entry>
   <entry>
-    <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
-    <url>/2024/09/21/LeetCode-P4/</url>
-    <content><![CDATA[<p><strong>题目链接:</strong> <a
-href="https://leetcode.cn/problems/median-of-two-sorted-arrays/"><strong>LeetCode|4.寻找两个正序数组的中位数</strong></a></p>
+    <title>课程笔记-NJU编译原理 Ch3 词法分析</title>
+    <url>/Course-Compiler-3/</url>
+    <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch03
+Lexical Analysis</strong></p>
 <span id="more"></span>
-<hr />
-<h2 id="题面解释">题面解释</h2>
-<p>找出两个有序数组合并后的中位数. 但要求时间复杂度<span
-class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
-<h2 id="解法一-二分">解法一 二分</h2>
-<p>笔者看到复杂度<span class="math inline">\(\mathit{O}(log(m +
-n))\)</span>第一想法便是二分, 但怎么二分? 两个数组只是内部有序,
-两个数组并不有序, 常规对数组二分的思路肯定是不行的.</p>
-<p>那该如何进行二分呢, 对答案进行二分. 令k为所寻找的k阶数, 初始为中位数,
-则此时我们取两个数组的前<span
-class="math inline">\(k/2\)</span>部分出来, 比较<span
-class="math inline">\(nums1[k/2]\)</span>和<span
-class="math inline">\(nums2[k/2]\)</span>, 则可以直接排除<span
-class="math inline">\(k/2\)</span>个数. 我们以下图例子来解释.</p>
-<img src="/2024/09/21/LeetCode-P4/p1.png" class="" title="p1">
-<p><span class="math inline">\(m = n = 4\)</span>, 我们有 <span
-class="math inline">\(k = 4, k/2 = 2\)</span>,
-于是我们取两个数组的前两位, 比较3和5, 不难看出, 1和3不可能是中位数.
-为什么? 因为1和3的阶必定小于<span class="math inline">\(k = 4\)</span>,
-即便第一个数组的3比第二个数组的5前面所有数都大, 3的阶也只能是3,
-1就更不必说了. 而5前面的数可能大于3后面的数(例子中未能体现,
-读者可以自行构造一个满足这种情况的简单例子). 因此通过这种操作,
-我们可以排掉 <span class="math inline">\(k/2\)</span>
-个不可能是中位数的元素, 接着我们令<span class="math inline">\(k = k -
-k/2\)</span>, 将被排除的数去掉, 重新进行上述过程.</p>
-<img src="/2024/09/21/LeetCode-P4/p2.png" class="" title="p2">
-<p>选取两个数组的前1位.比较2 和 4, 可以排除掉2. 此时过程进行到了边界处,
-接下来<span class="math inline">\(k = 1\)</span>无法继续了.
-而此时剩下的4和5正是我们需要的中位数.</p>
+<h2 id="词法分析器的作用">词法分析器的作用</h2>
+<ul>
+<li>读入字符流，组成词素，输出<strong>词法单元</strong>序列</li>
+<li>过滤空白、换行、制表符、注释等</li>
+<li>将词素添加到符号表中</li>
+<li>在逻辑上独立于语法分析，但是通常和语法分析器处于同一趟(pass)中</li>
+</ul>
+<img src="/Course-Compiler-3/pic3-1.png" class="" title="pic3-1">
+<h3 id="独立词法分析器设置原因">独立词法分析器设置原因</h3>
+<ul>
+<li>简化编译器的设计
+<ul>
+<li>词法分析器可以首先完成一些简单的处理工作</li>
+</ul></li>
+<li>提高编译器效率
+<ul>
+<li>相对于语法分析，词法分析过程简单，可高效实现(<strong>下推自动机PDA</strong>&amp;<strong>有穷自动机DFA</strong>)</li>
+</ul></li>
+<li>增强编译器的可移植性</li>
+</ul>
+<h2 id="名词定义符号规约">名词定义&amp;符号规约</h2>
 <blockquote>
-<p><strong>Tips:</strong> 为什么第二个数组不是选择2, 5, 7?</p>
-<p>因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
-而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉</p>
+<p><strong>Tips:</strong>
+该部分涉及大量<strong>形式语言与自动机(FLA)</strong>的内容,
+笔者在此给出一个参考笔记<a
+href="https://fla.cuijiacai.com/"><strong>[崔家才|形式语言与自动机]</strong></a></p>
 </blockquote>
-<p>k为奇数时情况稍有不同, 但大多是一些细节问题, 笔者在此不再赘述.
-推荐读者自己构建一个例子去推算上面的过程, 相信不难理解其中要义.</p>
-<p>每次排除<span class="math inline">\(k/2\)</span>, 而 <span
-class="math inline">\(k = (m + n + 1) / 2\)</span>, 故时间复杂度<span
-class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
-<p>参考代码如下:</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m = nums<span class="number">1.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> n = nums<span class="number">2.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; m &lt;&lt; &quot; &quot; &lt;&lt; n &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int i = 0; i &lt; m; i++)&#123;cout &lt;&lt; nums1[i] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int j = 0; j &lt; n; j++)&#123;cout &lt;&lt; nums2[j] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> left1 = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> k = (m + n - <span class="number">1</span>) &gt;&gt; <span class="number">1</span>; <span class="comment">// 排除掉小于中位数的数</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (k &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 一个数组被清空</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="type">int</span> mid = k &gt;&gt; <span class="number">1</span>; <span class="comment">// 注意循环条件 k &gt; 1</span></span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> mid1 = left1 + mid - <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> mid2 = left2 + mid - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 边界情况，剩余数组大小不足k</span></span><br><span class="line">            <span class="keyword">if</span> (left1 + mid &gt; m) &#123; <span class="comment">// 等价于 left1 + mid - 1 &gt;= m</span></span><br><span class="line">                mid1 = m - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 + mid &gt; n) &#123;</span><br><span class="line">                mid2 = n - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums1[mid1] &gt;= nums2[mid2]) &#123;</span><br><span class="line">                k -= mid2 - left2 + <span class="number">1</span>; <span class="comment">// 一轮可以排除掉一半</span></span><br><span class="line">                left2 = mid2 + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                k -= mid1 - left1 + <span class="number">1</span>;</span><br><span class="line">                left1 = mid1 + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理 k == 1</span></span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                    left2++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    left1++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 别忘了处理边界情况</span></span><br><span class="line">        <span class="keyword">if</span> ((m + n) &amp; <span class="number">1</span> == <span class="number">1</span>) &#123; <span class="comment">// 奇数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> std::<span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 偶数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="built_in">return</span> (nums2[left2] + nums2[left2 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> (nums1[left1] + nums1[left1 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> num1;</span><br><span class="line">            <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                num1 = nums2[left2];</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                num1 = nums1[left1];</span><br><span class="line">                left1++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> num2;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                num2 = nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                num2 = nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                num2 = <span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> (num1 + num2) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="名词定义">名词定义</h3>
+<ul>
+<li><strong>词法单元(token)</strong>
+<ul>
+<li><code>&lt;词法单元名, 属性值(可选) &gt;</code></li>
+<li>单元名是表示词法单位种类的抽象符号，语法分析器通过单元名即可确定词法单元序列的结构</li>
+<li>属性值通常用于语义分析之后的阶段</li>
+</ul></li>
+<li><strong>模式(pattern)</strong>
+<ul>
+<li>描述了一类词法单元的词素可能具有的形式</li>
+</ul></li>
+<li><strong>词素(lexeme)</strong>
+<ul>
+<li>源程序中的字符序列</li>
+<li>它和某个词法单元的模式匹配，被词法分析器识别为该词法单元的实例</li>
+</ul></li>
+</ul>
 <blockquote>
-<p><strong>Tips:</strong> 本题思路并不难想出或者说并不难理解,
-但非常考验代码功底, 对细节和边界情况的考察更像是此题的侧重点.
-还望看到此处的读者能静下心来调试代码, 祝早日AC.</p>
+<p><strong>Additional:</strong></p>
+<img src="/Course-Compiler-3/pic3-2.png" class="" title="pic3-2">
+<p>上面的定义稍显晦涩, 不妨结合例子来看.</p>
+<p>不恰当的比喻来说, 词法单元是<strong>类型名</strong>,
+模式是<strong>类型特征</strong>, 词素是<strong>具体实例</strong>.
+即<code>猫 : 头顶有耳朵, 有尾巴的四足覆毛生物(非严谨) : 布偶猫</code>.</p>
 </blockquote>
-<h2 id="解法二-分割">解法二 分割</h2>
+<h4 id="词法单元的属性">词法单元的属性</h4>
+<ul>
+<li>一个模式匹配多个词素时，必须通过属性来传递附加的信息
+<ul>
+<li>属性值将被用于语义分析、代码生成等阶段</li>
+</ul></li>
+<li>不同的目的需要不同的属性
+<ul>
+<li>属性值通常是一个结构化数据</li>
+</ul></li>
+<li>如词法单元id的属性
+<ul>
+<li>词素、类型、第一次出现的位置</li>
+</ul></li>
+</ul>
+<h3 id="符号规约">符号规约</h3>
 <blockquote>
-<p>笔者阅读题解时注意到的巧妙的解法, 原链接在此<a
-href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/"><strong>P4|windliang</strong></a></p>
+<p><strong>Tips:</strong> 由于本部分内容基本已在FLA中学习过,
+故此处笔者仅作最基本的符号规约和定义陈述.</p>
 </blockquote>
-<p>更详细的数学证明, 思路和代码请阅读原文,
-笔者在此只给出自己对其的理解.</p>
-<p>本质来说, 两种方法殊途同归, 但分割的方法较为巧妙一些. 中位数,
-或者说k阶数, 就是将数组分为两个部分, 其一是比k阶数小的部分,
-其二是比k阶数大的部分.</p>
-<p>对于有序的一个数组, 其性质本身就已经满足,
-我们不妨将两部分简称为左半部分(小)和右半部分(大). 对于两个有序数组,
-情况是一样的, 如果存在一种划分, 满足左边最大MaxLeft小于右边最小MinRight,
-我们则认为这是关于k阶数的一种有效划分.</p>
-<p>因此, 这道题就被转化为寻找数组中满足中位数的有效划分,
-关于特定k阶数划分, 还需要满足左半部分和右半部分的数量关系,
-若规定将k阶数划在左半部分, 则左半部分有k个元素, 右半部分有 n - k
-个元素.</p>
-<p>后面的事情就简单了, 固定数组1的划分位置,
-根据数量关系找到数组2待判定划分位置,
-根据MaxLeft和MinRight的大小关系决定数组1划分位置的左移或右移,
-该过程可以通过二分完成.</p>
+<h4 id="串string和语言language">串(string)和语言(language)</h4>
+<ul>
+<li><p><strong>字母表(Alphabet):</strong> 一个有穷的符号集合<span
+class="math inline">\(\Sigma\)</span></p></li>
+<li><p><strong>串(String):</strong> 字母表中符号的有穷序列<span
+class="math inline">\(s\)</span></p>
+<ul>
+<li><span class="math inline">\(|s|\)</span>, 串长</li>
+<li><span class="math inline">\(\epsilon\)</span>, 空串</li>
+</ul></li>
+<li><p><strong>语言(language):</strong>
+是某个给定字母表上的串的可数集合</p></li>
+<li><p><strong>前缀(prefix)/后缀(suffix):</strong>
+从串的尾部/头部删除0个或多个符号后得到的串</p></li>
+<li><p><strong>子串(substring):</strong>
+删除串的某个前缀和某个后缀得到的串</p></li>
+<li><p><strong>子序列:</strong>
+从原串中删除0个或者多个符号后得到的串</p></li>
+<li><p><strong>真前缀, 真后缀, 真子串:</strong> 既不等于原串,
+也不等于空串的前缀, 后缀, 子串</p></li>
+<li><p><strong>串的运算</strong></p>
+<blockquote>
+<img src="/Course-Compiler-3/pic3-3.png" class="" title="pic3-3">
+<p>其中<span class="math inline">\(\lambda\)</span>和<span
+class="math inline">\(\epsilon\)</span>均表示空串</p>
+</blockquote></li>
+<li><p><strong>字母表的运算</strong></p>
+<blockquote>
+<img src="/Course-Compiler-3/pic3-4.png" class="" title="pic3-4">
+</blockquote></li>
+<li><p><strong>语言的运算</strong></p>
+<blockquote>
+<img src="/Course-Compiler-3/pic3-5.png" class="" title="pic3-5">
+</blockquote></li>
+</ul>
+<h4 id="正则表达式re">正则表达式(RE)</h4>
+<p><strong>归纳奠基:</strong></p>
+<ul>
+<li><span class="math inline">\(\epsilon\)</span>是一个正则表达式, <span
+class="math inline">\(L(\epsilon) = \{\epsilon\}\)</span></li>
+<li>如果<span class="math inline">\(a\)</span>是<span
+class="math inline">\(\Sigma\)</span>上的一个符号，那么<span
+class="math inline">\(a\)</span>是正则表达式, <span
+class="math inline">\(L(a) = \{a\}\)</span></li>
+</ul>
+<p><strong>归纳递推:</strong></p>
+<ul>
+<li><strong>选择(或):</strong> <span class="math inline">\(r|s,
+L(r|s)=L(r)\cup L(s)\)</span></li>
+<li><strong>连接(拼接):</strong> <span class="math inline">\(rs,
+L(rs)=L(r)L(s)\)</span></li>
+<li><strong>闭包:</strong> <span class="math inline">\(r^*,
+L(r^*)=L^*(r)\)</span></li>
+</ul>
+<blockquote>
+<p><strong>正则表达式的扩展运算:</strong></p>
+<img src="/Course-Compiler-3/pic3-6.png" class="" title="pic3-6">
+</blockquote>
+<h4 id="dfanfa">DFA&amp;NFA</h4>
+<p>详见<a
+href="https://fla.cuijiacai.com/02-fa/"><strong>崔家才|有穷自动机</strong></a></p>
+<p>内容包括</p>
+<ul>
+<li>DFA&amp;NFA的定义</li>
+<li>DFA&lt;-&gt;NFA的转化</li>
+<li>DFA最小化算法
+<ul>
+<li><a
+href="https://zhuanlan.zhihu.com/p/31166841"><strong>知乎|Hopcroft
+算法</strong></a></li>
+</ul></li>
+</ul>
+<h3 id="词法单元的规约">词法单元的规约</h3>
+<p><strong>正则表达式</strong>可以高效、简洁地描述处理词法单元时用到的模式类型</p>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-3/pic3-7.png" class="" title="pic3-7">
+</blockquote>
+<h3 id="词法单元的识别">词法单元的识别</h3>
+<ul>
+<li>词法分析器要求能够检查输入字符串，在其前缀中找出和某个模式匹配的词素</li>
+<li>首先通过正则定义来描述各种词法单元的模式</li>
+<li>定义<span class="math inline">\(ws \rightarrow(blank | tab |
+newline)^+\)</span>来消除空白
+<ul>
+<li>当词法分析器识别出这个模式时，不返回词法单元，继续识别其它模式</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-3/pic3-8.png" class="" title="pic3-8">
+<h4 id="状态转移图transition-diagram">状态转移图(transition
+diagram)</h4>
+<p>词法分析器最重要的组件之一.</p>
+<ul>
+<li><strong>状态(state):</strong> 表示在识别词素时可能出现的情况
+<ul>
+<li>状态看作是已处理部分的总结</li>
+<li>某些状态为接受状态或最终状态，表明已找到词素</li>
+<li>加上*的接受状态表示最后读入的符号不在词素中</li>
+<li>开始状态(初始状态)：用Start边表示</li>
+</ul></li>
+<li><strong>边(edge):</strong> 从一个状态指向另一个状态.
+<ul>
+<li>边的标号是一个或多个符号</li>
+<li>当前状态为s，下一个输入符号为a，就沿着从s离开，标号为a的边到达下一个状态</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-3/pic3-9.png" class="" title="pic3-9">
+</blockquote>
+<h3 id="词法分析器的体系结构">词法分析器的体系结构</h3>
+<ul>
+<li>从转换图构造词法分析器的方法
+<ul>
+<li>变量state记录当前状态</li>
+<li>一个switch语句根据state的值转到相应的代码</li>
+<li>每个状态对应于一段代码
+<ul>
+<li>这段代码根据读入的符号，确定下一个状态</li>
+<li>如果找不到相应的边，则调用<code>fail()</code>进行错误恢复</li>
+</ul></li>
+<li>进入某个接受状态时，返回相应的词法单元
+<ul>
+<li>注意状态有*标记时，需要回退forward指针</li>
+</ul></li>
+</ul></li>
+<li>实际是模拟转换图的运行</li>
+</ul>
+<h4 id="处理多个模式的方法">处理多个模式的方法</h4>
+<ul>
+<li>按照优先级，顺序地尝试各个状态转换图，如果引发<code>fail()</code>，回退并尝试下一个状态图</li>
+<li>更好的方法：并行地运行各个状态转换图；通过greedy策略，识别最长的与某个模式匹配的输入前缀</li>
+<li>实际使用的方法：预先把各个状态转换图合成一个状态转换图，然后运行这个状态转换图</li>
+</ul>
+<h3 id="词法分析工具lexflex">词法分析工具Lex/Flex</h3>
+<h4 id="lex源程序的结构">Lex源程序的结构</h4>
+<ul>
+<li><strong>声明部分</strong>
+<ul>
+<li>常量：表示常数的标识符</li>
+<li>正则定义</li>
+</ul></li>
+<li><strong>转换规则:</strong> <code>模式&#123; 动作 &#125;</code>
+<ul>
+<li>模式是正则表达式</li>
+<li>动作表示识别到相应模式时应采取的处理方式</li>
+<li>处理方式通常用是C语言代码表示</li>
+</ul></li>
+<li><strong>辅助函数</strong>
+<ul>
+<li>各个动作中使用的函数</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-3/pic3-10.png" class="" title="pic3-10">
+<blockquote>
+<p>例子详见ppt: <a
+href="https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_3.pdf#page=35"><strong>传送链接</strong></a></p>
+</blockquote>
+<h4 id="词法分析器的工作方式">词法分析器的工作方式</h4>
+<ul>
+<li>Lex生成的词法分析器作为一个函数被调用</li>
+<li>在每次调用过程中，不断读入余下的输入符号</li>
+<li>发现最长的、与某个模式匹配的输入前缀时
+<ul>
+<li>调用相应的动作，该动作进行相关处理</li>
+<li>之后词法分析器继续寻找其它词素</li>
+</ul></li>
+</ul>
+<h4 id="lex中的冲突解决方法">Lex中的冲突解决方法</h4>
+<img src="/Course-Compiler-3/pic3-11.png" class="" title="pic3-11">
 ]]></content>
       <categories>
-        <category>LeetCode刷题记录</category>
+        <category>课程笔记-编译原理</category>
       </categories>
       <tags>
-        <tag>LeetCode</tag>
-        <tag>二分</tag>
+        <tag>课程笔记</tag>
+        <tag>编译原理</tag>
       </tags>
   </entry>
   <entry>
     <title>NJU静态分析|A2-Constant Propagation</title>
-    <url>/2024/10/28/SPA-A2/</url>
+    <url>/LabRecord-SPA-A2/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-2 Constant
 Propagation &amp; WorlistSolver.</strong></p>
 <span id="more"></span>
 <h2 id="实验信息与食用指南">实验信息与食用指南</h2>
 <p>请翻阅<a
-href="https://la-pluma.github.io/2024/10/20/SPA-A1/#more"><strong>[NJU静态分析|A1-Live
+href="https://la-pluma.github.io/LabRecord-SPA-A1"><strong>[NJU静态分析|A1-Live
 Variable Analysis]</strong></a>.</p>
 <p>在此进行一点补充, 笔者的这份实验记录更像是Free
 Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
@@ -2213,7 +2719,7 @@ Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
 <h2 id="实验目标">实验目标</h2>
 <p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
 <p>大致的框架代码如下:</p>
-<img src="/2024/10/28/SPA-A2/pic1.png" class="" title="pic1">
+<img src="/LabRecord-SPA-A2/pic1.png" class="" title="pic1">
 <p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
 <h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
 <p><del>我知道你们有些人肯定是不看框架代码的,
@@ -2226,7 +2732,7 @@ test中的<strong>Assign.java</strong>为例,</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
 href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
-<img src="/2024/10/28/SPA-A2/pic2.png" class="" title="pic2">
+<img src="/LabRecord-SPA-A2/pic2.png" class="" title="pic2">
 <p><del>IR我懒得贴了</del></p>
 <p><code>IR</code>的基本单元是<strong>method</strong>
 (请意识到java是oop语言),
@@ -2235,7 +2741,7 @@ href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</stro
 <p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
 我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
 可能会有所出入, 但大致如此).</p>
-<img src="/2024/10/28/SPA-A2/pic3.png" class="" title="pic3">
+<img src="/LabRecord-SPA-A2/pic3.png" class="" title="pic3">
 <blockquote>
 <p><strong>Tips:</strong>
 严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
@@ -2247,7 +2753,7 @@ href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</stro
 <p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
 但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
 为什么不用呢?</p>
-<img src="/2024/10/28/SPA-A2/pic4.png" class="" title="pic4.png">
+<img src="/LabRecord-SPA-A2/pic4.png" class="" title="pic4">
 <p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
 <code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
 extends <code>Exp</code>),
@@ -2281,14 +2787,14 @@ newInitialFact()</h3>
 <h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
 <p><code>meetValue()</code>的完成没有任何难点,
 只需要照抄ppt中的规则即可.</p>
-<img src="/2024/10/28/SPA-A2/pic5.png" class="" title="pic5">
+<img src="/LabRecord-SPA-A2/pic5.png" class="" title="pic5">
 <p>同样的,
 完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
 <p>关于<code>meetInto()</code>,
 如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
 就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
-<img src="/2024/10/28/SPA-A2/pic6.png" class="" title="pic6">
+<img src="/LabRecord-SPA-A2/pic6.png" class="" title="pic6">
 <h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
 <p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
 test的时候, 大概率寄在这里.</p>
@@ -2324,7 +2830,7 @@ copy给 <code>outFact</code>即可.</p>
 <p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中二元表达式计算规则见ppt所示,</p>
-<img src="/2024/10/28/SPA-A2/pic7.png" class="" title="pic7">
+<img src="/LabRecord-SPA-A2/pic7.png" class="" title="pic7">
 <p>笔者在此给出一些细节和边界条件,
 也可以通过阅读上述代码框架获得细节提示:</p>
 <ul>
@@ -2368,7 +2874,7 @@ href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和�
 还望能静下心来看代码和debug, 祝早日AC!</p>
 ]]></content>
       <categories>
-        <category>NJU静态分析实验记录</category>
+        <category>实验记录-NJU静态分析</category>
       </categories>
       <tags>
         <tag>NJU</tag>
@@ -2377,7 +2883,7 @@ href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和�
   </entry>
   <entry>
     <title>NJU静态分析|A3-DeadCode Detection</title>
-    <url>/2024/11/02/SPA-A3/</url>
+    <url>/LabRecord-SPA-A3/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-3 Dead-Code
 Detection.</strong></p>
 <span id="more"></span>
@@ -2436,7 +2942,7 @@ href="https://graphviz.org/download/"><strong>[Graphviz]</strong></a>可视化<c
 使用细节见上述链接中的官方文档.</p>
 <p>笔者所使用的<strong>IDE</strong> 为<strong>JetBrian IDEA 2023.1.4
 Community</strong>版本, <code>Class Assignment</code>运行配置如下.</p>
-<img src="/2024/11/02/SPA-A3/pic1.png" class="" title="pic1">
+<img src="/LabRecord-SPA-A3/pic1.png" class="" title="pic1">
 <p>在终端中进入工作目录(此处为<code>output/</code>)执行以下命令:</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">dot -Tpng ClassMethod.dot -o ClassMethod.png</span></span><br></pre></td></tr></table></figure>
 <p>然后我们就可以得到<code>*.dot</code>文件的可视化<strong>CFG</strong>
@@ -2454,7 +2960,7 @@ id="根据自测样例推测cfg的生成逻辑">根据自测样例推测CFG的�
 <p>代码对应IR如下:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;ControlFlowUnreachable: <span class="type">int</span> <span class="title function_">foo</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] <span class="keyword">return</span> x;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] invokestatic &lt;ControlFlowUnreachable: <span class="keyword">void</span> <span class="title function_">dead</span><span class="params">()</span>&gt;();</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
 <p><strong>CFG</strong> 可视结果如下:</p>
-<img src="/2024/11/02/SPA-A3/pic2.png" class="" title="pic2">
+<img src="/LabRecord-SPA-A3/pic2.png" class="" title="pic2">
 <blockquote>
 <p>不难发现,
 控制流不可达代码在可视化图中的表示是独立于<strong>Entry</strong>到<strong>Exit</strong>
@@ -2464,7 +2970,7 @@ id="根据自测样例推测cfg的生成逻辑">根据自测样例推测CFG的�
 <p>我们先来看看最基础的情况:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            z = <span class="number">200</span>; <span class="comment">// unreachable branch</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">7</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">9</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L10</span>] z = <span class="number">200</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L12</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic3.png" class="" title="pic3">
+<img src="/LabRecord-SPA-A3/pic3.png" class="" title="pic3">
 <blockquote>
 <p>可以从可视化<strong>CFG</strong> 中获取不少信息.</p>
 <ul>
@@ -2481,7 +2987,7 @@ id="根据自测样例推测cfg的生成逻辑">根据自测样例推测CFG的�
 <p>如果我们不显式指定<code>else</code>结构:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">6</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L8</span>] nop;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L13</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic4.png" class="" title="pic4">
+<img src="/LabRecord-SPA-A3/pic4.png" class="" title="pic4">
 <blockquote>
 <ul>
 <li>可以看到<code>if</code>结构的<code>IF_FALSE</code>对应的代码块消失,
@@ -2504,12 +3010,12 @@ id="根据自测样例推测cfg的生成逻辑">根据自测样例推测CFG的�
 <p><code>if-else</code>的嵌套等价于普通的<code>if-else</code>的组合.</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableIfBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">if</span> (x &gt; y) &#123;</span><br><span class="line">            z = <span class="number">100</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(x &lt; y) &#123;</span><br><span class="line">            z = <span class="number">200</span>; <span class="comment">// unreachable branch</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            z = <span class="number">300</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableIfBranch: <span class="type">int</span> <span class="title function_">branch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">10</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] y = <span class="number">1</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L7</span>] <span class="keyword">if</span> (x &gt; y) <span class="keyword">goto</span> <span class="number">4</span>;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">7</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] z = <span class="number">100</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">16</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L10</span>] <span class="keyword">if</span> (x &lt; y) <span class="keyword">goto</span> <span class="number">10</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">13</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L11</span>] z = <span class="number">200</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">15</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L14</span>] z = <span class="number">300</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L14</span>] nop;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L14</span>] nop;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L16</span>] <span class="keyword">return</span> z;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic5.png" class="" title="pic5">
+<img src="/LabRecord-SPA-A3/pic5.png" class="" title="pic5">
 <h4 id="switch-stmt">Switch Stmt</h4>
 <p>与<code>If</code>一样, 我们先来看看一般情况:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                z = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L16</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L16</span>] nop;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L18</span>] z = <span class="number">0</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L19</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">20</span>;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">19</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">13</span>&#125;;</span><br><span class="line">[<span class="number">20</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">21</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic6.png" class="" title="pic6">
+<img src="/LabRecord-SPA-A3/pic6.png" class="" title="pic6">
 <blockquote>
 <ul>
 <li>与<code>If</code>一致,
@@ -2540,7 +3046,7 @@ id="根据自测样例推测cfg的生成逻辑">根据自测样例推测CFG的�
 <p>不显式指定<code>default</code>时:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">14</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L16</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">17</span>;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">17</span>&#125;;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic7.png" class="" title="pic7">
+<img src="/LabRecord-SPA-A3/pic7.png" class="" title="pic7">
 <blockquote>
 <ul>
 <li>可以观测到<strong>CFG</strong>
@@ -2564,7 +3070,7 @@ id="根据自测样例推测cfg的生成逻辑">根据自测样例推测CFG的�
 <p>我们来看看<strong>CFG</strong>是如何处理这种情况的:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnreachableSwitchBranch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x &lt;&lt; <span class="number">3</span>;</span><br><span class="line">        <span class="type">int</span> z;</span><br><span class="line">        <span class="keyword">switch</span> (y) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                z = <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">break</span>;  <span class="comment">// unreachable case</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                z = <span class="number">4</span>;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// unreachable case</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">                z = <span class="number">8</span>;</span><br><span class="line">                <span class="comment">//break;</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                z = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// unreachable case</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;UnreachableSwitchBranch: <span class="keyword">void</span> <span class="title function_">lookupSwitch</span><span class="params">()</span>&gt; --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] %intconst0 = <span class="number">3</span>;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L5</span>] y = x &lt;&lt; %intconst0;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">16</span>;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L9</span>] z = <span class="number">2</span>;</span><br><span class="line">[<span class="number">6</span><span class="meta">@L10</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">7</span><span class="meta">@L10</span>] nop;</span><br><span class="line">[<span class="number">8</span><span class="meta">@L12</span>] z = <span class="number">4</span>;</span><br><span class="line">[<span class="number">9</span><span class="meta">@L13</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">10</span><span class="meta">@L13</span>] nop;</span><br><span class="line">[<span class="number">11</span><span class="meta">@L15</span>] z = <span class="number">8</span>;</span><br><span class="line">[<span class="number">12</span><span class="meta">@L15</span>] nop;</span><br><span class="line">[<span class="number">13</span><span class="meta">@L18</span>] z = <span class="number">0</span>;</span><br><span class="line">[<span class="number">14</span><span class="meta">@L19</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">15</span><span class="meta">@L7</span>] <span class="keyword">goto</span> <span class="number">19</span>;</span><br><span class="line">[<span class="number">16</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">17</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">18</span><span class="meta">@L7</span>] lookupswitch (y) &#123;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">4</span>-&gt;<span class="number">7</span>, <span class="number">8</span>-&gt;<span class="number">10</span>, <span class="keyword">default</span>-&gt;<span class="number">12</span>&#125;;</span><br><span class="line">[<span class="number">19</span><span class="meta">@L7</span>] nop;</span><br><span class="line">[<span class="number">20</span><span class="meta">@L7</span>] <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/02/SPA-A3/pic8.png" class="" title="pic8">
+<img src="/LabRecord-SPA-A3/pic8.png" class="" title="pic8">
 <blockquote>
 <ul>
 <li>这是一个符合预期的处理, 也是一个非常自然而然的想法.</li>
@@ -2623,7 +3129,7 @@ Effect)</strong>在框架代码中已给出<code>API</code>,
 旨在考察对分析结果的应用能力. 祝早日AC!</p>
 ]]></content>
       <categories>
-        <category>NJU静态分析实验记录</category>
+        <category>实验记录-NJU静态分析</category>
       </categories>
       <tags>
         <tag>NJU</tag>
@@ -2632,7 +3138,7 @@ Effect)</strong>在框架代码中已给出<code>API</code>,
   </entry>
   <entry>
     <title>NJU静态分析|A4-CHA &amp; Inter Constant Propagation</title>
-    <url>/2024/11/18/SPA-A4/</url>
+    <url>/LabRecord-SPA-A4/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-4 Class Hierarchy
 Analysis &amp; Interprocedural Constant Propagation.</strong></p>
 <span id="more"></span>
@@ -2759,7 +3265,7 @@ transferNonCallNode()</h3>
 因此我们在<code>transferCallNode()</code>中并不会进行 add/kill def
 的操作. 这一点与指南上的图片逻辑相同.</li>
 </ul>
-<img src="/2024/11/18/SPA-A4/pic4-1.png" class="" title="pic4-1">
+<img src="/LabRecord-SPA-A4/pic4-1.png" class="" title="pic4-1">
 <blockquote>
 <p>如图片所示,
 <code>Node 2</code>在经过<code>transferCallNode()</code>后并没有把<code>b</code>添加进<code>outFact</code>.</p>
@@ -2828,7 +3334,7 @@ transferNonCallNode()</h3>
 <p>过程间常量传播的思想还是比较巧妙的, 值得细心品味.</p>
 ]]></content>
       <categories>
-        <category>NJU静态分析实验记录</category>
+        <category>实验记录-NJU静态分析</category>
       </categories>
       <tags>
         <tag>NJU</tag>
@@ -2837,7 +3343,7 @@ transferNonCallNode()</h3>
   </entry>
   <entry>
     <title>NJU静态分析|A5-Context Insensitive Pointer Analysis</title>
-    <url>/2024/11/27/SPA-A5/</url>
+    <url>/LabRecord-SPA-A5/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-5 Context
 Insensitive Pointer Analysis.</strong></p>
 <span id="more"></span>
@@ -2854,13 +3360,13 @@ Insensitive Pointer Analysis.</strong></p>
 实验指南或框架代码的人会被这两次实验狠狠地拷打.(笔者已感到有些汗流浃背了)</p>
 <h2 id="算法理论">算法理论</h2>
 <h3 id="算法伪代码">算法伪代码</h3>
-<img src="/2024/11/27/SPA-A5/pic1-1.png" class="" title="pic1-1">
-<img src="/2024/11/27/SPA-A5/pic1-2.png" class="" title="pic1-2">
+<img src="/LabRecord-SPA-A5/pic1-1.png" class="" title="pic1-1">
+<img src="/LabRecord-SPA-A5/pic1-2.png" class="" title="pic1-2">
 <h3 id="规则形式化表述">规则形式化表述</h3>
 <h4 id="分析语句类型">分析语句类型</h4>
-<img src="/2024/11/27/SPA-A5/pic1-3.png" class="" title="pic1-3">
+<img src="/LabRecord-SPA-A5/pic1-3.png" class="" title="pic1-3">
 <h4 id="符号体系">符号体系</h4>
-<img src="/2024/11/27/SPA-A5/pic1-4.png" class="" title="pic1-4">
+<img src="/LabRecord-SPA-A5/pic1-4.png" class="" title="pic1-4">
 <h4 id="对象传递规则">对象传递规则</h4>
 <table>
 <colgroup>
@@ -3055,7 +3561,7 @@ AbstractCallGraph &amp; DefaultCallGraph</h3>
 <p>笔者在此以<code>New</code>,<code>Copy</code>和<code>StmtProcessor</code>为例具体说明.</p>
 <p>在本次实验中, <code>addReachable()</code>需要遍历新方法中的所有语句,
 对不同语句做不同处理.</p>
-<img src="/2024/11/27/SPA-A5/pic1-5.png" class="" title="pic1-5">
+<img src="/LabRecord-SPA-A5/pic1-5.png" class="" title="pic1-5">
 <p>显然这些处理从封装的角度看不应当嵌入到<code>New</code>和<code>Assign</code>类的内部,
 而是应当放在外部进行处理, 那么如果不使用访问者模式,
 写出来的代码大概是长这样的:</p>
@@ -3153,7 +3659,7 @@ A4中通过<code>CallGraphs.getCallKind()</code>来获取<code>CallKind</code>,
 这仍然是一个较困难的实验.</p>
 ]]></content>
       <categories>
-        <category>NJU静态分析实验记录</category>
+        <category>实验记录-NJU静态分析</category>
       </categories>
       <tags>
         <tag>NJU</tag>
@@ -3162,7 +3668,7 @@ A4中通过<code>CallGraphs.getCallKind()</code>来获取<code>CallKind</code>,
   </entry>
   <entry>
     <title>NJU静态分析|A6-Context Sensitive Pointer Analysis</title>
-    <url>/2024/12/01/SPA-A6/</url>
+    <url>/LabRecord-SPA-A6/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-6 Context Sensitive
 Pointer Analysis.</strong></p>
 <span id="more"></span>
@@ -3185,7 +3691,7 @@ Pointer Analysis.</strong></p>
 大体框架是一致的. 笔者不再像A5中整理, 不同的部分会在下文需要时给出.</p>
 <h2 id="框架代码">框架代码</h2>
 <p>比起A5的框架代码变动并不大, 笔者在此简要解释一些要点.</p>
-<img src="/2024/12/01/SPA-A6/pic1-1.png" class="" title="pic1-1">
+<img src="/LabRecord-SPA-A6/pic1-1.png" class="" title="pic1-1">
 <ul>
 <li><p>手册中该部分提及了上下文敏感指针分析中最重要的部分之一,
 <code>CSElement</code>和<code>Pointer</code>是本次实验主要操作的对象.</p></li>
@@ -3277,7 +3783,7 @@ A5中已经指出, 如有遗忘请进行复习.</li>
 <code>Obj</code>的上下文要通过<code>contextSelector.selectHeapContext()</code>获取.</p>
 <blockquote>
 <p>笔者在此简要的解释一下.</p>
-<img src="/2024/12/01/SPA-A6/pic1-2.png" class="" title="pic1-2">
+<img src="/LabRecord-SPA-A6/pic1-2.png" class="" title="pic1-2">
 <p>算法中将<span class="math inline">\(x\)</span>和<span
 class="math inline">\(o_i\)</span>的上下文均描述成<span
 class="math inline">\(c\)</span>, 这其实表明<span
@@ -3305,7 +3811,7 @@ class="math inline">\(c\)</span>, 但由于层数不同,
 </ul>
 <h2 id="task2-实现常见的上下文敏感策略">Task2
 实现常见的上下文敏感策略</h2>
-<img src="/2024/12/01/SPA-A6/pic1-3.png" class="" title="pic1-3">
+<img src="/LabRecord-SPA-A6/pic1-3.png" class="" title="pic1-3">
 <ul>
 <li><p>注意手册上的要求和明确根据<strong>哪个参数</strong>获取上下文即可.
 该部分并不难实现.</p></li>
@@ -3342,7 +3848,7 @@ _2TypeSelector</h3>
 但细节处理上比A5要麻烦很多, 还请小心仔细.</p>
 ]]></content>
       <categories>
-        <category>NJU静态分析实验记录</category>
+        <category>实验记录-NJU静态分析</category>
       </categories>
       <tags>
         <tag>NJU</tag>
@@ -3351,7 +3857,7 @@ _2TypeSelector</h3>
   </entry>
   <entry>
     <title>NJU静态分析|A7-Alias-Aware Interprocedural Constant Propagation</title>
-    <url>/2024/12/09/SPA-A7/</url>
+    <url>/LabRecord-SPA-A7/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-7 Alias-Aware
 Interprocedural Constant Propagation.</strong></p>
 <span id="more"></span>
@@ -3383,18 +3889,18 @@ Interprocedural Constant Propagation.</strong></p>
 <blockquote>
 <p><strong>Additional:</strong></p>
 <p>迭代算法框架如下:</p>
-<img src="/2024/12/09/SPA-A7/pic1-1.png" class="" title="pic1-1">
+<img src="/LabRecord-SPA-A7/pic1-1.png" class="" title="pic1-1">
 <p>活跃变量分析的迭代示例:</p>
-<img src="/2024/12/09/SPA-A7/pic1-2.png" class="" title="pic1-2">
+<img src="/LabRecord-SPA-A7/pic1-2.png" class="" title="pic1-2">
 </blockquote></li>
 <li><p>常量传播算法中对数值的抽象为<code>UNDEF-&gt;CONST-&gt;NAC</code>.</p></li>
 <li><p>由于数据流动的"单调性", <strong>Meet</strong>要满足</p>
 <blockquote>
-<img src="/2024/12/09/SPA-A7/pic1-3.png" class="" title="pic1-3">
+<img src="/LabRecord-SPA-A7/pic1-3.png" class="" title="pic1-3">
 </blockquote></li>
 <li><p>语句处理的<strong>Transfer Function</strong></p>
 <blockquote>
-<img src="/2024/12/09/SPA-A7/pic1-4.png" class="" title="pic1-4">
+<img src="/LabRecord-SPA-A7/pic1-4.png" class="" title="pic1-4">
 </blockquote></li>
 </ul>
 <blockquote>
@@ -3413,7 +3919,7 @@ Interprocedural Constant Propagation.</strong></p>
 control-flow graph)</strong>
 提供调用图信息.(你应该还记得在A4的<code>CHABuilder</code>完成前,
 <code>Assignment</code>不会输出任何ICFG信息)</p>
-<img src="/2024/12/09/SPA-A7/pic1-5.png" class="" title="pic1-5">
+<img src="/LabRecord-SPA-A7/pic1-5.png" class="" title="pic1-5">
 </blockquote>
 <h2 id="requirement-analysis">Requirement &amp; Analysis</h2>
 <p>现在来看看实验要求和手上的工具, 看看如何处理新需求.</p>
@@ -3646,7 +4152,7 @@ FiledRef &amp; JField</h3>
 接下来迎接较为轻松的A8吧. (^_^)</p>
 ]]></content>
       <categories>
-        <category>NJU静态分析实验记录</category>
+        <category>实验记录-NJU静态分析</category>
       </categories>
       <tags>
         <tag>NJU</tag>
@@ -3654,8 +4160,91 @@ FiledRef &amp; JField</h3>
       </tags>
   </entry>
   <entry>
+    <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
+    <url>/LeetCode-P4/</url>
+    <content><![CDATA[<p><strong>题目链接:</strong> <a
+href="https://leetcode.cn/problems/median-of-two-sorted-arrays/"><strong>LeetCode|4.寻找两个正序数组的中位数</strong></a></p>
+<span id="more"></span>
+<hr />
+<h2 id="题面解释">题面解释</h2>
+<p>找出两个有序数组合并后的中位数. 但要求时间复杂度<span
+class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
+<h2 id="解法一-二分">解法一 二分</h2>
+<p>笔者看到复杂度<span class="math inline">\(\mathit{O}(log(m +
+n))\)</span>第一想法便是二分, 但怎么二分? 两个数组只是内部有序,
+两个数组并不有序, 常规对数组二分的思路肯定是不行的.</p>
+<p>那该如何进行二分呢, 对答案进行二分. 令k为所寻找的k阶数, 初始为中位数,
+则此时我们取两个数组的前<span
+class="math inline">\(k/2\)</span>部分出来, 比较<span
+class="math inline">\(nums1[k/2]\)</span>和<span
+class="math inline">\(nums2[k/2]\)</span>, 则可以直接排除<span
+class="math inline">\(k/2\)</span>个数. 我们以下图例子来解释.</p>
+<img src="/LeetCode-P4/p1.png" class="" title="p1">
+<p><span class="math inline">\(m = n = 4\)</span>, 我们有 <span
+class="math inline">\(k = 4, k/2 = 2\)</span>,
+于是我们取两个数组的前两位, 比较3和5, 不难看出, 1和3不可能是中位数.
+为什么? 因为1和3的阶必定小于<span class="math inline">\(k = 4\)</span>,
+即便第一个数组的3比第二个数组的5前面所有数都大, 3的阶也只能是3,
+1就更不必说了. 而5前面的数可能大于3后面的数(例子中未能体现,
+读者可以自行构造一个满足这种情况的简单例子). 因此通过这种操作,
+我们可以排掉 <span class="math inline">\(k/2\)</span>
+个不可能是中位数的元素, 接着我们令<span class="math inline">\(k = k -
+k/2\)</span>, 将被排除的数去掉, 重新进行上述过程.</p>
+<img src="/LeetCode-P4/p2.png" class="" title="p2">
+<p>选取两个数组的前1位.比较2 和 4, 可以排除掉2. 此时过程进行到了边界处,
+接下来<span class="math inline">\(k = 1\)</span>无法继续了.
+而此时剩下的4和5正是我们需要的中位数.</p>
+<blockquote>
+<p><strong>Tips:</strong> 为什么第二个数组不是选择2, 5, 7?</p>
+<p>因为我们在上面的步骤中无法确定2和5是中位数与否, 此时的有效信息不足.
+而把2 5 7都放进来与4进行比较会出现bug, 以上例, 4会被错误的排除掉</p>
+</blockquote>
+<p>k为奇数时情况稍有不同, 但大多是一些细节问题, 笔者在此不再赘述.
+推荐读者自己构建一个例子去推算上面的过程, 相信不难理解其中要义.</p>
+<p>每次排除<span class="math inline">\(k/2\)</span>, 而 <span
+class="math inline">\(k = (m + n + 1) / 2\)</span>, 故时间复杂度<span
+class="math inline">\(\mathit{O}(log(m + n))\)</span>.</p>
+<p>参考代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> m = nums<span class="number">1.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> n = nums<span class="number">2.</span><span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">//cout &lt;&lt; m &lt;&lt; &quot; &quot; &lt;&lt; n &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int i = 0; i &lt; m; i++)&#123;cout &lt;&lt; nums1[i] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">//for(int j = 0; j &lt; n; j++)&#123;cout &lt;&lt; nums2[j] &lt;&lt; &quot; &quot;;&#125; cout &lt;&lt; endl;</span></span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> left1 = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> k = (m + n - <span class="number">1</span>) &gt;&gt; <span class="number">1</span>; <span class="comment">// 排除掉小于中位数的数</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (k &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 一个数组被清空</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1 += k;</span><br><span class="line">                k = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="type">int</span> mid = k &gt;&gt; <span class="number">1</span>; <span class="comment">// 注意循环条件 k &gt; 1</span></span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> mid1 = left1 + mid - <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> mid2 = left2 + mid - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 边界情况，剩余数组大小不足k</span></span><br><span class="line">            <span class="keyword">if</span> (left1 + mid &gt; m) &#123; <span class="comment">// 等价于 left1 + mid - 1 &gt;= m</span></span><br><span class="line">                mid1 = m - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 + mid &gt; n) &#123;</span><br><span class="line">                mid2 = n - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums1[mid1] &gt;= nums2[mid2]) &#123;</span><br><span class="line">                k -= mid2 - left2 + <span class="number">1</span>; <span class="comment">// 一轮可以排除掉一半</span></span><br><span class="line">                left2 = mid2 + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                k -= mid1 - left1 + <span class="number">1</span>;</span><br><span class="line">                left1 = mid1 + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理 k == 1</span></span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                left1++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                    left2++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    left1++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 别忘了处理边界情况</span></span><br><span class="line">        <span class="keyword">if</span> ((m + n) &amp; <span class="number">1</span> == <span class="number">1</span>) &#123; <span class="comment">// 奇数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> std::<span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 偶数</span></span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                <span class="built_in">return</span> (nums2[left2] + nums2[left2 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                <span class="keyword">return</span> (nums1[left1] + nums1[left1 + <span class="number">1</span>]) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> num1;</span><br><span class="line">            <span class="keyword">if</span> (nums1[left1] &gt;= nums2[left2]) &#123;</span><br><span class="line">                num1 = nums2[left2];</span><br><span class="line">                left2++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                num1 = nums1[left1];</span><br><span class="line">                left1++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> num2;</span><br><span class="line">            <span class="keyword">if</span> (left1 == m) &#123;</span><br><span class="line">                num2 = nums2[left2];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (left2 == n) &#123;</span><br><span class="line">                num2 = nums1[left1];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                num2 = <span class="built_in">min</span>(nums1[left1], nums2[left2]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> (num1 + num2) * <span class="number">1.0</span> / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong> 本题思路并不难想出或者说并不难理解,
+但非常考验代码功底, 对细节和边界情况的考察更像是此题的侧重点.
+还望看到此处的读者能静下心来调试代码, 祝早日AC.</p>
+</blockquote>
+<h2 id="解法二-分割">解法二 分割</h2>
+<blockquote>
+<p>笔者阅读题解时注意到的巧妙的解法, 原链接在此<a
+href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/"><strong>P4|windliang</strong></a></p>
+</blockquote>
+<p>更详细的数学证明, 思路和代码请阅读原文,
+笔者在此只给出自己对其的理解.</p>
+<p>本质来说, 两种方法殊途同归, 但分割的方法较为巧妙一些. 中位数,
+或者说k阶数, 就是将数组分为两个部分, 其一是比k阶数小的部分,
+其二是比k阶数大的部分.</p>
+<p>对于有序的一个数组, 其性质本身就已经满足,
+我们不妨将两部分简称为左半部分(小)和右半部分(大). 对于两个有序数组,
+情况是一样的, 如果存在一种划分, 满足左边最大MaxLeft小于右边最小MinRight,
+我们则认为这是关于k阶数的一种有效划分.</p>
+<p>因此, 这道题就被转化为寻找数组中满足中位数的有效划分,
+关于特定k阶数划分, 还需要满足左半部分和右半部分的数量关系,
+若规定将k阶数划在左半部分, 则左半部分有k个元素, 右半部分有 n - k
+个元素.</p>
+<p>后面的事情就简单了, 固定数组1的划分位置,
+根据数量关系找到数组2待判定划分位置,
+根据MaxLeft和MinRight的大小关系决定数组1划分位置的左移或右移,
+该过程可以通过二分完成.</p>
+]]></content>
+      <categories>
+        <category>LeetCode刷题记录</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NJU静态分析|A8-Taint Analysis</title>
-    <url>/2024/12/17/SPA-A8/</url>
+    <url>/LabRecord-SPA-A8/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-8 Taint
 Analysis.</strong></p>
 <span id="more"></span>
@@ -3679,7 +4268,7 @@ A8的<code>Solver</code>中额外加入了污点分析所需的字段,
 </blockquote>
 <h3 id="tainttransfer">TaintTransfer</h3>
 <p>对应污点传播的类, 即实验指南中的:</p>
-<img src="/2024/12/17/SPA-A8/pic1-1.png" class="" title="pic1-1">
+<img src="/LabRecord-SPA-A8/pic1-1.png" class="" title="pic1-1">
 <p>具体规则实验指南和框架代码已足够清晰.</p>
 <h3 id="taintmanager">TaintManager</h3>
 <p>实验框架中用来管理污点对象的类(或许命名为<code>TaintObjManager</code>更合适).</p>
@@ -3800,7 +4389,7 @@ TaintTransferFlow</h3>
 <p>污点数据的传播逻辑处理是本次实验相对简单的部分,
 困难的是想清楚如何传播污点数据.</p>
 <p>想知道答案, 就要先回顾一下指针分析的广播.</p>
-<img src="/2024/12/17/SPA-A8/pic1-2.png" class="" title="pic1-2">
+<img src="/LabRecord-SPA-A8/pic1-2.png" class="" title="pic1-2">
 <p>这个大循环中当<code>n</code>是变量<code>x</code>时,
 对相关语句进行广播.</p>
 <p>如在A5, A6中,
@@ -3825,10 +4414,10 @@ TaintTransferFlow</h3>
 <p><strong>All you need has already in Tai-e.</strong></p>
 <h2 id="总结">总结</h2>
 <p>完结撒花啦!</p>
-<img src="/2024/12/17/SPA-A8/pic1-3.png" class="" title="pic1-3">
+<img src="/LabRecord-SPA-A8/pic1-3.png" class="" title="pic1-3">
 ]]></content>
       <categories>
-        <category>NJU静态分析实验记录</category>
+        <category>实验记录-NJU静态分析</category>
       </categories>
       <tags>
         <tag>NJU</tag>
@@ -3836,186 +4425,12 @@ TaintTransferFlow</h3>
       </tags>
   </entry>
   <entry>
-    <title>Anaconda+Cuda+Pytorch+Pycharm环境配置</title>
-    <url>/2024/11/25/conda-env/</url>
-    <content><![CDATA[<p><strong>笔者个人conda环境搭建记录.</strong></p>
-<span id="more"></span>
-<p>
-<font size = 5><b>目录</b></font>
-</p>
-<ul>
-<li><a href="#前言">前言</a></li>
-<li><a href="#安装pycharm--anaconda">安装Pycharm &amp; Anaconda</a>
-<ul>
-<li><a href="#pycharm">Pycharm</a></li>
-<li><a href="#anaconda3">Anaconda3</a>
-<ul>
-<li><a href="#选项配置">选项配置</a></li>
-<li><a href="#环境变量">环境变量</a></li>
-<li><a href="#安装位置">安装位置</a></li>
-<li><a href="#debug">Debug</a></li>
-<li><a href="#anaconda-安装检测">Anaconda 安装检测</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#安装cuda">安装Cuda</a></li>
-<li><a href="#安装pytorch">安装Pytorch</a>
-<ul>
-<li><a href="#anaconda创建conda环境">Anaconda创建conda环境</a></li>
-<li><a href="#确定pytorch版本">确定Pytorch版本</a></li>
-<li><a href="#pytorch安装检测">Pytorch安装检测</a></li>
-</ul></li>
-<li><a href="#pycharm激活conda环境">Pycharm激活conda环境</a>
-<ul>
-<li><a href="#导入环境检测">导入环境检测</a></li>
-</ul></li>
-<li><a href="#参考资料">参考资料</a></li>
-</ul>
-<h2 id="前言">前言</h2>
-<p>本日志记录一次笔者配置conda环境的过程. 参考资料来源网络, 见<a
-href="#参考资料"><strong>参考资料</strong></a></p>
-<p>本次搭建环境基于<a
-href="https://www.anaconda.com/"><strong>Anaconda</strong></a>+<a
-href="https://developer.nvidia.com/"><strong>Cuda</strong></a>搭建<a
-href="https://pytorch.org/"><strong>Pytorch</strong></a>环境并导入<a
-href="https://www.jetbrains.com.cn/pycharm/"><strong>Pycharm</strong></a>中使用.</p>
-<p>笔者的环境为:</p>
-<p><strong>Win11家庭版23H2</strong> + <strong>CPU:AMD Ryzen 7
-5800H</strong> + <strong>GPU: 3060laptop</strong></p>
-<p><strong>Anaconda-2024.10.1</strong> + <strong>Cuda-12.6</strong> +
-<strong>Pytorch-win_x86_64-cuda12.4</strong> + <strong>Pycharm
-Community-2022.2.2</strong></p>
-<h2 id="安装pycharm-anaconda">安装Pycharm &amp; Anaconda</h2>
-<h3 id="pycharm">Pycharm</h3>
-<p>笔者的Pycharm已经安装好了, Community版本是可以免费使用的,
-安装教程可以<strong>STFW</strong>.</p>
-<p>需要注意的是, Pycharm本身不包含python, python需要自行下载.</p>
-<h3 id="anaconda3">Anaconda3</h3>
-<h4 id="选项配置">选项配置</h4>
-<img src="/2024/11/25/conda-env/pic1-1.png" class="" title="pic1-1">
-<p><code>Just Me</code>与<code>All Users</code>选择<code>All Users</code>.</p>
-<img src="/2024/11/25/conda-env/pic1-2.png" class="" title="pic1-2">
-<p>全部勾选.</p>
-<p>安装结束后不需要launch, 还要配置环境变量.</p>
-<h4 id="环境变量">环境变量</h4>
-<p>在高级系统设置中添加系统环境变量, 路径以安装路径为准.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">D:\anaconda3</span><br><span class="line">D:\anaconda3\Scripts</span><br><span class="line">D:\anaconda3\Library\bin</span><br><span class="line">D:\anaconda3\Library\mingw-w64\bin</span><br></pre></td></tr></table></figure>
-<h4 id="安装位置">安装位置</h4>
-<p>如果已有分盘, 推荐安装到别的分区.</p>
-<p>Anaconda的环境和包管理也可以迁移, 笔者本次省略了这个步骤.</p>
-<h4 id="debug">Debug</h4>
-<p>笔者在安装完成后遇到了打开<code>Anaconda Navigator</code>时卡死在<code>Loading Applications</code>页面上,
-通过为程序添加默认管理员权限解决.</p>
-<h4 id="anaconda-安装检测">Anaconda 安装检测</h4>
-<p>打开<code>Anaconda Prompt</code>, 页面如下:</p>
-<img src="/2024/11/25/conda-env/pic1-3.png" class="" title="pic1-3">
-<p>执行指令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda --version</span></span><br></pre></td></tr></table></figure>
-<p>终端输出conda版本号即成功安装了conda</p>
-<img src="/2024/11/25/conda-env/pic1-4.png" class="" title="pic1-4">
-<p>可以通过如下指令查看conda的配置信息:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda info</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Tips:</strong> 笔者本次略去了Conda的配置, 如包和环境位置,
-镜像源的配置. 有需要可以自行配置.</p>
-</blockquote>
-<h2 id="安装cuda">安装Cuda</h2>
-<p>调出cmd后在终端中输入</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">nvidia-smi</span></span><br></pre></td></tr></table></figure>
-<p>得到</p>
-<img src="/2024/11/25/conda-env/pic1-5.png" class="" title="pic1-5">
-<p>其中<code>CUDA Version</code>代表最高支持的<code>CUDA</code>版本,
-到官网对应版本下载即可.</p>
-<p>安装完成后在cmd中执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">nvcc -V</span></span><br></pre></td></tr></table></figure>
-<p>正常输出Cuda版本即安装完成.</p>
-<img src="/2024/11/25/conda-env/pic1-6.png" class="" title="pic1-6">
-<h2 id="安装pytorch">安装Pytorch</h2>
-<p>Pytorch依赖于conda环境, 因此在安装Pytorch前需要配置conda虚拟环境.</p>
-<h3 id="anaconda创建conda环境">Anaconda创建conda环境</h3>
-<p>打开<code>Anaconda Prompt</code>,
-此时的环境为默认的<code>base</code>(见<a
-href="#anaconda-安装检测"><strong>上文</strong></a>)</p>
-<p>执行指令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda create –n pytorch python=3.10</span></span><br></pre></td></tr></table></figure>
-<p>其中<code>pytorch</code>为环境名称,
-<code>python=3.10</code>为指定python解释器版本.</p>
-<p>需要注意的是,
-目前(2024.11)的Pytorch需要<strong>至少</strong>python版本为3.9</p>
-<p>如果需要特定版本,
-在安装Pytorch时需要查看<code>Preview Version</code>.</p>
-<p>执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda activate pytorch</span></span><br></pre></td></tr></table></figure>
-<p>终端环境变更为<code>pytorch</code></p>
-<p>想要回到<code>base</code>环境, 只需要执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda deactivate</span></span><br></pre></td></tr></table></figure>
-<p>Pytorch的安装位置便是在名为<code>pytorch</code>的环境中.</p>
-<h3 id="确定pytorch版本">确定Pytorch版本</h3>
-<p>进入Pytorch官网的Install页面</p>
-<img src="/2024/11/25/conda-env/pic1-7.png" class="" title="pic1-7">
-<p>根据自己的Cuda版本选择安装.</p>
-<p>如果选择conda安装,
-只需要在<code>Anaconda Prompt</code>中激活创建的<code>pytorch</code>环境,
-执行官网上给出的安装命令.</p>
-<p>耐心等待安装完成即可.</p>
-<h3 id="pytorch安装检测">Pytorch安装检测</h3>
-<p>安装结束后, 在激活<code>pytorch</code>环境的终端中执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python</span></span><br></pre></td></tr></table></figure>
-<img src="/2024/11/25/conda-env/pic1-8.png" class="" title="pic1-8">
-<p>输入以下python代码</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="built_in">print</span>(torch.__version__)</span><br><span class="line"><span class="built_in">print</span>(torch.cuda.is_available())</span><br></pre></td></tr></table></figure>
-<img src="/2024/11/25/conda-env/pic1-9.png" class="" title="pic1-9">
-<p>得到类似输出而没有报错即成功在conda环境中安装pytorch.</p>
-<h2 id="pycharm激活conda环境">Pycharm激活conda环境</h2>
-<p>以创建的<code>pytorch</code>环境为例.</p>
-<p>使用Pycharm打开项目, 进入<code>File-&gt;Setting</code>页面</p>
-<img src="/2024/11/25/conda-env/pic1-10.png" class="" title="pic1-10">
-<p>选择<code>项目-&gt;Python解释器</code></p>
-<p>点击<code>添加解释器-&gt;添加本地解释器-&gt;conda环境</code></p>
-<img src="/2024/11/25/conda-env/pic1-11.png" class="" title="pic1-11">
-<p>Conda可执行文件输入<code>D:\anaconda3\Scripts\conda.exe</code>(依据Anaconda安装位置)</p>
-<p>选择解释器(依据自己的conda环境创建位置)</p>
-<img src="/2024/11/25/conda-env/pic1-12.png" class="" title="pic1-12">
-<p>点击确认等待配置完成.</p>
-<h3 id="导入环境检测">导入环境检测</h3>
-<p>与<a
-href="#pytorch安装检测"><strong>Pytorch安装检测</strong></a>类似,
-只需要在python文件中键入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="built_in">print</span>(torch.__version__)</span><br><span class="line"><span class="built_in">print</span>(torch.cuda.is_available())</span><br></pre></td></tr></table></figure>
-<p>执行代码得到</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2.5.1</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
-<p>然后就可以开始愉快(迫真)的炼丹之旅啦!</p>
-<h2 id="参考资料">参考资料</h2>
-<blockquote>
-<p><strong>Tips:</strong> 博客并不能解决所有问题,
-对于博客中的内容要和面对ChatGPT生成的内容一样小心求证.
-必要时更推荐官方文档(此处略去).</p>
-</blockquote>
-<p><a href="https://blog.csdn.net/qq_44000789/article/details/142214660"
-class="uri">https://blog.csdn.net/qq_44000789/article/details/142214660</a></p>
-<p><a
-href="https://blog.csdn.net/weixin_41401924/article/details/120332417"
-class="uri">https://blog.csdn.net/weixin_41401924/article/details/120332417</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/389992455"
-class="uri">https://zhuanlan.zhihu.com/p/389992455</a></p>
-<p><a
-href="https://blog.csdn.net/weixin_62075168/article/details/131226082"
-class="uri">https://blog.csdn.net/weixin_62075168/article/details/131226082</a></p>
-]]></content>
-      <categories>
-        <category>AI</category>
-      </categories>
-      <tags>
-        <tag>环境配置</tag>
-        <tag>AI</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>千里之行，始于足下</title>
-    <url>/2024/09/08/hello-world/</url>
+    <url>/hello-world/</url>
     <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
 step.</strong></p>
 <span id="more"></span>
-<img src="/2024/09/08/hello-world/picture.png" class="" title="picture">
+<img src="/hello-world/picture.png" class="" title="picture">
 ]]></content>
       <categories>
         <category>杂项</category>
