@@ -22,31 +22,23 @@
     var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="NJU-CourseNote: Principles and Techniques of Compilers - Ch01 Introduction">
+  <meta name="description" content="题目链接: LeetCode|10.正则表达式匹配">
 <meta property="og:type" content="article">
-<meta property="og:title" content="课程笔记-NJU编译原理 Ch1 引论">
-<meta property="og:url" content="http://la-pluma.github.io/Course-Compiler-1/index.html">
+<meta property="og:title" content="LeetCode个人题解[C++] P10 正则表达式匹配">
+<meta property="og:url" content="http://la-pluma.github.io/LeetCode-P10/index.html">
 <meta property="og:site_name" content="LaPluma">
-<meta property="og:description" content="NJU-CourseNote: Principles and Techniques of Compilers - Ch01 Introduction">
+<meta property="og:description" content="题目链接: LeetCode|10.正则表达式匹配">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-1.png">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-2.png">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-3.png">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-4.png">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-5.png">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-6.png">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-7.png">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-8.png">
-<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-9.png">
-<meta property="article:published_time" content="2025-02-17T02:49:36.000Z">
-<meta property="article:modified_time" content="2025-02-19T02:54:43.491Z">
+<meta property="og:image" content="http://la-pluma.github.io/LeetCode-P10/pic1.png">
+<meta property="article:published_time" content="2025-02-22T06:48:59.000Z">
+<meta property="article:modified_time" content="2025-02-23T09:56:33.053Z">
 <meta property="article:author" content="LaPluma">
-<meta property="article:tag" content="课程笔记">
-<meta property="article:tag" content="编译原理">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="动态规划">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://la-pluma.github.io/Course-Compiler-1/pic1-1.png">
+<meta name="twitter:image" content="http://la-pluma.github.io/LeetCode-P10/pic1.png">
 
-<link rel="canonical" href="http://la-pluma.github.io/Course-Compiler-1/">
+<link rel="canonical" href="http://la-pluma.github.io/LeetCode-P10/">
 
 
 <script id="page-configurations">
@@ -59,7 +51,7 @@
   };
 </script>
 
-  <title>课程笔记-NJU编译原理 Ch1 引论 | LaPluma</title>
+  <title>LeetCode个人题解[C++] P10 正则表达式匹配 | LaPluma</title>
   
 
 
@@ -208,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/Course-Compiler-1/">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/LeetCode-P10/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
@@ -221,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          课程笔记-NJU编译原理 Ch1 引论
+          LeetCode个人题解[C++] P10 正则表达式匹配
         </h1>
 
         <div class="post-meta">
@@ -231,14 +223,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2025-02-17 10:49:36" itemprop="dateCreated datePublished" datetime="2025-02-17T10:49:36+08:00">2025-02-17</time>
+              <time title="创建时间：2025-02-22 14:48:59" itemprop="dateCreated datePublished" datetime="2025-02-22T14:48:59+08:00">2025-02-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-02-19 10:54:43" itemprop="dateModified" datetime="2025-02-19T10:54:43+08:00">2025-02-19</time>
+                <time title="修改时间：2025-02-23 17:56:33" itemprop="dateModified" datetime="2025-02-23T17:56:33+08:00">2025-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -246,7 +238,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0-%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">课程笔记-编译原理</span></a>
+                  <a href="/categories/LeetCode%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">LeetCode刷题记录</span></a>
                 </span>
             </span>
 
@@ -263,14 +255,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -282,151 +274,128 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch01
-Introduction</strong></p>
+        <p><strong>题目链接:</strong> <a
+target="_blank" rel="noopener" href="https://leetcode.cn/problems/regular-expression-matching/description/"><strong>LeetCode|10.正则表达式匹配</strong></a></p>
 <span id="more"></span>
-<h2 id="课程信息">课程信息</h2>
-<p>NJU许畅老师(<a
-target="_blank" rel="noopener" href="https://cs.nju.edu.cn/changxu">主页</a>)开设的编译原理课程(<strong>Principles
-and Techniques of Compilers</strong>).</p>
-<p><strong>参考教材:</strong></p>
-<p>《编译原理》(龙书),《编译方法、技术与实践》/《编译原理实践与指导教程》</p>
-<h3 id="课程内容">课程内容</h3>
+<hr />
+<h2 id="题面解释">题面解释</h2>
+<p>题目意思非常简单, 对字符串s和p进行匹配.(但写出来可一点都不简单啊)</p>
+<p>不过需要注意的是,
+<code>"*"匹配一个或多个前一个元素</code>的释义是<span
+class="math inline">\(a*\rightarrow a^*\)</span>,
+其中箭头右侧为正则文法.</p>
+<h2 id="解法一-暴力回溯dfs">解法一 暴力回溯DFS</h2>
+<p>先考虑假设不包含<code>*</code>的匹配过程.</p>
+<p>那么当<code>s.length() != p.length()</code>时可以直接给出<code>false</code>,
+或者当<code>s[i] != p[i] &amp;&amp; p[i] != '.'</code>时也可以直接给出<code>false</code>.
+除非整个串匹配结束后则可以给出<code>true</code>.</p>
+<p>因此难处理的部分应当是<code>*</code>的匹配过程.</p>
+<p>下面用一个例子来分析<code>*</code>的匹配过程.</p>
+<p>假设<code>s = abbbacc, p = ab*ab*cc</code></p>
 <ul>
-<li><a href="https://la-pluma.github.io/Course-Compiler-1"><strong>Ch1
-引论</strong></a></li>
-<li><a href="https://la-pluma.github.io/Course-Compiler-3"><strong>Ch3
-词法分析</strong></a></li>
-<li><strong>Ch4 语法分析</strong></li>
-<li><strong>Ch5 语法制导的编译技术</strong></li>
-<li><strong>Ch6 中间代码生成</strong></li>
-<li><strong>Ch7 运行时刻环境</strong></li>
-<li><strong>Ch8 代码生成</strong></li>
-<li><strong>Ch9 机器无关优化</strong></li>
-</ul>
-<h3 id="实验内容">实验内容</h3>
-<p>TBC</p>
-<h2 id="引论">引论</h2>
-<h3 id="编译器compiler-解释器interpreter">编译器(Compiler) &amp;
-解释器(Interpreter)</h3>
-<ul>
-<li><strong>编译器</strong>
-<ul>
-<li>读入以某种语言(源语言) 编写的程序</li>
-<li>输出等价的用另一种语言(目标语言) 编写的程序</li>
-<li>通常目标程序是可执行的</li>
-</ul></li>
-</ul>
-<img src="/Course-Compiler-1/pic1-1.png" class="" title="pic1-1">
-<ul>
-<li><strong>解释器</strong>
-<ul>
-<li>直接利用用户提供的输入，执行源程序中指定的操作</li>
-<li>不生成目标程序，而是根据源程序的语义直接运行</li>
-<li>Java语言的处理结合了编译和解释</li>
-</ul></li>
-</ul>
-<h3 id="编译器的结构">编译器的结构</h3>
-<p>编译器可以分为<strong>分析</strong>和<strong>综合</strong>两部分.</p>
-<ul>
-<li><strong>分析(Analysis)/前端(front end)</strong>
-<ul>
-<li>把源程序分解成组成要素，以及相应的语法结构</li>
-<li>使用这个结构创建源程序的中间表示</li>
-<li>同时收集和源程序相关的信息，存放到符号表</li>
-</ul></li>
-<li><strong>综合(Synthesis)/后端(back end)</strong>
-<ul>
-<li>根据中间表示和符号表信息构造目标程序</li>
-</ul></li>
-</ul>
+<li><p>对于<code>a</code>和<code>a</code>的匹配是自然的, 现在我们有:</p>
 <blockquote>
-<p><strong>其中前端部分是机器无关的，后端部分是机器相关的</strong></p>
-</blockquote>
-<p>编译器执行步骤(phase)</p>
-<img src="/Course-Compiler-1/pic1-2.png" class="" title="pic1-2">
-<h3 id="词法分析">词法分析</h3>
-<ul>
-<li><strong>词法分析/扫描(lexical analysis/scanning)</strong>
-<ul>
-<li>读入源程序的字符流，输出为有意义的词素(lexeme)</li>
-<li>格式: <code>&lt;token-name, attribute-value&gt;</code></li>
-<li>token-name由语法分析步骤使用</li>
-<li>attribute-value指向相应的符号表条目，由语义分析/代码生成步骤使用</li>
-</ul>
-<blockquote>
-<p><strong>Example:</strong> <img src="/Course-Compiler-1/pic1-3.png" class="" title="pic1-3"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = abbbacc</span><br><span class="line">     ^</span><br><span class="line">p = ab*ab*cc</span><br><span class="line">     ^</span><br></pre></td></tr></table></figure>
 </blockquote></li>
+<li><p>接下来注意到p的模式为<code>b*</code>,
+那么考虑枚举<code>b*</code>可以匹配的模式.</p>
+<ul>
+<li><p><code>case1: ''</code> 假设重复0个<code>b</code>, 我们有:</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = abbbacc</span><br><span class="line">     ^</span><br><span class="line">p = ab*ab*cc</span><br><span class="line">       ^</span><br></pre></td></tr></table></figure>
+<p>不难看出此时<code>b</code>无法匹配<code>a</code>,
+case1匹配到这里不得不停下了.</p>
+</blockquote></li>
+<li><p><code>case2: b | bb</code> 假设重复一个或两个<code>b</code>,
+此时和case1相同,
+同样面临<code>b</code>不能匹配<code>a</code>的问题.</p></li>
+<li><p><code>case3: bbb</code> 假设重复三个<code>b</code>, 此时有:</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = abbbacc</span><br><span class="line">        ^</span><br><span class="line">p = ab*ab*cc</span><br><span class="line">       ^</span><br></pre></td></tr></table></figure>
+<p>此时可以继续<code>a</code>和<code>a</code>的匹配.</p>
+</blockquote></li>
+<li><p><code>case4: bbbb|...</code> 假设重复四个或以上的<code>b</code>,
+显然是无法匹配的.</p></li>
+</ul></li>
+<li><p>剩余部分的匹配与之前相似, 不难得出s和p匹配的结论.</p></li>
 </ul>
-<h3 id="语法分析">语法分析</h3>
+<p>这就是处理<code>*</code>最朴素的思想, 直接枚举不同的组合,
+看有没有机会匹配, 在上述例子中, 因为case3直接可以得出匹配的结论,
+因此不需要处理case4.</p>
+<p>至于为何一定要写成递归的DFS, 笔者在此给出一个例子, 可以自行推演.</p>
+<blockquote>
+<p><strong>Example:</strong> <code>s = abbbacc, p = ab*bbacc</code>.</p>
+<p>实际上由于<code>.*</code>的存在, 会引起更加复杂的变化,
+因此即便可以优化上述的例子, 此处最好的处理方式仍然是递归.</p>
+</blockquote>
+<p>由此我们可以得知DFS递归的基本框架:
+每一次的压栈递归都代表枚举相应的<code>*</code>,
+那么p中包含多少<code>*</code>最多就可能压多少递归栈.</p>
+<p>可以预见到,
+当<code>p.length()</code>和<code>s.length()</code>的规模增大时,
+时间复杂度将会爆炸.</p>
+<h2 id="解法二-动态规划dp">解法二 动态规划DP</h2>
+<p>尽管上述的DFS性能堪忧, 但其思想还是很重要的, 有助于过渡到DP的方法.
+<del>虽然可以预见到一群大神一眼看出是DP,
+还能顺手把转移方程写出来</del></p>
+<p>在上述过程中有一个计算是十分不必要的,
+那就是"枚举完所有的"<code>a*</code>可以匹配的模式.</p>
+<h3 id="状态转移方程求解">状态转移方程求解</h3>
+<p>DFS的尝试是枚举所有的可能, 看是否能和后面的匹配上.
+那么此时我们逆向思考这个问题,
+对于<code>s[:i]</code>和<code>p[:j]</code>,
+当得知哪些信息时可以判断是否匹配?</p>
+<blockquote>
+<p>为方便后续表述, 此处定义一个辅助函数<code>match(c1, c2)</code>,
+当<code>c1 == c2 || c2 == '.'</code>时返回<code>true</code>,
+否则返回<code>false</code>.</p>
+<p><strong>注: 以下切片语法(<code>s[:i]</code>)遵循python的左闭右开原则,
+字符串索引语法(<code>s[i]</code>)初始下标为0</strong></p>
+</blockquote>
 <ul>
-<li><strong>语法分析/解析(syntaxanalysis/parsing)</strong>
+<li>先从简单的部分开始考虑, 即<code>p[j - 1] != '*'</code>
 <ul>
-<li>根据各个词法单元的第一个分量来创建树型的中间表示形式，通常是<strong>语法树(syntax
-tree)</strong></li>
-<li>中间表示形式指出了词法单元流的语法结构</li>
-<li><img src="/Course-Compiler-1/pic1-4.png" class="" title="pic1-4"></li>
+<li>如果<code>match(s[i - 1], p[j - 1]) == false</code>,
+字符串尾部不匹配, 显然<code>s[:i]</code>和<code>p[:j]</code>不匹配.</li>
+<li>如果<code>match(s[i - 1], p[j - 1]) == true</code>,
+那么只要有<code>s[:i - 1]</code>和<code>p[:j - 1]</code>匹配,
+则<code>s[:i]</code>和<code>p[:j]</code>匹配.</li>
+</ul></li>
+<li>接下来考虑稍微复杂的部分<code>p[j - 1] == '*'</code>
+<ul>
+<li>因为<code>*</code>具有左结合性,
+因此<code>p[j - 2]</code>的信息对我们来说是重要的.
+即<code>*</code>重复了哪一个字符.</li>
+<li>如果有<code>match(s[i - 1], p[j - 2]) == true</code>,
+其含义相当于由<code>*</code>多重复一个<code>p[j - 2]</code>进行匹配.
+那么此时只要<code>s[:i - 1]</code>和<code>p[:j]</code>匹配,
+就有<code>s[:i]</code>和<code>p[:j]</code>匹配</li>
+<li>上述情况为<code>*</code>的扩展, 那么"零个"该如何处理?
+只需要将p中的模式<code>a*</code>当作不存在,
+考察<code>s[:i]</code>和<code>p[:j - 2]</code>是否匹配即可.</li>
 </ul></li>
 </ul>
-<h3 id="语义分析">语义分析</h3>
+<p>由此, 我们便得到了官方题解中的状态转移方程,
+其中<code>f[i][j]</code>表示<code>s[:i]</code>和<code>p[:j]</code>是否匹配.</p>
+<img src="/LeetCode-P10/pic1.png" class="" title="pic1">
+<h3 id="边界条件考察">边界条件考察</h3>
+<p>状态转移方程已经有了, 接下来回归到base case,
+来想想边界条件的处理.</p>
 <ul>
-<li><strong>语义分析(semantic analysis)</strong>
-<ul>
-<li>使用语法树和符号表中的信息，检查源程序是否满足语言定义的语义约束</li>
-<li>同时收集类型信息，用于代码生成、类型检查、类型转换</li>
-<li><img src="/Course-Compiler-1/pic1-5.png" class="" title="pic1-5"></li>
-</ul></li>
+<li>显然<code>f[0][0] = true</code>, 因为空串和空串显然是匹配的.</li>
+<li>对于<code>i != 0 &amp;&amp; j == 0</code>,
+即s中若干个字符和p中零个字符, 显然有<code>f[i][0] = false</code>,
+因为非空的s不可能匹配空串.</li>
+<li>对于<code>i == 0 &amp;&amp; j != 0</code>,
+即s中零个字符和p中若干个字符, 此时当且仅当p满足如下正则文法: <span
+class="math inline">\(l \rightarrow .|a|b|...|z, \ p \rightarrow
+(l*)^*\)</span> 时, 有<code>f][0][j] = true</code>.</li>
+<li>此时已经处理了所有s为空串或p为空串的匹配情况, 因此在状态转移时,
+只需要让初始时<code>i = 1, j = 1</code>即可.</li>
 </ul>
-<h3 id="中间代码生成">中间代码生成</h3>
-<p>根据语义分析输出，生成类机器语言的中间表示</p>
-<ul>
-<li><strong>三地址代码(three-address code)</strong>
-<ul>
-<li>每个指令最多包含三个运算分量</li>
-<li>Example:
-<code>t1 = inttofloat(60); t2 = id3 * t1; t3 = id2 + t2;</code></li>
-<li>很容易生成机器语言指令</li>
-<li><img src="/Course-Compiler-1/pic1-6.png" class="" title="pic1-6"></li>
-</ul></li>
-</ul>
-<h3 id="中间代码优化">中间代码优化</h3>
-<p>通过对中间代码的分析，改进中间代码的质量(更快、更短、能耗更低)</p>
-<img src="/Course-Compiler-1/pic1-7.png" class="" title="pic1-7">
-<h3 id="代码生成">代码生成</h3>
-<p>把中间表示形式映射到目标语言(寄存器分配与指令选择)</p>
-<img src="/Course-Compiler-1/pic1-8.png" class="" title="pic1-8">
-<h3 id="语言与编译器的关系">语言与编译器的关系</h3>
-<ul>
-<li>程序设计语言的新发展向编译器设计者提出新的要求
-<ul>
-<li>设计相应的算法和表示方法来翻译和支持新的语言特征，如多态、动态绑定、类、类属(模板)
-、…</li>
-</ul></li>
-<li>通过降低高级语言的执行开销，推动这些高级语言的使用</li>
-<li>编译器设计者还需要更好地利用新硬件的能力
-<ul>
-<li>RISC技术、多核技术、大规模并行技术</li>
-</ul></li>
-</ul>
-<h3 id="程序设计语言的基础概念">程序设计语言的基础概念</h3>
-<h4 id="动态静态">动态&amp;静态</h4>
-<ul>
-<li><strong>静态:</strong> 支持编译器静态决定某个问题</li>
-<li><strong>动态:</strong> 只允许在程序运行时刻作出决定</li>
-</ul>
-<h4 id="作用域">作用域</h4>
-<p>x的作用域指程序文本的一个区域，其中对x的使用都指向这个声明</p>
-<ul>
-<li><strong>静态作用域(static scope):</strong>
-通过静态阅读程序可决定</li>
-<li><strong>动态作用域(dynamic scope):</strong> 运行时确定x的指向</li>
-</ul>
-<h4 id="环境状态">环境&amp;状态</h4>
-<ul>
-<li><strong>环境(environment):</strong> 是从名字到存储位置的映射</li>
-<li><strong>状态(state):</strong> 从存储位置到它们值的映射</li>
-</ul>
-<img src="/Course-Compiler-1/pic1-9.png" class="" title="pic1-9">
+<h3 id="参考代码">参考代码</h3>
+<p>参考代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isMatch</span><span class="params">(string s, string p)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = s.<span class="built_in">length</span>();</span><br><span class="line">        <span class="type">int</span> m = p.<span class="built_in">length</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">bool</span>&gt;&gt; <span class="built_in">dp</span>(n + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="type">bool</span>&gt;(m + <span class="number">1</span>, <span class="literal">false</span>));</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">2</span>; j &lt;= m; j += <span class="number">2</span>)&#123;</span><br><span class="line">            dp[<span class="number">0</span>][j] = dp[<span class="number">0</span>][j - <span class="number">2</span>] &amp;&amp; p[j - <span class="number">1</span>] == <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(p[j - <span class="number">1</span>] == <span class="string">&#x27;*&#x27;</span>)&#123;</span><br><span class="line">                    <span class="comment">//输入样例保证p[j - 1] == &#x27;*&#x27;时 j-2&gt;=0</span></span><br><span class="line">                    dp[i][j] = dp[i][j] | dp[i][j - <span class="number">2</span>]; <span class="comment">//match 0</span></span><br><span class="line">                    <span class="comment">//match multi</span></span><br><span class="line">                    <span class="keyword">if</span>(<span class="built_in">match</span>(s[i - <span class="number">1</span>], p[j - <span class="number">2</span>]))&#123;</span><br><span class="line">                        dp[i][j] = dp[i][j] | dp[i - <span class="number">1</span>][j];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">if</span>(<span class="built_in">match</span>(s[i - <span class="number">1</span>], p[j - <span class="number">1</span>]))&#123;</span><br><span class="line">                        dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n][m];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">match</span><span class="params">(<span class="type">char</span> sc, <span class="type">char</span> pc)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pc == <span class="string">&#x27;.&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sc == pc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -436,8 +405,8 @@ tree)</strong></li>
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag"># 课程笔记</a>
-              <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag"># 编译原理</a>
+              <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
           </div>
 
         
@@ -446,13 +415,10 @@ tree)</strong></li>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/LabRecord-SPA-A8/" rel="prev" title="NJU静态分析|A8-Taint Analysis">
-      <i class="fa fa-chevron-left"></i> NJU静态分析|A8-Taint Analysis
+    <a href="/Course-Compiler-3/" rel="prev" title="课程笔记-NJU编译原理 Ch3 词法分析">
+      <i class="fa fa-chevron-left"></i> 课程笔记-NJU编译原理 Ch3 词法分析
     </a></div>
-      <div class="post-nav-item">
-    <a href="/Course-Compiler-3/" rel="next" title="课程笔记-NJU编译原理 Ch3 词法分析">
-      课程笔记-NJU编译原理 Ch3 词法分析 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -512,8 +478,7 @@ tree)</strong></li>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">课程信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">课程内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9"><span class="nav-number">1.2.</span> <span class="nav-text">实验内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%AE%BA"><span class="nav-number">2.</span> <span class="nav-text">引论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8compiler-%E8%A7%A3%E9%87%8A%E5%99%A8interpreter"><span class="nav-number">2.1.</span> <span class="nav-text">编译器(Compiler) &amp;
-解释器(Interpreter)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.2.</span> <span class="nav-text">编译器的结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">2.4.</span> <span class="nav-text">语法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90"><span class="nav-number">2.5.</span> <span class="nav-text">语义分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90"><span class="nav-number">2.6.</span> <span class="nav-text">中间代码生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="nav-number">2.7.</span> <span class="nav-text">中间代码优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90"><span class="nav-number">2.8.</span> <span class="nav-text">代码生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E4%B8%8E%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.9.</span> <span class="nav-text">语言与编译器的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80%E7%9A%84%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-number">2.10.</span> <span class="nav-text">程序设计语言的基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%9D%99%E6%80%81"><span class="nav-number">2.10.1.</span> <span class="nav-text">动态&amp;静态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">2.10.2.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E7%8A%B6%E6%80%81"><span class="nav-number">2.10.3.</span> <span class="nav-text">环境&amp;状态</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E9%9D%A2%E8%A7%A3%E9%87%8A"><span class="nav-number">1.</span> <span class="nav-text">题面解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-%E6%9A%B4%E5%8A%9B%E5%9B%9E%E6%BA%AFdfs"><span class="nav-number">2.</span> <span class="nav-text">解法一 暴力回溯DFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92dp"><span class="nav-number">3.</span> <span class="nav-text">解法二 动态规划DP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3"><span class="nav-number">3.1.</span> <span class="nav-text">状态转移方程求解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6%E8%80%83%E5%AF%9F"><span class="nav-number">3.2.</span> <span class="nav-text">边界条件考察</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81"><span class="nav-number">3.3.</span> <span class="nav-text">参考代码</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -833,7 +798,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'la-pluma.github.io',
       owner       : 'La-Pluma',
       admin       : ['La-Pluma'],
-      id          : '4080461e805c9c1165b8a3aef1ccc43d',
+      id          : 'b40b19c294c48e1aac0f00fb87910ef9',
         language: 'zh-CN',
       distractionFreeMode: true
     });
