@@ -25,7 +25,7 @@ NJU许畅老师([主页](https://cs.nju.edu.cn/changxu))开设的编译原理课
 
 - [**Ch1 引论**](https://la-pluma.github.io/Course-Compiler-1)
 - [**Ch3 词法分析**](https://la-pluma.github.io/Course-Compiler-3)
-- **Ch4 语法分析**
+- [**Ch4 语法分析**](https://la-pluma.github.io/Course-Compiler-4)
 - **Ch5 语法制导的编译技术**
 - **Ch6 中间代码生成**
 - **Ch7 运行时刻环境**
@@ -83,7 +83,7 @@ TBC
 
 ### 语法分析
 
-- **语法分析/解析(syntaxanalysis/parsing)**
+- **语法分析/解析(syntax analysis/parsing)**
     - 根据各个词法单元的第一个分量来创建树型的中间表示形式，通常是**语法树(syntax tree)**
     - 中间表示形式指出了词法单元流的语法结构
     - ![pic1-4](Course-Compiler-1/pic1-4.png)

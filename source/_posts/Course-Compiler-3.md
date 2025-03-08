@@ -117,6 +117,7 @@ categories:
 
 - DFA&NFA的定义
 - DFA<->NFA的转化
+  - [**CSDN|NFA->DFA**](https://blog.csdn.net/weixin_43655282/article/details/108963761)
 - DFA最小化算法
   - [**知乎|Hopcroft 算法**](https://zhuanlan.zhihu.com/p/31166841)
 
