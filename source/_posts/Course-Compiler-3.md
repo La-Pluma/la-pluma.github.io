@@ -9,7 +9,7 @@ categories:
 - 课程笔记-编译原理
 ---
 
-**NJU-CourseNote: Principles and Techniques of Compilers - Ch03 Lexical Analysis**
+**NJU-CourseNote: Principles and Techniques of Compilers - Ch03 Lexical Analysis.**
 
 <!--more-->
 

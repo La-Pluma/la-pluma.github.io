@@ -19,7 +19,11 @@ NJU软件分析, 实际上是静态分析(Static Program Analysis), 是由李樾
 
 本课程实验(Assignments)基于Tai-e教学版框架, 框架代码的获取和实验环境配置见课程网站, 笔者在约一年前曾自学过本课程, 现今跟随2024Fall课程进度再次学习, 由于上次学习中受到了多位前辈留下的实验记录帮助, 遂于此记录笔者对各个实验的理解和记录. 限于笔者个人能力水平, 恐难完整覆盖实验中的所有要点, 记录内容仅供参考, 如能帮助到您, 乃笔者荣幸.
 
-鉴于 **学术诚信(Academic Integrity)** 要求, 笔者暂且 ***不*** 公开源代码.
+~~鉴于 **学术诚信(Academic Integrity)** 要求, 笔者暂且 ***不*** 公开源代码.~~
+
+已公开参考源代码, 请**遵循学术诚信**.
+
+[**LaPuluma|StaticAnalysis**](https://github.com/La-Pluma/NJU-Static-Analysis-Tai-e)
 
 ## 食用指南
 
