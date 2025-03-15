@@ -450,165 +450,6 @@ Generic</a>将泛型表述为:</p>
       </tags>
   </entry>
   <entry>
-    <title>读书笔记-大话设计模式 Ch1-Ch5</title>
-    <url>/BookNote-DesignPatterns-by-JieCheng-2/</url>
-    <content><![CDATA[<p><strong>好的代码可维护, 可复用, 可扩展, 灵活性强.</strong></p>
-<span id="more"></span>
-<p>
-<font size = 5><b>目录</b></font>
-</p>
-<ul>
-<li><a href="#additional--uml类图">Additional : UML类图</a>
-<ul>
-<li><a href="#什么是uml">什么是UML</a></li>
-<li><a href="#uml类图的示例">UML类图的示例</a></li>
-</ul></li>
-<li><a href="#chapter-1-简单工厂模式simple-factory">Chapter 1:
-简单工厂模式(Simple Factory)</a></li>
-<li><a href="#chapter-2-策略模式strategy">Chapter 2:
-策略模式(Strategy)</a>
-<ul>
-<li><a href="#收银的策略模式实现">收银的策略模式实现</a></li>
-<li><a href="#策略模式解析">策略模式解析</a></li>
-</ul></li>
-<li><a href="#chapter-3-单一职责原则srp">Chapter 3:
-单一职责原则(SRP)</a></li>
-<li><a href="#chapter-4-开放-封闭原则ocp">Chapter 4:
-开放-封闭原则(OCP)</a></li>
-<li><a href="#chapter-5-依赖倒转原则">Chapter 5: 依赖倒转原则</a>
-<ul>
-<li><a href="#里氏代换原则lsp">里氏代换原则(LSP)</a></li>
-</ul></li>
-</ul>
-<h2 id="additional-uml类图">Additional : UML类图</h2>
-<p><strong>在线UML工具:</strong> <a
-href="https://www.plantuml.com/plantuml/uml"
-class="uri">https://www.plantuml.com/plantuml/uml</a></p>
-<h3 id="什么是uml">什么是UML</h3>
-<p><strong>统一建模语言UML(Unified Modeling Language)</strong>
-是一种脚本语言, 是一种开放的方法, 用于说明, 可视化,
-构建和编写一个正在开发的, 面向对象的, 软件密集系统的产品的开放方法.</p>
-<p>简单来说, 对于应用的人, 可以通过简单的语言来生成描述的图像(包括类图,
-时序图等).</p>
-<h3 id="uml类图的示例">UML类图的示例</h3>
-<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-2.png" class="" title="pic2-2">
-<p>关于UML类图的介绍在Internet中有充足的资料和手册,
-书中也有简单的规约介绍,
-笔者在此不详细介绍UML图的语法和规约.(或者待专门出一期整理UML用法的栏目)</p>
-<h2 id="chapter-1-简单工厂模式simple-factory">Chapter 1:
-简单工厂模式(Simple Factory)</h2>
-<p>先来看看书中给的例子:</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//简单工厂类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OperationFactory</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title">createOperate</span>(<span class="params"><span class="built_in">string</span> operate</span>)</span>&#123;</span><br><span class="line">        Operation oper = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (operate)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;+&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationAdd();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;-&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationSub();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ...</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> oper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//应用端</span></span><br><span class="line">Operation oper;</span><br><span class="line">oper = OperationFactory.createOperate(<span class="string">&quot;+&quot;</span>);</span><br><span class="line">oper.NumberA = <span class="number">1</span>;</span><br><span class="line">oper.NumberB = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">double</span> result = oper.GetResult();</span><br></pre></td></tr></table></figure>
-<p>UML图如下:</p>
-<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-1.png" class="" title="pic2-1">
-<p>简单来说,
-就是通过一个简单工厂类<code>XXXFactory</code>生产"产品"(实例化类),即<strong>有一个专门的类负责创建实例的过程</strong>.
-这样修改后端的功能时(比如说添加新的运算类),
-前端的逻辑不需要重构(以上述例子中只需要修改<code>createOperate("+")-&gt;createOperate("-")</code>);
-同时后端的具体实现细节没有暴露给前端, 降低了耦合度.</p>
-<h2 id="chapter-2-策略模式strategy">Chapter 2: 策略模式(Strategy)</h2>
-<ul>
-<li>面向对象的编程, 并不是类越多越好, 类的划分是为了封装,
-但分类的基础是抽象, 具有相同属性和功能的对象的抽象集合才是类.</li>
-</ul>
-<p><strong>策略模式(Strategy)</strong> 定义了算法家族, 分别封装起来,
-让它们之间相互替换, 此模式让算法的变化不会影响到使用算法的客户.</p>
-<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-3.png" class="" title="pic2-3">
-<h3 id="收银的策略模式实现">收银的策略模式实现</h3>
-<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-4.png" class="" title="pic2-4">
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//back end</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">CashContext</span>&#123;</span><br><span class="line">    CashSuper cs = <span class="literal">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CashContext</span>(<span class="params"><span class="built_in">string</span> type</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//该部分可以采用访问者模式(Visitor)优化</span></span><br><span class="line">        <span class="keyword">switch</span>(type)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;正常收费&quot;</span>:</span><br><span class="line">                Cashnormal cs0 = <span class="keyword">new</span> CashNormal();</span><br><span class="line">                cs = cs0;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;300减100&quot;</span>:</span><br><span class="line">                CashReturn cr1 = <span class="keyword">new</span> CashReturn(<span class="string">&quot;300&quot;</span>, <span class="string">&quot;100&quot;</span>);</span><br><span class="line">                cs = cr1;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;打8折&quot;</span>:</span><br><span class="line">                CashRebate cr2 = <span class="keyword">new</span> CashRebate(<span class="string">&quot;0.8&quot;</span>);</span><br><span class="line">                cs = cr2;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">double</span> <span class="title">GetResult</span>(<span class="params"><span class="built_in">double</span> money</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> cs.acceptCash(money);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*------------------------------------------------------------*/</span></span><br><span class="line"><span class="comment">//front end</span></span><br><span class="line"><span class="built_in">double</span> total = <span class="number">0.0</span><span class="function">d</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnOk_click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//客户端UI操作时传入相应字符串</span></span><br><span class="line">    CashContext csuper = <span class="keyword">new</span> CashContext(cbxType.SelectedItem.ToString());</span><br><span class="line">    <span class="built_in">double</span> totalprices = <span class="number">0</span>d;</span><br><span class="line">    totalPrices = csuper.Getresult(Convert.ToDouble(txtPrice.Text) * Convert.ToDouble(txtNum.Text));</span><br><span class="line">    total += totalPrices;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="策略模式解析">策略模式解析</h3>
-<ul>
-<li><p>策略模式是一种定义一系列算法的方法, 从概念上看,
-所有这些算法完成的都是相同的工作, 只是实现不同,
-它可以以相同的方式调用所有的算法,
-减少了各种算法类与使用算法类之间的耦合.</p></li>
-<li><p>策略模式的Strategy类层次为Context定义了一系列的可供重用的算法或行为.
-继承有助于析出这些算法的公共功能.</p>
-<blockquote>
-<p>对于上述代码案例, 即是<code>GetResult()</code>.</p>
-</blockquote></li>
-<li><p>策略模式的优点是简化了单元测试, 因为每个算法都有自己的类,
-可以通过自己的接口单独测试.</p></li>
-<li><p>策略模式用于封装算法, 在实践中, 可以用它来封装几乎任何类型的规则,
-只要在分析过程中听到需要在不同时间应用不同的业务规则,
-就可以考虑使用策略模式处理这种变化的可能性.</p></li>
-</ul>
-<h2 id="chapter-3-单一职责原则srp">Chapter 3: 单一职责原则(SRP)</h2>
-<p><strong>就一个类而言, 应该仅有一个引起它变化的原因.</strong></p>
-<ul>
-<li>如果一个类承担的职责过多, 就等于把这些职责耦合在一起,
-一个职责的变化可能会削弱或者抑制这个类完成其他职责的能力.
-这种耦合会导致脆弱的设计, 当变化发生时, 设计会遭受到意想不到的破坏.</li>
-<li>软件设计真正要做的许多内容, 就是发现职责并把那些职责相互分离.</li>
-<li>如果你能想到多于一个的动机去改变一个类,
-那么这个类就具有多于一个的职责.</li>
-</ul>
-<h2 id="chapter-4-开放-封闭原则ocp">Chapter 4: 开放-封闭原则(OCP)</h2>
-<ul>
-<li><p><strong>开放-封闭原则(The Open-Closed Principle):</strong>
-软件实体(类, 模块, 函数等)应该可以扩展, 但不能修改.</p>
-<ul>
-<li>对于扩展是开放的(Open for extension)</li>
-<li>对于修改是封闭的(Closed for modification)</li>
-</ul></li>
-<li><p><strong>绝对的对修改关闭是不可能的.</strong></p>
-<blockquote>
-<p>无论模块是多么的"封闭", 都会存在一些无法对之封闭的变化.
-既然不可能完全封闭,
-设计人员必须对于他设计的模块应该对哪种变化封闭做出选择.
-他必须先猜测出最有可能发生的变化种类, 然后构造抽象来隔离那些变化.</p>
-</blockquote></li>
-<li><p><strong>等到变化发生时立即采取行动</strong></p>
-<ul>
-<li>最初编写代码时, 假设变化不会发生. 当变化发生时,
-创建抽象来隔离以后发生的同类变化.</li>
-<li>面对需求, 对程序的改动是通过增加新代码进行的,
-而不是更改现有的代码.</li>
-</ul></li>
-</ul>
-<p><strong>开放-封闭原则是面向对象设计的核心所在.
-遵循这个原则可以带来面向对象奇数所声称的巨大好处, 也就是可维护, 可扩展,
-可复用, 灵活性好. 开发人员应当仅对程序中频繁出现的变化的那部分做出抽象.
-然而, 对于应用程序中的每个部分都刻意地进行抽象同样不是一个好主意.
-拒绝不成熟的抽象和抽象本身一样重要.</strong></p>
-<h2 id="chapter-5-依赖倒转原则">Chapter 5: 依赖倒转原则</h2>
-<ul>
-<li><strong>依赖倒转原则:</strong> 抽象不应该依赖细节,
-细节应该依赖于抽象
-<ul>
-<li>即: <strong>针对接口编程, 不要对实现编程.</strong></li>
-<li>高层模块不应该依赖低层模块, 两个都应该依赖抽象.</li>
-</ul></li>
-</ul>
-<p><strong>依赖倒转其实可以说是面向对象设计的标志,
-用哪种语言来编写程序不重要,
-如果编写时考虑的都是如何针对抽象编程而不是针对细节编程,
-即程序中所有的依赖关系都是终止于抽象类或者接口, 那就是面向对象的设计,
-反之那就是过程化的设计了.</strong></p>
-<h3 id="里氏代换原则lsp">里氏代换原则(LSP)</h3>
-<p><strong>子类型必须能够替换掉它们的父类型.</strong></p>
-<ul>
-<li><p>一个软件实体如果使用的是一个父类的话, 那么一定适用于其子类,
-而且它察觉不出父类对象和子类对象的区别. 也就是说, 在软件里面,
-把父类都替换成它的子类, 程序的行为没有变化.</p></li>
-<li><p>只有当子类可以替换掉父类, 软件单位的功能不受影响时,
-父类才能真正被复用, 而子类也能够在父类的基础上增加新的行为.</p></li>
-<li><p>由于子类型的可替换性才使得使用父类类型的模块在无需修改的情况下就可以扩展.</p>
-<blockquote>
-<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-5.png" class="" title="pic2-5">
-</blockquote></li>
-</ul>
-]]></content>
-      <categories>
-        <category>读书笔记-设计模式</category>
-      </categories>
-      <tags>
-        <tag>读书笔记</tag>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>读书笔记-机器学习 Ch0-Ch1</title>
     <url>/BookNote-MachineLearning-by-ZhihuaZhou-1/</url>
     <content><![CDATA[<p><strong>机器学习所研究的主要内容,
@@ -945,6 +786,165 @@ NFL定理指出了<strong>没有一种机器学习算法是适用于所有情况
       <tags>
         <tag>读书笔记</tag>
         <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>读书笔记-大话设计模式 Ch1-Ch5</title>
+    <url>/BookNote-DesignPatterns-by-JieCheng-2/</url>
+    <content><![CDATA[<p><strong>好的代码可维护, 可复用, 可扩展, 灵活性强.</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#additional--uml类图">Additional : UML类图</a>
+<ul>
+<li><a href="#什么是uml">什么是UML</a></li>
+<li><a href="#uml类图的示例">UML类图的示例</a></li>
+</ul></li>
+<li><a href="#chapter-1-简单工厂模式simple-factory">Chapter 1:
+简单工厂模式(Simple Factory)</a></li>
+<li><a href="#chapter-2-策略模式strategy">Chapter 2:
+策略模式(Strategy)</a>
+<ul>
+<li><a href="#收银的策略模式实现">收银的策略模式实现</a></li>
+<li><a href="#策略模式解析">策略模式解析</a></li>
+</ul></li>
+<li><a href="#chapter-3-单一职责原则srp">Chapter 3:
+单一职责原则(SRP)</a></li>
+<li><a href="#chapter-4-开放-封闭原则ocp">Chapter 4:
+开放-封闭原则(OCP)</a></li>
+<li><a href="#chapter-5-依赖倒转原则">Chapter 5: 依赖倒转原则</a>
+<ul>
+<li><a href="#里氏代换原则lsp">里氏代换原则(LSP)</a></li>
+</ul></li>
+</ul>
+<h2 id="additional-uml类图">Additional : UML类图</h2>
+<p><strong>在线UML工具:</strong> <a
+href="https://www.plantuml.com/plantuml/uml"
+class="uri">https://www.plantuml.com/plantuml/uml</a></p>
+<h3 id="什么是uml">什么是UML</h3>
+<p><strong>统一建模语言UML(Unified Modeling Language)</strong>
+是一种脚本语言, 是一种开放的方法, 用于说明, 可视化,
+构建和编写一个正在开发的, 面向对象的, 软件密集系统的产品的开放方法.</p>
+<p>简单来说, 对于应用的人, 可以通过简单的语言来生成描述的图像(包括类图,
+时序图等).</p>
+<h3 id="uml类图的示例">UML类图的示例</h3>
+<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-2.png" class="" title="pic2-2">
+<p>关于UML类图的介绍在Internet中有充足的资料和手册,
+书中也有简单的规约介绍,
+笔者在此不详细介绍UML图的语法和规约.(或者待专门出一期整理UML用法的栏目)</p>
+<h2 id="chapter-1-简单工厂模式simple-factory">Chapter 1:
+简单工厂模式(Simple Factory)</h2>
+<p>先来看看书中给的例子:</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//简单工厂类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OperationFactory</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title">createOperate</span>(<span class="params"><span class="built_in">string</span> operate</span>)</span>&#123;</span><br><span class="line">        Operation oper = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (operate)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;+&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationAdd();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;-&quot;</span>:</span><br><span class="line">                oper = <span class="keyword">new</span> OperationSub();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ...</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> oper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//应用端</span></span><br><span class="line">Operation oper;</span><br><span class="line">oper = OperationFactory.createOperate(<span class="string">&quot;+&quot;</span>);</span><br><span class="line">oper.NumberA = <span class="number">1</span>;</span><br><span class="line">oper.NumberB = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">double</span> result = oper.GetResult();</span><br></pre></td></tr></table></figure>
+<p>UML图如下:</p>
+<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-1.png" class="" title="pic2-1">
+<p>简单来说,
+就是通过一个简单工厂类<code>XXXFactory</code>生产"产品"(实例化类),即<strong>有一个专门的类负责创建实例的过程</strong>.
+这样修改后端的功能时(比如说添加新的运算类),
+前端的逻辑不需要重构(以上述例子中只需要修改<code>createOperate("+")-&gt;createOperate("-")</code>);
+同时后端的具体实现细节没有暴露给前端, 降低了耦合度.</p>
+<h2 id="chapter-2-策略模式strategy">Chapter 2: 策略模式(Strategy)</h2>
+<ul>
+<li>面向对象的编程, 并不是类越多越好, 类的划分是为了封装,
+但分类的基础是抽象, 具有相同属性和功能的对象的抽象集合才是类.</li>
+</ul>
+<p><strong>策略模式(Strategy)</strong> 定义了算法家族, 分别封装起来,
+让它们之间相互替换, 此模式让算法的变化不会影响到使用算法的客户.</p>
+<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-3.png" class="" title="pic2-3">
+<h3 id="收银的策略模式实现">收银的策略模式实现</h3>
+<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-4.png" class="" title="pic2-4">
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//back end</span></span><br><span class="line"><span class="keyword">class</span> <span class="title">CashContext</span>&#123;</span><br><span class="line">    CashSuper cs = <span class="literal">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CashContext</span>(<span class="params"><span class="built_in">string</span> type</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//该部分可以采用访问者模式(Visitor)优化</span></span><br><span class="line">        <span class="keyword">switch</span>(type)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;正常收费&quot;</span>:</span><br><span class="line">                Cashnormal cs0 = <span class="keyword">new</span> CashNormal();</span><br><span class="line">                cs = cs0;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;300减100&quot;</span>:</span><br><span class="line">                CashReturn cr1 = <span class="keyword">new</span> CashReturn(<span class="string">&quot;300&quot;</span>, <span class="string">&quot;100&quot;</span>);</span><br><span class="line">                cs = cr1;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;打8折&quot;</span>:</span><br><span class="line">                CashRebate cr2 = <span class="keyword">new</span> CashRebate(<span class="string">&quot;0.8&quot;</span>);</span><br><span class="line">                cs = cr2;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">double</span> <span class="title">GetResult</span>(<span class="params"><span class="built_in">double</span> money</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> cs.acceptCash(money);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*------------------------------------------------------------*/</span></span><br><span class="line"><span class="comment">//front end</span></span><br><span class="line"><span class="built_in">double</span> total = <span class="number">0.0</span><span class="function">d</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnOk_click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//客户端UI操作时传入相应字符串</span></span><br><span class="line">    CashContext csuper = <span class="keyword">new</span> CashContext(cbxType.SelectedItem.ToString());</span><br><span class="line">    <span class="built_in">double</span> totalprices = <span class="number">0</span>d;</span><br><span class="line">    totalPrices = csuper.Getresult(Convert.ToDouble(txtPrice.Text) * Convert.ToDouble(txtNum.Text));</span><br><span class="line">    total += totalPrices;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="策略模式解析">策略模式解析</h3>
+<ul>
+<li><p>策略模式是一种定义一系列算法的方法, 从概念上看,
+所有这些算法完成的都是相同的工作, 只是实现不同,
+它可以以相同的方式调用所有的算法,
+减少了各种算法类与使用算法类之间的耦合.</p></li>
+<li><p>策略模式的Strategy类层次为Context定义了一系列的可供重用的算法或行为.
+继承有助于析出这些算法的公共功能.</p>
+<blockquote>
+<p>对于上述代码案例, 即是<code>GetResult()</code>.</p>
+</blockquote></li>
+<li><p>策略模式的优点是简化了单元测试, 因为每个算法都有自己的类,
+可以通过自己的接口单独测试.</p></li>
+<li><p>策略模式用于封装算法, 在实践中, 可以用它来封装几乎任何类型的规则,
+只要在分析过程中听到需要在不同时间应用不同的业务规则,
+就可以考虑使用策略模式处理这种变化的可能性.</p></li>
+</ul>
+<h2 id="chapter-3-单一职责原则srp">Chapter 3: 单一职责原则(SRP)</h2>
+<p><strong>就一个类而言, 应该仅有一个引起它变化的原因.</strong></p>
+<ul>
+<li>如果一个类承担的职责过多, 就等于把这些职责耦合在一起,
+一个职责的变化可能会削弱或者抑制这个类完成其他职责的能力.
+这种耦合会导致脆弱的设计, 当变化发生时, 设计会遭受到意想不到的破坏.</li>
+<li>软件设计真正要做的许多内容, 就是发现职责并把那些职责相互分离.</li>
+<li>如果你能想到多于一个的动机去改变一个类,
+那么这个类就具有多于一个的职责.</li>
+</ul>
+<h2 id="chapter-4-开放-封闭原则ocp">Chapter 4: 开放-封闭原则(OCP)</h2>
+<ul>
+<li><p><strong>开放-封闭原则(The Open-Closed Principle):</strong>
+软件实体(类, 模块, 函数等)应该可以扩展, 但不能修改.</p>
+<ul>
+<li>对于扩展是开放的(Open for extension)</li>
+<li>对于修改是封闭的(Closed for modification)</li>
+</ul></li>
+<li><p><strong>绝对的对修改关闭是不可能的.</strong></p>
+<blockquote>
+<p>无论模块是多么的"封闭", 都会存在一些无法对之封闭的变化.
+既然不可能完全封闭,
+设计人员必须对于他设计的模块应该对哪种变化封闭做出选择.
+他必须先猜测出最有可能发生的变化种类, 然后构造抽象来隔离那些变化.</p>
+</blockquote></li>
+<li><p><strong>等到变化发生时立即采取行动</strong></p>
+<ul>
+<li>最初编写代码时, 假设变化不会发生. 当变化发生时,
+创建抽象来隔离以后发生的同类变化.</li>
+<li>面对需求, 对程序的改动是通过增加新代码进行的,
+而不是更改现有的代码.</li>
+</ul></li>
+</ul>
+<p><strong>开放-封闭原则是面向对象设计的核心所在.
+遵循这个原则可以带来面向对象奇数所声称的巨大好处, 也就是可维护, 可扩展,
+可复用, 灵活性好. 开发人员应当仅对程序中频繁出现的变化的那部分做出抽象.
+然而, 对于应用程序中的每个部分都刻意地进行抽象同样不是一个好主意.
+拒绝不成熟的抽象和抽象本身一样重要.</strong></p>
+<h2 id="chapter-5-依赖倒转原则">Chapter 5: 依赖倒转原则</h2>
+<ul>
+<li><strong>依赖倒转原则:</strong> 抽象不应该依赖细节,
+细节应该依赖于抽象
+<ul>
+<li>即: <strong>针对接口编程, 不要对实现编程.</strong></li>
+<li>高层模块不应该依赖低层模块, 两个都应该依赖抽象.</li>
+</ul></li>
+</ul>
+<p><strong>依赖倒转其实可以说是面向对象设计的标志,
+用哪种语言来编写程序不重要,
+如果编写时考虑的都是如何针对抽象编程而不是针对细节编程,
+即程序中所有的依赖关系都是终止于抽象类或者接口, 那就是面向对象的设计,
+反之那就是过程化的设计了.</strong></p>
+<h3 id="里氏代换原则lsp">里氏代换原则(LSP)</h3>
+<p><strong>子类型必须能够替换掉它们的父类型.</strong></p>
+<ul>
+<li><p>一个软件实体如果使用的是一个父类的话, 那么一定适用于其子类,
+而且它察觉不出父类对象和子类对象的区别. 也就是说, 在软件里面,
+把父类都替换成它的子类, 程序的行为没有变化.</p></li>
+<li><p>只有当子类可以替换掉父类, 软件单位的功能不受影响时,
+父类才能真正被复用, 而子类也能够在父类的基础上增加新的行为.</p></li>
+<li><p>由于子类型的可替换性才使得使用父类类型的模块在无需修改的情况下就可以扩展.</p>
+<blockquote>
+<img src="/BookNote-DesignPatterns-by-JieCheng-2/pic2-5.png" class="" title="pic2-5">
+</blockquote></li>
+</ul>
+]]></content>
+      <categories>
+        <category>读书笔记-设计模式</category>
+      </categories>
+      <tags>
+        <tag>读书笔记</tag>
+        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -2311,7 +2311,7 @@ href="https://www.zhihu.com/question/31203609?sort=created"><strong>[知乎|Java
     <title>课程笔记-NJU编译原理 Ch1 引论</title>
     <url>/Course-Compiler-1/</url>
     <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch01
-Introduction</strong></p>
+Introduction.</strong></p>
 <span id="more"></span>
 <h2 id="课程信息">课程信息</h2>
 <p>NJU许畅老师(<a
@@ -2327,7 +2327,8 @@ and Techniques of Compilers</strong>).</p>
 词法分析</strong></a></li>
 <li><a href="https://la-pluma.github.io/Course-Compiler-4"><strong>Ch4
 语法分析</strong></a></li>
-<li><strong>Ch5 语法制导的编译技术</strong></li>
+<li><a href="https://la-pluma.github.io/Course-Compiler-5"><strong>Ch5
+语法制导的编译技术</strong></a></li>
 <li><strong>Ch6 中间代码生成</strong></li>
 <li><strong>Ch7 运行时刻环境</strong></li>
 <li><strong>Ch8 代码生成</strong></li>
@@ -2469,7 +2470,7 @@ tree)</strong></li>
     <title>课程笔记-NJU编译原理 Ch3 词法分析</title>
     <url>/Course-Compiler-3/</url>
     <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch03
-Lexical Analysis</strong></p>
+Lexical Analysis.</strong></p>
 <span id="more"></span>
 <h2 id="词法分析器的作用">词法分析器的作用</h2>
 <ul>
@@ -2731,7 +2732,7 @@ href="https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_3.pdf#page=35"><st
     <title>课程笔记-NJU编译原理 Ch4 语法分析</title>
     <url>/Course-Compiler-4/</url>
     <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch04
-Syntax Analysis</strong></p>
+Syntax Analysis.</strong></p>
 <span id="more"></span>
 <h2 id="前言">前言</h2>
 <p><strong>笔者注:</strong> 语法分析部分的内容实在是过于繁杂和细碎,
@@ -4016,8 +4017,11 @@ href="https://www.bilibili.com/video/BV1b7411K7P4"><strong>[Bilibili|南京大�
 遂于此记录笔者对各个实验的理解和记录. 限于笔者个人能力水平,
 恐难完整覆盖实验中的所有要点, 记录内容仅供参考, 如能帮助到您,
 乃笔者荣幸.</p>
-<p>鉴于 <strong>学术诚信(Academic Integrity)</strong> 要求, 笔者暂且
-<strong><em>不</em></strong> 公开源代码.</p>
+<p><del>鉴于 <strong>学术诚信(Academic Integrity)</strong> 要求,
+笔者暂且 <strong><em>不</em></strong> 公开源代码.</del></p>
+<p>已公开参考源代码, 请<strong>遵循学术诚信</strong>.</p>
+<p><a
+href="https://github.com/La-Pluma/NJU-Static-Analysis-Tai-e"><strong>LaPuluma|StaticAnalysis</strong></a></p>
 <h2 id="食用指南">食用指南</h2>
 <p>本试验记录 <strong><em>不会</em></strong>
 从零开始讨论完成实验的知识点, 框架理解和注意事项.
@@ -4569,211 +4573,6 @@ Effect)</strong>在框架代码中已给出<code>API</code>,
       </tags>
   </entry>
   <entry>
-    <title>NJU静态分析|A4-CHA &amp; Inter Constant Propagation</title>
-    <url>/LabRecord-SPA-A4/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-4 Class Hierarchy
-Analysis &amp; Interprocedural Constant Propagation.</strong></p>
-<span id="more"></span>
-<h2 id="实验信息食用指南">实验信息&amp;食用指南</h2>
-<p>见本博客A1-A3.</p>
-<blockquote>
-<p><strong>手册的手册不能替代手册, 看不懂的话请回去看手册. ——</strong>
-<a
-href="https://github.com/RicoloveFeng"><strong>RicoloveFeng|SPA-Freestyle-Guidance</strong></a></p>
-</blockquote>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>Tai-e</strong> 框架实现 <strong>CHA</strong> &amp;
-<strong>Inter Constprop</strong>.</p>
-<p><del>真的还有必要在记录里补充这个吗</del></p>
-<h2 id="实验简析">实验简析</h2>
-<p>其实没什么好说的, 课程 &amp; ppt &amp; 指南已经讲的比较明确了,
-笔者在此补充一些手册写的不明确或是略去的部分.</p>
-<p><strong>不过本次实验涉及不少新东西,
-烦请耐心阅读相关代码API.</strong></p>
-<h2 id="preparation">Preparation</h2>
-<p>从Assignment2中将<code>ConstPropogation.java</code>
-copy到本次实验目录对应位置.</p>
-<p><strong>需要注意的是,
-A2中不完全正确的实现可能会影响本次实验的本地测试.</strong></p>
-<h2 id="chabuilder">CHABuilder</h2>
-<p>这部分tt老师贴心的在ppt中给好了算法框架,
-对应本次的框架代码复刻即可.</p>
-<p>需要注意的是, 只有在完成了该部分后,
-<strong>Tai-e</strong>框架才能正确构建<code>ICFG</code>,
-否则使用<code>Assignment</code>分析的结果只会为空.</p>
-<p>推荐完成顺序 <code>dispatch</code> -&gt; <code>resolve</code> -&gt;
-<code>buildCallGraph</code></p>
-<h3 id="dispatch">dispatch()</h3>
-<p>可以选择递归或者循环完成该部分.</p>
-<ul>
-<li><p><code>dispatch()</code>可能会失败, 此时可以返回<code>null</code>,
-但要确保<code>resolve()</code>中可以正确处理这一情况.</p>
-<blockquote>
-<p><strong>Additional:</strong> 为什么可能会失败?</p>
-<p><code>resolve()</code>中,
-假设我们要处理一个<code>Interface</code>或者<code>Abstract</code>类型声明的类方法,
-首先我们需要<code>dispatch</code>这个声明类本身,
-易见此时应当得到<code>null</code>(接口中的方法和抽象方法无法被实例化)</p>
-</blockquote></li>
-<li><p><code>dispatch()</code>得到的<code>JMethod</code>如果是<code>Abstract</code>,
-同样需要返回<code>null</code>.</p>
-<blockquote>
-<p><strong>Tips:</strong> 由于OOP的机制,
-当<code>JMethod</code>是<code>Abstract</code>时,
-不需要继续<code>dispatch</code>了.
-如果对此感到困惑可以去查阅相关的OOP资料.</p>
-</blockquote></li>
-</ul>
-<h3 id="resolve">resolve()</h3>
-<ul>
-<li><p>遍历的方式自选, 笔者采用较好实现的BFS.</p></li>
-<li><p>尽管课上将<code>Interface</code>归入了<strong>Virtual
-Invoke</strong>, 但按照代码框架,
-这部分单独作为一个需要处理的<code>CallKind</code>.
-不过处理起来也并非难事,
-因为处理方式和<code>VIRTUAL</code>没有实质性区别.</p></li>
-<li><p>需要注意的是,
-框架中处理<strong>Interface</strong>和<strong>Class</strong>分别有专门的API方法,
-具体使用什么API, 可以阅读<code>ClassHierarachy</code>,
-<code>CHABuilder</code>中也提供了访问<code>ClassHierarachy</code>的成员<code>private ClassHierarchy hierarchy</code>.</p></li>
-<li><p><code>STATIC</code>方法的获取在框架中没有专门的API,
-但可以使用<code>dispatch()</code>获取,
-因此<code>STATIC</code>和<code>SPRECIAL</code>也可以一起处理.</p></li>
-</ul>
-<h3 id="buildcallgraph">buildCallGraph()</h3>
-<p>实现和ppt中的算法没有区别.</p>
-<ul>
-<li><p>判断是否可达在框架中集成到了<code>Class CallGraph</code>的<code>addReachableMethod()</code>方法中了,
-可以阅读API注释获取更详细的信息.</p></li>
-<li><p>得到<code>callSite</code>,
-<code>callKind</code>的方法也可以通过<code>Class CallGraph</code>获取.<del>(我看看是谁不想去读API注释)</del></p></li>
-</ul>
-<h2 id="intersovler">InterSovler</h2>
-<p>由于框架代码在<code>InterSovler</code>这一部分进行了较大幅度的重构,
-因此笔者推荐先完成该部分使得对<code>InterConstantPropopagation</code>有一个自顶向下的认识.</p>
-<p>同手册所说, 该部分比起A2的<code>worklistSovler</code>没有太大的区别,
-跟着手册做即可.</p>
-<p><strong>注意:</strong>
-该部分实例化的<code>private final InterDataflowAnalysis&lt;Node, Fact&gt; analysis</code>继承自<code>Class AbstractInterDataflowAnalysis</code>,
-该部分的源码阅读是必不可少的.<del>(这里不读在完成InterConstantPropopagation的时候也要读)</del></p>
-<h3 id="initialize">initialize()</h3>
-<ul>
-<li>除去icfg的入口方法使用<code>BoundaryInit</code>外,
-其余节点均使用<code>NormalInit</code>.
-可以通过<code>icfg.entryMethods()</code>方法获取入口方法.</li>
-</ul>
-<blockquote>
-<p><strong>Tips:</strong>
-需要注意的是<code>icfg.entryMethods()</code>返回的是<code>Stream</code>类型,
-遍历该类型可以使用<code>forEach</code>.
-更多关于<code>forEach</code>的信息可以查阅java的文档.</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">icfg.entryMethods().forEach(method -&gt; &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Confusion:</strong> 笔者在此比较困惑为何可能会出现多个入口,
-虽然在网络上查询得知java中可能不止一个<code>main()</code>方法,
-但不知如何在tai-e框架中复现,
-以及本次实验中的"多个入口"是否对应该特性.</p>
-</blockquote>
-<h3 id="dosolve">dosolve()</h3>
-<p>与A2相比,
-只需要修改处理<code>pred Node</code>部分为<code>pred Edge</code>,
-可以通过<code>getInEdgesOf()</code>方法获得<code>pred Edge</code>信息,
-与<code>analysis.transferNode()</code>对应,
-可通过<code>analysis.transferEdge()</code>来处理<code>pred Edge</code>.</p>
-<h2 id="interconstantpropopagation">InterConstantPropopagation</h2>
-<p>部分API在框架中已经给出了实现, 在该部分只需要实现6个API即可.</p>
-<p><strong>善用A2中完成部分进行本次实验,
-过程间常量传播并不影响计算常量的逻辑.</strong></p>
-<h3 id="transfercallnode-transfernoncallnode">transferCallNode() &amp;
-transferNonCallNode()</h3>
-<p>含义同方法名,
-如果这个<code>Node</code>(即<code>Stmt</code>)是<code>Invoke</code>,
-就称该<code>Node</code>为<code>CallNode</code>,
-否则为<code>NonCallNode</code>.</p>
-<ul>
-<li>需要注意的是,
-过程间处理的大部分操作都在<code>Edge</code>上而非<code>Node</code>上,
-因此我们在<code>transferCallNode()</code>中并不会进行 add/kill def
-的操作. 这一点与指南上的图片逻辑相同.</li>
-</ul>
-<img src="/LabRecord-SPA-A4/pic4-1.png" class="" title="pic4-1">
-<blockquote>
-<p>如图片所示,
-<code>Node 2</code>在经过<code>transferCallNode()</code>后并没有把<code>b</code>添加进<code>outFact</code>.</p>
-<p>尽管我们可以在这里处理, <del>但这样有可能会让你过不去oj</del>,
-但这样会造成逻辑上的混乱, 所有的<strong>interprocedural</strong>
-操作都在<code>Edge</code>上进行在逻辑上是一致的.
-接下来对四种<code>transferEdge</code>的处理中会解释这一点.</p>
-</blockquote>
-<ul>
-<li>所以对于非call Node,
-可以直接使用过程内分析的<code>transferNode()</code>方法, 对于call Node,
-<code>transferCallNode()</code>只需要把<code>inFact</code> 赋值给
-<code>outFact</code>即可.</li>
-</ul>
-<h3 id="transferedge">transfer**Edge</h3>
-<p>在完成该部分前, 要先知道该部分会在什么地方使用,
-通过阅读<code>Class AbstractInterDataflowAnalysis</code>的源码API,
-可以发现四种<code>transfer**Edge</code>
-统一为了一个方法<code>transferEdge()</code>.(如果阅读的足够仔细,
-会发现两个<code>NodeTransfer</code>的方法也被统一为了<code>transferNode()</code>)</p>
-<p><strong>注意:</strong> 如手册所言, 由于java的引用机制,
-不应当对第二个参数<code>CPFact out</code>做任何修改.
-返回值也不应是第二个参数本身,
-需要深拷贝一个<code>out</code>或者<code>new CPFact()</code>.</p>
-<h4 id="transfernormaledge">transferNormalEdge()</h4>
-<p>对于普通节点, 不需要对<code>OutFact</code>中的内容做修改,
-直接传给<code>Edge</code>的<code>target</code>即可.</p>
-<blockquote>
-<p>对应上文图片中的<strong>黑色实线</strong>.</p>
-</blockquote>
-<h4 id="transfercalltoreturnedge">transferCallToReturnEdge()</h4>
-<p>在这里要处理<strong>def kill</strong>工作, 根据框架代码,
-这里的<code>Stmt</code>一定是<code>Invoke</code>,
-请阅读源码API获取使用信息.</p>
-<ul>
-<li><code>Invoke</code>继承自<code>DefinitionStmt</code>,
-如何获取<code>def</code>在之前的实验中已有涉及.</li>
-</ul>
-<blockquote>
-<p>对应上文图片中的<strong>黑色虚线</strong>.</p>
-</blockquote>
-<h4 id="transfercalledge">transferCallEdge()</h4>
-<p>负责传参中的<code>Var</code>转换.</p>
-<ul>
-<li><p>对于<code>Invoke invoke</code>,
-可以通过<code>invoke.getInvokeExp().getArgs()</code>获取传入<strong>实参</strong>的信息.</p></li>
-<li><p>对于<code>JMethod callee</code>,
-可以通过<code>callee.getIR().getParams()</code>获取调用方法的<strong>形参</strong>信息.</p></li>
-<li><p>在tai-e框架中, 保证上述形参与实参列表顺序是一一对应的.
-可以根据这一特性维护传参的转换过程.</p></li>
-</ul>
-<blockquote>
-<p>对应上文图片中的<strong>蓝色虚线</strong>.</p>
-</blockquote>
-<h4 id="transferreturnedge">transferReturnEdge()</h4>
-<p>负责将调用方法的返回值传回<code>callSite</code>.</p>
-<ul>
-<li><code>Class ReturnEdge</code>的<code>getReturnVars()</code>的API说明讲明了为什么可能有多个返回值,
-需要注意的是, 如果有多个返回值,
-需要使用<code>cp.meetValue()</code>.</li>
-</ul>
-<blockquote>
-<p>对应上文图片中的<strong>红色虚线</strong>.</p>
-</blockquote>
-<h2 id="总结">总结</h2>
-<p>过程间常量传播的思想还是比较巧妙的, 值得细心品味.</p>
-]]></content>
-      <categories>
-        <category>实验记录-NJU静态分析</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>NJU静态分析|A5-Context Insensitive Pointer Analysis</title>
     <url>/LabRecord-SPA-A5/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-5 Context
@@ -5089,6 +4888,211 @@ A4中通过<code>CallGraphs.getCallKind()</code>来获取<code>CallKind</code>,
 <h2 id="总结">总结</h2>
 <p>指针分析还是相当硬核的, 尽管实验框架已经化简了其中部分内容,
 这仍然是一个较困难的实验.</p>
+]]></content>
+      <categories>
+        <category>实验记录-NJU静态分析</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NJU静态分析|A4-CHA &amp; Inter Constant Propagation</title>
+    <url>/LabRecord-SPA-A4/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-4 Class Hierarchy
+Analysis &amp; Interprocedural Constant Propagation.</strong></p>
+<span id="more"></span>
+<h2 id="实验信息食用指南">实验信息&amp;食用指南</h2>
+<p>见本博客A1-A3.</p>
+<blockquote>
+<p><strong>手册的手册不能替代手册, 看不懂的话请回去看手册. ——</strong>
+<a
+href="https://github.com/RicoloveFeng"><strong>RicoloveFeng|SPA-Freestyle-Guidance</strong></a></p>
+</blockquote>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>Tai-e</strong> 框架实现 <strong>CHA</strong> &amp;
+<strong>Inter Constprop</strong>.</p>
+<p><del>真的还有必要在记录里补充这个吗</del></p>
+<h2 id="实验简析">实验简析</h2>
+<p>其实没什么好说的, 课程 &amp; ppt &amp; 指南已经讲的比较明确了,
+笔者在此补充一些手册写的不明确或是略去的部分.</p>
+<p><strong>不过本次实验涉及不少新东西,
+烦请耐心阅读相关代码API.</strong></p>
+<h2 id="preparation">Preparation</h2>
+<p>从Assignment2中将<code>ConstPropogation.java</code>
+copy到本次实验目录对应位置.</p>
+<p><strong>需要注意的是,
+A2中不完全正确的实现可能会影响本次实验的本地测试.</strong></p>
+<h2 id="chabuilder">CHABuilder</h2>
+<p>这部分tt老师贴心的在ppt中给好了算法框架,
+对应本次的框架代码复刻即可.</p>
+<p>需要注意的是, 只有在完成了该部分后,
+<strong>Tai-e</strong>框架才能正确构建<code>ICFG</code>,
+否则使用<code>Assignment</code>分析的结果只会为空.</p>
+<p>推荐完成顺序 <code>dispatch</code> -&gt; <code>resolve</code> -&gt;
+<code>buildCallGraph</code></p>
+<h3 id="dispatch">dispatch()</h3>
+<p>可以选择递归或者循环完成该部分.</p>
+<ul>
+<li><p><code>dispatch()</code>可能会失败, 此时可以返回<code>null</code>,
+但要确保<code>resolve()</code>中可以正确处理这一情况.</p>
+<blockquote>
+<p><strong>Additional:</strong> 为什么可能会失败?</p>
+<p><code>resolve()</code>中,
+假设我们要处理一个<code>Interface</code>或者<code>Abstract</code>类型声明的类方法,
+首先我们需要<code>dispatch</code>这个声明类本身,
+易见此时应当得到<code>null</code>(接口中的方法和抽象方法无法被实例化)</p>
+</blockquote></li>
+<li><p><code>dispatch()</code>得到的<code>JMethod</code>如果是<code>Abstract</code>,
+同样需要返回<code>null</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong> 由于OOP的机制,
+当<code>JMethod</code>是<code>Abstract</code>时,
+不需要继续<code>dispatch</code>了.
+如果对此感到困惑可以去查阅相关的OOP资料.</p>
+</blockquote></li>
+</ul>
+<h3 id="resolve">resolve()</h3>
+<ul>
+<li><p>遍历的方式自选, 笔者采用较好实现的BFS.</p></li>
+<li><p>尽管课上将<code>Interface</code>归入了<strong>Virtual
+Invoke</strong>, 但按照代码框架,
+这部分单独作为一个需要处理的<code>CallKind</code>.
+不过处理起来也并非难事,
+因为处理方式和<code>VIRTUAL</code>没有实质性区别.</p></li>
+<li><p>需要注意的是,
+框架中处理<strong>Interface</strong>和<strong>Class</strong>分别有专门的API方法,
+具体使用什么API, 可以阅读<code>ClassHierarachy</code>,
+<code>CHABuilder</code>中也提供了访问<code>ClassHierarachy</code>的成员<code>private ClassHierarchy hierarchy</code>.</p></li>
+<li><p><code>STATIC</code>方法的获取在框架中没有专门的API,
+但可以使用<code>dispatch()</code>获取,
+因此<code>STATIC</code>和<code>SPRECIAL</code>也可以一起处理.</p></li>
+</ul>
+<h3 id="buildcallgraph">buildCallGraph()</h3>
+<p>实现和ppt中的算法没有区别.</p>
+<ul>
+<li><p>判断是否可达在框架中集成到了<code>Class CallGraph</code>的<code>addReachableMethod()</code>方法中了,
+可以阅读API注释获取更详细的信息.</p></li>
+<li><p>得到<code>callSite</code>,
+<code>callKind</code>的方法也可以通过<code>Class CallGraph</code>获取.<del>(我看看是谁不想去读API注释)</del></p></li>
+</ul>
+<h2 id="intersovler">InterSovler</h2>
+<p>由于框架代码在<code>InterSovler</code>这一部分进行了较大幅度的重构,
+因此笔者推荐先完成该部分使得对<code>InterConstantPropopagation</code>有一个自顶向下的认识.</p>
+<p>同手册所说, 该部分比起A2的<code>worklistSovler</code>没有太大的区别,
+跟着手册做即可.</p>
+<p><strong>注意:</strong>
+该部分实例化的<code>private final InterDataflowAnalysis&lt;Node, Fact&gt; analysis</code>继承自<code>Class AbstractInterDataflowAnalysis</code>,
+该部分的源码阅读是必不可少的.<del>(这里不读在完成InterConstantPropopagation的时候也要读)</del></p>
+<h3 id="initialize">initialize()</h3>
+<ul>
+<li>除去icfg的入口方法使用<code>BoundaryInit</code>外,
+其余节点均使用<code>NormalInit</code>.
+可以通过<code>icfg.entryMethods()</code>方法获取入口方法.</li>
+</ul>
+<blockquote>
+<p><strong>Tips:</strong>
+需要注意的是<code>icfg.entryMethods()</code>返回的是<code>Stream</code>类型,
+遍历该类型可以使用<code>forEach</code>.
+更多关于<code>forEach</code>的信息可以查阅java的文档.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">icfg.entryMethods().forEach(method -&gt; &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Confusion:</strong> 笔者在此比较困惑为何可能会出现多个入口,
+虽然在网络上查询得知java中可能不止一个<code>main()</code>方法,
+但不知如何在tai-e框架中复现,
+以及本次实验中的"多个入口"是否对应该特性.</p>
+</blockquote>
+<h3 id="dosolve">dosolve()</h3>
+<p>与A2相比,
+只需要修改处理<code>pred Node</code>部分为<code>pred Edge</code>,
+可以通过<code>getInEdgesOf()</code>方法获得<code>pred Edge</code>信息,
+与<code>analysis.transferNode()</code>对应,
+可通过<code>analysis.transferEdge()</code>来处理<code>pred Edge</code>.</p>
+<h2 id="interconstantpropopagation">InterConstantPropopagation</h2>
+<p>部分API在框架中已经给出了实现, 在该部分只需要实现6个API即可.</p>
+<p><strong>善用A2中完成部分进行本次实验,
+过程间常量传播并不影响计算常量的逻辑.</strong></p>
+<h3 id="transfercallnode-transfernoncallnode">transferCallNode() &amp;
+transferNonCallNode()</h3>
+<p>含义同方法名,
+如果这个<code>Node</code>(即<code>Stmt</code>)是<code>Invoke</code>,
+就称该<code>Node</code>为<code>CallNode</code>,
+否则为<code>NonCallNode</code>.</p>
+<ul>
+<li>需要注意的是,
+过程间处理的大部分操作都在<code>Edge</code>上而非<code>Node</code>上,
+因此我们在<code>transferCallNode()</code>中并不会进行 add/kill def
+的操作. 这一点与指南上的图片逻辑相同.</li>
+</ul>
+<img src="/LabRecord-SPA-A4/pic4-1.png" class="" title="pic4-1">
+<blockquote>
+<p>如图片所示,
+<code>Node 2</code>在经过<code>transferCallNode()</code>后并没有把<code>b</code>添加进<code>outFact</code>.</p>
+<p>尽管我们可以在这里处理, <del>但这样有可能会让你过不去oj</del>,
+但这样会造成逻辑上的混乱, 所有的<strong>interprocedural</strong>
+操作都在<code>Edge</code>上进行在逻辑上是一致的.
+接下来对四种<code>transferEdge</code>的处理中会解释这一点.</p>
+</blockquote>
+<ul>
+<li>所以对于非call Node,
+可以直接使用过程内分析的<code>transferNode()</code>方法, 对于call Node,
+<code>transferCallNode()</code>只需要把<code>inFact</code> 赋值给
+<code>outFact</code>即可.</li>
+</ul>
+<h3 id="transferedge">transfer**Edge</h3>
+<p>在完成该部分前, 要先知道该部分会在什么地方使用,
+通过阅读<code>Class AbstractInterDataflowAnalysis</code>的源码API,
+可以发现四种<code>transfer**Edge</code>
+统一为了一个方法<code>transferEdge()</code>.(如果阅读的足够仔细,
+会发现两个<code>NodeTransfer</code>的方法也被统一为了<code>transferNode()</code>)</p>
+<p><strong>注意:</strong> 如手册所言, 由于java的引用机制,
+不应当对第二个参数<code>CPFact out</code>做任何修改.
+返回值也不应是第二个参数本身,
+需要深拷贝一个<code>out</code>或者<code>new CPFact()</code>.</p>
+<h4 id="transfernormaledge">transferNormalEdge()</h4>
+<p>对于普通节点, 不需要对<code>OutFact</code>中的内容做修改,
+直接传给<code>Edge</code>的<code>target</code>即可.</p>
+<blockquote>
+<p>对应上文图片中的<strong>黑色实线</strong>.</p>
+</blockquote>
+<h4 id="transfercalltoreturnedge">transferCallToReturnEdge()</h4>
+<p>在这里要处理<strong>def kill</strong>工作, 根据框架代码,
+这里的<code>Stmt</code>一定是<code>Invoke</code>,
+请阅读源码API获取使用信息.</p>
+<ul>
+<li><code>Invoke</code>继承自<code>DefinitionStmt</code>,
+如何获取<code>def</code>在之前的实验中已有涉及.</li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>黑色虚线</strong>.</p>
+</blockquote>
+<h4 id="transfercalledge">transferCallEdge()</h4>
+<p>负责传参中的<code>Var</code>转换.</p>
+<ul>
+<li><p>对于<code>Invoke invoke</code>,
+可以通过<code>invoke.getInvokeExp().getArgs()</code>获取传入<strong>实参</strong>的信息.</p></li>
+<li><p>对于<code>JMethod callee</code>,
+可以通过<code>callee.getIR().getParams()</code>获取调用方法的<strong>形参</strong>信息.</p></li>
+<li><p>在tai-e框架中, 保证上述形参与实参列表顺序是一一对应的.
+可以根据这一特性维护传参的转换过程.</p></li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>蓝色虚线</strong>.</p>
+</blockquote>
+<h4 id="transferreturnedge">transferReturnEdge()</h4>
+<p>负责将调用方法的返回值传回<code>callSite</code>.</p>
+<ul>
+<li><code>Class ReturnEdge</code>的<code>getReturnVars()</code>的API说明讲明了为什么可能有多个返回值,
+需要注意的是, 如果有多个返回值,
+需要使用<code>cp.meetValue()</code>.</li>
+</ul>
+<blockquote>
+<p>对应上文图片中的<strong>红色虚线</strong>.</p>
+</blockquote>
+<h2 id="总结">总结</h2>
+<p>过程间常量传播的思想还是比较巧妙的, 值得细心品味.</p>
 ]]></content>
       <categories>
         <category>实验记录-NJU静态分析</category>
@@ -5908,21 +5912,6 @@ class="math inline">\(l \rightarrow .|a|b|...|z, \ p \rightarrow
       </tags>
   </entry>
   <entry>
-    <title>千里之行，始于足下</title>
-    <url>/hello-world/</url>
-    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
-step.</strong></p>
-<span id="more"></span>
-<img src="/hello-world/picture.png" class="" title="picture">
-]]></content>
-      <categories>
-        <category>杂项</category>
-      </categories>
-      <tags>
-        <tag>杂项</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>LeetCode个人题解[C++] P4 寻找两个正序数组的中位数</title>
     <url>/LeetCode-P4/</url>
     <content><![CDATA[<p><strong>题目链接:</strong> <a
@@ -6003,6 +5992,21 @@ href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xi
       <tags>
         <tag>LeetCode</tag>
         <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>千里之行，始于足下</title>
+    <url>/hello-world/</url>
+    <content><![CDATA[<p><strong>A journey of a thousand miles begins with a single
+step.</strong></p>
+<span id="more"></span>
+<img src="/hello-world/picture.png" class="" title="picture">
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>杂项</tag>
       </tags>
   </entry>
 </search>
