@@ -27,7 +27,7 @@ NJU许畅老师([主页](https://cs.nju.edu.cn/changxu))开设的编译原理课
 - [**Ch3 词法分析**](https://la-pluma.github.io/Course-Compiler-3)
 - [**Ch4 语法分析**](https://la-pluma.github.io/Course-Compiler-4)
 - [**Ch5 语法制导的编译技术**](https://la-pluma.github.io/Course-Compiler-5)
-- **Ch6 中间代码生成**
+- [**Ch6 中间代码生成**](https://la-pluma.github.io/Course-Compiler-6)
 - **Ch7 运行时刻环境**
 - **Ch8 代码生成**
 - **Ch9 机器无关优化**
