@@ -175,281 +175,6 @@ class="uri">https://blog.csdn.net/weixin_62075168/article/details/131226082</a><
       </tags>
   </entry>
   <entry>
-    <title>读书笔记-大话设计模式 Ch0</title>
-    <url>/BookNote-DesignPatterns-by-JieCheng-1/</url>
-    <content><![CDATA[<p><strong>精彩的代码是如何想出来的,
-要比看到精彩的代码更加令人期待.</strong></p>
-<span id="more"></span>
-<p>
-<font size = 5><b>目录</b></font>
-</p>
-<ul>
-<li><a href="#书籍基本信息">书籍基本信息</a></li>
-<li><a href="#chapter-0-preview-面向对象基础">Chapter 0: Preview
-面向对象基础</a></li>
-</ul>
-<hr />
-<h2 id="书籍基本信息">书籍基本信息</h2>
-<p>《大话设计模式》程杰 2007.</p>
-<p>本文<strong><em>不提供</em></strong>书籍的电子版文件,
-请有需要的读者移步至<strong>Z-library</strong>或其他渠道获得.</p>
-<p>本书以情景对话形式, 辅以故事或例子介绍设计模式, 以C#语言书写代码,
-适合有面向过程编程基础但面向对象编程能力弱的初学者.</p>
-<h2 id="chapter-0-preview-面向对象基础">Chapter 0: Preview
-面向对象基础</h2>
-<blockquote>
-<p>附录A 培训实习生——面向对象基础</p>
-<p><strong>Tips:</strong> 本部分不设计具体的语法细节, 特性和原理,
-仅作示例, 如有需去可移步至专业书籍文献寻求细节, 如<a
-href="https://learn.microsoft.com/en-us/dotnet/csharp/"><strong>微软官方</strong></a>或书籍<a
-href="https://book.douban.com/subject/34894447/"><strong>C#图解教程</strong></a>.</p>
-</blockquote>
-<ul>
-<li><p><strong>对象(Object):</strong> 对象是一个自包含的实体,
-用一组可识别的特性和行为来标识.</p>
-<blockquote>
-<p><strong>Tips:</strong> 定义比较拗口, 通俗来说, 对象是对事物的抽象,
-一切事物都可以称为对象.</p>
-</blockquote></li>
-<li><p><strong>面向对象编程(Object-Oriented Programming):</strong>
-面向对象的编程.</p>
-<blockquote>
-<p><strong>Tips:</strong> 简称OOP, 区别于面向过程编程,
-面向过程需要分析得出步骤, 按序实现程序功能. OOP首先对事物抽象为"对象",
-用对象的属性和行为解决问题.</p>
-</blockquote></li>
-<li><p><strong>类(Class):</strong>
-具有相同属性和功能对象的抽象集合.</p></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">shout</span>()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;mew&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p><strong>实例(Instance) &amp; 实例化:</strong> 实例是真实的对象,
-new得到实例的过程称为实例化.</p>
-<blockquote>
-<p><strong>Tips:</strong> 类就像是工厂的蓝图, 实例就是生产出来的产品,
-一个类只有实例化后才可以调用(可能不严谨, 存疑), 和蓝图与产品一样,
-一个类可以实例化出多个不同的实例(<strong>学生类</strong>可以实例化为<strong>学生李华</strong>,
-<strong>学生张三</strong>等).</p>
-</blockquote></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Cat cat = <span class="keyword">new</span> Cat();</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p><strong>修饰符:</strong></p>
-<ul>
-<li><p><strong>public:</strong> 修饰的类成员允许被任何类访问</p></li>
-<li><p><strong>protected:</strong>
-修饰的类成员仅允许该类和其子类访问</p></li>
-<li><p><strong>private:</strong> 修饰的类成员仅允许该类访问</p>
-<blockquote>
-<p><strong>Tips:</strong> 程序设计是一门权衡和妥协的艺术,
-对OOP为何如此设计的读者可自行查阅OOP发展的历史.</p>
-</blockquote></li>
-</ul></li>
-<li><p><strong>属性:</strong> 属性是一个方法或一对方法,
-在调用它的代码看来, 它是一个字段,
-即属性适合于以字段的方法使用方法调用的场合.</p></li>
-<li><p><strong>字段:</strong> 储存类设计所需的数据,
-形式上是与类相关的变量.</p></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Example</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> num; <span class="comment">//声明一个私有内部字段, 修饰符private</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Num &#123; <span class="comment">//Num公有外部属性, 修饰符public</span></span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="comment">//外部读取方法</span></span><br><span class="line">            <span class="keyword">return</span> Num;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; <span class="comment">//外部修改方法, 删去此方法时表示Num是只读的.</span></span><br><span class="line">            Num = <span class="keyword">value</span>; <span class="comment">// set含有隐式参数, 由关键字value表示, 用于赋值</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Tips:</strong> 属性和字段的描述比较抽象,
-推荐直接结合代码理解. 笔者认为是一种语法糖上的tricky,
-在其他语言OOP也有相似的写法. 这种写法的好处是隔离内部与外部,
-仅允许类提供的公共方法访问类内成员变量.</p>
-</blockquote>
-<ul>
-<li><p><strong>构造方法/构造函数:</strong> 对类进行初始化的方法.
-与类同名, 无返回值, 不需要void, 在new中调用.</p>
-<blockquote>
-<p><strong>Tips:</strong> 以上语法细节适用于C#, 非C#可能会有差别,
-类中不显示写明构造函数时由编译器默认构造(更多语法细节和原理请移步至讨论C#的相关文献).</p>
-</blockquote></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123; <span class="comment">//这是构造函数</span></span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p><strong>重载(overload):</strong>
-提供了创建多个同名方法(Function)的功能, 重载方法的参数类型不同.
-重载可以在不改变原方法基础上添加新功能.</p>
-<blockquote>
-<p><strong>Tips:</strong>
-这里<strong>参数类型的不同</strong>指的是参数个数不同或参数类型的不同(详见代码示例)</p>
-</blockquote></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Example</span>&#123;</span><br><span class="line">    <span class="comment">//不仅构造函数, 普通函数也可以重载</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>()</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">int</span> arg_1</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">float</span> arg_1</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">int</span> arg_1, <span class="built_in">float</span> arg_2</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">float</span> arg_1, <span class="built_in">int</span> arg_2</span>)</span>&#123;&#125;;<span class="comment">//类型顺序不同也会被认为是重载</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p><strong>封装:</strong> 每个对象包含该对象操作所需的所有信息,
-不必依赖其他对象来完成自己的操作, 该特性称为封装.</p>
-<blockquote>
-<p><strong>Addtional:</strong> 良好的封装可以减少耦合,
-类内部实现可以自由修改, 具有清晰的对外接口</p>
-</blockquote></li>
-<li><p><strong>继承:</strong>
-对象的继承代表了一种"<strong>is-a</strong>"关系, 若描述为"B是A",
-则认为B可以继承A. 又可以理解为B是A的一种特殊化, B拥有A的特性之外,
-还拥有自己独特的特性. 即继承代表了一种包含关系, A包含B.</p>
-<blockquote>
-<strong>Addtional:</strong>
-<ul>
-<li>继承的双方称为<strong>子类/派生类&amp;父类/基类</strong>.</li>
-<li>子类继承父类的成员有方法, 域, 属性, 事件, 索引指示器</li>
-<li>构造方法<strong>无法</strong>继承, 只能调用,
-可以使用<strong>base</strong>关键字(C#语法特性)</li>
-</ul>
-</blockquote></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Animal</span> &#123; <span class="comment">//父类</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="built_in">string</span> name = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span>()</span> &#123; <span class="comment">//构造函数</span></span><br><span class="line">        <span class="keyword">this</span>.name = <span class="string">&quot;unamed&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span>(<span class="params"><span class="built_in">string</span> name</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> <span class="built_in">int</span> shoutNum = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> ShoutNum &#123; <span class="comment">//属性</span></span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> shoutNum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            shoutNum = <span class="keyword">value</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> : <span class="title">Animal</span> &#123; <span class="comment">//继承父类Animal的子类Cat</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>() : <span class="title">base</span>()</span> &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>) : <span class="title">base</span>(<span class="params">name</span>)</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">string</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; shoutNum; i++)&#123;</span><br><span class="line">            result += <span class="string">&quot;mew &quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> : <span class="title">Animal</span> &#123; <span class="comment">//继承父类Animal的子类Dog</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span>() : <span class="title">base</span>()</span> &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span>(<span class="params"><span class="built_in">string</span> name</span>) : <span class="title">base</span>(<span class="params">name</span>)</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">string</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; shoutNum; i++)&#123;</span><br><span class="line">            result += <span class="string">&quot;woof &quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Tips:</strong>
-继承的<strong>优点</strong>是使子类公共部分放在了父类, 代码得到了共享,
-减少了代码重复, 修改和扩展都变得相对容易.
-但<strong>缺点</strong>也是显而易见的, 继承会破坏封装,
-父类实现的细节暴露给子类, 父类和子类间是强耦合的.</p>
-</blockquote>
-<ul>
-<li><p><strong>多态:</strong> 多态表示不同的对象可以执行相同的动作,
-但通过自己的代码执行.</p>
-<blockquote>
-<strong>Additional:</strong>
-<ul>
-<li>子类以父类身份出现</li>
-<li>子类工作时以自己的方式实现</li>
-<li>子类以父类身份出现时, 无法使用子类特有的属性和方法</li>
-</ul>
-<p><strong>Tips:</strong> 在父类中, 该动作需要声明为虚拟的,
-用关键字<strong>virtual</strong>标识.</p>
-</blockquote></li>
-<li><p><strong>重写/覆写(override):</strong>
-子类使用关键字<strong>override</strong>将父类实现替换为自己的实现.</p></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//声明为虚方法</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> : <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//覆写</span></span><br><span class="line">        ....... <span class="comment">//略, 代码见上文</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> : <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//覆写</span></span><br><span class="line">        ....... <span class="comment">//略, 代码见上文</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*-----------------------------------------------------*/</span></span><br><span class="line"><span class="comment">/*执行环境*/</span></span><br><span class="line"></span><br><span class="line">arrayAnimal = <span class="keyword">new</span> Animal[<span class="number">5</span>];</span><br><span class="line">arrayAnimal[<span class="number">0</span>] = <span class="keyword">new</span> Cat();</span><br><span class="line">arrayAnimal[<span class="number">1</span>] = <span class="keyword">new</span> Dog();</span><br><span class="line"><span class="keyword">foreach</span>(Animal item <span class="keyword">in</span> arrayAnimal)&#123;</span><br><span class="line">    MessageBox.Show(item.Shout()); <span class="comment">//Cat为&quot;mew&quot;, Dog为&quot;woof&quot;.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Tips1:</strong> C#的多态性分为静态多态性和动态多态性.
-静态多态性即为前文提到的overload重载, 在编译时确定;
-动态多态性为override覆写, 在运行时确定,
-通过抽象类(见下文)和虚方法实现.</p>
-<p><strong>Tips2:</strong> 笔者在翻阅相关资料时,
-在C++语言中发现了更为复杂的机制, overwrite重写和override覆写存在区别,
-详见<a
-href="https://www.cnblogs.com/kuliuheng/p/4107012.html"><strong>博客园|C++中的Overload、Override和Overwrite</strong></a></p>
-<p><strong>Addtional:</strong> 原书对上述实现Animal Shout的代码进行重构,
-具体方法为将Shout()声明为父类公共方法(去掉virtual),
-声明新的虚方法getSound(), 在Shout()中调用, 在子类中覆写(override),
-从而避免了代码重复, 此处笔者不再浪费篇幅详细赘述.</p>
-</blockquote>
-<ul>
-<li><p><strong>抽象类&amp;抽象方法:</strong>
-C#允许将类和方法用关键字<strong>abstract</strong>声明, 即抽象类,
-抽象方法.</p>
-<blockquote>
-<strong>Addtional:</strong>
-<ul>
-<li>抽象类不能被实例化</li>
-<li>抽象方法必须被子类覆写(override)</li>
-<li>含有抽象方法的类必须声明为抽象类, 不论是否具有一般方法</li>
-<li>使用时考虑让抽象类拥有尽可能多的共同代码, 拥有尽可能少的数据</li>
-</ul>
-<p><strong>Tips:</strong> 抽象类通常代表一种抽象概念,
-提供了一个继承的出发点, 当设计一个新的抽象类时, 一定是用来继承的.
-因此在继承结构中, 叶节点应当是具体类, 非叶节点应当是抽象类.</p>
-</blockquote></li>
-<li><p><strong>接口(Interface):</strong>
-接口是把隐式公共方法和属性组合起来, 以封装特定功能的一个集合.
-类实现了接口就可以支持接口所指定的所有属性和成员.
-接口不允许提供任何成员的执行方法(因此接口不能实例化, 没有构造方法,
-字段和修饰符, 不能声明静态或虚拟等).</p>
-<blockquote>
-<strong>Addtionnal:</strong>
-<ul>
-<li>实现接口的类必须实现接口中所有方法和属性.</li>
-<li>一个类可以支持多个接口, 不同类也可以支持相同接口.</li>
-</ul>
-<p><strong>Tips:</strong> <a
-href="https://www.runoob.com/csharp/csharp-interface.html">菜鸟教程|C#
-Interface</a>将接口表述为:</p>
-<p>接口定义了所有类继承接口时应遵循的语法合同.
-接口定义了语法合同"是什么"部分, 派生类定义了语法合同"怎么做"部分.
-接口定义了属性, 方法和事件, 这些都是接口的成员. 接口只包含了成员的声明.
-成员的定义是派生类的责任. 接口提供了派生类应遵循的标准结构.</p>
-<p><strong>书写规范:</strong> 接口的命名需要在前面加一个大写"I".</p>
-</blockquote></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 笔者在此化简了书目中提供的例子, 能理解即可.</span></span><br><span class="line"><span class="comment">// 叮当猫继承自上文出现的Cat类, 内部需要实现变东西的接口</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">IChange</span> &#123;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">ChangeThing</span>(<span class="params"><span class="built_in">string</span> thing</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">MachineCat</span> : <span class="title">Cat</span>, <span class="title">IChange</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MachineCat</span>() : <span class="title">base</span>()</span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MachineCat</span>() : <span class="title">base</span>(<span class="params">name</span>)</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">ChangeThing</span>(<span class="params"><span class="built_in">string</span> thing</span>)</span>&#123; <span class="comment">//实现接口, 不需要使用override修饰</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">base</span>.Shout() + <span class="string">&quot;我有万能口袋, 可以变出: &quot;</span> + thing;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Additional:</strong> 笔者在此补充一点C#的语法特性,
-接口也可以继承接口, 假设IB继承IA, 在IB中不需要声明IA中的声明,
-但实现IB的类需要实现IA和IB中的所有声明.</p>
-<p><strong>Compare: Class v.s. Interface</strong></p>
-<ul>
-<li><strong>语法上:</strong> 抽象类可以给出一些成员的实现,
-接口不能包含成员的实现, 抽象类的抽象成员可被子类部分实现,
-但接口的成员需要类全部实现, 一个类只能继承<strong>一个</strong>抽象类,
-但可以实现<strong>多个</strong>接口.</li>
-<li><strong>含义上:</strong> 类是对象的抽象, 抽象类是对类的抽象,
-接口是对<strong>行为</strong>的抽象.</li>
-<li><strong>使用上:</strong> 如果行为跨越不同类的对象, 可使用接口;
-对于一些相似的类对象, 用继承抽象类. 需要注意的是,
-实现接口和继承抽象类并不冲突.</li>
-<li><strong>设计角度上:</strong> 抽象类是从子类中发现了公共的东西,
-泛化出父类, 然后子类继承父类, 而接口根本不知道子类的存在,
-方法如何实现不明确, 预先定义.</li>
-</ul>
-</blockquote>
-<ul>
-<li><p><strong>泛型(Generic):</strong> 泛型是具有占位符(类型参数)的类,
-结构, 接口和方法, 这些占位符是类, 结构,
-接口和方法所储存域或使用的一个或多个类型的占位符.
-泛型集合类可以将类型参数用作它所存储的对象的类型的占位符:
-类型参数作为其字段的类型和其方法的参数类型出现.</p>
-<blockquote>
-<p><strong>Additional:</strong> 通常情况下, 都建议使用泛型集合,
-因为这样可以获得类型安全的直接优点而不需要从基集合类型派生并实现类型特定成员.
-此外, 如果集合元素为值类型,
-泛型集合类型的性能通常优于对应的非泛型集合类型,
-因为使用泛型时不必对元素进行装箱.</p>
-<p><strong>Tips:</strong> <a
-href="https://www.runoob.com/csharp/csharp-generic.html">菜鸟教程|C#
-Generic</a>将泛型表述为:</p>
-<p>泛型(Generic)允许您延迟编写类或方法中的编程元素的数据类型的规范,
-直到实际在程序中使用它的时候. 换句话说,
-泛型允许您编写一个可以与任何数据类型一起工作的类或方法.</p>
-<p>泛型的定义较为晦涩, 建议结合代码理解.
-笔者在此强烈建议阅读更多的资料来学习泛型.</p>
-</blockquote></li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections.Generic; <span class="comment">//增加泛型集合命名空间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Forml</span> : <span class="title">Form</span>&#123;</span><br><span class="line">    IList&lt;Animal&gt; arrayAnimal; <span class="comment">// 声明泛型集合变量, 表示只接受Animal类型</span></span><br><span class="line">    <span class="comment">//List&lt;Animal&gt; arrayAnimal; 两种写法是等价的</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Event</span>()</span>&#123;</span><br><span class="line">        arrayAnimal = <span class="keyword">new</span> List&lt;Animal&gt;();</span><br><span class="line"></span><br><span class="line">        arrayAnimal.Add(<span class="keyword">new</span> Cat());</span><br><span class="line">        arrayAnimal.Add(<span class="keyword">new</span> Dog());</span><br><span class="line">        arrayAnimal.Add(<span class="number">123</span>); <span class="comment">// Error! Invalid Type </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p><strong>委托:</strong> 委托是对函数的封装,
-可以当作给方法的特征指定一个名称.
-委托对象用关键字<strong>delegate</strong>声明.</p></li>
-<li><p><strong>事件:</strong> 事件时委托的一种特殊形式,
-当发生有意义的事情时, 事件对象处理通知过程.
-事件对象用关键字<strong>event</strong>声明.</p></li>
-</ul>
-<blockquote>
-<p><strong>Additional:</strong> 委托是一种引用方法的类型,
-一旦为委托分配了方法, 委托将与该方法具有完全相同的行为.
-事件则是在发生其他类或对象关注的事情时, 类或对象可通过事件通知它们.</p>
-</blockquote>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//情境: 猫Tom叫的时候两只老鼠Jerry和Jack要跑.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">CatShoutEventHandler</span>()</span>; <span class="comment">// 声明委托</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> CatShoutEventHandler CatShout; <span class="comment">//声明事件</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Shout</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;喵, 我是&#123;0&#125;.&quot;</span>, name);</span><br><span class="line">        <span class="keyword">if</span> (CatShout != <span class="literal">null</span>)&#123; <span class="comment">// 如果声明了事件CatShout</span></span><br><span class="line">            CatShout();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mouse</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mouse</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;老猫来了, &#123;0&#125;快跑&quot;</span>, name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span>&#123;</span><br><span class="line">    Cat cat = <span class="keyword">new</span> Cat(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">    Mouse mouse1 = <span class="keyword">new</span> Mouse(<span class="string">&quot;Jerry&quot;</span>);</span><br><span class="line">    Mouse mouse2 = <span class="keyword">new</span> Mouse(<span class="string">&quot;Jack&quot;</span>);</span><br><span class="line"></span><br><span class="line">    cat.CatShout += <span class="keyword">new</span> Cat.CatShoutEventHandler(mouse1.Run);</span><br><span class="line">    cat.CatShout += <span class="keyword">new</span> Cat.CatShoutEventHandler(mouse2.Run); </span><br><span class="line">    <span class="comment">// &quot;+=&quot; 表示 &quot;add_CatShout&quot; 的意思; 与之相反 &quot;-=&quot; 表示 &quot;remove_CatShout()&quot;</span></span><br><span class="line"></span><br><span class="line">    cat.Shout();</span><br><span class="line">    Console.Read();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">喵, 我是Tom.</span><br><span class="line">老猫来了, Jerry快跑!</span><br><span class="line">老猫来了, Jack快跑!</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>EventArgs:</strong> EventArgs是包含事件数据的类的基类.</li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CatShoutEventArgs</span> : <span class="title">EventArgs</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name&#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;<span class="keyword">return</span> name; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;name = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">CatShoutEventHandler</span>(<span class="params"><span class="built_in">object</span> sender, CatShoutEventArgs args</span>)</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> CatShoutEventHandler CatShout;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Shout</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;喵, 我是&#123;0&#125;.&quot;</span>, name);</span><br><span class="line">        <span class="keyword">if</span>(CatShout != <span class="literal">null</span>)&#123;</span><br><span class="line">            CatShoutEventArgs e = <span class="keyword">new</span> CatShoutEventArgs();</span><br><span class="line">            e.Name = <span class="keyword">this</span>.name;</span><br><span class="line">            CatShout(<span class="keyword">this</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mouse</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mouse</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>(<span class="params"><span class="built_in">object</span> sender, CatShoutEventArgs args</span>)</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;老猫&#123;0&#125;来了, &#123;1&#125;快跑!&quot;</span>, args.Name, name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Main执行结果:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">喵, 我是Tom.</span><br><span class="line">老猫Tom来了, Jerry快跑!</span><br><span class="line">老猫Tom来了, Jack快跑!</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>读书笔记-设计模式</category>
-      </categories>
-      <tags>
-        <tag>读书笔记</tag>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>读书笔记-大话设计模式 Ch1-Ch5</title>
     <url>/BookNote-DesignPatterns-by-JieCheng-2/</url>
     <content><![CDATA[<p><strong>好的代码可维护, 可复用, 可扩展, 灵活性强.</strong></p>
@@ -1605,6 +1330,281 @@ Dilemma)</strong>,见图2-9.</p>
       </tags>
   </entry>
   <entry>
+    <title>读书笔记-大话设计模式 Ch0</title>
+    <url>/BookNote-DesignPatterns-by-JieCheng-1/</url>
+    <content><![CDATA[<p><strong>精彩的代码是如何想出来的,
+要比看到精彩的代码更加令人期待.</strong></p>
+<span id="more"></span>
+<p>
+<font size = 5><b>目录</b></font>
+</p>
+<ul>
+<li><a href="#书籍基本信息">书籍基本信息</a></li>
+<li><a href="#chapter-0-preview-面向对象基础">Chapter 0: Preview
+面向对象基础</a></li>
+</ul>
+<hr />
+<h2 id="书籍基本信息">书籍基本信息</h2>
+<p>《大话设计模式》程杰 2007.</p>
+<p>本文<strong><em>不提供</em></strong>书籍的电子版文件,
+请有需要的读者移步至<strong>Z-library</strong>或其他渠道获得.</p>
+<p>本书以情景对话形式, 辅以故事或例子介绍设计模式, 以C#语言书写代码,
+适合有面向过程编程基础但面向对象编程能力弱的初学者.</p>
+<h2 id="chapter-0-preview-面向对象基础">Chapter 0: Preview
+面向对象基础</h2>
+<blockquote>
+<p>附录A 培训实习生——面向对象基础</p>
+<p><strong>Tips:</strong> 本部分不设计具体的语法细节, 特性和原理,
+仅作示例, 如有需去可移步至专业书籍文献寻求细节, 如<a
+href="https://learn.microsoft.com/en-us/dotnet/csharp/"><strong>微软官方</strong></a>或书籍<a
+href="https://book.douban.com/subject/34894447/"><strong>C#图解教程</strong></a>.</p>
+</blockquote>
+<ul>
+<li><p><strong>对象(Object):</strong> 对象是一个自包含的实体,
+用一组可识别的特性和行为来标识.</p>
+<blockquote>
+<p><strong>Tips:</strong> 定义比较拗口, 通俗来说, 对象是对事物的抽象,
+一切事物都可以称为对象.</p>
+</blockquote></li>
+<li><p><strong>面向对象编程(Object-Oriented Programming):</strong>
+面向对象的编程.</p>
+<blockquote>
+<p><strong>Tips:</strong> 简称OOP, 区别于面向过程编程,
+面向过程需要分析得出步骤, 按序实现程序功能. OOP首先对事物抽象为"对象",
+用对象的属性和行为解决问题.</p>
+</blockquote></li>
+<li><p><strong>类(Class):</strong>
+具有相同属性和功能对象的抽象集合.</p></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">shout</span>()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;mew&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>实例(Instance) &amp; 实例化:</strong> 实例是真实的对象,
+new得到实例的过程称为实例化.</p>
+<blockquote>
+<p><strong>Tips:</strong> 类就像是工厂的蓝图, 实例就是生产出来的产品,
+一个类只有实例化后才可以调用(可能不严谨, 存疑), 和蓝图与产品一样,
+一个类可以实例化出多个不同的实例(<strong>学生类</strong>可以实例化为<strong>学生李华</strong>,
+<strong>学生张三</strong>等).</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Cat cat = <span class="keyword">new</span> Cat();</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>修饰符:</strong></p>
+<ul>
+<li><p><strong>public:</strong> 修饰的类成员允许被任何类访问</p></li>
+<li><p><strong>protected:</strong>
+修饰的类成员仅允许该类和其子类访问</p></li>
+<li><p><strong>private:</strong> 修饰的类成员仅允许该类访问</p>
+<blockquote>
+<p><strong>Tips:</strong> 程序设计是一门权衡和妥协的艺术,
+对OOP为何如此设计的读者可自行查阅OOP发展的历史.</p>
+</blockquote></li>
+</ul></li>
+<li><p><strong>属性:</strong> 属性是一个方法或一对方法,
+在调用它的代码看来, 它是一个字段,
+即属性适合于以字段的方法使用方法调用的场合.</p></li>
+<li><p><strong>字段:</strong> 储存类设计所需的数据,
+形式上是与类相关的变量.</p></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Example</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> num; <span class="comment">//声明一个私有内部字段, 修饰符private</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Num &#123; <span class="comment">//Num公有外部属性, 修饰符public</span></span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="comment">//外部读取方法</span></span><br><span class="line">            <span class="keyword">return</span> Num;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; <span class="comment">//外部修改方法, 删去此方法时表示Num是只读的.</span></span><br><span class="line">            Num = <span class="keyword">value</span>; <span class="comment">// set含有隐式参数, 由关键字value表示, 用于赋值</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong> 属性和字段的描述比较抽象,
+推荐直接结合代码理解. 笔者认为是一种语法糖上的tricky,
+在其他语言OOP也有相似的写法. 这种写法的好处是隔离内部与外部,
+仅允许类提供的公共方法访问类内成员变量.</p>
+</blockquote>
+<ul>
+<li><p><strong>构造方法/构造函数:</strong> 对类进行初始化的方法.
+与类同名, 无返回值, 不需要void, 在new中调用.</p>
+<blockquote>
+<p><strong>Tips:</strong> 以上语法细节适用于C#, 非C#可能会有差别,
+类中不显示写明构造函数时由编译器默认构造(更多语法细节和原理请移步至讨论C#的相关文献).</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123; <span class="comment">//这是构造函数</span></span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>重载(overload):</strong>
+提供了创建多个同名方法(Function)的功能, 重载方法的参数类型不同.
+重载可以在不改变原方法基础上添加新功能.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+这里<strong>参数类型的不同</strong>指的是参数个数不同或参数类型的不同(详见代码示例)</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Example</span>&#123;</span><br><span class="line">    <span class="comment">//不仅构造函数, 普通函数也可以重载</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>()</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">int</span> arg_1</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">float</span> arg_1</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">int</span> arg_1, <span class="built_in">float</span> arg_2</span>)</span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">function</span>(<span class="params"><span class="built_in">float</span> arg_1, <span class="built_in">int</span> arg_2</span>)</span>&#123;&#125;;<span class="comment">//类型顺序不同也会被认为是重载</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>封装:</strong> 每个对象包含该对象操作所需的所有信息,
+不必依赖其他对象来完成自己的操作, 该特性称为封装.</p>
+<blockquote>
+<p><strong>Addtional:</strong> 良好的封装可以减少耦合,
+类内部实现可以自由修改, 具有清晰的对外接口</p>
+</blockquote></li>
+<li><p><strong>继承:</strong>
+对象的继承代表了一种"<strong>is-a</strong>"关系, 若描述为"B是A",
+则认为B可以继承A. 又可以理解为B是A的一种特殊化, B拥有A的特性之外,
+还拥有自己独特的特性. 即继承代表了一种包含关系, A包含B.</p>
+<blockquote>
+<strong>Addtional:</strong>
+<ul>
+<li>继承的双方称为<strong>子类/派生类&amp;父类/基类</strong>.</li>
+<li>子类继承父类的成员有方法, 域, 属性, 事件, 索引指示器</li>
+<li>构造方法<strong>无法</strong>继承, 只能调用,
+可以使用<strong>base</strong>关键字(C#语法特性)</li>
+</ul>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Animal</span> &#123; <span class="comment">//父类</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="built_in">string</span> name = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span>()</span> &#123; <span class="comment">//构造函数</span></span><br><span class="line">        <span class="keyword">this</span>.name = <span class="string">&quot;unamed&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span>(<span class="params"><span class="built_in">string</span> name</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> <span class="built_in">int</span> shoutNum = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> ShoutNum &#123; <span class="comment">//属性</span></span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> shoutNum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            shoutNum = <span class="keyword">value</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> : <span class="title">Animal</span> &#123; <span class="comment">//继承父类Animal的子类Cat</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>() : <span class="title">base</span>()</span> &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>) : <span class="title">base</span>(<span class="params">name</span>)</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">string</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; shoutNum; i++)&#123;</span><br><span class="line">            result += <span class="string">&quot;mew &quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> : <span class="title">Animal</span> &#123; <span class="comment">//继承父类Animal的子类Dog</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span>() : <span class="title">base</span>()</span> &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span>(<span class="params"><span class="built_in">string</span> name</span>) : <span class="title">base</span>(<span class="params">name</span>)</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">string</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; shoutNum; i++)&#123;</span><br><span class="line">            result += <span class="string">&quot;woof &quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips:</strong>
+继承的<strong>优点</strong>是使子类公共部分放在了父类, 代码得到了共享,
+减少了代码重复, 修改和扩展都变得相对容易.
+但<strong>缺点</strong>也是显而易见的, 继承会破坏封装,
+父类实现的细节暴露给子类, 父类和子类间是强耦合的.</p>
+</blockquote>
+<ul>
+<li><p><strong>多态:</strong> 多态表示不同的对象可以执行相同的动作,
+但通过自己的代码执行.</p>
+<blockquote>
+<strong>Additional:</strong>
+<ul>
+<li>子类以父类身份出现</li>
+<li>子类工作时以自己的方式实现</li>
+<li>子类以父类身份出现时, 无法使用子类特有的属性和方法</li>
+</ul>
+<p><strong>Tips:</strong> 在父类中, 该动作需要声明为虚拟的,
+用关键字<strong>virtual</strong>标识.</p>
+</blockquote></li>
+<li><p><strong>重写/覆写(override):</strong>
+子类使用关键字<strong>override</strong>将父类实现替换为自己的实现.</p></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//声明为虚方法</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span> : <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//覆写</span></span><br><span class="line">        ....... <span class="comment">//略, 代码见上文</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">Dog</span> : <span class="title">Animal</span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span> <span class="title">Shout</span>()</span>&#123; <span class="comment">//覆写</span></span><br><span class="line">        ....... <span class="comment">//略, 代码见上文</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*-----------------------------------------------------*/</span></span><br><span class="line"><span class="comment">/*执行环境*/</span></span><br><span class="line"></span><br><span class="line">arrayAnimal = <span class="keyword">new</span> Animal[<span class="number">5</span>];</span><br><span class="line">arrayAnimal[<span class="number">0</span>] = <span class="keyword">new</span> Cat();</span><br><span class="line">arrayAnimal[<span class="number">1</span>] = <span class="keyword">new</span> Dog();</span><br><span class="line"><span class="keyword">foreach</span>(Animal item <span class="keyword">in</span> arrayAnimal)&#123;</span><br><span class="line">    MessageBox.Show(item.Shout()); <span class="comment">//Cat为&quot;mew&quot;, Dog为&quot;woof&quot;.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips1:</strong> C#的多态性分为静态多态性和动态多态性.
+静态多态性即为前文提到的overload重载, 在编译时确定;
+动态多态性为override覆写, 在运行时确定,
+通过抽象类(见下文)和虚方法实现.</p>
+<p><strong>Tips2:</strong> 笔者在翻阅相关资料时,
+在C++语言中发现了更为复杂的机制, overwrite重写和override覆写存在区别,
+详见<a
+href="https://www.cnblogs.com/kuliuheng/p/4107012.html"><strong>博客园|C++中的Overload、Override和Overwrite</strong></a></p>
+<p><strong>Addtional:</strong> 原书对上述实现Animal Shout的代码进行重构,
+具体方法为将Shout()声明为父类公共方法(去掉virtual),
+声明新的虚方法getSound(), 在Shout()中调用, 在子类中覆写(override),
+从而避免了代码重复, 此处笔者不再浪费篇幅详细赘述.</p>
+</blockquote>
+<ul>
+<li><p><strong>抽象类&amp;抽象方法:</strong>
+C#允许将类和方法用关键字<strong>abstract</strong>声明, 即抽象类,
+抽象方法.</p>
+<blockquote>
+<strong>Addtional:</strong>
+<ul>
+<li>抽象类不能被实例化</li>
+<li>抽象方法必须被子类覆写(override)</li>
+<li>含有抽象方法的类必须声明为抽象类, 不论是否具有一般方法</li>
+<li>使用时考虑让抽象类拥有尽可能多的共同代码, 拥有尽可能少的数据</li>
+</ul>
+<p><strong>Tips:</strong> 抽象类通常代表一种抽象概念,
+提供了一个继承的出发点, 当设计一个新的抽象类时, 一定是用来继承的.
+因此在继承结构中, 叶节点应当是具体类, 非叶节点应当是抽象类.</p>
+</blockquote></li>
+<li><p><strong>接口(Interface):</strong>
+接口是把隐式公共方法和属性组合起来, 以封装特定功能的一个集合.
+类实现了接口就可以支持接口所指定的所有属性和成员.
+接口不允许提供任何成员的执行方法(因此接口不能实例化, 没有构造方法,
+字段和修饰符, 不能声明静态或虚拟等).</p>
+<blockquote>
+<strong>Addtionnal:</strong>
+<ul>
+<li>实现接口的类必须实现接口中所有方法和属性.</li>
+<li>一个类可以支持多个接口, 不同类也可以支持相同接口.</li>
+</ul>
+<p><strong>Tips:</strong> <a
+href="https://www.runoob.com/csharp/csharp-interface.html">菜鸟教程|C#
+Interface</a>将接口表述为:</p>
+<p>接口定义了所有类继承接口时应遵循的语法合同.
+接口定义了语法合同"是什么"部分, 派生类定义了语法合同"怎么做"部分.
+接口定义了属性, 方法和事件, 这些都是接口的成员. 接口只包含了成员的声明.
+成员的定义是派生类的责任. 接口提供了派生类应遵循的标准结构.</p>
+<p><strong>书写规范:</strong> 接口的命名需要在前面加一个大写"I".</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 笔者在此化简了书目中提供的例子, 能理解即可.</span></span><br><span class="line"><span class="comment">// 叮当猫继承自上文出现的Cat类, 内部需要实现变东西的接口</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">IChange</span> &#123;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">ChangeThing</span>(<span class="params"><span class="built_in">string</span> thing</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">MachineCat</span> : <span class="title">Cat</span>, <span class="title">IChange</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MachineCat</span>() : <span class="title">base</span>()</span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MachineCat</span>() : <span class="title">base</span>(<span class="params">name</span>)</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">ChangeThing</span>(<span class="params"><span class="built_in">string</span> thing</span>)</span>&#123; <span class="comment">//实现接口, 不需要使用override修饰</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">base</span>.Shout() + <span class="string">&quot;我有万能口袋, 可以变出: &quot;</span> + thing;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Additional:</strong> 笔者在此补充一点C#的语法特性,
+接口也可以继承接口, 假设IB继承IA, 在IB中不需要声明IA中的声明,
+但实现IB的类需要实现IA和IB中的所有声明.</p>
+<p><strong>Compare: Class v.s. Interface</strong></p>
+<ul>
+<li><strong>语法上:</strong> 抽象类可以给出一些成员的实现,
+接口不能包含成员的实现, 抽象类的抽象成员可被子类部分实现,
+但接口的成员需要类全部实现, 一个类只能继承<strong>一个</strong>抽象类,
+但可以实现<strong>多个</strong>接口.</li>
+<li><strong>含义上:</strong> 类是对象的抽象, 抽象类是对类的抽象,
+接口是对<strong>行为</strong>的抽象.</li>
+<li><strong>使用上:</strong> 如果行为跨越不同类的对象, 可使用接口;
+对于一些相似的类对象, 用继承抽象类. 需要注意的是,
+实现接口和继承抽象类并不冲突.</li>
+<li><strong>设计角度上:</strong> 抽象类是从子类中发现了公共的东西,
+泛化出父类, 然后子类继承父类, 而接口根本不知道子类的存在,
+方法如何实现不明确, 预先定义.</li>
+</ul>
+</blockquote>
+<ul>
+<li><p><strong>泛型(Generic):</strong> 泛型是具有占位符(类型参数)的类,
+结构, 接口和方法, 这些占位符是类, 结构,
+接口和方法所储存域或使用的一个或多个类型的占位符.
+泛型集合类可以将类型参数用作它所存储的对象的类型的占位符:
+类型参数作为其字段的类型和其方法的参数类型出现.</p>
+<blockquote>
+<p><strong>Additional:</strong> 通常情况下, 都建议使用泛型集合,
+因为这样可以获得类型安全的直接优点而不需要从基集合类型派生并实现类型特定成员.
+此外, 如果集合元素为值类型,
+泛型集合类型的性能通常优于对应的非泛型集合类型,
+因为使用泛型时不必对元素进行装箱.</p>
+<p><strong>Tips:</strong> <a
+href="https://www.runoob.com/csharp/csharp-generic.html">菜鸟教程|C#
+Generic</a>将泛型表述为:</p>
+<p>泛型(Generic)允许您延迟编写类或方法中的编程元素的数据类型的规范,
+直到实际在程序中使用它的时候. 换句话说,
+泛型允许您编写一个可以与任何数据类型一起工作的类或方法.</p>
+<p>泛型的定义较为晦涩, 建议结合代码理解.
+笔者在此强烈建议阅读更多的资料来学习泛型.</p>
+</blockquote></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections.Generic; <span class="comment">//增加泛型集合命名空间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Forml</span> : <span class="title">Form</span>&#123;</span><br><span class="line">    IList&lt;Animal&gt; arrayAnimal; <span class="comment">// 声明泛型集合变量, 表示只接受Animal类型</span></span><br><span class="line">    <span class="comment">//List&lt;Animal&gt; arrayAnimal; 两种写法是等价的</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Event</span>()</span>&#123;</span><br><span class="line">        arrayAnimal = <span class="keyword">new</span> List&lt;Animal&gt;();</span><br><span class="line"></span><br><span class="line">        arrayAnimal.Add(<span class="keyword">new</span> Cat());</span><br><span class="line">        arrayAnimal.Add(<span class="keyword">new</span> Dog());</span><br><span class="line">        arrayAnimal.Add(<span class="number">123</span>); <span class="comment">// Error! Invalid Type </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>委托:</strong> 委托是对函数的封装,
+可以当作给方法的特征指定一个名称.
+委托对象用关键字<strong>delegate</strong>声明.</p></li>
+<li><p><strong>事件:</strong> 事件时委托的一种特殊形式,
+当发生有意义的事情时, 事件对象处理通知过程.
+事件对象用关键字<strong>event</strong>声明.</p></li>
+</ul>
+<blockquote>
+<p><strong>Additional:</strong> 委托是一种引用方法的类型,
+一旦为委托分配了方法, 委托将与该方法具有完全相同的行为.
+事件则是在发生其他类或对象关注的事情时, 类或对象可通过事件通知它们.</p>
+</blockquote>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//情境: 猫Tom叫的时候两只老鼠Jerry和Jack要跑.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">CatShoutEventHandler</span>()</span>; <span class="comment">// 声明委托</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> CatShoutEventHandler CatShout; <span class="comment">//声明事件</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Shout</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;喵, 我是&#123;0&#125;.&quot;</span>, name);</span><br><span class="line">        <span class="keyword">if</span> (CatShout != <span class="literal">null</span>)&#123; <span class="comment">// 如果声明了事件CatShout</span></span><br><span class="line">            CatShout();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mouse</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mouse</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;老猫来了, &#123;0&#125;快跑&quot;</span>, name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span>&#123;</span><br><span class="line">    Cat cat = <span class="keyword">new</span> Cat(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">    Mouse mouse1 = <span class="keyword">new</span> Mouse(<span class="string">&quot;Jerry&quot;</span>);</span><br><span class="line">    Mouse mouse2 = <span class="keyword">new</span> Mouse(<span class="string">&quot;Jack&quot;</span>);</span><br><span class="line"></span><br><span class="line">    cat.CatShout += <span class="keyword">new</span> Cat.CatShoutEventHandler(mouse1.Run);</span><br><span class="line">    cat.CatShout += <span class="keyword">new</span> Cat.CatShoutEventHandler(mouse2.Run); </span><br><span class="line">    <span class="comment">// &quot;+=&quot; 表示 &quot;add_CatShout&quot; 的意思; 与之相反 &quot;-=&quot; 表示 &quot;remove_CatShout()&quot;</span></span><br><span class="line"></span><br><span class="line">    cat.Shout();</span><br><span class="line">    Console.Read();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">喵, 我是Tom.</span><br><span class="line">老猫来了, Jerry快跑!</span><br><span class="line">老猫来了, Jack快跑!</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>EventArgs:</strong> EventArgs是包含事件数据的类的基类.</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CatShoutEventArgs</span> : <span class="title">EventArgs</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name&#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;<span class="keyword">return</span> name; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;name = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cat</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">CatShoutEventHandler</span>(<span class="params"><span class="built_in">object</span> sender, CatShoutEventArgs args</span>)</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> CatShoutEventHandler CatShout;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Shout</span>()</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;喵, 我是&#123;0&#125;.&quot;</span>, name);</span><br><span class="line">        <span class="keyword">if</span>(CatShout != <span class="literal">null</span>)&#123;</span><br><span class="line">            CatShoutEventArgs e = <span class="keyword">new</span> CatShoutEventArgs();</span><br><span class="line">            e.Name = <span class="keyword">this</span>.name;</span><br><span class="line">            CatShout(<span class="keyword">this</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Mouse</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mouse</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run</span>(<span class="params"><span class="built_in">object</span> sender, CatShoutEventArgs args</span>)</span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;老猫&#123;0&#125;来了, &#123;1&#125;快跑!&quot;</span>, args.Name, name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Main执行结果:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">喵, 我是Tom.</span><br><span class="line">老猫Tom来了, Jerry快跑!</span><br><span class="line">老猫Tom来了, Jack快跑!</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>读书笔记-设计模式</category>
+      </categories>
+      <tags>
+        <tag>读书笔记</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>读书笔记-On Java8 Ch0-Ch2</title>
     <url>/BookNote-OnJava8-by-BruceEckel-1/</url>
     <content><![CDATA[<p><strong>你所使用的编程语言会将你的思维模式固化并逐渐远离其他语言,
@@ -2329,7 +2329,8 @@ and Techniques of Compilers</strong>).</p>
 语法分析</strong></a></li>
 <li><a href="https://la-pluma.github.io/Course-Compiler-5"><strong>Ch5
 语法制导的编译技术</strong></a></li>
-<li><strong>Ch6 中间代码生成</strong></li>
+<li><a href="https://la-pluma.github.io/Course-Compiler-6"><strong>Ch6
+中间代码生成</strong></a></li>
 <li><strong>Ch7 运行时刻环境</strong></li>
 <li><strong>Ch8 代码生成</strong></li>
 <li><strong>Ch9 机器无关优化</strong></li>
@@ -3997,6 +3998,709 @@ class="math inline">\(\alpha\)</span>的串为止</li>
       </tags>
   </entry>
   <entry>
+    <title>课程笔记-NJU编译原理 Ch6 中间代码生成</title>
+    <url>/Course-Compiler-6/</url>
+    <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch06
+Intermediate Code Generation.</strong></p>
+<span id="more"></span>
+<h2 id="编译器前端的逻辑结构">编译器前端的逻辑结构</h2>
+<ul>
+<li>前端是对源语言进行分析并产生中间表示</li>
+<li>处理与源语言相关的细节，与目标机器无关</li>
+<li>前端后端分开的好处：不同的源语言、不同的机器可以得到不同的编译器组合(<code>m * n</code>)</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-1.png" class="" title="pic6-1">
+<h2 id="中间代码表示">中间代码表示</h2>
+<ul>
+<li><strong>形式</strong>
+<ul>
+<li>多种中间表示，不同层次</li>
+<li>抽象语法树, 三地址代码</li>
+</ul></li>
+<li><strong>重定位</strong>
+<ul>
+<li>为新的机器建编译器，只需要做从中间代码到新的目标代码的翻译器<strong>(前端独立)</strong></li>
+</ul></li>
+<li><strong>高层次的优化</strong>
+<ul>
+<li>优化与源语言和目标机器都无关</li>
+</ul></li>
+</ul>
+<h3 id="中间代码的实现">中间代码的实现</h3>
+<ul>
+<li><strong>静态类型检查</strong>和<strong>中间代码生成</strong>的过程都可以用语法制导的翻译来描述和实现</li>
+</ul>
+<h4 id="生成抽象语法树的语法制导定义">生成抽象语法树的语法制导定义</h4>
+<img src="/Course-Compiler-6/pic6-2.png" class="" title="pic6-2">
+<h4 id="表达式的有向无环图">表达式的有向无环图</h4>
+<ul>
+<li>语法树中，公共子表达式每出现一次，就有一颗对应的子树</li>
+<li>表达式的<strong>有向无环图(Directed Acyclic Graph,
+DAG)</strong>能够指出表达式中的公共子表达式，更简洁地表示表达式</li>
+</ul>
+<h5 id="dag构造">DAG构造</h5>
+<ul>
+<li>可以用和构造抽象语法树一样的SDD来构造</li>
+<li><strong>不同的处理:</strong>
+在函数Leaf和Node每次被调用时，构造新节点前先检查是否存在同样的结点(值编码+散列表)，如果已存在，则返回这个已有结点</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-3.png" class="" title="pic6-3">
+<h2 id="三地址代码">三地址代码</h2>
+<ul>
+<li>每条指令右侧最多有一个运算符
+<ul>
+<li>一般情况可以写成<code>x = y op z</code></li>
+</ul></li>
+<li>允许的<strong>运算分量</strong>(地址)
+<ul>
+<li>名字：源程序中的变量名字作为三地址代码的地址</li>
+<li>常量：源程序中出现或生成的常量</li>
+<li>编译器生成的临时变量</li>
+</ul></li>
+</ul>
+<h3 id="指令集合">指令集合</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr>
+<th>指令</th>
+<th>形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>运算/赋值指令</td>
+<td><code>x = y op z</code> / <code>x = op y</code></td>
+</tr>
+<tr>
+<td>复制指令</td>
+<td><code>x = y</code></td>
+</tr>
+<tr>
+<td>无条件转移指令</td>
+<td><code>goto L</code></td>
+</tr>
+<tr>
+<td>条件转移指令</td>
+<td><code>if x goto L</code> <code>if False x goto L</code>
+<code>if x relop y goto L</code></td>
+</tr>
+<tr>
+<td>过程调用/返回</td>
+<td><code>param x1 \\设置参数</code><br><code>param x2</code><br><code>...</code><br><code>param xn</code><br><code>call p, n \\调用过程p,n为参数个数(可能嵌套调用)</code></td>
+</tr>
+<tr>
+<td>带下标的复制指令</td>
+<td><code>x= y[i]</code> <code>x[i] = y</code>
+<code>\\i表示距离数组位置i个内存单元(字节),不是数组的第i个元素</code></td>
+</tr>
+<tr>
+<td>地址/指针赋值指令</td>
+<td><code>x = &amp;y</code> <code>x = *y</code> <code>*x = y</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-4.png" class="" title="pic6-4">
+</blockquote>
+<h3 id="三地址码表示">三地址码表示</h3>
+<ul>
+<li>在实现时，可使用<strong>四元式/三元式/间接三元式/静态单赋值</strong>来表示三地址指令</li>
+</ul>
+<h4 id="四元式表示">四元式表示</h4>
+<ul>
+<li><strong>四元式(quadruple):</strong> 可以实现为记录(或结构)
+<ul>
+<li>格式(字段): <code>op arg1 arg2 result</code></li>
+<li>op：运算符的内部编码</li>
+<li>arg1, arg2, result是地址</li>
+<li><strong>Example:</strong> <code>x = y + z -&gt; + y z x</code></li>
+</ul></li>
+<li>单目运算符不使用arg2</li>
+<li>param运算不使用arg2和result</li>
+<li>条件/非条件转移将目标标号放在result字段</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-5.png" class="" title="pic6-5">
+</blockquote>
+<h4 id="三元式表示">三元式表示</h4>
+<ul>
+<li><p><strong>三元式(triple):</strong>
+<code>op arg1 arg2</code></p></li>
+<li><p>使用三元式的位置来引用三元式的运算结果</p></li>
+<li><p>优化时经常需要移动/删除/添加三元式，导致三元式运算结果的位置变化(四元式无此问题)</p></li>
+<li><p><code>x = y op z</code>转化为<code>? op y z</code>
+<code>= x (?)</code>, 其中<code>?</code>为位置</p></li>
+<li><p><code>x[i] = y</code>需要拆分为两个三元式,
+求<code>x[i]</code>的地址，然后再赋值</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>exp</th>
+<th>op</th>
+<th>arg1</th>
+<th>arg2</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x[i] = y</code></td>
+<td><code>[]=</code></td>
+<td><code>i</code></td>
+<td><code>y</code></td>
+<td><code>x</code></td>
+</tr>
+<tr>
+<td><code>y = x[i]</code></td>
+<td><code>=[]</code></td>
+<td><code>x</code></td>
+<td><code>i</code></td>
+<td><code>y</code></td>
+</tr>
+</tbody>
+</table>
+</blockquote></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-6.png" class="" title="pic6-6">
+</blockquote>
+<h4 id="间接三元式表示">间接三元式表示</h4>
+<ul>
+<li><strong>间接三元式(indirect triple):</strong>
+包含了一个指向三元式的指针的列表</li>
+<li>可对该列表进行操作(重新排序)，完成优化功能，操作时不影响三元式本身</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<p><code>a = b * -c + b * -c</code></p>
+<img src="/Course-Compiler-6/pic6-7.png" class="" title="pic6-7">
+</blockquote>
+<h4 id="静态单赋值形式">静态单赋值形式</h4>
+<img src="/Course-Compiler-6/pic6-8.png" class="" title="pic6-8">
+<h5 id="ssa的构造">SSA的构造</h5>
+<ul>
+<li>为每个变量维护一个计数器</li>
+<li>从函数入口开始遍历函数体</li>
+<li>遇到变量赋值时，为其生成新名字，并替换</li>
+<li>将新变量名传播到后续相应的使用处，并替换</li>
+</ul>
+<blockquote>
+<p><strong>Tips:</strong> 通常只针对函数内的变量(即局部变量) 计算SSA,
+而全局变量的SSA在实际当中难以计算</p>
+</blockquote>
+<h5 id="ssa对分支的处理">SSA对分支的处理</h5>
+<img src="/Course-Compiler-6/pic6-24.png" class="" title="pic6-24">
+<h5 id="ssa对循环的处理">SSA对循环的处理</h5>
+<img src="/Course-Compiler-6/pic6-25.png" class="" title="pic6-25">
+<h5 id="ssa的作用">SSA的作用</h5>
+<ul>
+<li>每个变量只被赋值一次，相当于都变成const变量</li>
+<li>简化了数据流分析和某些优化</li>
+<li>使得定义-使用链(def-use chain)易于计算
+<ul>
+<li>关联每个变量的定义(赋值)及其相应的使用</li>
+<li>许多分析和优化所需的关键信息</li>
+<li>SSA形式中，定义-使用关系非常清晰，且可以线性复杂度进行计算</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-6/pic6-26.png" class="" title="pic6-26">
+<img src="/Course-Compiler-6/pic6-27.png" class="" title="pic6-27">
+<h2 id="类型和声明">类型和声明</h2>
+<ul>
+<li><strong>类型检查(type checking)</strong>
+<ul>
+<li>利用一组规则来检查运算分量的类型和运算符的预期类型是否匹配</li>
+</ul></li>
+<li>类型信息的用途
+<ul>
+<li>查错、确定名字需要的内存空间、计算数组元素的地址、类型转换、选择正确的运算符</li>
+</ul></li>
+</ul>
+<h3 id="类型分类">类型分类</h3>
+<ul>
+<li><strong>基本类型</strong>
+<ul>
+<li>程序设计语言中的原子类型
+<ul>
+<li>如: <code>boolean, char, integer, float, void, ...</code></li>
+</ul></li>
+<li>通常这些类型的运算都有对应的机器指令</li>
+</ul></li>
+<li><strong>复合类型</strong>
+<ul>
+<li>由基本类型或其它复合组合而成的类型，为程序设计语言提供更强的抽象和表达能力
+<ul>
+<li>如: 结构体, 数组, 函数, ...</li>
+</ul></li>
+</ul></li>
+<li><strong>类型表达式(Typeexpression):</strong> 表示类型的表达式
+<ul>
+<li>基本类型：类型名字</li>
+<li>复合类型：通过类型构造算子作用于类型表达式得到</li>
+</ul></li>
+</ul>
+<h4 id="数组类型">数组类型</h4>
+<ul>
+<li>表示同类型数据的聚合</li>
+<li>类型构造算子array，有两个参数
+<ul>
+<li>数字：表示数组的长度</li>
+<li>类型：表示数组元素的类型</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong> <code>int [2][3]</code></p>
+<p>对应类型表达式<code>array(2, array(3, integer))</code></p>
+</blockquote>
+<h4 id="记录类型">记录类型</h4>
+<ul>
+<li>表示不同类型数据的聚合(结构体、类)</li>
+<li>类型构造算子record，有多组字段
+<ul>
+<li>字段名：字段名字，可用于在记录中引用该字段</li>
+<li>类型：字段对应数据的类型</li>
+</ul></li>
+<li>记录的基本构造算子是笛卡尔积<code>×</code>
+<ul>
+<li>如果<code>s</code>,
+<code>t</code>是类型表达式，其笛卡尔积<code>s × t</code>也是类型表达式</li>
+<li>在记录类型的构造中起组合作用
+<ul>
+<li>组合字段名与相应类型</li>
+<li>组合多组字段</li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong>
+<code>struct&#123;int a[10]; float f;&#125; st;</code></p>
+<p>对应类型表达式<code>record((a × array(10, int)) × (f × float))</code></p>
+</blockquote>
+<h4 id="函数类型">函数类型</h4>
+<ul>
+<li>表示程序中函数的类型</li>
+<li>类型构造算子<span
+class="math inline">\(\rightarrow\)</span>，接收参数类型与返回值类型，并构造出函数类型</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong>
+<code>int foo(float x, long[5] y) &#123;...&#125;</code></p>
+<p>对应类型表达式<code>(float × array(5, long)) -&gt; int</code></p>
+</blockquote>
+<h3 id="类型等价">类型等价</h3>
+<ul>
+<li>不同的语言有不同的类型等价的定义</li>
+<li><strong>名等价(name equivalence)</strong>
+<ul>
+<li>类型表达式t与u等价当且仅当它们对应的类型名字相同</li>
+</ul></li>
+<li><strong>结构等价(structurally equivalent)</strong>
+<ul>
+<li>对于基本类型，比较它们名字是否相同</li>
+<li>对于复合类型，比较类型构造算子; 若相同,
+递归比较构造算子的各参数分量</li>
+</ul></li>
+</ul>
+<h3 id="类型的声明">类型的声明</h3>
+<ul>
+<li>处理基本类型、数组类型或记录类型的文法
+<ul>
+<li><img src="/Course-Compiler-6/pic6-9.png" class="" title="pic6-9"></li>
+</ul></li>
+<li>应用该文法及其对应的语法制导定义，除了得到<strong>类型表达式</strong>之外，还得进行各种类型的<strong>存储布局</strong></li>
+</ul>
+<h4 id="局部变量的存储布局">局部变量的存储布局</h4>
+<ul>
+<li>变量的类型可以确定变量需要的内存
+<ul>
+<li>即类型的宽度(该类型一个对象所需的存储单元的数量)</li>
+<li>可变大小的数据结构(如动态数组)只需要考虑指针</li>
+<li>特殊：对齐(aligned)、补白(padding)、压缩(pack)</li>
+</ul></li>
+<li>函数的局部变量总是分配在连续的区间
+<ul>
+<li>因此给每个变量分配一个相对于这个区间开始处的相对地址</li>
+</ul></li>
+<li>变量的类型信息保存在符号表中</li>
+</ul>
+<h5 id="内存补齐padding">内存补齐(Padding)</h5>
+<ul>
+<li>提升内存访问效率的一种技术</li>
+<li>内存（通常）不能“跨行”访问</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-28.png" class="" title="pic6-28">
+<img src="/Course-Compiler-6/pic6-29.png" class="" title="pic6-29">
+<h3 id="表达式翻译">表达式翻译</h3>
+<h4 id="计算t的类型和宽度的sdt">计算T的类型和宽度的SDT</h4>
+<img src="/Course-Compiler-6/pic6-10.png" class="" title="pic6-10">
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-11.png" class="" title="pic6-11">
+</blockquote>
+<h4 id="声明序列的sdt">声明序列的SDT</h4>
+<ul>
+<li>在处理一个过程/函数时，局部变量应该放到单独的符号表中去</li>
+<li>这些变量的内存布局独立
+<ul>
+<li>相对地址从0开始，变量的放置和声明的顺序相同</li>
+</ul></li>
+<li>SDT的处理方法
+<ul>
+<li>变量offset记录当前可用的相对地址</li>
+<li>每分配一个变量，offset增加相应的值(加宽度)</li>
+</ul></li>
+<li><span class="math inline">\(top.put(id.lexeme, T.type,
+offset)\)</span>
+<ul>
+<li>在符号表中创建条目，记录标识符的类型和偏移量</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-12.png" class="" title="pic6-12">
+<img src="/Course-Compiler-6/pic6-30.png" class="" title="pic6-30">
+</blockquote>
+<h4 id="记录和类中的字段">记录和类中的字段</h4>
+<ul>
+<li>记录变量声明的翻译方案</li>
+<li>约定
+<ul>
+<li>一个记录中各个字段的名字必须互不相同</li>
+<li>字段名的偏移量(相对地址)，是相对于该记录的数据区字段而言的</li>
+</ul></li>
+<li>记录类型使用一个<strong>专用的符号表</strong>，对其各个字段的类型和相对地址进行编码</li>
+<li>记录类型<span
+class="math inline">\(record(t):record\)</span>是类型构造算子, <span
+class="math inline">\(t\)</span>是符号表对象，保存该记录类型各个字段的信息</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-13.png" class="" title="pic6-13">
+<h5 id="env环境">Env环境</h5>
+<ul>
+<li>当程序中的作用域发生嵌套时，用一个栈Env辅助维护各作用域对应的符号表，栈中存储指向各符号表的指针</li>
+<li>进入一个新作用域时，保存上一作用域(压栈)</li>
+<li>从一个作用域退出时，恢复上一作用域(出栈)</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-31.png" class="" title="pic6-31">
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-32.png" class="" title="pic6-32">
+</blockquote>
+<h4 id="表达式代码的sdd">表达式代码的SDD</h4>
+<img src="/Course-Compiler-6/pic6-14.png" class="" title="pic6-14">
+<h4 id="增量式翻译方案">增量式翻译方案</h4>
+<img src="/Course-Compiler-6/pic6-15.png" class="" title="pic6-15">
+<h4 id="数组元素的寻址">数组元素的寻址</h4>
+<ul>
+<li>假设数组元素被存放在连续的存储空间中, 元素从<span
+class="math inline">\(0\)</span>到<span
+class="math inline">\(n−1\)</span>编号, 第<span
+class="math inline">\(i\)</span> 个元素的地址为: <span
+class="math inline">\(base + i * w\)</span></li>
+<li>k维数组的寻址: 假设数组按行存放, 首先存放<span
+class="math inline">\(A[0][i_2]...[i_k]\)</span>, 然后 存放<span
+class="math inline">\(A[1][i_2]...[i_k]\)</span>, ...那么<span
+class="math inline">\(A[i_1][i_2]...[i_k]\)</span>的地址为
+<ul>
+<li><span class="math inline">\(base + i_1 * w_1 + i_2 * w_2 + ... + i_k
+* w_k\)</span></li>
+</ul></li>
+</ul>
+<h5 id="数组引用的翻译">数组引用的翻译</h5>
+<ul>
+<li>为数组引用生成代码要解决的主要问题
+<ul>
+<li>数组引用的文法和地址计算相关联</li>
+</ul></li>
+<li>假定数组编号从0开始，基于宽度来计算相对地址</li>
+<li>数组引用相关文法
+<ul>
+<li>非终结符号L生成数组名，加上一个下标表达式序列</li>
+<li><span class="math inline">\(L \rightarrow [L]\ |\ id\
+[E]\)</span></li>
+</ul></li>
+</ul>
+<h5 id="数组引用生成代码的翻译方案">数组引用生成代码的翻译方案</h5>
+<img src="/Course-Compiler-6/pic6-16.png" class="" title="pic6-16">
+<img src="/Course-Compiler-6/pic6-17.png" class="" title="pic6-17">
+<img src="/Course-Compiler-6/pic6-18.png" class="" title="pic6-18">
+<img src="/Course-Compiler-6/pic6-19.png" class="" title="pic6-19">
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-20.png" class="" title="pic6-20">
+</blockquote>
+<h2 id="类型检查和转换">类型检查和转换</h2>
+<ul>
+<li><strong>类型系统(type system)</strong>
+<ul>
+<li>给每一个组成部分赋予一个类型表达式</li>
+<li>通过一组逻辑规则来表达类型表达式必须满足的条件</li>
+<li>可发现错误、提高代码效率、确定临时变量的大小</li>
+</ul></li>
+<li>类型检查可以分为动态和静态两种</li>
+<li>如果编译器中的类型系统能够保证它接受的程序在运行时刻不会发生类型错误，则该语言的这种实现称为<strong>强类型</strong>的</li>
+</ul>
+<blockquote>
+<p><strong>Addtional:</strong></p>
+<p>也有说法按照类型系统严格性进行强弱区分，如C/C++允许通过指针操作绕过常规类型检查，因此被认为是<strong>弱类型语言</strong></p>
+</blockquote>
+<h3 id="类型系统的分类">类型系统的分类</h3>
+<ul>
+<li><strong>类型综合(type synthesis)</strong>
+<ul>
+<li>根据子表达式的类型构造出表达式的类型</li>
+<li>如果<code>f</code>的类型为<code>s-&gt;t</code>且<code>x</code>的类型为<code>s</code>,
+则<code>f(x)</code>的类型为<code>t</code></li>
+</ul></li>
+<li><strong>类型推导(type inference)</strong>
+<ul>
+<li>根据语言结构的使用方式来确定该结构的类型</li>
+<li>如果<code>f(x)</code>是一个表达式,
+则对于某些类型<code>α</code>和<code>β</code>,
+<code>f</code>的类型为<code>α-&gt;β</code>且<code>x</code>的类型为<code>α</code></li>
+</ul></li>
+</ul>
+<h3 id="类型规则">类型规则</h3>
+<img src="/Course-Compiler-6/pic6-33.png" class="" title="pic6-33">
+<img src="/Course-Compiler-6/pic6-34.png" class="" title="pic6-34">
+<h4 id="函数运算符重载">函数/运算符重载</h4>
+<img src="/Course-Compiler-6/pic6-35.png" class="" title="pic6-35">
+<h3 id="类型转换">类型转换</h3>
+<img src="/Course-Compiler-6/pic6-21.png" class="" title="pic6-21">
+<h4 id="类型转换规则">类型转换规则</h4>
+<img src="/Course-Compiler-6/pic6-22.png" class="" title="pic6-22">
+<h4 id="处理类型转换的sdt">处理类型转换的SDT</h4>
+<img src="/Course-Compiler-6/pic6-23.png" class="" title="pic6-23">
+<h2 id="布尔表达式的控制流翻译">布尔表达式的控制流翻译</h2>
+<ul>
+<li>生成的代码执行时跳转到两个标号之一
+<ul>
+<li>表达式的值为真时，跳转到<span
+class="math inline">\(B.true\)</span></li>
+<li>表达式的值为假时，跳转到<span
+class="math inline">\(B.false\)</span></li>
+</ul></li>
+<li><span class="math inline">\(B.true\)</span>和<span
+class="math inline">\(B.false\)</span>是两个继承属性，根据B所在的上下文指向不同的位置</li>
+</ul>
+<h3 id="控制流语句的翻译">控制流语句的翻译</h3>
+<img src="/Course-Compiler-6/pic6-36.png" class="" title="pic6-36">
+<h4 id="语法制导的定义">语法制导的定义</h4>
+<img src="/Course-Compiler-6/pic6-37.png" class="" title="pic6-37">
+<img src="/Course-Compiler-6/pic6-38.png" class="" title="pic6-38">
+<h3 id="布尔表达式的翻译">布尔表达式的翻译</h3>
+<img src="/Course-Compiler-6/pic6-39.png" class="" title="pic6-39">
+<img src="/Course-Compiler-6/pic6-40.png" class="" title="pic6-40">
+<img src="/Course-Compiler-6/pic6-41.png" class="" title="pic6-41">
+<blockquote>
+<p><strong>Example: 短路求值</strong></p>
+<img src="/Course-Compiler-6/pic6-42.png" class="" title="pic6-42">
+</blockquote>
+<h4 id="布尔值和跳转代码">布尔值和跳转代码</h4>
+<img src="/Course-Compiler-6/pic6-43.png" class="" title="pic6-43">
+<img src="/Course-Compiler-6/pic6-44.png" class="" title="pic6-44">
+<h3 id="指令的标号与索引">指令的标号与索引</h3>
+<img src="/Course-Compiler-6/pic6-45.png" class="" title="pic6-45">
+<h4 id="一趟完成">一趟完成</h4>
+<img src="/Course-Compiler-6/pic6-46.png" class="" title="pic6-46">
+<h3 id="回填">回填</h3>
+<ul>
+<li>为布尔表达式和控制流语句生成目标代码
+<ul>
+<li>关键问题：某些跳转指令应该跳转到哪里？</li>
+</ul></li>
+<li><strong>基本思想</strong>
+<ul>
+<li>翻译过程中，若遇到跳转目标未知的情况，则先生成<strong>跳转指令坯</strong>，备用<code>goto __/if ... goto __</code></li>
+<li>将指令坯并向父结点传递(综合属性)</li>
+<li>翻译过程中，若遇到某条指令是跳转目标，则记录其索引，备用如<code>S -&gt; if (B) ▲ S1</code></li>
+<li>当父结点收集齐跳转指令坯及其跳转目标索引时，将索引填入指令坯</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-6/pic6-47.png" class="" title="pic6-47">
+<h4 id="控制转移语句的回填">控制转移语句的回填</h4>
+<img src="/Course-Compiler-6/pic6-48.png" class="" title="pic6-48">
+<img src="/Course-Compiler-6/pic6-49.png" class="" title="pic6-49">
+<img src="/Course-Compiler-6/pic6-50.png" class="" title="pic6-50">
+<h5 id="回填与非回填对比">回填与非回填对比</h5>
+<img src="/Course-Compiler-6/pic6-51.png" class="" title="pic6-51">
+<img src="/Course-Compiler-6/pic6-52.png" class="" title="pic6-52">
+<h4 id="布尔表达式的回填翻译">布尔表达式的回填翻译</h4>
+<img src="/Course-Compiler-6/pic6-53.png" class="" title="pic6-53">
+<h5 id="回填与非回填对比-1">回填与非回填对比</h5>
+<img src="/Course-Compiler-6/pic6-54.png" class="" title="pic6-54">
+<img src="/Course-Compiler-6/pic6-55.png" class="" title="pic6-55">
+<blockquote>
+<p><strong>Example: 布尔表达式回填</strong></p>
+<img src="/Course-Compiler-6/pic6-56.png" class="" title="pic6-56">
+</blockquote>
+<h4 id="break-continue的处理">Break &amp; Continue的处理</h4>
+<ul>
+<li>虽然break、continue在语法上是一个独立的句子，但是它的代码和外围语句相关</li>
+<li>方法：(break语句)
+<ul>
+<li>跟踪外围循环语句S</li>
+<li>生成一个跳转指令坯</li>
+<li>将这个指令坯的索引加入到S的nextlist中</li>
+</ul></li>
+</ul>
+<h4 id="switch-case的处理">Switch Case的处理</h4>
+<img src="/Course-Compiler-6/pic6-57.png" class="" title="pic6-57">
+]]></content>
+      <categories>
+        <category>课程笔记-编译原理</category>
+      </categories>
+      <tags>
+        <tag>课程笔记</tag>
+        <tag>编译原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NJU静态分析|A1-Live Variable Analysis</title>
+    <url>/LabRecord-SPA-A1/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-1 Live Variable
+Analysis &amp; IterativeSolver.</strong></p>
+<span id="more"></span>
+<h2 id="实验信息">实验信息</h2>
+<p>NJU软件分析, 实际上是静态分析(Static Program Analysis),
+是由李樾和谭添老师开设的面向本科生和研究生的一门课程,
+因为是本研共修选修课, 因此本课程内容较为基础,
+比较适合对静态分析感兴趣的初学者快速入门. 课程网站<a
+href="https://tai-e.pascal-lab.net/lectures.html"><strong>[Static
+Program Analysis]</strong></a>, 配套课程<a
+href="https://www.bilibili.com/video/BV1b7411K7P4"><strong>[Bilibili|南京大学《软件分析》]</strong></a>.</p>
+<p>本课程实验(Assignments)基于Tai-e教学版框架,
+框架代码的获取和实验环境配置见课程网站, 笔者在约一年前曾自学过本课程,
+现今跟随2024Fall课程进度再次学习,
+由于上次学习中受到了多位前辈留下的实验记录帮助,
+遂于此记录笔者对各个实验的理解和记录. 限于笔者个人能力水平,
+恐难完整覆盖实验中的所有要点, 记录内容仅供参考, 如能帮助到您,
+乃笔者荣幸.</p>
+<p><del>鉴于 <strong>学术诚信(Academic Integrity)</strong> 要求,
+笔者暂且 <strong><em>不</em></strong> 公开源代码.</del></p>
+<p>已公开参考源代码, 请<strong>遵循学术诚信</strong>.</p>
+<p><a
+href="https://github.com/La-Pluma/NJU-Static-Analysis-Tai-e"><strong>LaPuluma|StaticAnalysis</strong></a></p>
+<h2 id="食用指南">食用指南</h2>
+<p>本试验记录 <strong><em>不会</em></strong>
+从零开始讨论完成实验的知识点, 框架理解和注意事项.
+食用前请确保观看并理解了课程的P1-4内容, 尤其是对活跃变量分析(Live
+Variable Analysis)的算法和原理的基本掌握; 完整阅读过<a
+href="https://tai-e.pascal-lab.net/pa1.html"><strong>实验指南</strong></a>和框架代码后,
+再来参考本实验记录, 效果最佳.</p>
+<h2 id="任务目标">任务目标</h2>
+<p>基于已有框架为java实现一个<strong>活跃变量分析</strong>,
+使用<strong>迭代求解器(Iterative Solver)</strong>.</p>
+<p>具体来说, 实现Your
+Task中涉及的三份文件中的6个<code>TODO API</code>.</p>
+<p>涉及的主要算法如下图所示:</p>
+<img src="/LabRecord-SPA-A1/pic1.png" class="" title="pic1">
+<p>作为第一个实验, 总体难度不高, 关键在于熟悉Tai-e框架,
+还望读者耐心阅读框架代码. 不妨善用Github
+Copilot或者ChatGPT帮助理解框架代码.</p>
+<h2 id="livevariableanalysis">LiveVariableAnalysis</h2>
+<p>活跃变量分析算法中需要用到的具体方法, 实验指南中已有较为详细的说明,
+笔者在此不再赘述.</p>
+<img src="/LabRecord-SPA-A1/pic2.png" class="" title="pic2">
+<p>关于实现该部分所需的<code>API</code>,
+请阅读<code>Class SetFact</code>源码.</p>
+<p>笔者在此补充一些本实验所需java语法性质或语法糖.</p>
+<h3 id="class-optional">Class Optional</h3>
+<p>Java 8引入的性质, 详细信息可查询文档或教程, 笔者在此给出其一<a
+href="https://www.runoob.com/java/java8-optional-class.html"><strong>[菜鸟教程|Java
+Optional]</strong></a>.</p>
+<p>与之类似的还有<code>java.util.List</code>,
+学习java语法来获得<code>Optional</code>和<code>List</code>中的内容.</p>
+<p>使用示例:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> stmt.getDef().orElse(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="instanceof操作符">instanceof操作符</h3>
+<p>java中用于判断类型的操作符, 详细信息可参考<a
+href="https://www.baeldung.com/java-instanceof"><strong>[Baeldung|Java
+instanceof Operator]</strong></a>.</p>
+<p>使用示例:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(def <span class="keyword">instanceof</span> Var)</span><br></pre></td></tr></table></figure>
+<p>需要注意的是, 如指南所示</p>
+<img src="/LabRecord-SPA-A1/pic3.png" class="" title="pic3">
+<p><code>Exp</code>下的<code>LValue</code>
+<code>RValue</code>包括多种类型,
+我们只需要关注<code>Var</code>类型的使用.</p>
+<blockquote>
+<p><strong>Tips:</strong> 为什么不需要考虑别的类型?</p>
+<p><code>LValue</code>只需要关注<code>Var</code>, 这是手册告诉我们的.
+<code>RValue</code>尽管有多种类型,
+但可以通过<code>getUses()</code>方法将Exp中涉及的变量等信息全部获取,
+此时右式是<code>UnaryExp</code>or<code>BinaryExp</code>对我们来说都不重要了,
+只需要将<code>getUses()</code>中的<code>Var</code>筛选出来处理即可.</p>
+</blockquote>
+<blockquote>
+<p><strong>Additional:</strong> <code>getUses()</code>究竟返回什么?</p>
+<p>笔者在此引用<a
+href="https://github.com/RicoloveFeng">RicoloveFeng</a>在<a
+href="https://github.com/RicoloveFeng/SPA-Freestyle-Guidance">SPA-Freestyle-Guidance</a>中的解释</p>
+<p>你可能想知道 <code>getUses()</code> 除了 <code>x = y</code>
+这条语句之外还返回些什么东西.我们举点例子吧:</p>
+<ul>
+<li><p><code>x = y op z</code>: <code>[y, z, y op z]</code></p></li>
+<li><p><code>x = m(n)</code>:
+<code>[mClass, n, invokevirtual mClass.m(n)]</code></p></li>
+</ul>
+</blockquote>
+<h3 id="java引用机制">java引用机制</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">transferNode</span><span class="params">(Stmt stmt, SetFact&lt;Var&gt; in, SetFact&lt;Var&gt; out)</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">//in = out.copy();</span></span><br><span class="line">        in.set(out);</span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尽管两行代码"看起来"是一致的,
+但注释掉的代码只会改变形参<code>in</code>的取值,
+不会改变实际的<code>Fact in</code>. 详细原理可以参考<a
+href="https://zhuanlan.zhihu.com/p/453857961"><strong>[知乎|java引用详解]</strong></a>.</p>
+<h2 id="solver-iterativesolver">Solver &amp; IterativeSolver</h2>
+<p>本部分对应具体的算法流程.</p>
+<p>实际上指南写的已足够详细,
+包括如何从<code>cfg</code>中获取信息的方法和两处<code>TODO</code>对应的具体部分,
+使得即便对框架不甚理解, 仍然能完成该部分.</p>
+<p>唯一需要阅读代码知道的是可以通过<code>analysis.xx</code>的方式调用我们在上一节中实现的<code>API</code>.</p>
+<p><code>Solver</code>的<code>Init</code>需要注意的是由于我们<code>analysis.meetInto()</code>与算法中不完全相同,
+在初始化阶段我们同样要对<code>out Fact</code>进行赋空初始化.</p>
+<p><code>IterativeSovlver</code>部分是算法的循环部分,
+由于我们的分析器<code>BB</code>是<code>stmt</code>,
+因此不需要考虑Block内部的执行顺序,
+直接使用<code>analysis.transferNode</code>即可.</p>
+<p>另外, 上课时遍历迭代顺序取的是较优结果, 我们不需要过多考虑性能问题,
+因此以任意节点顺序迭代仍然可以得到结果, 这大大降低了代码实现的复杂性,
+只需要使用简单的<code>for(Node node : cfg)</code>即可.</p>
+<p>笔者同样补充一些可能对本实验理解有帮助的细节部分.</p>
+<h3 id="dataflowresult">DataflowResult</h3>
+<p>其本质是两个<code>Nodes</code>对应的<code>inFacts</code>
+<code>outFacts</code>的集合, 通过给定的API获取和设置其中的值,
+其中<code>inFacts</code>和<code>outFacts</code>不过是<code>set</code>的封装,
+在抽象层面上意义和课程中的那个代表变量的二进制串相同.</p>
+<h3
+id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
+中的 <code>Node</code>具体指什么?</h3>
+<p>在本次实验中, <code>Node node</code>指的是<code>stmt</code>,
+从指南中可以推测出这点. 通过阅读源代码, 也可以得知</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LiveVariableAnalysis</span> <span class="keyword">extends</span></span><br><span class="line">        <span class="title class_">AbstractDataflowAnalysis</span>&lt;Stmt, SetFact&lt;Var&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>所以我们可以直接使用以下代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(Node node : cfg)&#123;</span><br><span class="line">    ...</span><br><span class="line">    analysis.transferNode(node, in, out);</span><br><span class="line">    ...</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<p>总的来说这次实验的难点在于框架代码的理解,
+笔者在记录中提及了部分关键定义和代码理解, 只要耐心阅读框架代码,
+相信一定会AC.</p>
+]]></content>
+      <categories>
+        <category>实验记录-NJU静态分析</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>课程笔记-NJU编译原理 Ch5 语法制导的翻译技术/语义分析</title>
     <url>/Course-Compiler-5/</url>
     <content><![CDATA[<p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch05
@@ -4664,327 +5368,6 @@ class="math inline">\(S_1\)</span>结束时，要能够跳转到while语句的�
       <tags>
         <tag>课程笔记</tag>
         <tag>编译原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NJU静态分析|A1-Live Variable Analysis</title>
-    <url>/LabRecord-SPA-A1/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-1 Live Variable
-Analysis &amp; IterativeSolver.</strong></p>
-<span id="more"></span>
-<h2 id="实验信息">实验信息</h2>
-<p>NJU软件分析, 实际上是静态分析(Static Program Analysis),
-是由李樾和谭添老师开设的面向本科生和研究生的一门课程,
-因为是本研共修选修课, 因此本课程内容较为基础,
-比较适合对静态分析感兴趣的初学者快速入门. 课程网站<a
-href="https://tai-e.pascal-lab.net/lectures.html"><strong>[Static
-Program Analysis]</strong></a>, 配套课程<a
-href="https://www.bilibili.com/video/BV1b7411K7P4"><strong>[Bilibili|南京大学《软件分析》]</strong></a>.</p>
-<p>本课程实验(Assignments)基于Tai-e教学版框架,
-框架代码的获取和实验环境配置见课程网站, 笔者在约一年前曾自学过本课程,
-现今跟随2024Fall课程进度再次学习,
-由于上次学习中受到了多位前辈留下的实验记录帮助,
-遂于此记录笔者对各个实验的理解和记录. 限于笔者个人能力水平,
-恐难完整覆盖实验中的所有要点, 记录内容仅供参考, 如能帮助到您,
-乃笔者荣幸.</p>
-<p><del>鉴于 <strong>学术诚信(Academic Integrity)</strong> 要求,
-笔者暂且 <strong><em>不</em></strong> 公开源代码.</del></p>
-<p>已公开参考源代码, 请<strong>遵循学术诚信</strong>.</p>
-<p><a
-href="https://github.com/La-Pluma/NJU-Static-Analysis-Tai-e"><strong>LaPuluma|StaticAnalysis</strong></a></p>
-<h2 id="食用指南">食用指南</h2>
-<p>本试验记录 <strong><em>不会</em></strong>
-从零开始讨论完成实验的知识点, 框架理解和注意事项.
-食用前请确保观看并理解了课程的P1-4内容, 尤其是对活跃变量分析(Live
-Variable Analysis)的算法和原理的基本掌握; 完整阅读过<a
-href="https://tai-e.pascal-lab.net/pa1.html"><strong>实验指南</strong></a>和框架代码后,
-再来参考本实验记录, 效果最佳.</p>
-<h2 id="任务目标">任务目标</h2>
-<p>基于已有框架为java实现一个<strong>活跃变量分析</strong>,
-使用<strong>迭代求解器(Iterative Solver)</strong>.</p>
-<p>具体来说, 实现Your
-Task中涉及的三份文件中的6个<code>TODO API</code>.</p>
-<p>涉及的主要算法如下图所示:</p>
-<img src="/LabRecord-SPA-A1/pic1.png" class="" title="pic1">
-<p>作为第一个实验, 总体难度不高, 关键在于熟悉Tai-e框架,
-还望读者耐心阅读框架代码. 不妨善用Github
-Copilot或者ChatGPT帮助理解框架代码.</p>
-<h2 id="livevariableanalysis">LiveVariableAnalysis</h2>
-<p>活跃变量分析算法中需要用到的具体方法, 实验指南中已有较为详细的说明,
-笔者在此不再赘述.</p>
-<img src="/LabRecord-SPA-A1/pic2.png" class="" title="pic2">
-<p>关于实现该部分所需的<code>API</code>,
-请阅读<code>Class SetFact</code>源码.</p>
-<p>笔者在此补充一些本实验所需java语法性质或语法糖.</p>
-<h3 id="class-optional">Class Optional</h3>
-<p>Java 8引入的性质, 详细信息可查询文档或教程, 笔者在此给出其一<a
-href="https://www.runoob.com/java/java8-optional-class.html"><strong>[菜鸟教程|Java
-Optional]</strong></a>.</p>
-<p>与之类似的还有<code>java.util.List</code>,
-学习java语法来获得<code>Optional</code>和<code>List</code>中的内容.</p>
-<p>使用示例:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> stmt.getDef().orElse(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="instanceof操作符">instanceof操作符</h3>
-<p>java中用于判断类型的操作符, 详细信息可参考<a
-href="https://www.baeldung.com/java-instanceof"><strong>[Baeldung|Java
-instanceof Operator]</strong></a>.</p>
-<p>使用示例:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(def <span class="keyword">instanceof</span> Var)</span><br></pre></td></tr></table></figure>
-<p>需要注意的是, 如指南所示</p>
-<img src="/LabRecord-SPA-A1/pic3.png" class="" title="pic3">
-<p><code>Exp</code>下的<code>LValue</code>
-<code>RValue</code>包括多种类型,
-我们只需要关注<code>Var</code>类型的使用.</p>
-<blockquote>
-<p><strong>Tips:</strong> 为什么不需要考虑别的类型?</p>
-<p><code>LValue</code>只需要关注<code>Var</code>, 这是手册告诉我们的.
-<code>RValue</code>尽管有多种类型,
-但可以通过<code>getUses()</code>方法将Exp中涉及的变量等信息全部获取,
-此时右式是<code>UnaryExp</code>or<code>BinaryExp</code>对我们来说都不重要了,
-只需要将<code>getUses()</code>中的<code>Var</code>筛选出来处理即可.</p>
-</blockquote>
-<blockquote>
-<p><strong>Additional:</strong> <code>getUses()</code>究竟返回什么?</p>
-<p>笔者在此引用<a
-href="https://github.com/RicoloveFeng">RicoloveFeng</a>在<a
-href="https://github.com/RicoloveFeng/SPA-Freestyle-Guidance">SPA-Freestyle-Guidance</a>中的解释</p>
-<p>你可能想知道 <code>getUses()</code> 除了 <code>x = y</code>
-这条语句之外还返回些什么东西.我们举点例子吧:</p>
-<ul>
-<li><p><code>x = y op z</code>: <code>[y, z, y op z]</code></p></li>
-<li><p><code>x = m(n)</code>:
-<code>[mClass, n, invokevirtual mClass.m(n)]</code></p></li>
-</ul>
-</blockquote>
-<h3 id="java引用机制">java引用机制</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">transferNode</span><span class="params">(Stmt stmt, SetFact&lt;Var&gt; in, SetFact&lt;Var&gt; out)</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">//in = out.copy();</span></span><br><span class="line">        in.set(out);</span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>尽管两行代码"看起来"是一致的,
-但注释掉的代码只会改变形参<code>in</code>的取值,
-不会改变实际的<code>Fact in</code>. 详细原理可以参考<a
-href="https://zhuanlan.zhihu.com/p/453857961"><strong>[知乎|java引用详解]</strong></a>.</p>
-<h2 id="solver-iterativesolver">Solver &amp; IterativeSolver</h2>
-<p>本部分对应具体的算法流程.</p>
-<p>实际上指南写的已足够详细,
-包括如何从<code>cfg</code>中获取信息的方法和两处<code>TODO</code>对应的具体部分,
-使得即便对框架不甚理解, 仍然能完成该部分.</p>
-<p>唯一需要阅读代码知道的是可以通过<code>analysis.xx</code>的方式调用我们在上一节中实现的<code>API</code>.</p>
-<p><code>Solver</code>的<code>Init</code>需要注意的是由于我们<code>analysis.meetInto()</code>与算法中不完全相同,
-在初始化阶段我们同样要对<code>out Fact</code>进行赋空初始化.</p>
-<p><code>IterativeSovlver</code>部分是算法的循环部分,
-由于我们的分析器<code>BB</code>是<code>stmt</code>,
-因此不需要考虑Block内部的执行顺序,
-直接使用<code>analysis.transferNode</code>即可.</p>
-<p>另外, 上课时遍历迭代顺序取的是较优结果, 我们不需要过多考虑性能问题,
-因此以任意节点顺序迭代仍然可以得到结果, 这大大降低了代码实现的复杂性,
-只需要使用简单的<code>for(Node node : cfg)</code>即可.</p>
-<p>笔者同样补充一些可能对本实验理解有帮助的细节部分.</p>
-<h3 id="dataflowresult">DataflowResult</h3>
-<p>其本质是两个<code>Nodes</code>对应的<code>inFacts</code>
-<code>outFacts</code>的集合, 通过给定的API获取和设置其中的值,
-其中<code>inFacts</code>和<code>outFacts</code>不过是<code>set</code>的封装,
-在抽象层面上意义和课程中的那个代表变量的二进制串相同.</p>
-<h3
-id="cfgnode-cfg-中的-node具体指什么"><code>CFG&lt;Node&gt; cfg</code>
-中的 <code>Node</code>具体指什么?</h3>
-<p>在本次实验中, <code>Node node</code>指的是<code>stmt</code>,
-从指南中可以推测出这点. 通过阅读源代码, 也可以得知</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LiveVariableAnalysis</span> <span class="keyword">extends</span></span><br><span class="line">        <span class="title class_">AbstractDataflowAnalysis</span>&lt;Stmt, SetFact&lt;Var&gt;&gt;</span><br></pre></td></tr></table></figure>
-<p>所以我们可以直接使用以下代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(Node node : cfg)&#123;</span><br><span class="line">    ...</span><br><span class="line">    analysis.transferNode(node, in, out);</span><br><span class="line">    ...</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
-<h2 id="总结">总结</h2>
-<p>总的来说这次实验的难点在于框架代码的理解,
-笔者在记录中提及了部分关键定义和代码理解, 只要耐心阅读框架代码,
-相信一定会AC.</p>
-]]></content>
-      <categories>
-        <category>实验记录-NJU静态分析</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NJU静态分析|A2-Constant Propagation</title>
-    <url>/LabRecord-SPA-A2/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-2 Constant
-Propagation &amp; WorlistSolver.</strong></p>
-<span id="more"></span>
-<h2 id="实验信息与食用指南">实验信息与食用指南</h2>
-<p>请翻阅<a
-href="https://la-pluma.github.io/LabRecord-SPA-A1"><strong>[NJU静态分析|A1-Live
-Variable Analysis]</strong></a>.</p>
-<p>在此进行一点补充, 笔者的这份实验记录更像是Free
-Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
-在理解了<strong>理论知识</strong>, <strong>实验指南</strong> 和
-<strong>框架代码</strong> 后再参考本记录, 与A1相同, 本记录
-<strong><em>不提供</em></strong> 源代码(<del>或者说暂时没有</del>).</p>
-<p><del>如果您对本实验记录中的内容感到困惑,
-可能是因为笔者能力不足或您未能理解实验指南和框架代码,
-同时本试验记录难以涵盖所有的坑, 还望海涵.</del></p>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
-<p>大致的框架代码如下:</p>
-<img src="/LabRecord-SPA-A2/pic1.png" class="" title="pic1">
-<p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
-<h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
-<p><del>我知道你们有些人肯定是不看框架代码的,
-除非不得不用或者报错的时候.</del></p>
-<h3 id="ir-irbuilder">IR &amp; IRBuilder</h3>
-<p>Tai-e框架中的<code>IR</code>与课上教授的IR稍有不同, 以A2
-test中的<strong>Assign.java</strong>为例,</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*   From A2 test/Assign.java   */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Assign</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>, y;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        x = <span class="number">3</span>;</span><br><span class="line">        x = <span class="number">4</span>;</span><br><span class="line">        y = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>经过tai-e框架的分析后会得到</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
-href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
-<img src="/LabRecord-SPA-A2/pic2.png" class="" title="pic2">
-<p><del>IR我懒得贴了</del></p>
-<p><code>IR</code>的基本单元是<strong>method</strong>
-(请意识到java是oop语言),
-<code>IRBuilder</code>提供了分析单个方法的API<code>buildIR(JMethod method)</code>和分析整个<code>class hierarchy</code>(不明白,
-等到A4就明白了, 笑)中的所有方法的API<code>buildAll()</code></p>
-<p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
-我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
-可能会有所出入, 但大致如此).</p>
-<img src="/LabRecord-SPA-A2/pic3.png" class="" title="pic3">
-<blockquote>
-<p><strong>Tips:</strong>
-严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
-见A1试验记录说明), 只存储<code>Stmt</code>的关联信息,
-但为了方便图示遂如此展示. 至于为何左值和右值都是<code>Exp</code>,
-请翻阅A1官方实验指南中对<code>Exp</code>的图示表示部分.</p>
-</blockquote>
-<h3 id="definitionstmt">DefinitionStmt</h3>
-<p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
-但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
-为什么不用呢?</p>
-<img src="/LabRecord-SPA-A2/pic4.png" class="" title="pic4">
-<p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
-<code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
-extends <code>Exp</code>),
-而不需要像<code>Stmt</code>中的<code>getDef()</code> &amp;
-<code>getUses()</code>
-做较为繁琐的判断和筛选(如果对<code>getUses()</code>感到困惑,
-也还请翻阅A1实验记录, 里面有解释和参考来源).</p>
-<p>需要注意的是,
-<code>getLValue()</code>可能会返回<code>null</code>.</p>
-<h2 id="constantpropagation">ConstantPropagation</h2>
-<p>与活跃变量分析类似, 我们需要完成5个API的功能.</p>
-<h3 id="newboundaryfact-newinitialfact">newBoundaryFact() &amp;
-newInitialFact()</h3>
-<p>需要注意的是, 本次存储分析结果的数据结构是<code>CPFact</code>,
-与A1相同, 在完成本次实验代码之前需要了解相关API的用法.</p>
-<p>既然是<strong>Must Analysis</strong>, 我们需要将初值赋为空,
-但需要注意的是, 我们的<strong>Analysis</strong>仅分析语句,
-在进入第一条语句之前, 是否有什么东西需要初始化?</p>
-<p>这个问题就对应了指南中为什么<code>BoundaryInit</code> 要通过
-<code>getIR().getParas()</code>获取参数并赋值<code>NAC</code>的提示.</p>
-<p>在对<code>IR</code>的解释中我们提到过,
-<code>IR</code>的基本分析单元是<strong>method</strong>, 即函数,
-函数就可能有传入的参数, 这些参数易见<strong>不是Constant</strong>,
-因此要赋值为<code>NAC</code></p>
-<blockquote>
-<p><strong>Tips:</strong> 如果是Constant干嘛还要传参, 即便真的这么做了,
-我们的分析也可以满足<strong>safe-approximation</strong>.</p>
-</blockquote>
-<p>这部分是在方法体(函数语句)执行前就完成的初始化,
-因此我们需要赋值给<code>Entry</code>的<code>outFact</code>.</p>
-<h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
-<p><code>meetValue()</code>的完成没有任何难点,
-只需要照抄ppt中的规则即可.</p>
-<img src="/LabRecord-SPA-A2/pic5.png" class="" title="pic5">
-<p>同样的,
-完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
-<p>关于<code>meetInto()</code>,
-如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
-就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
-<img src="/LabRecord-SPA-A2/pic6.png" class="" title="pic6">
-<h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
-<p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
-test的时候, 大概率寄在这里.</p>
-<p>笔者建议在<code>transferNode()</code>中处理<code>Stmt</code>的左值def部分,
-在<code>evaluate()</code>中处理右值exp部分. 这是比较符合功能分离的写法,
-当然, 也可以选择在
-<code>transferNode()</code>中处理<code>Var</code>和<code>IntLiteral</code>,
-<code>evaluate()</code>只负责处理<code>BinaryExp</code>的计算值.
-笔者在此按第一种写法进行说明.</p>
-<h4 id="transfernode">transferNode()</h4>
-<p>这个函数中你需要依次做(次流程可能存在可以优化的部分,
-不必完全照做):</p>
-<ul>
-<li><p>保存<code>outFact</code>原值,
-将<code>inFact</code>赋值给<code>outFact</code>.</p></li>
-<li><p>判断<code>Node</code>(<code>Stmt</code>)是否为<code>DefinitionStmt</code></p></li>
-<li><p>判断是否拥有<strong>合法</strong>左值,
-包括<code>def</code>的类型<code>Var</code>和<code>Var</code>中的<code>ValueType</code>是否为<code>Int</code>,
-如果不是, 本次实验中可以认为是<code>nop</code>空操作.
-不需要为这个<code>Stmt</code>做任何分析, 直接将<code>inFact</code>
-copy给 <code>outFact</code>即可.</p>
-<blockquote>
-<p><strong>Tips:</strong> IDEA教给我一个很有意思的语法糖</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> DefinitionStmt def_stmt)&#123;</span><br><span class="line">    <span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> def_stmt.getLValue();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个用法可以避开繁琐的类型转化, 在判断类型时便做了类型转化.</p>
-</blockquote></li>
-<li><p>计算<code>Stmt</code>的右值(通过<code>evaluate()</code>获得),
-并更新<code>outFact</code>中的相应<code>Var def</code>(笔者在此并未使用<code>update</code>方法的返回值,
-或许可从此处入手优化效率, 但笔者不能保证其正确性)</p></li>
-<li><p>比较<code>outFact</code>是否更新返回布尔值.</p></li>
-</ul>
-<h4 id="evaluate">evaluate()</h4>
-<p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中二元表达式计算规则见ppt所示,</p>
-<img src="/LabRecord-SPA-A2/pic7.png" class="" title="pic7">
-<p>笔者在此给出一些细节和边界条件,
-也可以通过阅读上述代码框架获得细节提示:</p>
-<ul>
-<li><p><code>exp</code>中的操作数可能不是<code>IntType</code>,
-所以你需要做一个<code>canHoldInt()</code>判断,
-非法<code>exp</code>为了安全性应赋值为<code>NAC</code></p></li>
-<li><p>实验指南中提到, 对于<code>/</code>和<code>%</code>的除零错误,
-应当给出<code>Undef</code>,
-<strong>即使</strong>被除数是<code>NAC</code>.</p></li>
-</ul>
-<h2 id="sovler-worklistsolver">Sovler &amp; WorkListSolver</h2>
-<h3 id="sovler-init">Sovler Init</h3>
-<p>照着算法流程前三行写便是,
-但这里要提到框架代码的"<strong>robustness</strong>".</p>
-<p>尽管从分析流程上来看, 我们不应该分析<code>Node Entry</code>,
-但是框架代码允许我们这样做.
-这时框架代码会认为<code>Node Entry</code>是一条<code>nop Stmt</code>,
-不会做constant update,
-因此只要在<code>Init</code>部分对<code>Entry</code>的<code>inFact</code>和<code>outFact</code>都赋上初值,
-就不需要在worklist中考虑<code>Entry</code>的处理了.</p>
-<h3 id="worklistsolver-dosolveforward">WorkListSolver
-doSolveForward</h3>
-<p><strong>worklist</strong>是一种非常简单的算法,
-笔者在此不对算法实现过多赘述.
-注意在实现worklist的时候可以使用java自带的容器<code>Queue</code> &amp;
-<code>ArrayList</code>.</p>
-<p>关于<strong>worklist</strong>的初始化问题,
-需要注意的是应当为其加入所有的<code>Node</code>,
-如果只加入<code>Entry</code>的后继, 会产生问题, 笔者在此给出一个例子.
-(感谢课程群中<a
-href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和另一位不知道github链接的大佬构造的反例)</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] nop;     &#123;&#125;</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>在这个例子中,
-<code>Entry outFact</code>初始化为<code>&#123;&#125;</code>(没有参数),
-然而<code>Stmt0</code> 的 <code>outFact</code>
-同样初始化为<code>&#123;&#125;</code>,
-如果只添加<code>Entry</code>的后继<code>&#123;Stmt0&#125;</code>,
-会导致worklist在分析完<code>Stmt0</code>后错误终止.</p>
-<h2 id="总结">总结</h2>
-<p>本次实验应该是所有Assignment中代码量最多的一次, 细节也是让人头皮发麻,
-还望能静下心来看代码和debug, 祝早日AC!</p>
-]]></content>
-      <categories>
-        <category>实验记录-NJU静态分析</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
       </tags>
   </entry>
   <entry>
@@ -5962,6 +6345,189 @@ _2TypeSelector</h3>
       </tags>
   </entry>
   <entry>
+    <title>NJU静态分析|A2-Constant Propagation</title>
+    <url>/LabRecord-SPA-A2/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-2 Constant
+Propagation &amp; WorlistSolver.</strong></p>
+<span id="more"></span>
+<h2 id="实验信息与食用指南">实验信息与食用指南</h2>
+<p>请翻阅<a
+href="https://la-pluma.github.io/LabRecord-SPA-A1"><strong>[NJU静态分析|A1-Live
+Variable Analysis]</strong></a>.</p>
+<p>在此进行一点补充, 笔者的这份实验记录更像是Free
+Style版的<strong>FAQ</strong>. 因此请 <strong><em>确保</em></strong>
+在理解了<strong>理论知识</strong>, <strong>实验指南</strong> 和
+<strong>框架代码</strong> 后再参考本记录, 与A1相同, 本记录
+<strong><em>不提供</em></strong> 源代码(<del>或者说暂时没有</del>).</p>
+<p><del>如果您对本实验记录中的内容感到困惑,
+可能是因为笔者能力不足或您未能理解实验指南和框架代码,
+同时本试验记录难以涵盖所有的坑, 还望海涵.</del></p>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>Tai-e</strong>框架实现<strong>常量传播算法</strong>和<strong>worklist求解器</strong>.</p>
+<p>大致的框架代码如下:</p>
+<img src="/LabRecord-SPA-A2/pic1.png" class="" title="pic1">
+<p>注意常量传播算法是<strong>Forward &amp; Must analysis</strong>.</p>
+<h2 id="部分重要框架代码带读">部分重要框架代码带读</h2>
+<p><del>我知道你们有些人肯定是不看框架代码的,
+除非不得不用或者报错的时候.</del></p>
+<h3 id="ir-irbuilder">IR &amp; IRBuilder</h3>
+<p>Tai-e框架中的<code>IR</code>与课上教授的IR稍有不同, 以A2
+test中的<strong>Assign.java</strong>为例,</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*   From A2 test/Assign.java   */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Assign</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>, y;</span><br><span class="line">        x = <span class="number">2</span>;</span><br><span class="line">        x = <span class="number">3</span>;</span><br><span class="line">        x = <span class="number">4</span>;</span><br><span class="line">        y = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过tai-e框架的分析后会得到</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> &lt;init&gt;()&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L1</span>] invokespecial %<span class="built_in">this</span>.&lt;java.lang.Object: <span class="keyword">void</span> &lt;init&gt;()&gt;(); &#123;&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L1</span>] <span class="keyword">return</span>; &#123;&#125;</span><br><span class="line"></span><br><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结合<strong>IR</strong> &amp; <strong>IRBuilder</strong>(可翻阅<a
+href="https://tai-e.pascal-lab.net/docs/index.html"><strong>[官方手册]</strong></a>),</p>
+<img src="/LabRecord-SPA-A2/pic2.png" class="" title="pic2">
+<p><del>IR我懒得贴了</del></p>
+<p><code>IR</code>的基本单元是<strong>method</strong>
+(请意识到java是oop语言),
+<code>IRBuilder</code>提供了分析单个方法的API<code>buildIR(JMethod method)</code>和分析整个<code>class hierarchy</code>(不明白,
+等到A4就明白了, 笑)中的所有方法的API<code>buildAll()</code></p>
+<p>结合<code>Stmt</code> <code>Exp</code> 和 <code>CFG</code>,
+我们可以得到这样的一个示意图(由于笔者未阅读全部的源码实现,
+可能会有所出入, 但大致如此).</p>
+<img src="/LabRecord-SPA-A2/pic3.png" class="" title="pic3">
+<blockquote>
+<p><strong>Tips:</strong>
+严格来说<code>CFG</code>并不存储<code>Node</code>(本实验中指<code>Stmt</code>,
+见A1试验记录说明), 只存储<code>Stmt</code>的关联信息,
+但为了方便图示遂如此展示. 至于为何左值和右值都是<code>Exp</code>,
+请翻阅A1官方实验指南中对<code>Exp</code>的图示表示部分.</p>
+</blockquote>
+<h3 id="definitionstmt">DefinitionStmt</h3>
+<p>尽管理论上不需要这个类也可以完成实验(<code>Stmt</code>中的顶层方法足以实现),
+但既然框架提供了这么好用的API, 方便我们写出更优雅的代码,
+为什么不用呢?</p>
+<img src="/LabRecord-SPA-A2/pic4.png" class="" title="pic4">
+<p><code>DefinitionStmt</code>为我们提供了两个非常好用的API,
+<code>getLValue()</code>和<code>getRValue</code>可以直接获取到左右式的<code>Exp</code>(希望你还记得<code>LValue</code>&amp;<code>RValue</code>
+extends <code>Exp</code>),
+而不需要像<code>Stmt</code>中的<code>getDef()</code> &amp;
+<code>getUses()</code>
+做较为繁琐的判断和筛选(如果对<code>getUses()</code>感到困惑,
+也还请翻阅A1实验记录, 里面有解释和参考来源).</p>
+<p>需要注意的是,
+<code>getLValue()</code>可能会返回<code>null</code>.</p>
+<h2 id="constantpropagation">ConstantPropagation</h2>
+<p>与活跃变量分析类似, 我们需要完成5个API的功能.</p>
+<h3 id="newboundaryfact-newinitialfact">newBoundaryFact() &amp;
+newInitialFact()</h3>
+<p>需要注意的是, 本次存储分析结果的数据结构是<code>CPFact</code>,
+与A1相同, 在完成本次实验代码之前需要了解相关API的用法.</p>
+<p>既然是<strong>Must Analysis</strong>, 我们需要将初值赋为空,
+但需要注意的是, 我们的<strong>Analysis</strong>仅分析语句,
+在进入第一条语句之前, 是否有什么东西需要初始化?</p>
+<p>这个问题就对应了指南中为什么<code>BoundaryInit</code> 要通过
+<code>getIR().getParas()</code>获取参数并赋值<code>NAC</code>的提示.</p>
+<p>在对<code>IR</code>的解释中我们提到过,
+<code>IR</code>的基本分析单元是<strong>method</strong>, 即函数,
+函数就可能有传入的参数, 这些参数易见<strong>不是Constant</strong>,
+因此要赋值为<code>NAC</code></p>
+<blockquote>
+<p><strong>Tips:</strong> 如果是Constant干嘛还要传参, 即便真的这么做了,
+我们的分析也可以满足<strong>safe-approximation</strong>.</p>
+</blockquote>
+<p>这部分是在方法体(函数语句)执行前就完成的初始化,
+因此我们需要赋值给<code>Entry</code>的<code>outFact</code>.</p>
+<h3 id="meetvalue-meetinto">meetValue() &amp; meetInto()</h3>
+<p><code>meetValue()</code>的完成没有任何难点,
+只需要照抄ppt中的规则即可.</p>
+<img src="/LabRecord-SPA-A2/pic5.png" class="" title="pic5">
+<p>同样的,
+完成这部分代码需要阅读<code>Class Value</code>的源码API和注释.</p>
+<p>关于<code>meetInto()</code>,
+如果没有阅读<code>CPFact</code>中的<code>update()</code>方法注释,
+就不知道可以写出如此优雅的代码来合并<code>Var</code>的<code>Value</code>值:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.update(<span class="keyword">var</span>, meetValue(fact.get(<span class="keyword">var</span>), target.get(<span class="keyword">var</span>)));</span><br></pre></td></tr></table></figure>
+<img src="/LabRecord-SPA-A2/pic6.png" class="" title="pic6">
+<h3 id="transfernode-evaluate">transferNode() &amp; evaluate()</h3>
+<p>毫无疑问, 这是本次实验中最难最核心的一部分, 细节非常多, 当被卡hidden
+test的时候, 大概率寄在这里.</p>
+<p>笔者建议在<code>transferNode()</code>中处理<code>Stmt</code>的左值def部分,
+在<code>evaluate()</code>中处理右值exp部分. 这是比较符合功能分离的写法,
+当然, 也可以选择在
+<code>transferNode()</code>中处理<code>Var</code>和<code>IntLiteral</code>,
+<code>evaluate()</code>只负责处理<code>BinaryExp</code>的计算值.
+笔者在此按第一种写法进行说明.</p>
+<h4 id="transfernode">transferNode()</h4>
+<p>这个函数中你需要依次做(次流程可能存在可以优化的部分,
+不必完全照做):</p>
+<ul>
+<li><p>保存<code>outFact</code>原值,
+将<code>inFact</code>赋值给<code>outFact</code>.</p></li>
+<li><p>判断<code>Node</code>(<code>Stmt</code>)是否为<code>DefinitionStmt</code></p></li>
+<li><p>判断是否拥有<strong>合法</strong>左值,
+包括<code>def</code>的类型<code>Var</code>和<code>Var</code>中的<code>ValueType</code>是否为<code>Int</code>,
+如果不是, 本次实验中可以认为是<code>nop</code>空操作.
+不需要为这个<code>Stmt</code>做任何分析, 直接将<code>inFact</code>
+copy给 <code>outFact</code>即可.</p>
+<blockquote>
+<p><strong>Tips:</strong> IDEA教给我一个很有意思的语法糖</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(stmt <span class="keyword">instanceof</span> DefinitionStmt def_stmt)&#123;</span><br><span class="line">    <span class="type">LValue</span> <span class="variable">def</span> <span class="operator">=</span> def_stmt.getLValue();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个用法可以避开繁琐的类型转化, 在判断类型时便做了类型转化.</p>
+</blockquote></li>
+<li><p>计算<code>Stmt</code>的右值(通过<code>evaluate()</code>获得),
+并更新<code>outFact</code>中的相应<code>Var def</code>(笔者在此并未使用<code>update</code>方法的返回值,
+或许可从此处入手优化效率, 但笔者不能保证其正确性)</p></li>
+<li><p>比较<code>outFact</code>是否更新返回布尔值.</p></li>
+</ul>
+<h4 id="evaluate">evaluate()</h4>
+<p>为了完成这个方法, 代码的大致框架应该是这个样子:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Value <span class="title function_">evaluate</span><span class="params">(Exp exp, CPFact in)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> Var)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> IntLiteral)&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">/*Value*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(exp <span class="keyword">instanceof</span> BinaryExp binary_exp)&#123;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">left</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="type">Value</span> <span class="variable">right</span> <span class="operator">=</span> ...;</span><br><span class="line">        <span class="comment">// Operand may not Int or may not Constant</span></span><br><span class="line">        <span class="comment">// you&#x27;d better do it first</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="comment">/*left HoldInt &amp;&amp; right HoldInt*/</span>)&#123;</span><br><span class="line">            <span class="comment">//you can get Condition Info form ppt</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="comment">/*left is Constant &amp;&amp; right is constant*/</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> ArithmeticExp arithmetic_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="comment">//also should attention to DIV 0 return Undef</span></span><br><span class="line">                        <span class="keyword">case</span> ADD: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binary_exp <span class="keyword">instanceof</span> BitwiseExp bitwise_exp)&#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">switch</span>(op)&#123;</span><br><span class="line">                        <span class="keyword">case</span> AND: ...</span><br><span class="line">                        ...</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(...)</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*left is NAC || right is NAC*/</span>)&#123;</span><br><span class="line">                <span class="comment">//you should do DIV &amp; REM for 0 judgement there</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="comment">/*other condition*/</span>)&#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for over-approximation</span></span><br><span class="line">        <span class="keyword">return</span> Value.getNAC();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//such as x = o.f()</span></span><br><span class="line">    <span class="comment">//for over-approximation</span></span><br><span class="line">    <span class="keyword">return</span> Value.getNAC(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中二元表达式计算规则见ppt所示,</p>
+<img src="/LabRecord-SPA-A2/pic7.png" class="" title="pic7">
+<p>笔者在此给出一些细节和边界条件,
+也可以通过阅读上述代码框架获得细节提示:</p>
+<ul>
+<li><p><code>exp</code>中的操作数可能不是<code>IntType</code>,
+所以你需要做一个<code>canHoldInt()</code>判断,
+非法<code>exp</code>为了安全性应赋值为<code>NAC</code></p></li>
+<li><p>实验指南中提到, 对于<code>/</code>和<code>%</code>的除零错误,
+应当给出<code>Undef</code>,
+<strong>即使</strong>被除数是<code>NAC</code>.</p></li>
+</ul>
+<h2 id="sovler-worklistsolver">Sovler &amp; WorkListSolver</h2>
+<h3 id="sovler-init">Sovler Init</h3>
+<p>照着算法流程前三行写便是,
+但这里要提到框架代码的"<strong>robustness</strong>".</p>
+<p>尽管从分析流程上来看, 我们不应该分析<code>Node Entry</code>,
+但是框架代码允许我们这样做.
+这时框架代码会认为<code>Node Entry</code>是一条<code>nop Stmt</code>,
+不会做constant update,
+因此只要在<code>Init</code>部分对<code>Entry</code>的<code>inFact</code>和<code>outFact</code>都赋上初值,
+就不需要在worklist中考虑<code>Entry</code>的处理了.</p>
+<h3 id="worklistsolver-dosolveforward">WorkListSolver
+doSolveForward</h3>
+<p><strong>worklist</strong>是一种非常简单的算法,
+笔者在此不对算法实现过多赘述.
+注意在实现worklist的时候可以使用java自带的容器<code>Queue</code> &amp;
+<code>ArrayList</code>.</p>
+<p>关于<strong>worklist</strong>的初始化问题,
+需要注意的是应当为其加入所有的<code>Node</code>,
+如果只加入<code>Entry</code>的后继, 会产生问题, 笔者在此给出一个例子.
+(感谢课程群中<a
+href="https://github.com/rijuyuezhu"><strong>日居月诸</strong></a>大佬和另一位不知道github链接的大佬构造的反例)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-------------------- &lt;Assign: <span class="keyword">void</span> <span class="title function_">assign</span><span class="params">()</span>&gt; (constprop) --------------------</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] nop;     &#123;&#125;</span><br><span class="line">[<span class="number">0</span><span class="meta">@L4</span>] x = <span class="number">1</span>;   &#123;x=<span class="number">1</span>&#125;</span><br><span class="line">[<span class="number">1</span><span class="meta">@L5</span>] x = <span class="number">2</span>;   &#123;x=<span class="number">2</span>&#125;</span><br><span class="line">[<span class="number">2</span><span class="meta">@L6</span>] x = <span class="number">3</span>;   &#123;x=<span class="number">3</span>&#125;</span><br><span class="line">[<span class="number">3</span><span class="meta">@L7</span>] x = <span class="number">4</span>;   &#123;x=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">4</span><span class="meta">@L8</span>] y = x;   &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line">[<span class="number">5</span><span class="meta">@L8</span>] <span class="keyword">return</span>;  &#123;x=<span class="number">4</span>, y=<span class="number">4</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在这个例子中,
+<code>Entry outFact</code>初始化为<code>&#123;&#125;</code>(没有参数),
+然而<code>Stmt0</code> 的 <code>outFact</code>
+同样初始化为<code>&#123;&#125;</code>,
+如果只添加<code>Entry</code>的后继<code>&#123;Stmt0&#125;</code>,
+会导致worklist在分析完<code>Stmt0</code>后错误终止.</p>
+<h2 id="总结">总结</h2>
+<p>本次实验应该是所有Assignment中代码量最多的一次, 细节也是让人头皮发麻,
+还望能静下心来看代码和debug, 祝早日AC!</p>
+]]></content>
+      <categories>
+        <category>实验记录-NJU静态分析</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NJU静态分析|A7-Alias-Aware Interprocedural Constant Propagation</title>
     <url>/LabRecord-SPA-A7/</url>
     <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-7 Alias-Aware
@@ -6266,188 +6832,6 @@ FiledRef &amp; JField</h3>
       </tags>
   </entry>
   <entry>
-    <title>NJU静态分析|A8-Taint Analysis</title>
-    <url>/LabRecord-SPA-A8/</url>
-    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-8 Taint
-Analysis.</strong></p>
-<span id="more"></span>
-<h2 id="实验目标">实验目标</h2>
-<p>基于<strong>tai-e</strong>框架实现污点分析.</p>
-<h2 id="preparation">Preparation</h2>
-<p>将A6的代码复制到此处.</p>
-<p><strong>注意:</strong>
-A8的<code>Solver</code>中额外加入了污点分析所需的字段,
-因此不能直接替换A8的<code>Solver</code>.</p>
-<h2 id="部分框架代码带读">部分框架代码带读</h2>
-<p>在上过课程和阅读了实验指南后, 对于怎么做这个实验会有一个大概的思路,
-那么不妨先阅读一下框架代码, 看看Tai-e提供了什么样的工具和API.</p>
-<h3 id="source-sink">Source &amp; Sink</h3>
-<p>分别代表了污点分析中的Source和Sink语句,
-结构为<code>Source&lt;JMethod, Type&gt;</code>和<code>Sink&lt;JMethod, index&gt;</code>.</p>
-<blockquote>
-<p><strong>Tips:</strong>
-<code>record</code>的用法在之前的实验已经接触过了, 简单来说,
-可以通过<code>source.method()</code>获取其中的<code>JMethod method</code>信息.</p>
-</blockquote>
-<h3 id="tainttransfer">TaintTransfer</h3>
-<p>对应污点传播的类, 即实验指南中的:</p>
-<img src="/LabRecord-SPA-A8/pic1-1.png" class="" title="pic1-1">
-<p>具体规则实验指南和框架代码已足够清晰.</p>
-<h3 id="taintmanager">TaintManager</h3>
-<p>实验框架中用来管理污点对象的类(或许命名为<code>TaintObjManager</code>更合适).</p>
-<p>类内采用简单的Map实现<code>&lt;(Invoke, Type), TaintObj&gt;</code>的查找.</p>
-<p><strong>注意: 笔者为了方便表述,
-使用<code>TaintObj</code>表示污点对象,
-该类在框架代码中并不存在.</strong></p>
-<p>其中包含三个方法:</p>
-<ul>
-<li><p><code>Obj makeTaint(Invoke source, Type type)</code>返回一个污点对象实例.</p>
-<blockquote>
-<p><strong>Tips:</strong> 注意到污点对象也是<code>obj</code>,
-即<code>taintObj</code>可以使用<code>obj</code>的方法进行操作.</p>
-</blockquote></li>
-<li><p><code>boolean isTaint(Obj obj)</code>判断一个<code>Obj</code>是否为<code>TaintObj</code>.</p></li>
-<li><p><code>Invoke getSourceCall(Obj obj)</code>返回该对象实例化对应的<code>Invoke</code>.</p></li>
-</ul>
-<h3 id="taintflow">TaintFlow</h3>
-<p>表示<code>Source -&gt; Sink</code>的污染流,
-也即污点分析的结果(TT老师在本次课程中一嘴带过的可以追踪的<code>Source -&gt; Sink</code>).</p>
-<h3 id="taintconfig">TaintConfig</h3>
-<p><del>碎碎念:
-不是为什么要把管理污点分析所需的数据结构和设置污点分析的配置两个功能都塞进来啊喂!!!
-阅读类名谁能知道会把数据结构放在这里啊喂!!!</del></p>
-<p>存储污点分析所需的信息, 可以通过<code>getSources()</code>,
-<code>getSinks()</code>, <code>getTransfers()</code>获取,
-注意返回的类型是<code>Set</code>,
-请使用<code>Set</code>的API对其进行操作.</p>
-<p>可以看出,
-TaintSources和TaintSinks以及TaintTransfers的规则在该类中已经配置 完成,
-可以在实验中<strong>直接使用</strong>.</p>
-<blockquote>
-<p><strong>Tips</strong> 其余部分都是有关配置污点分析的工具,
-本次实验不需要过多了解, 读者若有兴趣可以自行阅读框架代码.</p>
-</blockquote>
-<h3 id="taintanalysis">TaintAnalysis</h3>
-<blockquote>
-<p><strong>Tips:</strong>
-实验指南解释了为何是<code>TaintAnalysiss</code>,
-笔者在此使用更容易理解的表述.</p>
-</blockquote>
-<p>本次实验主要的逻辑实现部分,
-<code>Solver</code>可以根据其中的<code>taintAnalysis</code>字段调用<code>TaintAnalysis</code>中的API,
-从代码规范角度, 处理污点分析的代码应当在此处完成,
-<code>Solver</code>中仅调用API.</p>
-<p>先看看该类具有哪些字段:</p>
-<ul>
-<li><code>TaintManager manager</code></li>
-<li><code>TaintConfig config</code></li>
-<li><code>Solver solver</code></li>
-<li><code>CSManager csManager</code></li>
-<li><code>Context emptyContext</code></li>
-</ul>
-<p>注意到除了污点分析相关组件,
-<code>TaintAnalysis</code>也可以和<code>Solver</code>和<code>CSManager</code>通信,
-并且给出了一个<code>emptyContext</code>, 以供直接使用.</p>
-<p>以上字段均在实例化时被初始化.</p>
-<p>接着看看类中的方法:</p>
-<ul>
-<li><p><code>void onFinish()</code>,
-向外部(这里是<code>Solver</code>)给出污点分析结果<code>taintFlows</code>.</p></li>
-<li><p><code>Set&lt;TaintFlow&gt; collectTaintFlows()</code>,
-该部分等待完成, 用以计算所有的污染流.</p></li>
-</ul>
-<h3 id="solver">Solver</h3>
-<p>到此已经知道所有污点分析相关类了,
-现在从顶层<code>Solver</code>中看看污点分析的使用.</p>
-<ul>
-<li><code>void solve()</code>是指针分析的步骤, 可以看到相比A6,
-最后一步设置了污点分析结果. 换句话说,
-本次实验中只需要考虑污点分析的实现,
-污点分析的前置工作和结果存储框架都已经做好了.</li>
-</ul>
-<h2 id="算法设计">算法设计</h2>
-<h3 id="基本假设">基本假设</h3>
-<p>在本次实验的污点分析中, 有几个基本假设:</p>
-<ul>
-<li><p><code>TaintObj</code>只会由<code>Source</code>产生,
-依据<code>TaintTransfer</code>的规则, 最终传播到<code>Sink</code>.
-其中<code>Source</code>的语句类型均为<code>Invoke</code>.</p></li>
-<li><p>本次实验不考虑<strong>隐式污染</strong>(详见<a
-href="https://cs.nju.edu.cn/tiantan/software-analysis/Security.pdf#page=44"><strong>课程ppt</strong></a>),
-这大大简化了本次实验分析难度.</p></li>
-<li><p><code>TaintObj</code>是以<code>Obj</code>的方式进行封装的,
-这意味着<code>TaintObj</code>可以像<code>Obj</code>一样在指针流图<code>PointerFlowGraph</code>中传递.</p>
-<blockquote>
-<p><strong>Tips: 这意味着什么?</strong></p>
-<p>这意味着除了<strong>TaintTransfer</strong>和<strong>Source
-Invoke</strong>的传播途径外,
-<code>TaintObj</code>的其余传播途径都可以在之前的指针分析实现中完成.(如果感到难以理解可以试试推一下<code>Assign</code>,
-<code>Store</code>和<code>Load</code>语句的传播)</p>
-</blockquote></li>
-<li><p><code>TaintObj</code>的上下文被简单的处理成<code>emptyContext</code>,
-即来自同一个<code>Index: Invoke</code>的<code>TaintObj</code>在堆中被抽象为一个对象.</p></li>
-<li><p><strong><em>(存疑)</em></strong> Online
-Judge上似乎所有的<code>Source</code>相关语句<strong>均是静态方法</strong>,
-因此理论上不需要进行<strong>dispatch</strong>也可以通过测试.</p></li>
-</ul>
-<h3 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
-TaintTransferFlow</h3>
-<p>三者均是在<code>Invoke</code>上进行操作,
-因此需要修的地方有<code>processCall</code>和<code>addReachable</code>.</p>
-<ul>
-<li><p>对于<code>Source</code>, 只需要按实验指南上的规则处理即可.
-但需要注意的是, 只有当<code>Invoke</code>存在返回值时,
-才执行<code>Source</code>的处理.</p></li>
-<li><p>对于<code>Sink</code>, 可以选择边迭代边处理.
-但因为<strong>Pointer Analysis</strong>不依赖于<code>Sink</code>,
-也可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
-也就是说,
-这部分代码可以在<code>collectTaintFlows()</code>中统一完成.</p></li>
-<li><p>对于<code>TaintTransferFlow</code>,
-同样只需要小心的按照指南规则处理即可. 但需要注意的是,
-由于污点数据流向目标时可能会有类型转换,
-因此需要创建一个新的<code>TaintObj</code>实例赋值给目标的<code>PointsToSet</code>.</p></li>
-</ul>
-<h3 id="污点数据的广播">污点数据的广播</h3>
-<p>污点数据的传播逻辑处理是本次实验相对简单的部分,
-困难的是想清楚如何传播污点数据.</p>
-<p>想知道答案, 就要先回顾一下指针分析的广播.</p>
-<img src="/LabRecord-SPA-A8/pic1-2.png" class="" title="pic1-2">
-<p>这个大循环中当<code>n</code>是变量<code>x</code>时,
-对相关语句进行广播.</p>
-<p>如在A5, A6中,
-需要对<code>Array</code>和<code>Filed</code>以及<code>processCall</code>进行广播.</p>
-<p>污点分析也是一种指针分析, 那么其理应也在这里广播.</p>
-<p><code>from -&gt; to</code>的情况有三种,
-<code>from</code>的取值只有<code>Arg</code>和<code>Base</code>两种情况.</p>
-<ul>
-<li><p><code>Base</code>的广播可以在<code>processCall</code>中进行,
-因为二者中变量<code>x</code>都作为<code>Base</code>出现.</p></li>
-<li><p><code>Arg</code>的广播没有现成的方法, 那么就考虑与其余情况并列,
-若<code>x</code>是某条<code>Invoke</code>的实参时, 则需要广播到此处,
-为该<code>Invoke</code>执行<code>TaintTransferFlow</code></p></li>
-</ul>
-<p>特别的, 因为这样的特性,
-你也可以考虑将<code>TaintTransferFlow</code>拆开来写.
-这样更符合其广播逻辑.</p>
-<h2 id="拾遗">拾遗</h2>
-<p>本次实验几乎不涉及新的方法和工具(当然你也可以选择使用一些隐藏API来完成本次实验,
-例如对于<strong>Instance Invoke</strong>,
-可以通过<code>((InvokeInstanceExp)(invoke.getInvokeExp())).getBase()</code>来获取<code>base</code>信息).</p>
-<p><strong>All you need has already in Tai-e.</strong></p>
-<h2 id="总结">总结</h2>
-<p>完结撒花啦!</p>
-<img src="/LabRecord-SPA-A8/pic1-3.png" class="" title="pic1-3">
-]]></content>
-      <categories>
-        <category>实验记录-NJU静态分析</category>
-      </categories>
-      <tags>
-        <tag>NJU</tag>
-        <tag>静态分析</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>LeetCode个人题解[C++] P10 正则表达式匹配</title>
     <url>/LeetCode-P10/</url>
     <content><![CDATA[<p><strong>题目链接:</strong> <a
@@ -6662,6 +7046,188 @@ href="https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xi
       <tags>
         <tag>LeetCode</tag>
         <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NJU静态分析|A8-Taint Analysis</title>
+    <url>/LabRecord-SPA-A8/</url>
+    <content><![CDATA[<p><strong>NJU Static Program Analysis | Assignment-8 Taint
+Analysis.</strong></p>
+<span id="more"></span>
+<h2 id="实验目标">实验目标</h2>
+<p>基于<strong>tai-e</strong>框架实现污点分析.</p>
+<h2 id="preparation">Preparation</h2>
+<p>将A6的代码复制到此处.</p>
+<p><strong>注意:</strong>
+A8的<code>Solver</code>中额外加入了污点分析所需的字段,
+因此不能直接替换A8的<code>Solver</code>.</p>
+<h2 id="部分框架代码带读">部分框架代码带读</h2>
+<p>在上过课程和阅读了实验指南后, 对于怎么做这个实验会有一个大概的思路,
+那么不妨先阅读一下框架代码, 看看Tai-e提供了什么样的工具和API.</p>
+<h3 id="source-sink">Source &amp; Sink</h3>
+<p>分别代表了污点分析中的Source和Sink语句,
+结构为<code>Source&lt;JMethod, Type&gt;</code>和<code>Sink&lt;JMethod, index&gt;</code>.</p>
+<blockquote>
+<p><strong>Tips:</strong>
+<code>record</code>的用法在之前的实验已经接触过了, 简单来说,
+可以通过<code>source.method()</code>获取其中的<code>JMethod method</code>信息.</p>
+</blockquote>
+<h3 id="tainttransfer">TaintTransfer</h3>
+<p>对应污点传播的类, 即实验指南中的:</p>
+<img src="/LabRecord-SPA-A8/pic1-1.png" class="" title="pic1-1">
+<p>具体规则实验指南和框架代码已足够清晰.</p>
+<h3 id="taintmanager">TaintManager</h3>
+<p>实验框架中用来管理污点对象的类(或许命名为<code>TaintObjManager</code>更合适).</p>
+<p>类内采用简单的Map实现<code>&lt;(Invoke, Type), TaintObj&gt;</code>的查找.</p>
+<p><strong>注意: 笔者为了方便表述,
+使用<code>TaintObj</code>表示污点对象,
+该类在框架代码中并不存在.</strong></p>
+<p>其中包含三个方法:</p>
+<ul>
+<li><p><code>Obj makeTaint(Invoke source, Type type)</code>返回一个污点对象实例.</p>
+<blockquote>
+<p><strong>Tips:</strong> 注意到污点对象也是<code>obj</code>,
+即<code>taintObj</code>可以使用<code>obj</code>的方法进行操作.</p>
+</blockquote></li>
+<li><p><code>boolean isTaint(Obj obj)</code>判断一个<code>Obj</code>是否为<code>TaintObj</code>.</p></li>
+<li><p><code>Invoke getSourceCall(Obj obj)</code>返回该对象实例化对应的<code>Invoke</code>.</p></li>
+</ul>
+<h3 id="taintflow">TaintFlow</h3>
+<p>表示<code>Source -&gt; Sink</code>的污染流,
+也即污点分析的结果(TT老师在本次课程中一嘴带过的可以追踪的<code>Source -&gt; Sink</code>).</p>
+<h3 id="taintconfig">TaintConfig</h3>
+<p><del>碎碎念:
+不是为什么要把管理污点分析所需的数据结构和设置污点分析的配置两个功能都塞进来啊喂!!!
+阅读类名谁能知道会把数据结构放在这里啊喂!!!</del></p>
+<p>存储污点分析所需的信息, 可以通过<code>getSources()</code>,
+<code>getSinks()</code>, <code>getTransfers()</code>获取,
+注意返回的类型是<code>Set</code>,
+请使用<code>Set</code>的API对其进行操作.</p>
+<p>可以看出,
+TaintSources和TaintSinks以及TaintTransfers的规则在该类中已经配置 完成,
+可以在实验中<strong>直接使用</strong>.</p>
+<blockquote>
+<p><strong>Tips</strong> 其余部分都是有关配置污点分析的工具,
+本次实验不需要过多了解, 读者若有兴趣可以自行阅读框架代码.</p>
+</blockquote>
+<h3 id="taintanalysis">TaintAnalysis</h3>
+<blockquote>
+<p><strong>Tips:</strong>
+实验指南解释了为何是<code>TaintAnalysiss</code>,
+笔者在此使用更容易理解的表述.</p>
+</blockquote>
+<p>本次实验主要的逻辑实现部分,
+<code>Solver</code>可以根据其中的<code>taintAnalysis</code>字段调用<code>TaintAnalysis</code>中的API,
+从代码规范角度, 处理污点分析的代码应当在此处完成,
+<code>Solver</code>中仅调用API.</p>
+<p>先看看该类具有哪些字段:</p>
+<ul>
+<li><code>TaintManager manager</code></li>
+<li><code>TaintConfig config</code></li>
+<li><code>Solver solver</code></li>
+<li><code>CSManager csManager</code></li>
+<li><code>Context emptyContext</code></li>
+</ul>
+<p>注意到除了污点分析相关组件,
+<code>TaintAnalysis</code>也可以和<code>Solver</code>和<code>CSManager</code>通信,
+并且给出了一个<code>emptyContext</code>, 以供直接使用.</p>
+<p>以上字段均在实例化时被初始化.</p>
+<p>接着看看类中的方法:</p>
+<ul>
+<li><p><code>void onFinish()</code>,
+向外部(这里是<code>Solver</code>)给出污点分析结果<code>taintFlows</code>.</p></li>
+<li><p><code>Set&lt;TaintFlow&gt; collectTaintFlows()</code>,
+该部分等待完成, 用以计算所有的污染流.</p></li>
+</ul>
+<h3 id="solver">Solver</h3>
+<p>到此已经知道所有污点分析相关类了,
+现在从顶层<code>Solver</code>中看看污点分析的使用.</p>
+<ul>
+<li><code>void solve()</code>是指针分析的步骤, 可以看到相比A6,
+最后一步设置了污点分析结果. 换句话说,
+本次实验中只需要考虑污点分析的实现,
+污点分析的前置工作和结果存储框架都已经做好了.</li>
+</ul>
+<h2 id="算法设计">算法设计</h2>
+<h3 id="基本假设">基本假设</h3>
+<p>在本次实验的污点分析中, 有几个基本假设:</p>
+<ul>
+<li><p><code>TaintObj</code>只会由<code>Source</code>产生,
+依据<code>TaintTransfer</code>的规则, 最终传播到<code>Sink</code>.
+其中<code>Source</code>的语句类型均为<code>Invoke</code>.</p></li>
+<li><p>本次实验不考虑<strong>隐式污染</strong>(详见<a
+href="https://cs.nju.edu.cn/tiantan/software-analysis/Security.pdf#page=44"><strong>课程ppt</strong></a>),
+这大大简化了本次实验分析难度.</p></li>
+<li><p><code>TaintObj</code>是以<code>Obj</code>的方式进行封装的,
+这意味着<code>TaintObj</code>可以像<code>Obj</code>一样在指针流图<code>PointerFlowGraph</code>中传递.</p>
+<blockquote>
+<p><strong>Tips: 这意味着什么?</strong></p>
+<p>这意味着除了<strong>TaintTransfer</strong>和<strong>Source
+Invoke</strong>的传播途径外,
+<code>TaintObj</code>的其余传播途径都可以在之前的指针分析实现中完成.(如果感到难以理解可以试试推一下<code>Assign</code>,
+<code>Store</code>和<code>Load</code>语句的传播)</p>
+</blockquote></li>
+<li><p><code>TaintObj</code>的上下文被简单的处理成<code>emptyContext</code>,
+即来自同一个<code>Index: Invoke</code>的<code>TaintObj</code>在堆中被抽象为一个对象.</p></li>
+<li><p><strong><em>(存疑)</em></strong> Online
+Judge上似乎所有的<code>Source</code>相关语句<strong>均是静态方法</strong>,
+因此理论上不需要进行<strong>dispatch</strong>也可以通过测试.</p></li>
+</ul>
+<h3 id="source-sink-tainttransferflow">Source &amp; Sink &amp;
+TaintTransferFlow</h3>
+<p>三者均是在<code>Invoke</code>上进行操作,
+因此需要修的地方有<code>processCall</code>和<code>addReachable</code>.</p>
+<ul>
+<li><p>对于<code>Source</code>, 只需要按实验指南上的规则处理即可.
+但需要注意的是, 只有当<code>Invoke</code>存在返回值时,
+才执行<code>Source</code>的处理.</p></li>
+<li><p>对于<code>Sink</code>, 可以选择边迭代边处理.
+但因为<strong>Pointer Analysis</strong>不依赖于<code>Sink</code>,
+也可以在算法跑完后遍历所有的<code>Sink</code>语句的参数的<code>PointsToSet</code>是否包含<code>TaintObj</code>.
+也就是说,
+这部分代码可以在<code>collectTaintFlows()</code>中统一完成.</p></li>
+<li><p>对于<code>TaintTransferFlow</code>,
+同样只需要小心的按照指南规则处理即可. 但需要注意的是,
+由于污点数据流向目标时可能会有类型转换,
+因此需要创建一个新的<code>TaintObj</code>实例赋值给目标的<code>PointsToSet</code>.</p></li>
+</ul>
+<h3 id="污点数据的广播">污点数据的广播</h3>
+<p>污点数据的传播逻辑处理是本次实验相对简单的部分,
+困难的是想清楚如何传播污点数据.</p>
+<p>想知道答案, 就要先回顾一下指针分析的广播.</p>
+<img src="/LabRecord-SPA-A8/pic1-2.png" class="" title="pic1-2">
+<p>这个大循环中当<code>n</code>是变量<code>x</code>时,
+对相关语句进行广播.</p>
+<p>如在A5, A6中,
+需要对<code>Array</code>和<code>Filed</code>以及<code>processCall</code>进行广播.</p>
+<p>污点分析也是一种指针分析, 那么其理应也在这里广播.</p>
+<p><code>from -&gt; to</code>的情况有三种,
+<code>from</code>的取值只有<code>Arg</code>和<code>Base</code>两种情况.</p>
+<ul>
+<li><p><code>Base</code>的广播可以在<code>processCall</code>中进行,
+因为二者中变量<code>x</code>都作为<code>Base</code>出现.</p></li>
+<li><p><code>Arg</code>的广播没有现成的方法, 那么就考虑与其余情况并列,
+若<code>x</code>是某条<code>Invoke</code>的实参时, 则需要广播到此处,
+为该<code>Invoke</code>执行<code>TaintTransferFlow</code></p></li>
+</ul>
+<p>特别的, 因为这样的特性,
+你也可以考虑将<code>TaintTransferFlow</code>拆开来写.
+这样更符合其广播逻辑.</p>
+<h2 id="拾遗">拾遗</h2>
+<p>本次实验几乎不涉及新的方法和工具(当然你也可以选择使用一些隐藏API来完成本次实验,
+例如对于<strong>Instance Invoke</strong>,
+可以通过<code>((InvokeInstanceExp)(invoke.getInvokeExp())).getBase()</code>来获取<code>base</code>信息).</p>
+<p><strong>All you need has already in Tai-e.</strong></p>
+<h2 id="总结">总结</h2>
+<p>完结撒花啦!</p>
+<img src="/LabRecord-SPA-A8/pic1-3.png" class="" title="pic1-3">
+]]></content>
+      <categories>
+        <category>实验记录-NJU静态分析</category>
+      </categories>
+      <tags>
+        <tag>NJU</tag>
+        <tag>静态分析</tag>
       </tags>
   </entry>
   <entry>

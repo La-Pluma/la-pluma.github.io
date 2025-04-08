@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/hikari_tairitsu/512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/hikari_tairitsu/512x512.png">
+  <meta name="google-site-verification" content="t21aSpg50tWVwctahE4QnLP2-fo79rclxw9e2TGaamw">
+  <meta name="baidu-site-verification" content="to baidu automatically which is very helpful for SEO.">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"la-pluma.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":{"enable":true,"caption":false},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"gitalk":{"order":-1}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="NJU-CourseNote: Principles and Techniques of Compilers - Ch06 Intermediate Code Generation.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="课程笔记-NJU编译原理 Ch6 中间代码生成">
+<meta property="og:url" content="http://la-pluma.github.io/Course-Compiler-6/index.html">
+<meta property="og:site_name" content="LaPluma">
+<meta property="og:description" content="NJU-CourseNote: Principles and Techniques of Compilers - Ch06 Intermediate Code Generation.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-1.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-2.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-3.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-4.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-5.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-6.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-7.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-8.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-24.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-25.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-26.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-27.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-9.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-28.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-29.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-10.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-11.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-12.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-30.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-13.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-31.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-32.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-14.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-15.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-16.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-17.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-18.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-19.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-20.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-33.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-34.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-35.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-21.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-22.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-23.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-36.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-37.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-38.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-39.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-40.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-41.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-42.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-43.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-44.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-45.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-46.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-47.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-48.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-49.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-50.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-51.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-52.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-53.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-54.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-55.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-56.png">
+<meta property="og:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-57.png">
+<meta property="article:published_time" content="2025-03-23T14:16:15.000Z">
+<meta property="article:modified_time" content="2025-04-08T09:03:56.260Z">
+<meta property="article:author" content="LaPluma">
+<meta property="article:tag" content="课程笔记">
+<meta property="article:tag" content="编译原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://la-pluma.github.io/Course-Compiler-6/pic6-1.png">
+
+<link rel="canonical" href="http://la-pluma.github.io/Course-Compiler-6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>课程笔记-NJU编译原理 Ch6 中间代码生成 | LaPluma</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="LaPluma" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999;width:36px;height:36px}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">LaPluma</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep it simple and stupid.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/La-Pluma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://la-pluma.github.io/Course-Compiler-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hikari_tairitsu/avatar.jpg">
+      <meta itemprop="name" content="LaPluma">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LaPluma">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          课程笔记-NJU编译原理 Ch6 中间代码生成
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-23 22:16:15" itemprop="dateCreated datePublished" datetime="2025-03-23T22:16:15+08:00">2025-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-04-08 17:03:56" itemprop="dateModified" datetime="2025-04-08T17:03:56+08:00">2025-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0-%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">课程笔记-编译原理</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>NJU-CourseNote: Principles and Techniques of Compilers - Ch06
+Intermediate Code Generation.</strong></p>
+<span id="more"></span>
+<h2 id="编译器前端的逻辑结构">编译器前端的逻辑结构</h2>
+<ul>
+<li>前端是对源语言进行分析并产生中间表示</li>
+<li>处理与源语言相关的细节，与目标机器无关</li>
+<li>前端后端分开的好处：不同的源语言、不同的机器可以得到不同的编译器组合(<code>m * n</code>)</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-1.png" class="" title="pic6-1">
+<h2 id="中间代码表示">中间代码表示</h2>
+<ul>
+<li><strong>形式</strong>
+<ul>
+<li>多种中间表示，不同层次</li>
+<li>抽象语法树, 三地址代码</li>
+</ul></li>
+<li><strong>重定位</strong>
+<ul>
+<li>为新的机器建编译器，只需要做从中间代码到新的目标代码的翻译器<strong>(前端独立)</strong></li>
+</ul></li>
+<li><strong>高层次的优化</strong>
+<ul>
+<li>优化与源语言和目标机器都无关</li>
+</ul></li>
+</ul>
+<h3 id="中间代码的实现">中间代码的实现</h3>
+<ul>
+<li><strong>静态类型检查</strong>和<strong>中间代码生成</strong>的过程都可以用语法制导的翻译来描述和实现</li>
+</ul>
+<h4 id="生成抽象语法树的语法制导定义">生成抽象语法树的语法制导定义</h4>
+<img src="/Course-Compiler-6/pic6-2.png" class="" title="pic6-2">
+<h4 id="表达式的有向无环图">表达式的有向无环图</h4>
+<ul>
+<li>语法树中，公共子表达式每出现一次，就有一颗对应的子树</li>
+<li>表达式的<strong>有向无环图(Directed Acyclic Graph,
+DAG)</strong>能够指出表达式中的公共子表达式，更简洁地表示表达式</li>
+</ul>
+<h5 id="dag构造">DAG构造</h5>
+<ul>
+<li>可以用和构造抽象语法树一样的SDD来构造</li>
+<li><strong>不同的处理:</strong>
+在函数Leaf和Node每次被调用时，构造新节点前先检查是否存在同样的结点(值编码+散列表)，如果已存在，则返回这个已有结点</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-3.png" class="" title="pic6-3">
+<h2 id="三地址代码">三地址代码</h2>
+<ul>
+<li>每条指令右侧最多有一个运算符
+<ul>
+<li>一般情况可以写成<code>x = y op z</code></li>
+</ul></li>
+<li>允许的<strong>运算分量</strong>(地址)
+<ul>
+<li>名字：源程序中的变量名字作为三地址代码的地址</li>
+<li>常量：源程序中出现或生成的常量</li>
+<li>编译器生成的临时变量</li>
+</ul></li>
+</ul>
+<h3 id="指令集合">指令集合</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr>
+<th>指令</th>
+<th>形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>运算/赋值指令</td>
+<td><code>x = y op z</code> / <code>x = op y</code></td>
+</tr>
+<tr>
+<td>复制指令</td>
+<td><code>x = y</code></td>
+</tr>
+<tr>
+<td>无条件转移指令</td>
+<td><code>goto L</code></td>
+</tr>
+<tr>
+<td>条件转移指令</td>
+<td><code>if x goto L</code> <code>if False x goto L</code>
+<code>if x relop y goto L</code></td>
+</tr>
+<tr>
+<td>过程调用/返回</td>
+<td><code>param x1 \\设置参数</code><br><code>param x2</code><br><code>...</code><br><code>param xn</code><br><code>call p, n \\调用过程p,n为参数个数(可能嵌套调用)</code></td>
+</tr>
+<tr>
+<td>带下标的复制指令</td>
+<td><code>x= y[i]</code> <code>x[i] = y</code>
+<code>\\i表示距离数组位置i个内存单元(字节),不是数组的第i个元素</code></td>
+</tr>
+<tr>
+<td>地址/指针赋值指令</td>
+<td><code>x = &amp;y</code> <code>x = *y</code> <code>*x = y</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-4.png" class="" title="pic6-4">
+</blockquote>
+<h3 id="三地址码表示">三地址码表示</h3>
+<ul>
+<li>在实现时，可使用<strong>四元式/三元式/间接三元式/静态单赋值</strong>来表示三地址指令</li>
+</ul>
+<h4 id="四元式表示">四元式表示</h4>
+<ul>
+<li><strong>四元式(quadruple):</strong> 可以实现为记录(或结构)
+<ul>
+<li>格式(字段): <code>op arg1 arg2 result</code></li>
+<li>op：运算符的内部编码</li>
+<li>arg1, arg2, result是地址</li>
+<li><strong>Example:</strong> <code>x = y + z -&gt; + y z x</code></li>
+</ul></li>
+<li>单目运算符不使用arg2</li>
+<li>param运算不使用arg2和result</li>
+<li>条件/非条件转移将目标标号放在result字段</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-5.png" class="" title="pic6-5">
+</blockquote>
+<h4 id="三元式表示">三元式表示</h4>
+<ul>
+<li><p><strong>三元式(triple):</strong>
+<code>op arg1 arg2</code></p></li>
+<li><p>使用三元式的位置来引用三元式的运算结果</p></li>
+<li><p>优化时经常需要移动/删除/添加三元式，导致三元式运算结果的位置变化(四元式无此问题)</p></li>
+<li><p><code>x = y op z</code>转化为<code>? op y z</code>
+<code>= x (?)</code>, 其中<code>?</code>为位置</p></li>
+<li><p><code>x[i] = y</code>需要拆分为两个三元式,
+求<code>x[i]</code>的地址，然后再赋值</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>exp</th>
+<th>op</th>
+<th>arg1</th>
+<th>arg2</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x[i] = y</code></td>
+<td><code>[]=</code></td>
+<td><code>i</code></td>
+<td><code>y</code></td>
+<td><code>x</code></td>
+</tr>
+<tr>
+<td><code>y = x[i]</code></td>
+<td><code>=[]</code></td>
+<td><code>x</code></td>
+<td><code>i</code></td>
+<td><code>y</code></td>
+</tr>
+</tbody>
+</table>
+</blockquote></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-6.png" class="" title="pic6-6">
+</blockquote>
+<h4 id="间接三元式表示">间接三元式表示</h4>
+<ul>
+<li><strong>间接三元式(indirect triple):</strong>
+包含了一个指向三元式的指针的列表</li>
+<li>可对该列表进行操作(重新排序)，完成优化功能，操作时不影响三元式本身</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<p><code>a = b * -c + b * -c</code></p>
+<img src="/Course-Compiler-6/pic6-7.png" class="" title="pic6-7">
+</blockquote>
+<h4 id="静态单赋值形式">静态单赋值形式</h4>
+<img src="/Course-Compiler-6/pic6-8.png" class="" title="pic6-8">
+<h5 id="ssa的构造">SSA的构造</h5>
+<ul>
+<li>为每个变量维护一个计数器</li>
+<li>从函数入口开始遍历函数体</li>
+<li>遇到变量赋值时，为其生成新名字，并替换</li>
+<li>将新变量名传播到后续相应的使用处，并替换</li>
+</ul>
+<blockquote>
+<p><strong>Tips:</strong> 通常只针对函数内的变量(即局部变量) 计算SSA,
+而全局变量的SSA在实际当中难以计算</p>
+</blockquote>
+<h5 id="ssa对分支的处理">SSA对分支的处理</h5>
+<img src="/Course-Compiler-6/pic6-24.png" class="" title="pic6-24">
+<h5 id="ssa对循环的处理">SSA对循环的处理</h5>
+<img src="/Course-Compiler-6/pic6-25.png" class="" title="pic6-25">
+<h5 id="ssa的作用">SSA的作用</h5>
+<ul>
+<li>每个变量只被赋值一次，相当于都变成const变量</li>
+<li>简化了数据流分析和某些优化</li>
+<li>使得定义-使用链(def-use chain)易于计算
+<ul>
+<li>关联每个变量的定义(赋值)及其相应的使用</li>
+<li>许多分析和优化所需的关键信息</li>
+<li>SSA形式中，定义-使用关系非常清晰，且可以线性复杂度进行计算</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-6/pic6-26.png" class="" title="pic6-26">
+<img src="/Course-Compiler-6/pic6-27.png" class="" title="pic6-27">
+<h2 id="类型和声明">类型和声明</h2>
+<ul>
+<li><strong>类型检查(type checking)</strong>
+<ul>
+<li>利用一组规则来检查运算分量的类型和运算符的预期类型是否匹配</li>
+</ul></li>
+<li>类型信息的用途
+<ul>
+<li>查错、确定名字需要的内存空间、计算数组元素的地址、类型转换、选择正确的运算符</li>
+</ul></li>
+</ul>
+<h3 id="类型分类">类型分类</h3>
+<ul>
+<li><strong>基本类型</strong>
+<ul>
+<li>程序设计语言中的原子类型
+<ul>
+<li>如: <code>boolean, char, integer, float, void, ...</code></li>
+</ul></li>
+<li>通常这些类型的运算都有对应的机器指令</li>
+</ul></li>
+<li><strong>复合类型</strong>
+<ul>
+<li>由基本类型或其它复合组合而成的类型，为程序设计语言提供更强的抽象和表达能力
+<ul>
+<li>如: 结构体, 数组, 函数, ...</li>
+</ul></li>
+</ul></li>
+<li><strong>类型表达式(Typeexpression):</strong> 表示类型的表达式
+<ul>
+<li>基本类型：类型名字</li>
+<li>复合类型：通过类型构造算子作用于类型表达式得到</li>
+</ul></li>
+</ul>
+<h4 id="数组类型">数组类型</h4>
+<ul>
+<li>表示同类型数据的聚合</li>
+<li>类型构造算子array，有两个参数
+<ul>
+<li>数字：表示数组的长度</li>
+<li>类型：表示数组元素的类型</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong> <code>int [2][3]</code></p>
+<p>对应类型表达式<code>array(2, array(3, integer))</code></p>
+</blockquote>
+<h4 id="记录类型">记录类型</h4>
+<ul>
+<li>表示不同类型数据的聚合(结构体、类)</li>
+<li>类型构造算子record，有多组字段
+<ul>
+<li>字段名：字段名字，可用于在记录中引用该字段</li>
+<li>类型：字段对应数据的类型</li>
+</ul></li>
+<li>记录的基本构造算子是笛卡尔积<code>×</code>
+<ul>
+<li>如果<code>s</code>,
+<code>t</code>是类型表达式，其笛卡尔积<code>s × t</code>也是类型表达式</li>
+<li>在记录类型的构造中起组合作用
+<ul>
+<li>组合字段名与相应类型</li>
+<li>组合多组字段</li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong>
+<code>struct&#123;int a[10]; float f;&#125; st;</code></p>
+<p>对应类型表达式<code>record((a × array(10, int)) × (f × float))</code></p>
+</blockquote>
+<h4 id="函数类型">函数类型</h4>
+<ul>
+<li>表示程序中函数的类型</li>
+<li>类型构造算子<span
+class="math inline">\(\rightarrow\)</span>，接收参数类型与返回值类型，并构造出函数类型</li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong>
+<code>int foo(float x, long[5] y) &#123;...&#125;</code></p>
+<p>对应类型表达式<code>(float × array(5, long)) -&gt; int</code></p>
+</blockquote>
+<h3 id="类型等价">类型等价</h3>
+<ul>
+<li>不同的语言有不同的类型等价的定义</li>
+<li><strong>名等价(name equivalence)</strong>
+<ul>
+<li>类型表达式t与u等价当且仅当它们对应的类型名字相同</li>
+</ul></li>
+<li><strong>结构等价(structurally equivalent)</strong>
+<ul>
+<li>对于基本类型，比较它们名字是否相同</li>
+<li>对于复合类型，比较类型构造算子; 若相同,
+递归比较构造算子的各参数分量</li>
+</ul></li>
+</ul>
+<h3 id="类型的声明">类型的声明</h3>
+<ul>
+<li>处理基本类型、数组类型或记录类型的文法
+<ul>
+<li><img src="/Course-Compiler-6/pic6-9.png" class="" title="pic6-9"></li>
+</ul></li>
+<li>应用该文法及其对应的语法制导定义，除了得到<strong>类型表达式</strong>之外，还得进行各种类型的<strong>存储布局</strong></li>
+</ul>
+<h4 id="局部变量的存储布局">局部变量的存储布局</h4>
+<ul>
+<li>变量的类型可以确定变量需要的内存
+<ul>
+<li>即类型的宽度(该类型一个对象所需的存储单元的数量)</li>
+<li>可变大小的数据结构(如动态数组)只需要考虑指针</li>
+<li>特殊：对齐(aligned)、补白(padding)、压缩(pack)</li>
+</ul></li>
+<li>函数的局部变量总是分配在连续的区间
+<ul>
+<li>因此给每个变量分配一个相对于这个区间开始处的相对地址</li>
+</ul></li>
+<li>变量的类型信息保存在符号表中</li>
+</ul>
+<h5 id="内存补齐padding">内存补齐(Padding)</h5>
+<ul>
+<li>提升内存访问效率的一种技术</li>
+<li>内存（通常）不能“跨行”访问</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-28.png" class="" title="pic6-28">
+<img src="/Course-Compiler-6/pic6-29.png" class="" title="pic6-29">
+<h3 id="表达式翻译">表达式翻译</h3>
+<h4 id="计算t的类型和宽度的sdt">计算T的类型和宽度的SDT</h4>
+<img src="/Course-Compiler-6/pic6-10.png" class="" title="pic6-10">
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-11.png" class="" title="pic6-11">
+</blockquote>
+<h4 id="声明序列的sdt">声明序列的SDT</h4>
+<ul>
+<li>在处理一个过程/函数时，局部变量应该放到单独的符号表中去</li>
+<li>这些变量的内存布局独立
+<ul>
+<li>相对地址从0开始，变量的放置和声明的顺序相同</li>
+</ul></li>
+<li>SDT的处理方法
+<ul>
+<li>变量offset记录当前可用的相对地址</li>
+<li>每分配一个变量，offset增加相应的值(加宽度)</li>
+</ul></li>
+<li><span class="math inline">\(top.put(id.lexeme, T.type,
+offset)\)</span>
+<ul>
+<li>在符号表中创建条目，记录标识符的类型和偏移量</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-12.png" class="" title="pic6-12">
+<img src="/Course-Compiler-6/pic6-30.png" class="" title="pic6-30">
+</blockquote>
+<h4 id="记录和类中的字段">记录和类中的字段</h4>
+<ul>
+<li>记录变量声明的翻译方案</li>
+<li>约定
+<ul>
+<li>一个记录中各个字段的名字必须互不相同</li>
+<li>字段名的偏移量(相对地址)，是相对于该记录的数据区字段而言的</li>
+</ul></li>
+<li>记录类型使用一个<strong>专用的符号表</strong>，对其各个字段的类型和相对地址进行编码</li>
+<li>记录类型<span
+class="math inline">\(record(t):record\)</span>是类型构造算子, <span
+class="math inline">\(t\)</span>是符号表对象，保存该记录类型各个字段的信息</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-13.png" class="" title="pic6-13">
+<h5 id="env环境">Env环境</h5>
+<ul>
+<li>当程序中的作用域发生嵌套时，用一个栈Env辅助维护各作用域对应的符号表，栈中存储指向各符号表的指针</li>
+<li>进入一个新作用域时，保存上一作用域(压栈)</li>
+<li>从一个作用域退出时，恢复上一作用域(出栈)</li>
+</ul>
+<img src="/Course-Compiler-6/pic6-31.png" class="" title="pic6-31">
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-32.png" class="" title="pic6-32">
+</blockquote>
+<h4 id="表达式代码的sdd">表达式代码的SDD</h4>
+<img src="/Course-Compiler-6/pic6-14.png" class="" title="pic6-14">
+<h4 id="增量式翻译方案">增量式翻译方案</h4>
+<img src="/Course-Compiler-6/pic6-15.png" class="" title="pic6-15">
+<h4 id="数组元素的寻址">数组元素的寻址</h4>
+<ul>
+<li>假设数组元素被存放在连续的存储空间中, 元素从<span
+class="math inline">\(0\)</span>到<span
+class="math inline">\(n−1\)</span>编号, 第<span
+class="math inline">\(i\)</span> 个元素的地址为: <span
+class="math inline">\(base + i * w\)</span></li>
+<li>k维数组的寻址: 假设数组按行存放, 首先存放<span
+class="math inline">\(A[0][i_2]...[i_k]\)</span>, 然后 存放<span
+class="math inline">\(A[1][i_2]...[i_k]\)</span>, ...那么<span
+class="math inline">\(A[i_1][i_2]...[i_k]\)</span>的地址为
+<ul>
+<li><span class="math inline">\(base + i_1 * w_1 + i_2 * w_2 + ... + i_k
+* w_k\)</span></li>
+</ul></li>
+</ul>
+<h5 id="数组引用的翻译">数组引用的翻译</h5>
+<ul>
+<li>为数组引用生成代码要解决的主要问题
+<ul>
+<li>数组引用的文法和地址计算相关联</li>
+</ul></li>
+<li>假定数组编号从0开始，基于宽度来计算相对地址</li>
+<li>数组引用相关文法
+<ul>
+<li>非终结符号L生成数组名，加上一个下标表达式序列</li>
+<li><span class="math inline">\(L \rightarrow [L]\ |\ id\
+[E]\)</span></li>
+</ul></li>
+</ul>
+<h5 id="数组引用生成代码的翻译方案">数组引用生成代码的翻译方案</h5>
+<img src="/Course-Compiler-6/pic6-16.png" class="" title="pic6-16">
+<img src="/Course-Compiler-6/pic6-17.png" class="" title="pic6-17">
+<img src="/Course-Compiler-6/pic6-18.png" class="" title="pic6-18">
+<img src="/Course-Compiler-6/pic6-19.png" class="" title="pic6-19">
+<blockquote>
+<p><strong>Example:</strong></p>
+<img src="/Course-Compiler-6/pic6-20.png" class="" title="pic6-20">
+</blockquote>
+<h2 id="类型检查和转换">类型检查和转换</h2>
+<ul>
+<li><strong>类型系统(type system)</strong>
+<ul>
+<li>给每一个组成部分赋予一个类型表达式</li>
+<li>通过一组逻辑规则来表达类型表达式必须满足的条件</li>
+<li>可发现错误、提高代码效率、确定临时变量的大小</li>
+</ul></li>
+<li>类型检查可以分为动态和静态两种</li>
+<li>如果编译器中的类型系统能够保证它接受的程序在运行时刻不会发生类型错误，则该语言的这种实现称为<strong>强类型</strong>的</li>
+</ul>
+<blockquote>
+<p><strong>Addtional:</strong></p>
+<p>也有说法按照类型系统严格性进行强弱区分，如C/C++允许通过指针操作绕过常规类型检查，因此被认为是<strong>弱类型语言</strong></p>
+</blockquote>
+<h3 id="类型系统的分类">类型系统的分类</h3>
+<ul>
+<li><strong>类型综合(type synthesis)</strong>
+<ul>
+<li>根据子表达式的类型构造出表达式的类型</li>
+<li>如果<code>f</code>的类型为<code>s-&gt;t</code>且<code>x</code>的类型为<code>s</code>,
+则<code>f(x)</code>的类型为<code>t</code></li>
+</ul></li>
+<li><strong>类型推导(type inference)</strong>
+<ul>
+<li>根据语言结构的使用方式来确定该结构的类型</li>
+<li>如果<code>f(x)</code>是一个表达式,
+则对于某些类型<code>α</code>和<code>β</code>,
+<code>f</code>的类型为<code>α-&gt;β</code>且<code>x</code>的类型为<code>α</code></li>
+</ul></li>
+</ul>
+<h3 id="类型规则">类型规则</h3>
+<img src="/Course-Compiler-6/pic6-33.png" class="" title="pic6-33">
+<img src="/Course-Compiler-6/pic6-34.png" class="" title="pic6-34">
+<h4 id="函数运算符重载">函数/运算符重载</h4>
+<img src="/Course-Compiler-6/pic6-35.png" class="" title="pic6-35">
+<h3 id="类型转换">类型转换</h3>
+<img src="/Course-Compiler-6/pic6-21.png" class="" title="pic6-21">
+<h4 id="类型转换规则">类型转换规则</h4>
+<img src="/Course-Compiler-6/pic6-22.png" class="" title="pic6-22">
+<h4 id="处理类型转换的sdt">处理类型转换的SDT</h4>
+<img src="/Course-Compiler-6/pic6-23.png" class="" title="pic6-23">
+<h2 id="布尔表达式的控制流翻译">布尔表达式的控制流翻译</h2>
+<ul>
+<li>生成的代码执行时跳转到两个标号之一
+<ul>
+<li>表达式的值为真时，跳转到<span
+class="math inline">\(B.true\)</span></li>
+<li>表达式的值为假时，跳转到<span
+class="math inline">\(B.false\)</span></li>
+</ul></li>
+<li><span class="math inline">\(B.true\)</span>和<span
+class="math inline">\(B.false\)</span>是两个继承属性，根据B所在的上下文指向不同的位置</li>
+</ul>
+<h3 id="控制流语句的翻译">控制流语句的翻译</h3>
+<img src="/Course-Compiler-6/pic6-36.png" class="" title="pic6-36">
+<h4 id="语法制导的定义">语法制导的定义</h4>
+<img src="/Course-Compiler-6/pic6-37.png" class="" title="pic6-37">
+<img src="/Course-Compiler-6/pic6-38.png" class="" title="pic6-38">
+<h3 id="布尔表达式的翻译">布尔表达式的翻译</h3>
+<img src="/Course-Compiler-6/pic6-39.png" class="" title="pic6-39">
+<img src="/Course-Compiler-6/pic6-40.png" class="" title="pic6-40">
+<img src="/Course-Compiler-6/pic6-41.png" class="" title="pic6-41">
+<blockquote>
+<p><strong>Example: 短路求值</strong></p>
+<img src="/Course-Compiler-6/pic6-42.png" class="" title="pic6-42">
+</blockquote>
+<h4 id="布尔值和跳转代码">布尔值和跳转代码</h4>
+<img src="/Course-Compiler-6/pic6-43.png" class="" title="pic6-43">
+<img src="/Course-Compiler-6/pic6-44.png" class="" title="pic6-44">
+<h3 id="指令的标号与索引">指令的标号与索引</h3>
+<img src="/Course-Compiler-6/pic6-45.png" class="" title="pic6-45">
+<h4 id="一趟完成">一趟完成</h4>
+<img src="/Course-Compiler-6/pic6-46.png" class="" title="pic6-46">
+<h3 id="回填">回填</h3>
+<ul>
+<li>为布尔表达式和控制流语句生成目标代码
+<ul>
+<li>关键问题：某些跳转指令应该跳转到哪里？</li>
+</ul></li>
+<li><strong>基本思想</strong>
+<ul>
+<li>翻译过程中，若遇到跳转目标未知的情况，则先生成<strong>跳转指令坯</strong>，备用<code>goto __/if ... goto __</code></li>
+<li>将指令坯并向父结点传递(综合属性)</li>
+<li>翻译过程中，若遇到某条指令是跳转目标，则记录其索引，备用如<code>S -&gt; if (B) ▲ S1</code></li>
+<li>当父结点收集齐跳转指令坯及其跳转目标索引时，将索引填入指令坯</li>
+</ul></li>
+</ul>
+<img src="/Course-Compiler-6/pic6-47.png" class="" title="pic6-47">
+<h4 id="控制转移语句的回填">控制转移语句的回填</h4>
+<img src="/Course-Compiler-6/pic6-48.png" class="" title="pic6-48">
+<img src="/Course-Compiler-6/pic6-49.png" class="" title="pic6-49">
+<img src="/Course-Compiler-6/pic6-50.png" class="" title="pic6-50">
+<h5 id="回填与非回填对比">回填与非回填对比</h5>
+<img src="/Course-Compiler-6/pic6-51.png" class="" title="pic6-51">
+<img src="/Course-Compiler-6/pic6-52.png" class="" title="pic6-52">
+<h4 id="布尔表达式的回填翻译">布尔表达式的回填翻译</h4>
+<img src="/Course-Compiler-6/pic6-53.png" class="" title="pic6-53">
+<h5 id="回填与非回填对比-1">回填与非回填对比</h5>
+<img src="/Course-Compiler-6/pic6-54.png" class="" title="pic6-54">
+<img src="/Course-Compiler-6/pic6-55.png" class="" title="pic6-55">
+<blockquote>
+<p><strong>Example: 布尔表达式回填</strong></p>
+<img src="/Course-Compiler-6/pic6-56.png" class="" title="pic6-56">
+</blockquote>
+<h4 id="break-continue的处理">Break &amp; Continue的处理</h4>
+<ul>
+<li>虽然break、continue在语法上是一个独立的句子，但是它的代码和外围语句相关</li>
+<li>方法：(break语句)
+<ul>
+<li>跟踪外围循环语句S</li>
+<li>生成一个跳转指令坯</li>
+<li>将这个指令坯的索引加入到S的nextlist中</li>
+</ul></li>
+</ul>
+<h4 id="switch-case的处理">Switch Case的处理</h4>
+<img src="/Course-Compiler-6/pic6-57.png" class="" title="pic6-57">
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag"># 课程笔记</a>
+              <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag"># 编译原理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Course-Compiler-5/" rel="prev" title="课程笔记-NJU编译原理 Ch5 语法制导的翻译技术/语义分析">
+      <i class="fa fa-chevron-left"></i> 课程笔记-NJU编译原理 Ch5 语法制导的翻译技术/语义分析
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E5%89%8D%E7%AB%AF%E7%9A%84%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">编译器前端的逻辑结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E8%A1%A8%E7%A4%BA"><span class="nav-number">2.</span> <span class="nav-text">中间代码表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">中间代码的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91%E7%9A%84%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E5%AE%9A%E4%B9%89"><span class="nav-number">2.1.1.</span> <span class="nav-text">生成抽象语法树的语法制导定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E6%9C%89%E5%90%91%E6%97%A0%E7%8E%AF%E5%9B%BE"><span class="nav-number">2.1.2.</span> <span class="nav-text">表达式的有向无环图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dag%E6%9E%84%E9%80%A0"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">DAG构造</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%9C%B0%E5%9D%80%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">三地址代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E9%9B%86%E5%90%88"><span class="nav-number">3.1.</span> <span class="nav-text">指令集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%9C%B0%E5%9D%80%E7%A0%81%E8%A1%A8%E7%A4%BA"><span class="nav-number">3.2.</span> <span class="nav-text">三地址码表示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E5%85%83%E5%BC%8F%E8%A1%A8%E7%A4%BA"><span class="nav-number">3.2.1.</span> <span class="nav-text">四元式表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%85%83%E5%BC%8F%E8%A1%A8%E7%A4%BA"><span class="nav-number">3.2.2.</span> <span class="nav-text">三元式表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%B4%E6%8E%A5%E4%B8%89%E5%85%83%E5%BC%8F%E8%A1%A8%E7%A4%BA"><span class="nav-number">3.2.3.</span> <span class="nav-text">间接三元式表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8D%95%E8%B5%8B%E5%80%BC%E5%BD%A2%E5%BC%8F"><span class="nav-number">3.2.4.</span> <span class="nav-text">静态单赋值形式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ssa%E7%9A%84%E6%9E%84%E9%80%A0"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">SSA的构造</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ssa%E5%AF%B9%E5%88%86%E6%94%AF%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">3.2.4.2.</span> <span class="nav-text">SSA对分支的处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ssa%E5%AF%B9%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">3.2.4.3.</span> <span class="nav-text">SSA对循环的处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ssa%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">3.2.4.4.</span> <span class="nav-text">SSA的作用</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%A3%B0%E6%98%8E"><span class="nav-number">4.</span> <span class="nav-text">类型和声明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%88%86%E7%B1%BB"><span class="nav-number">4.1.</span> <span class="nav-text">类型分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.1.1.</span> <span class="nav-text">数组类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.1.2.</span> <span class="nav-text">记录类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.1.3.</span> <span class="nav-text">函数类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%AD%89%E4%BB%B7"><span class="nav-number">4.2.</span> <span class="nav-text">类型等价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%A3%B0%E6%98%8E"><span class="nav-number">4.3.</span> <span class="nav-text">类型的声明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%98%E5%82%A8%E5%B8%83%E5%B1%80"><span class="nav-number">4.3.1.</span> <span class="nav-text">局部变量的存储布局</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E8%A1%A5%E9%BD%90padding"><span class="nav-number">4.3.1.1.</span> <span class="nav-text">内存补齐(Padding)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%BF%BB%E8%AF%91"><span class="nav-number">4.4.</span> <span class="nav-text">表达式翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97t%E7%9A%84%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%AE%BD%E5%BA%A6%E7%9A%84sdt"><span class="nav-number">4.4.1.</span> <span class="nav-text">计算T的类型和宽度的SDT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E5%BA%8F%E5%88%97%E7%9A%84sdt"><span class="nav-number">4.4.2.</span> <span class="nav-text">声明序列的SDT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E5%92%8C%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="nav-number">4.4.3.</span> <span class="nav-text">记录和类中的字段</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#env%E7%8E%AF%E5%A2%83"><span class="nav-number">4.4.3.1.</span> <span class="nav-text">Env环境</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A3%E7%A0%81%E7%9A%84sdd"><span class="nav-number">4.4.4.</span> <span class="nav-text">表达式代码的SDD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A2%9E%E9%87%8F%E5%BC%8F%E7%BF%BB%E8%AF%91%E6%96%B9%E6%A1%88"><span class="nav-number">4.4.5.</span> <span class="nav-text">增量式翻译方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0%E7%9A%84%E5%AF%BB%E5%9D%80"><span class="nav-number">4.4.6.</span> <span class="nav-text">数组元素的寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%BC%95%E7%94%A8%E7%9A%84%E7%BF%BB%E8%AF%91"><span class="nav-number">4.4.6.1.</span> <span class="nav-text">数组引用的翻译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%BC%95%E7%94%A8%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81%E7%9A%84%E7%BF%BB%E8%AF%91%E6%96%B9%E6%A1%88"><span class="nav-number">4.4.6.2.</span> <span class="nav-text">数组引用生成代码的翻译方案</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5%E5%92%8C%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.</span> <span class="nav-text">类型检查和转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">5.1.</span> <span class="nav-text">类型系统的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%A7%84%E5%88%99"><span class="nav-number">5.2.</span> <span class="nav-text">类型规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">5.2.1.</span> <span class="nav-text">函数&#x2F;运算符重载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.3.</span> <span class="nav-text">类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99"><span class="nav-number">5.3.1.</span> <span class="nav-text">类型转换规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%9A%84sdt"><span class="nav-number">5.3.2.</span> <span class="nav-text">处理类型转换的SDT</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E6%8E%A7%E5%88%B6%E6%B5%81%E7%BF%BB%E8%AF%91"><span class="nav-number">6.</span> <span class="nav-text">布尔表达式的控制流翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E6%B5%81%E8%AF%AD%E5%8F%A5%E7%9A%84%E7%BF%BB%E8%AF%91"><span class="nav-number">6.1.</span> <span class="nav-text">控制流语句的翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">6.1.1.</span> <span class="nav-text">语法制导的定义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%BF%BB%E8%AF%91"><span class="nav-number">6.2.</span> <span class="nav-text">布尔表达式的翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E5%80%BC%E5%92%8C%E8%B7%B3%E8%BD%AC%E4%BB%A3%E7%A0%81"><span class="nav-number">6.2.1.</span> <span class="nav-text">布尔值和跳转代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E7%9A%84%E6%A0%87%E5%8F%B7%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-number">6.3.</span> <span class="nav-text">指令的标号与索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%B6%9F%E5%AE%8C%E6%88%90"><span class="nav-number">6.3.1.</span> <span class="nav-text">一趟完成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E5%A1%AB"><span class="nav-number">6.4.</span> <span class="nav-text">回填</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E8%BD%AC%E7%A7%BB%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%9B%9E%E5%A1%AB"><span class="nav-number">6.4.1.</span> <span class="nav-text">控制转移语句的回填</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9E%E5%A1%AB%E4%B8%8E%E9%9D%9E%E5%9B%9E%E5%A1%AB%E5%AF%B9%E6%AF%94"><span class="nav-number">6.4.1.1.</span> <span class="nav-text">回填与非回填对比</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%9B%9E%E5%A1%AB%E7%BF%BB%E8%AF%91"><span class="nav-number">6.4.2.</span> <span class="nav-text">布尔表达式的回填翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9E%E5%A1%AB%E4%B8%8E%E9%9D%9E%E5%9B%9E%E5%A1%AB%E5%AF%B9%E6%AF%94-1"><span class="nav-number">6.4.2.1.</span> <span class="nav-text">回填与非回填对比</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#break-continue%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">6.4.3.</span> <span class="nav-text">Break &amp; Continue的处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#switch-case%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">6.4.4.</span> <span class="nav-text">Switch Case的处理</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LaPluma"
+      src="/images/hikari_tairitsu/avatar.jpg">
+  <p class="site-author-name" itemprop="name">LaPluma</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/La-Pluma" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;La-Pluma" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:baixingluo0114@gmail.com" title="E-Mail → mailto:baixingluo0114@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  <span class="author" itemprop="copyrightHolder">LaPluma</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">62k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:44</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!--
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: inline;">
+    <!--<span class="post-meta-item">-->
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '24px',
+  right: 'unset',
+  left: '24px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#444',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'Ov23liouFxqnH4lyyruL',
+      clientSecret: '63c3d5092e75ac897fea78ade59a03c33b607595',
+      repo        : 'la-pluma.github.io',
+      owner       : 'La-Pluma',
+      admin       : ['La-Pluma'],
+      id          : '56e4ff54462fb57343aaebb8226d89d4',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
