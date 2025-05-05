@@ -28,13 +28,15 @@ NJU许畅老师([主页](https://cs.nju.edu.cn/changxu))开设的编译原理课
 - [**Ch4 语法分析**](https://la-pluma.github.io/Course-Compiler-4)
 - [**Ch5 语法制导的编译技术**](https://la-pluma.github.io/Course-Compiler-5)
 - [**Ch6 中间代码生成**](https://la-pluma.github.io/Course-Compiler-6)
-- **Ch7 运行时刻环境**
-- **Ch8 代码生成**
+- [**Ch7 运行时刻环境**](https://la-pluma.github.io/Course-Compiler-7)
+- [**Ch8 代码生成**](https://la-pluma.github.io/Course-Compiler-8)
 - **Ch9 机器无关优化**
 
 ### 实验内容
 
-TBC
+因为笔者自身能力有限, 故而不卖弄浅薄的理解, 本课程暂无设置实验记录的想法.
+
+> Tips: 在将来可能会公开一份参考实现, 但实现本身并不优秀且得分并不理想
 
 ## 引论
 
