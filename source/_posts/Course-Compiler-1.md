@@ -17,6 +17,10 @@ categories:
 
 NJU许畅老师([主页](https://cs.nju.edu.cn/changxu))开设的编译原理课程(**Principles and Techniques of Compilers**).
 
+> **Additonal:**
+>
+> NJU谭添老师([主页](https://cs.nju.edu.cn/tiantan/courses/compiler-2025/index.html))开设的同名课程.
+
 **参考教材:**
 
 《编译原理》(龙书),《编译方法、技术与实践》/《编译原理实践与指导教程》
@@ -30,7 +34,7 @@ NJU许畅老师([主页](https://cs.nju.edu.cn/changxu))开设的编译原理课
 - [**Ch6 中间代码生成**](https://la-pluma.github.io/Course-Compiler-6)
 - [**Ch7 运行时刻环境**](https://la-pluma.github.io/Course-Compiler-7)
 - [**Ch8 代码生成**](https://la-pluma.github.io/Course-Compiler-8)
-- **Ch9 机器无关优化**
+- [**Ch9 机器无关优化**](https://la-pluma.github.io/Course-Compiler-9)
 
 ### 实验内容
 

@@ -30,3 +30,4 @@ categories:
 - [MNIST Handwritten Digit Recognition in PyTorch](https://nextjournal.com/gkoehler/pytorch-mnist)
 
 - [知乎|MNIST数据集下载及可视化](https://zhuanlan.zhihu.com/p/155748813)
+
