@@ -1,7 +1,7 @@
 ---
-title: 读书笔记-Rust程序设计语言
+title: 读书笔记-Rust程序设计语言 Ch1-Ch6
 date: 2025-06-08 20:14:31
-hidden: true
+hidden: false
 tags:
 - 读书笔记
 - Rust
@@ -353,11 +353,11 @@ for number in (0..5) { // 0..5表示0,1,2,3,4
 
 ### 4.1 所有权
 
-- **所有权(ownership):** 所有权是Rust管理内存的一组规则. 
-  - Rust通过所有权系统管理内存, 编译器在编译时会根据一系列的规则进行检查. 如果违反了任何这些规则, 程序将不能编译. 
-  - 在运行时, 所有权系统的任何功能都不会减慢程序的运行.
+- **所有权(ownership):** 所有权是Rust管理内存的一组规则
+  - Rust通过所有权系统管理内存, 编译器在编译时会根据一系列的规则进行检查. 如果违反了任何这些规则, 程序将不能编译
+  - 在运行时, 所有权系统的任何功能都不会减慢程序的运行
 
-> **Tips:** 想要理解所有权系统需要对基本的内存管理模型**堆(heap)**, **栈(stack)**有所了解
+> **Tips:** 想要理解所有权系统需要对基本的内存管理模型**堆(heap)**, **栈(stack)** 有所了解
 
 #### 4.1.1 所有权规则
 
@@ -379,3 +379,817 @@ for number in (0..5) { // 0..5表示0,1,2,3,4
 
 > **Tips:** Rust的作用域与C/C++一致, 笔者在此不再赘述
 
+#### 4.1.3 所有权转移
+
+接下来以`String`为例解释所有权的概念
+
+```rust
+{
+    let s = String::from("hello"); // 从此处起, s有效
+
+    // 使用s
+}   // 此作用域已结束, s不再有效
+```
+
+> Rust提供了`drop`函数用于释放内存, 当变量离开作用域时会自动调用`drop`函数(也即`}`处)
+
+由于String类型在堆上分配内存, 因此其行为会变得更加复杂和"有趣", 我们来看下面的例子
+
+```rust
+{
+    let x = 5;
+    let y = x;
+}
+```
+
+> 这段代码最终会在栈上分配两个i32类型的x,y, 它们的值都是5.
+
+```rust
+{
+    let s1 = String::from("hello");
+    let s2 = s1;
+}
+```
+
+> 如果String类型数据的行为和之前的i32类型相同, 那么我们期望其行为也是一致的, 也就是说, `y = x`时应当会拷贝一个String绑定到y上, ***但事实并非如此***
+>
+> 被上述"特性"坑过的读者应当反应过来了, 这就是**浅拷贝**和**深拷贝**带来的问题, 在内存中的模型如下图所示:
+>
+> ![pic1-1](BookNote-RustProgrammingLanguage-1/pic1-1.png)
+
+接着来考虑一下Rust在离开某个作用域后会自动drop的机制, s1和s2在离开作用域时都会被释放, 但字符串"hello"会被**二次释放(double free)!**
+
+Rust所有权可以解决这个问题, 在实际的Rust逻辑中, 当s1被赋值给s2时, s1的所有权会转移给s2, 此时s1不再有效, 如果此时试图使用s1, Rust编译器会报错
+
+```rust
+{
+    let s1 = String::from("hello");
+    let s2 = s1; // s1的所有权转移给s2, s1不再有效
+    println!("{s1}"); //error! s1 is no longer valid
+}
+```
+
+> ![pic1-2](BookNote-RustProgrammingLanguage-1/pic1-2.png)
+
+#### 4.1.4 作用域与赋值
+
+**作用域, 所有权, drop释放内存之间的关系反过来也成立**, 当给已有变量重新赋值时, 会调用drop释放原先的内存.
+
+```rust
+{
+    let s = String::from("hello");
+    s = String::from("ahoy"); // 这里会调用drop释放原先的内存
+}
+```
+
+> ![pic1-3](BookNote-RustProgrammingLanguage-1/pic1-3.png)
+
+#### 4.1.5 rust深拷贝
+
+```rust
+{
+    let s1 = String::from("hello");
+    let s2 = s1.clone(); // 深拷贝
+}
+```
+
+> 此时代码的行为和之前的i32类型一致
+>
+> ![pic1-4](BookNote-RustProgrammingLanguage-1/pic1-4.png)
+
+> **Additional: Copy类型**
+>
+> Rust中有一些类型是**Copy类型**, 这意味着这些类型的值在赋值时会被复制而不是转移所有权. 这是因为这些类型在编译时就可以知道其大小, 对其拷贝是快速且简单的. 以下是Rust中支持的Copy类型:
+>
+> - 所有整数类型（i32, u32, i64, u64等）
+> - 布尔类型（bool）
+> - 浮点数类型（f32, f64）
+> - 字符类型（char）
+> - 元组类型（tuple）, 只要它们的元素都是Copy类型
+> - 其他实现了Copy trait的类型(Rust注解, 将在后文介绍)
+
+#### 4.1.6 所有权与函数
+
+- 函数参数的所有权转移
+
+```rust
+fn main() {
+    let s = String::from("hello");  // s 进入作用域
+
+    takes_ownership(s);             // s 的值移动到函数里 ...
+                                    // ... 所以到这里不再有效
+
+    //println!("{}", s);            // error! s 不再有效
+
+    let x = 5;                      // x 进入作用域
+
+    makes_copy(x);                  // x 应该移动函数里，
+                                    // 但 i32 是 Copy 的，
+    println!("{}", x);              // 所以在后面可继续使用 x
+
+} // 这里，x 先移出了作用域，然后是 s。但因为 s 的值已被移走，没有特殊之处
+
+fn takes_ownership(some_string: String) { // some_string 进入作用域
+    println!("{some_string}");
+} // 这里，some_string 移出作用域并调用 `drop` 方法。
+  // 占用的内存被释放
+
+fn makes_copy(some_integer: i32) { // some_integer 进入作用域
+    println!("{some_integer}");
+} // 这里，some_integer 移出作用域。没有特殊之处
+```
+
+这里的所有权转移符合之前的预期, 当 `s` 被移动到 `takes_ownership` 函数时, `s` 不再有效, 而 `x` 由于是 `Copy` 类型, 在函数调用后仍然有效.
+
+- 函数返回值的所有权转移
+
+```rust
+fn main() {
+    let s1 = gives_ownership();        // gives_ownership 将它的返回值传递给 s1
+
+    let s2 = String::from("hello");    // s2 进入作用域
+
+    let s3 = takes_and_gives_back(s2); // s2 被传入 takes_and_gives_back, 
+                                       // 它的返回值又传递给 s3
+} // 此处，s3 移出作用域并被丢弃。s2 被 move，所以无事发生
+  // s1 移出作用域并被丢弃
+
+fn gives_ownership() -> String {       // gives_ownership 将会把返回值传入
+                                       // 调用它的函数
+
+    let some_string = String::from("yours"); // some_string 进入作用域
+
+    some_string                        // 返回 some_string 并将其移至调用函数
+}
+
+// 该函数将传入字符串并返回该值
+fn takes_and_gives_back(a_string: String) -> String {
+    // a_string 进入作用域
+
+    a_string  // 返回 a_string 并移出给调用的函数
+}
+```
+
+### 4.2 引用与借用
+
+4.1节的所有权"似乎"解决了全部的问题, 但在某些情况下我们并不希望转移所有权, 比如说函数传参时: 如果我们想在执行完函数后继续使用原有变量, 就需要将参数的所有权从函数参数传回调用者. 这未免有些麻烦, 因此, Rust提出了**引用与借用**.
+
+- **引用(Reference):** 引用像是一个指针, 允许在不获取所有权的情况下访问数据. 但与指针不同, 引用在其生命周期中保证指向某个特定类型的有效值.
+
+- **借用(Borrowing):** 我们将创建引用的行为称之为借用. **默认情况下, 借用的变量无法进行修改**.
+
+```rust
+fn main() {
+    let s1 = String::from("hello");
+    let len = calculate_length(&s1); // 传入引用
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize { // s 是 String 的引用
+    // s.push_str(", world!"); // error! 借用的变量无法修改
+    s.len()
+} // 这里，s 离开了作用域。但因为它并不拥有引用值的所有权，
+  // 所以什么也不会发生
+```
+
+> 注意到函数参数的类型是`&String`而不是`String`, 这意味着s1的所有权没有转移到`calculate_length`函数中, 而是通过引用传递. 这使得`s1`在函数调用后仍然有效.
+>
+> ![pic1-5](BookNote-RustProgrammingLanguage-1/pic1-5.png)
+
+> **Additional: 解引用(dereferencing)**
+>
+> Rust同时支持解引用操作`*`, 暂且先留到下文介绍.
+
+#### 4.2.1 可变引用
+
+只读的引用显然无法满足程序员的需求, 因此Rust提供了**可变引用(mutable reference)**.
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
+```
+
+**可变引用有一个很大的限制：如果你有一个对该变量的可变引用，你就不能再创建对该变量的引用**.
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    let r2 = &mut s; // error! 不能同时拥有两个可变引用
+    println!("{}, {}", r1, r2);
+}
+```
+
+这一限制同时包括了不可变引用:
+
+```rust
+let mut s = String::from("hello");
+
+let r1 = &s; // 没问题
+let r2 = &s; // 没问题
+let r3 = &mut s; // 大问题, 编译器会报错
+
+println!("{}, {}, and {}", r1, r2, r3);
+```
+
+不过, Rust是允许同时拥有多个不可变引用的
+
+> **Tips: 为什么要这么设计?**
+>
+> 这个限制的好处是可以在编译时便避免**数据竞争(data race)**.
+>
+> - 两个或多个指针同时访问同一数据
+> - 至少有一个指针进行写操作
+> - 没有数据同步机制
+>
+> 数据竞争会导致未定义行为，难以在运行时追踪，并且难以诊断和修复；Rust 通过拒绝编译存在数据竞争的代码来避免此问题！
+
+作用域在可变引用上也是照常生效的, 因此下面的代码是正确的:
+
+```rust
+let mut s = String::from("hello");
+
+{
+    let r1 = &mut s;
+} // r1 在这里离开了作用域，所以我们完全可以创建一个新的引用
+
+let r2 = &mut s;
+```
+
+```rust
+let mut s = String::from("hello");
+
+let r1 = &s; // 没问题
+let r2 = &s; // 没问题
+println!("{r1} and {r2}");
+// 此位置之后 r1 和 r2 不再使用
+
+let r3 = &mut s; // 没问题
+println!("{r3}");
+```
+
+> 不可变引用 r1 和 r2 的作用域在 println! 最后一次使用之后结束，这发生在可变引用 r3 被创建之前。因为它们的作用域没有重叠，所以代码是可以编译的。编译器可以在作用域结束之前判断不再使用的引用。
+
+#### 4.2.2 悬垂引用
+
+- **悬垂指针(Dangling pointer):** 悬垂指针是指向一个已经被释放或无效的内存地址的指针
+  - 在C/C++中, 悬垂指针可能会导致未定义行为, 因为程序可能会尝试访问已经被释放的内存.
+
+Rust的所有权可以在编译期间识别出**悬垂引用(Dangling reference)**, 从而避免此类问题.
+
+```rust
+fn main() {
+    let reference_to_nothing = dangle();
+}
+
+fn dangle() -> &String { // dangle 返回一个字符串的引用
+
+    let s = String::from("hello"); // s 是一个新字符串
+
+    &s // 返回字符串 s 的引用
+} // 这里 s 离开作用域并被丢弃。其内存被释放。
+  // 危险！
+```
+
+正确的写法是直接将所有权转移出去
+
+```rust
+fn dangle() -> String {
+    let s = String::from("hello");
+
+    s
+}
+```
+
+### 4.3 Slice
+
+- **切片(slice)**允许引用集合中一段连续的元素序列，而不用引用整个集合. 切片并不拥有所有权
+
+#### 4.3.1 字符串 slice
+
+- **字符串 slice (string slice)**: 字符串slice是String中一部分值的引用
+
+```rust
+let s = String::from("hello");
+
+let hello = &s[0...5];
+let world = &s[6...11];
+```
+
+> 其示意图如下:
+>
+> ![pic1-6](BookNote-RustProgrammingLanguage-1/pic1-6.png)
+
+slice语法允许省略
+
+```rust
+let s = String::from("hello");
+
+let slice = &s[0..2];
+let slice = &s[..2]; //省略starting_index
+
+let len = s.len();
+
+let slice = &s[3..len];
+let slice = &s[3..]; //省略ending_index
+
+let slice = &s[0..len];
+let slice = &s[..]; //省略两个索引
+```
+
+> **Tips:** 字符串 slice range 的索引必须位于有效的 UTF-8 字符边界内，如果尝试从一个多字节字符的中间位置创建字符串 slice，则程序将会因错误而退出
+
+现在来看一个string slice的例子:
+
+```rust
+fn main() {
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s); // word是一个string slice
+
+    s.clear(); // 错误！执行clear时尝试获取可变引用, 但此时已经有一个引用word了
+
+    println!("the first word is: {word}");
+}
+
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
+```
+
+定义一个获取字符串 slice 而不是 String 引用的函数使得我们的 API 更加通用并且不会丢失任何功能(`&s[..]`相当于整个字符串的切片, 等价于`&s`)
+
+#### 4.3.2 其他类型 slice
+
+```rust
+let a = [1, 2, 3, 4, 5];
+
+let slice = &a[1..3]; // slice的类型是 &[i32]
+
+assert_eq!(slice, &[2, 3]);
+```
+
+## Chapter5 结构体
+
+- **结构体(struct)**: 结构体是一个自定义数据类型，允许你包装和命名多个相关的值，从而形成一个有意义的组合
+
+- **字段(field)**: 结构体中的每个值称为一个字段
+
+### 5.1 结构体的定义和实例化
+
+#### 5.1.1 结构体定义
+
+```rust
+struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+```
+
+#### 5.1.2 结构体实例化
+
+通过为每个字段指定具体值来创建这个结构体的实例
+
+```rust
+let user1 = User {
+    active: true,
+    username: String::from("user1"),
+    email: String::from("user1@example.com"),
+    sign_in_count: 1,
+};
+```
+
+#### 5.1.3 结构体字段访问
+
+与C/C++相同, Rust访问结构体字段使用`.`
+
+```rust
+fn main() {
+    let mut user1 = User { // 可变结构体实例
+        active: true,
+        username: String::from("someusername123"),
+        email: String::from("someone@example.com"),
+        sign_in_count: 1,
+    };
+
+    user1.email = String::from("anotheremail@example.com");
+}
+```
+
+> **Tips:** Rust不允许单独指定结构体某个字段可变, 只有整个结构体实例可变时才能修改其中的字段.
+
+#### 5.1.4 一些语法糖
+
+Rust提供了部分简写语法糖方便程序员进行开发
+
+```rust
+fn build_user(email: String, username: String) -> User {
+    User {
+        active: true,
+        username: username,
+        email: email,
+        sign_in_count: 1,
+    }
+}
+```
+
+```rust
+fn build_user(email: String, username: String) -> User {
+    User {
+        active: true,
+        username,
+        email,
+        sign_in_count: 1,
+    }
+}
+```
+
+> 当字段名和参数名相同时, 允许进行省略
+
+```rust
+fn main() {
+    // --snip--
+
+    let user2 = User {
+        active: user1.active,
+        username: user1.username,
+        email: String::from("another@example.com"),
+        sign_in_count: user1.sign_in_count,
+    };
+}
+```
+
+```rust
+fn main() {
+    // --snip--
+
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+}
+```
+
+> 结构体更新语法允许你使用现有实例的值来创建新的实例, 可以省略无需改变的字段设置
+
+#### 5.1.5 元组结构体
+
+- **元组结构体(Tuple Struct)**: 元组结构体是一个没有命名字段的结构体, 其定义类似于元组
+
+```rust
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+fn main() {
+    let black = Color(0, 0, 0);
+    let origin = Point(0, 0, 0);
+}
+```
+
+#### 5.1.6 类单元结构体
+
+- **类单元结构体(Class-like Unit Struct)**: 类单元结构体没有任何字段, 但仍然是一个结构体
+
+```rust
+struct AlwaysEqual;
+```
+
+> **Tips:** 类单元结构体通常用于实现特定的 trait 或作为类型标记, 关于trait请参见下文~~(为什么Rust教程总是会提到一些后续才知道的东西铺垫在前面呢)~~
+
+> **Additional: 结构体所有权**
+>
+> 上述举的例子中结构体字段没有引用类型, 此时结构体拥有所有字段的所有权; 在这并不意味着结构体不能定义引用类型的字段, 而是需要**生命周期**进行标注(关于生命周期, 烦请参见下文)
+
+### 5.2 方法语法
+
+- **方法(method)**: 使用 fn 关键字和名称声明，可以拥有参数和返回值，同时包含在某处调用该方法时会执行的代码. 方法可以在结构体, 枚举和 trait 中定义
+
+```rust
+#[derive(Debug)] // 用于输出调试信息的trait
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        rect1.area()
+    );
+
+    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+}
+```
+
+> **Additional: 自动引用与解引用(automatic referencing and dereferencing)**
+>
+> Rust会在调用方法时自动添加引用或解引用, 这使得方法调用更加简洁. 例如, 当`object.something()`调用方法时, Rust 会自动为 object 添加 &、&mut 或 * 以便使 object 与方法签名匹配.
+>
+> ```rust
+> p1.distance(&p2);
+> (&p1).distance(&p2); //两者等价
+> ```
+>
+> 这种自动引用的行为之所以有效，是因为方法有一个明确的接收者———— self 的类型。在给出接收者和方法名的前提下，Rust 可以明确地计算出方法是仅仅读取（&self），做出修改（&mut self）或者是获取所有权（self）
+
+#### 5.2.1 关联函数
+
+- **关联函数(Associated Function)**: 所有在 impl 块中定义的函数被称为关联函数.
+  - 关联函数可以通过结构体名直接调用, 而不需要实例化结构体. `let sq = Rectangle::square(3);`
+
+```rust
+impl Rectangle {
+    fn square(size: u32) -> Self {
+        Self {
+            width: size,
+            height: size,
+        }
+    }
+}
+```
+
+## Chapter6 枚举与模式匹配
+
+### 6.1 枚举的定义与使用
+
+#### 6.1.1 枚举的定义
+
+```rust
+enum IpAddrKind {
+    V4,
+    V6,
+}
+```
+
+#### 6.1.2 枚举值
+
+```rust
+fn main() {
+    let four = IpAddrKind::V4;
+    let six = IpAddrKind::V6;
+}
+```
+
+#### 6.1.3 枚举类型绑定值
+
+Rust中枚举类型允许绑定值
+
+```rust
+enum IpAddr {
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+
+let home = IpAddr::V4(127, 0, 0, 1);
+
+let loopback = IpAddr::V6(String::from("::1"));
+```
+
+```rust
+struct Ipv4Addr {
+    // --snip--
+}
+
+struct Ipv6Addr {
+    // --snip--
+}
+
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+```
+
+```rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+impl Message {
+    fn call(&self) {
+        // 在这里定义方法体
+    }
+}
+```
+
+#### Option
+
+Option是一个枚举类型, 用于表示一个值可能存在也可能不存在. 它有两个变体: Some 和 None.
+
+```rust
+enum Option<T> { // <T>表示泛型, 可以是任意类型
+    Some(T),
+    None,
+}
+```
+
+其中前缀`Option::`可以省略, 例如
+
+```rust
+    let some_number = Some(5);
+    let some_char = Some('e');
+
+    let absent_number: Option<i32> = None;
+```
+
+需要注意的是`T`和`Option<T>`并不是同一个类型, `Option<T>`是一个包含`Some(T)`或`None`的枚举类型, 而`T`是一个具体的类型. 因此当期望对`Option<T>`进行处理时, 需要转化为`T`, 从而一定程度上规避了空值造成的异常.
+
+### 6.2 match
+
+match类似C/C++的switch语句, 但功能更强大, 可以匹配任意类型的值, 并且可以进行模式匹配.
+
+```rust
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => {
+            println!("Lucky penny!");
+            1
+        }
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+```
+
+#### 6.2.1 绑定值的模式
+
+```rust
+#[derive(Debug)] // 这样可以立刻看到州的名称
+enum UsState {
+    Alabama,
+    Alaska,
+    // --snip--
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("State quarter from {state:?}!");
+            25
+        }
+    }
+}
+```
+
+#### 6.2.2 Option的匹配
+
+```rust
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+
+let five = Some(5);
+let six = plus_one(five);
+let none = plus_one(None);
+```
+
+> **Tips: 匹配是穷尽的(exhaustive)** 
+>
+> 如果在上述代码中漏写了None的匹配, 编译器会报错
+
+#### 6.2.3 通配模式和_占位符
+
+```rust
+let dice_roll = 9;
+match dice_roll {
+    3 => add_fancy_hat(),
+    7 => remove_fancy_hat(),
+    other => move_player(other), // 通配模式
+}
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn move_player(num_spaces: u8) {}
+```
+
+```rust
+    let dice_roll = 9;
+    match dice_roll {
+        3 => add_fancy_hat(),
+        7 => remove_fancy_hat(),
+        _ => reroll(), // 占位符
+        // _ => {} // 也可以什么都不做
+    }
+
+    fn add_fancy_hat() {}
+    fn remove_fancy_hat() {}
+    fn reroll() {}
+```
+
+### 6.3 if let 和 let else简洁控制流
+
+使用模式匹配时需要匹配全部情况
+
+```rust
+let config_max = Some(3u8);
+match config_max {
+    Some(max) => println!("The maximum is configured to be {max}"),
+    _ => (),
+}
+```
+
+`if let`可以简化控制流代码
+
+```rust
+let mut count = 0;
+if let Coin::Quarter(state) = coin {
+    println!("State quarter from {state:?}!");
+} else { // else是可选的
+    count += 1;
+}
+```
+
+但有时if-else的情况也会十分恼人
+
+```rust
+fn describe_state_quarter(coin: Coin) -> Option<String> {
+    let state = if let Coin::Quarter(state) = coin {
+        state
+    } else {
+        return None;
+    };
+
+    if state.existed_in(1900) {
+        Some(format!("{state:?} is pretty old, for America!"))
+    } else {
+        Some(format!("{state:?} is relatively new."))
+    }
+}
+```
+
+Rust提供了 `let...else`用于简化
+
+```rust
+fn describe_state_quarter(coin: Coin) -> Option<String> {
+    let Coin::Quarter(state) = coin else {
+        return None;
+    };
+
+    if state.existed_in(1900) {
+        Some(format!("{state:?} is pretty old, for America!"))
+    } else {
+        Some(format!("{state:?} is relatively new."))
+    }
+}
+```
